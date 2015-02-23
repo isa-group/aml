@@ -11,6 +11,7 @@ import isa.us.es.aml.parsers.Parser;
 import isa.us.es.aml.slamodel.AgreementModel;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -56,13 +57,12 @@ public class DocumentService {
 
     public void parseSLAFileMap() {
         isParsed = true;
-        SLAFileMap.entrySet().stream().forEach((entry) -> {
+        for(Entry<String,SLAFile> entry: SLAFileMap.entrySet()){
             SLAFile slaFile = entry.getValue();
             Parser parser = ParserProxy.createParser(slaFile.getLang());
             AgreementModel slaModel = parser.doParse(slaFile);
             SLAModelMap.put(entry.getKey(), slaModel);
-        });
-    }
+        }    }
 
     // todo: parsear file independientemente, no solo el mapa.
     // todo: revisar todo

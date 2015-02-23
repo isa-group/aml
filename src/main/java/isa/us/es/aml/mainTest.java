@@ -19,7 +19,7 @@ public class mainTest {
         String SLA = "algoQueVieneDeOtroLado";
 
         serv.addTemplate(SLA, AgreementLanguage.IAGREE);
-        serv.getTemplateModel();
+        //serv.getTemplateModel();
 
         //serv.isConsistent()
     }
