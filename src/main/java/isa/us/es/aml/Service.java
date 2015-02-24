@@ -5,10 +5,10 @@
  */
 package isa.us.es.aml;
 
-import isa.us.es.aml.util.SLAFile;
-import isa.us.es.aml.slamodel.AgreementModel;
+import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.subsystems.DocumentService;
 import isa.us.es.aml.util.AgreementLanguage;
+import isa.us.es.aml.util.SLAFile;
 
 /**
  *

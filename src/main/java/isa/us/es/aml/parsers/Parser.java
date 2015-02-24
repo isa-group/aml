@@ -5,8 +5,8 @@
  */
 package isa.us.es.aml.parsers;
 
+import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.util.SLAFile;
-import isa.us.es.aml.slamodel.AgreementModel;
 
 /**
  *

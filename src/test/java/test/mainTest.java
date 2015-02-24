@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package isa.us.es.aml;
+package test;
 
+import isa.us.es.aml.Service;
 import isa.us.es.aml.util.AgreementLanguage;
 
 /**
