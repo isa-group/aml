@@ -5,7 +5,8 @@ package isa.us.es.aml.model;
  *
  */
 public enum Actor {
-	Provider,
-	Responder,
-	Consumer
+
+    Provider,
+    Responder,
+    Consumer
 }

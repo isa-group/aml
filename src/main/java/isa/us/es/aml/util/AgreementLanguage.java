@@ -7,7 +7,7 @@ package isa.us.es.aml.util;
 
 /**
  *
- * @author Antonio
+ * @author AntonioGamez
  */
 public enum AgreementLanguage {
 

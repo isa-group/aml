@@ -6,66 +6,93 @@
 package isa.us.es.aml.subsystems;
 
 import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.parsers.Parser;
-import isa.us.es.aml.parsers.ParserProxy;
-import isa.us.es.aml.util.SLAFile;
+import isa.us.es.aml.parsers.agreements.AgreementParser;
+import isa.us.es.aml.util.ParserProxy;
+import isa.us.es.aml.util.AgreementFile;
+import isa.us.es.aml.util.AgreementLanguage;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 /**
  *
- * @author Antonio
+ * @author AntonioGamez
  */
 public class DocumentService {
 
-	private Map<String, SLAFile> SLAFileMap;
-	private Map<String, AgreementModel> SLAModelMap;
-	private Boolean isParsed;
+    private final Map<String, AgreementFile> agreementFileMap;
+    private final Map<String, AgreementModel> agreementModelMap;
+    private final List<AgreementParser> parsers;
+    private Boolean isParsed;
 
-	public DocumentService() {
-		SLAFileMap = new HashMap<>();
-		SLAModelMap = new HashMap<>();
-		isParsed = false;
-	}
+    public DocumentService() {
+        agreementFileMap = new HashMap<>();
+        agreementModelMap = new HashMap<>();
+        parsers = new ArrayList<>();
+        isParsed = false;
+    }
 
-	public Map<String, SLAFile> getSLAFileMap() {
-		return SLAFileMap;
-	}
+    public Map<String, AgreementFile> getAgreementFileMap() {
+        return Collections.unmodifiableMap(agreementFileMap);
+        //instead of make a map copy, it's more memory efficient
+    }
 
-	public Map<String, AgreementModel> getSLAModelMap() {
-		return SLAModelMap;
-	}
+    public Map<String, AgreementModel> getAgreementModelMap() {
+        return Collections.unmodifiableMap(agreementModelMap);
+    }
 
-	public AgreementModel getSLAModel(String name) {
-		if (!isParsed) {
-			parseSLAFileMap();
-		}
-		return SLAModelMap.get(name);
-	}
+    public AgreementModel getAgreementModel(String name) {
+        if (!isParsed) {
+            parseAgreementFileMap();
+        }
+        return agreementModelMap.get(name.toLowerCase());
+    }
 
-	public void addSLAFile(String key, SLAFile file) {
-		isParsed = false;
-		SLAFileMap.put(key, file);
-	}
+    public void addAgreementFile(String name, AgreementFile file) {
+        agreementFileMap.put(name.toLowerCase(), file);
+        isParsed = false;
+    }
 
-	public void deleteSLAFile(String key) {
-		isParsed = false;
-		SLAFileMap.remove(key);
+    public void deleteAgreementFile(String name) {
+        agreementFileMap.remove(name);
+        isParsed = false;
 
-	}
+    }
 
-	public void parseSLAFileMap() {
-		isParsed = true;
-		for (Entry<String, SLAFile> entry : SLAFileMap.entrySet()) {
-			SLAFile slaFile = entry.getValue();
-			Parser parser = ParserProxy.createParser(slaFile.getLang());
-			AgreementModel slaModel = parser.doParse(slaFile);
-			SLAModelMap.put(entry.getKey(), slaModel);
-		}
-	}
+    public void parseAgreementFileMap() {
+        for (Entry<String, AgreementFile> entry : agreementFileMap.entrySet()) {
+            AgreementFile agreementFile = entry.getValue();
+            AgreementModel agreementModel = parseAgreementFile(agreementFile);
+            agreementModelMap.put(entry.getKey().toLowerCase(), agreementModel);
+        }
+        isParsed = true;
+    }
 
-	// todo: parsear file independientemente, no solo el mapa.
-	// todo: revisar todo
+    public AgreementModel parseAgreementFileElement(String name) {
+        AgreementFile agreementFile = agreementFileMap.get(name);
+        return parseAgreementFile(agreementFile);
+    }
+
+    private AgreementModel parseAgreementFile(AgreementFile agreementFile) {
+        AgreementParser parser = getParser(agreementFile.getLang());
+        AgreementModel agreementModel = parser.doParse(agreementFile);
+        return agreementModel;
+    }
+
+    // avoid having multiple instances of the same parser object
+    private AgreementParser getParser(AgreementLanguage lang) {
+        for (AgreementParser p : parsers) {
+            if (p.getSupportedLang().equals(lang)) {
+                return p;
+            }
+        }
+        AgreementParser parser = ParserProxy.createParser(lang);
+        parsers.add(parser);
+        return parser;
+    }
+
 }

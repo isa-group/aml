@@ -1,9 +1,9 @@
 /**
- * 
+ *
  */
 package test;
 
-import isa.us.es.aml.Service;
+import isa.us.es.aml.AgreementService;
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.util.AgreementLanguage;
 import isa.us.es.aml.util.Util;
@@ -14,20 +14,20 @@ import isa.us.es.aml.util.Util;
  */
 public class ParserTest {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
+    /**
+     * @param args
+     */
+    public static void main(String[] args) {
 
-		Service serv = new Service();
+        AgreementService serv = new AgreementService();
 
-		String SLA = Util.loadFile("samples/iagree/AmazonS3.at");
-		serv.addTemplate(SLA, AgreementLanguage.IAGREE);
-		
-		AgreementModel model = serv.getTemplateModel();
+        String SLA = Util.loadFile("samples/iagree/AmazonS3.at");
+        serv.addTemplateFile(SLA, AgreementLanguage.IAGREE);
 
-		System.out.println(model.toString());
+        AgreementModel model = serv.getTemplateModel();
 
-	}
+        System.out.println(model.toString());
+
+    }
 
 }
