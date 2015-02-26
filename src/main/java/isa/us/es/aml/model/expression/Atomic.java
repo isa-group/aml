@@ -7,11 +7,11 @@ import isa.us.es.aml.model.AgreementElement;
  * @author jdelafuente
  *
  */
-public class AtomicExpression extends Expression {
+public class Atomic extends Expression {
 	
 	private Object value;
 	
-	public AtomicExpression(Object n) {
+	public Atomic(Object n) {
 		value = n;
 	}
 

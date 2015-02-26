@@ -5,6 +5,8 @@ package test;
 
 import isa.us.es.aml.Service;
 import isa.us.es.aml.model.AgreementModel;
+import isa.us.es.aml.translators.Translator;
+import isa.us.es.aml.translators.opl.OPLBuilder;
 import isa.us.es.aml.util.AgreementLanguage;
 import isa.us.es.aml.util.Util;
 
@@ -23,10 +25,22 @@ public class ParserTest {
 
 		String SLA = Util.loadFile("samples/iagree/AmazonS3.at");
 		serv.addTemplate(SLA, AgreementLanguage.IAGREE);
-		
 		AgreementModel model = serv.getTemplateModel();
-
 		System.out.println(model.toString());
+		
+		System.out.println("==========================================================");
+		System.out.println("\n");
+		
+		Translator t = new Translator(new OPLBuilder());
+		System.out.println(t.export(model));
+		
+		
+//		Expression e = model.getAgreementTerms().getGuaranteeTerms().get(0).getSlo().getExpression();
+//		Expression.printTree(e, 0);
+		
+		
+//		serv.addOffer(SLA, AgreementLanguage.IAGREE);
+//		AgreementModel model = serv.getOfferModel();		
 
 	}
 

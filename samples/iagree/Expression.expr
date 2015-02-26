@@ -1,0 +1,8 @@
+2 * 4 + 8
+
+MUP >= 99
+ResponseTime<=100
+StoragePrice=StorageSize*1
+TotalPrice=StoragePrice+SupportPlanPrice
+TransferredGb<StorageSize*2 AND ReadRequests>WriteRequests
+(TransferredGb<StorageSize*2)AND(ReadRequests>WriteRequests)

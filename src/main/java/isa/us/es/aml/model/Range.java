@@ -4,12 +4,15 @@ package isa.us.es.aml.model;
  * @author jdelafuente
  *
  */
-public class Range {
+public class Range  extends Domain {
 	
 	private int min;
 	private int max;
 	
-	public Range(){}
+	public Range(){
+		min = 0;
+		max = 100;
+	}
 	
 	public Range(int min, int max){
 		this.min = min;

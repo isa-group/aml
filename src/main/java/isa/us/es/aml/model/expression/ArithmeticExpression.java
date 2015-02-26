@@ -5,8 +5,9 @@ package isa.us.es.aml.model.expression;
  *
  */
 public class ArithmeticExpression extends CompoundExpression {
-	
-	public ArithmeticExpression(Expression e1, Expression e2, ArithmeticOperator operator) {
+
+	public ArithmeticExpression(Expression e1, Expression e2,
+			ArithmeticOperator operator) {
 		exp1 = e1;
 		exp2 = e2;
 		this.operator = operator;
@@ -15,28 +16,40 @@ public class ArithmeticExpression extends CompoundExpression {
 	@Override
 	public Number calculate() {
 		Number res = 0;
-		switch((ArithmeticOperator) operator){
-		case add:
-			res =  Double.valueOf(exp1.calculate().toString()) + Double.valueOf(exp2.calculate().toString());
-			break;
-		case subtract:
-			res =  Double.valueOf(exp1.calculate().toString()) - Double.valueOf(exp2.calculate().toString());
-			break;
-		case multiply:
-			res =  Double.valueOf(exp1.calculate().toString()) * Double.valueOf(exp2.calculate().toString());
-			break;
-		case divide:
-			res =  Double.valueOf(exp1.calculate().toString()) / Double.valueOf(exp2.calculate().toString());
-			break;
-		}
-		
-	    return res;
+
+		try {
+			switch ((ArithmeticOperator) operator) {
+			case add:
+				res = Double.valueOf(exp1.calculate().toString())
+						+ Double.valueOf(exp2.calculate().toString());
+
+				break;
+			case subtract:
+				res = Double.valueOf(exp1.calculate().toString())
+						- Double.valueOf(exp2.calculate().toString());
+
+				break;
+			case multiply:
+				res = Double.valueOf(exp1.calculate().toString())
+						* Double.valueOf(exp2.calculate().toString());
+
+				break;
+			case divide:
+				res = Double.valueOf(exp1.calculate().toString())
+						/ Double.valueOf(exp2.calculate().toString());
+				break;
+			}
+		} catch (Exception e) {
+			System.out.println("Error calculating the expression");
+		}		
+
+		return res;
 	}
-	
+
 	@Override
 	public String toString() {
 		String op = "";
-		switch((ArithmeticOperator) operator){
+		switch ((ArithmeticOperator) operator) {
 		case add:
 			op = "+";
 			break;
@@ -48,7 +61,7 @@ public class ArithmeticExpression extends CompoundExpression {
 			break;
 		case divide:
 			op = "/";
-			break;	
+			break;
 		}
 		return exp1.toString() + " " + op + " " + exp2.toString();
 	}

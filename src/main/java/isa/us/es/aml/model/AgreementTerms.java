@@ -11,14 +11,14 @@ import java.util.List;
 public class AgreementTerms {
 	
 	private Service service;
-	private List<Property> cps;
-	private List<Property> mps;
+	private List<ConfigurationProperty> cps;
+	private List<MonitorableProperty> mps;
 	private List<GuaranteeTerm> gts;
 	
 	public AgreementTerms() {
 		service = new Service();
-		cps = new ArrayList<Property>();
-		mps = new ArrayList<Property>();
+		cps = new ArrayList<ConfigurationProperty>();
+		mps = new ArrayList<MonitorableProperty>();
 		gts = new ArrayList<GuaranteeTerm>();
 	}
 	
@@ -31,19 +31,19 @@ public class AgreementTerms {
 		this.service = service;		
 	}
 
-	public List<Property> getConfigurationProperties() {
+	public List<ConfigurationProperty> getConfigurationProperties() {
 		return cps;
 	}
 
-	public void setConfigurationProperties(List<Property> cps) {
+	public void setConfigurationProperties(List<ConfigurationProperty> cps) {
 		this.cps = cps;
 	}
 
-	public List<Property> getMonitorableProperties() {
+	public List<MonitorableProperty> getMonitorableProperties() {
 		return mps;
 	}
 
-	public void setMonitorableProperties(List<Property> mps) {
+	public void setMonitorableProperties(List<MonitorableProperty> mps) {
 		this.mps = mps;
 	}
 
@@ -63,15 +63,15 @@ public class AgreementTerms {
 		sb.append("\t" + getService().toString() + "\n");
 		
 		sb.append("\t\t" + "GlobalDescription" + "\n");
-		List<Property> cps = getConfigurationProperties();
-		for(Property cp : cps){
+		List<ConfigurationProperty> cps = getConfigurationProperties();
+		for(ConfigurationProperty cp : cps){
 			if(cp.getScope() == Scope.Global)
 				sb.append("\t\t\t" + cp.toString() + "\n");
 		}
 		sb.append("\n" + "\t" + "MonitorableProperties" + "\n");
 		sb.append("\t\t" + "global:" + "\n");
-		List<Property> mps = getMonitorableProperties();
-		for(Property mp : mps){
+		List<MonitorableProperty> mps = getMonitorableProperties();
+		for(MonitorableProperty mp : mps){
 			if(mp.getScope() == Scope.Global)
 				sb.append("\t\t\t" + mp.toString() + "\n");
 		}

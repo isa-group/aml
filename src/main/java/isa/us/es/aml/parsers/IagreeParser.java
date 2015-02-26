@@ -40,7 +40,7 @@ public class IagreeParser implements Parser {
 		// Specify our entry point
 		EntryContext context = parser.entry();
 
-		// Walk it and attach our listener
+		// Create our visitor and begin to walk through the model.
 		MiAgreeVisitor visitor = new MiAgreeVisitor();
 		AgreementModel model = visitor.visitEntry(context);
 

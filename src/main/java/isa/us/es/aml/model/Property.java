@@ -3,7 +3,7 @@
  */
 package isa.us.es.aml.model;
 
-import java.beans.Expression;
+import isa.us.es.aml.model.expression.Expression;
 
 /**
  * @author jdelafuente
@@ -12,7 +12,7 @@ import java.beans.Expression;
 public class Property extends AgreementElement {
 	
 	private Metric metric;
-	private Expression value;
+	private Expression expr;
 	private Scope scope;
 	
 	public Property(String id, Metric metric) {
@@ -27,17 +27,17 @@ public class Property extends AgreementElement {
 		this.scope = scope;
 	}
 
-	public Property(String id, Metric metric, Expression value){
+	public Property(String id, Metric metric, Expression expr){
 		super(id);
 		this.metric = metric;
-		this.value = value;
+		this.expr = expr;
 		this.scope = Scope.Global;
 	}
 	
-	public Property(String id, Metric metric, Expression value, Scope scope){
+	public Property(String id, Metric metric, Expression expr, Scope scope){
 		super(id);
 		this.metric = metric;
-		this.value = value;
+		this.expr = expr;
 		this.scope = scope;
 	}
 
@@ -49,12 +49,12 @@ public class Property extends AgreementElement {
 		this.metric = metric;
 	}
 
-	public Expression getValue() {
-		return value;
+	public Expression getExpression() {
+		return expr;
 	}
 
-	public void setValue(Expression value) {
-		this.value = value;
+	public void setExpression(Expression expr) {
+		this.expr = expr;
 	}
 
 	public Scope getScope() {
@@ -63,6 +63,15 @@ public class Property extends AgreementElement {
 
 	public void setScope(Scope scope) {
 		this.scope = scope;
+	}
+	
+	@Override
+	public String toString() {
+		if(getExpression() != null){
+			return getId() + ": " + getMetric().getId() + " = " + getExpression() + ";";
+		} else {
+			return getId() + ": " + getMetric().getId();
+		}
 	}
 
 }

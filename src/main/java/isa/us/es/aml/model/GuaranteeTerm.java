@@ -5,7 +5,7 @@ package isa.us.es.aml.model;
  * @author jdelafuente
  *
  */
-public class GuaranteeTerm extends AgreementElement {
+public class GuaranteeTerm extends AgreementElement implements Comparable<GuaranteeTerm> {
 	
 	private Actor actor;
 	private SLO slo;
@@ -35,6 +35,11 @@ public class GuaranteeTerm extends AgreementElement {
 	@Override
 	public String toString() {
 		return getId() + ": " + getActor() + " guarantees " + getSlo().toString() + ";";
+	}
+
+	@Override
+	public int compareTo(GuaranteeTerm o) {
+		return this.getId().compareTo(o.getId());
 	}
 
 }

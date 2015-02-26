@@ -4,9 +4,9 @@ package isa.us.es.aml.model.expression;
  * @author jdelafuente
  *
  */
-public class LogicalExpression extends CompoundExpression {
+public class RelationalExpression extends CompoundExpression {
 
-	public LogicalExpression(Expression e1, Expression e2, LogicalOperator operator) {
+	public RelationalExpression(Expression e1, Expression e2, RelationalOperator operator) {
 		exp1 = e1;
 		exp2 = e2;
 		this.operator = operator;
@@ -15,7 +15,7 @@ public class LogicalExpression extends CompoundExpression {
 	@Override
 	public Boolean calculate() {
 		Boolean res = null;
-		switch ((LogicalOperator) operator) {
+		switch ((RelationalOperator) operator) {
 		case gt:
 			res = Double.valueOf(exp1.calculate().toString()) > Double
 					.valueOf(exp2.calculate().toString());
@@ -44,7 +44,7 @@ public class LogicalExpression extends CompoundExpression {
 	@Override
 	public String toString() {
 		String op = "";
-		switch ((LogicalOperator) operator) {
+		switch ((RelationalOperator) operator) {
 		case eq:
 			op = "==";
 			break;
@@ -61,6 +61,7 @@ public class LogicalExpression extends CompoundExpression {
 			op = "<=";
 			break;
 		}
+		
 		return exp1.toString() + " " + op + " " + exp2.toString();
 	}
 }

@@ -8,7 +8,7 @@ package isa.us.es.aml.model;
 public class Metric extends AgreementElement {
 	
 	String type;
-	Range domain;
+	Domain domain;
 	
 	public Metric(String id) {
 		super(id);
@@ -16,7 +16,7 @@ public class Metric extends AgreementElement {
 		this.domain = new Range(0, 100);
 	}
 	
-	public Metric(String id, String type, Range domain) {
+	public Metric(String id, String type, Domain domain) {
 		super(id);
 		this.type = type;
 		this.domain = domain;
@@ -30,17 +30,17 @@ public class Metric extends AgreementElement {
 		this.type = type;
 	}
 
-	public Range getRange() {
+	public Domain getDomain() {
 		return domain;
 	}
 
-	public void setRange(Range domain) {
+	public void setDomain(Domain domain) {
 		this.domain = domain;
 	}
 	
 	@Override
 	public String toString() {
-		return getId() + ": " + getType() + getRange();
+		return getId() + ": " + getType() + getDomain();
 	}
 
 }

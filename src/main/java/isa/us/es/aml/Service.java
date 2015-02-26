@@ -31,7 +31,7 @@ public class Service {
     }
 
     public void addOffer(String offer, AgreementLanguage lang) {
-        addSLAFile("template", offer, lang);
+        addSLAFile("offer", offer, lang);
     }
 
     public AgreementModel getTemplateModel() {

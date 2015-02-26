@@ -9,10 +9,9 @@ entry : template END_TEMPLATE
       | agOffer END_AG_OFFER
       ;
  
-template : TEMPLATE Identifier VERSION versionNumber template_def
-         ;
+template : TEMPLATE id=Identifier VERSION version=versionNumber template_def ;
 
-agOffer : AG_OFFER Identifier VERSION versionNumber FOR (TEMPLATE)? Identifier VERSION versionNumber ag_def;
+agOffer : AG_OFFER id=Identifier VERSION version=versionNumber FOR (TEMPLATE)? templateId=Identifier VERSION templateVersion=versionNumber ag_def;
 
 template_def : temp_properties* agreementTerms creationConstraints?;
 
@@ -29,13 +28,9 @@ temp_properties : initiator_prop
                 | metrics_prop
                 ;
 
-agreementTerms : AGREEMENT_TERMS agreementTerms_def;
+agreementTerms : AGREEMENT_TERMS service monitorableProperties guaranteeTerms;
 
-creationConstraints : CREATION_CONSTRAINTS creationConstraints_def;
-
-agreementTerms_def : service monitorableProperties guaranteeTerms;
-
-creationConstraints_def	: creationConstraint+;
+creationConstraints : CREATION_CONSTRAINTS creationConstraint+;
 
 creationConstraint : (Identifier) ':' expression ';' qualifyingCondition?;
 
@@ -59,7 +54,10 @@ globalPeriod_prop : GLOBALPERIOD ':' datePeriod_def;
 
 definedPeriod_prop : DEFINEDPERIOD ':' period+;
 
-metrics_prop : METRICS ':' (key_value_prop)+;
+metrics_prop : METRICS ':' (metric)+;
+
+metric: id=Identifier ':' (type=SET list | type=ENUM list | type=(INTEGER | FLOAT | NATURAL | NUMBER | BOOLEAN) (range)? (list)?) ; 
+
 
 //---------------------------------------
 // Temp. definitions
@@ -72,7 +70,7 @@ temporality : ON Identifier;
 period : Identifier ':' period_def ((EXCEPT|AND) period_def)*;
 
 period_def : FROM Hour '..' Hour (ON Identifier)? datePeriod_def 
-           | id
+           | Identifier
            | GLOBALPERIOD
            ;
 
@@ -81,36 +79,40 @@ period_def : FROM Hour '..' Hour (ON Identifier)? datePeriod_def
 // Agreement Terms definitions
 //---------------------------------------
 			
-service : SERVICE Identifier (AVAL_AT url)? (features)? 
-          globalDescription descriptions
+service : SERVICE Identifier (AVAL_AT url)? 
+          (features)? 
+          globalDescription 
+          descriptions
         ;
 
-features : FEATURES ':' feature (',' feature)*;
+features : FEATURES ':' feature*;
+feature : feature_operation (',' feature_operation)*;
 
-globalDescription : GLOBALDESCRIPTION (key_value_prop)+;
+globalDescription : GLOBALDESCRIPTION
+                    (property)+
+                  ;
 
 descriptions : description*;
-				
-feature : op (',' op)*;
-
-description : DESCRIPTION FOR feature (',' feature)* key_value_prop+;
+description : DESCRIPTION FOR feature (',' feature)* 
+              (property)+
+            ;
 		
 monitorableProperties : MONITORABLEPROPERTIES (Identifier)? 
                         global_MonitorableProperties? 
                         local_MonitorableProperties*
                       ;
 				
-global_MonitorableProperties : GLOBAL ':' (key_value_prop)*;
+global_MonitorableProperties : GLOBAL ':' 
+                               (property)*
+                             ;
 				
-local_MonitorableProperties : FOR Identifier ':' key_value_prop+;
+local_MonitorableProperties : FOR Identifier ':' (property)+;
 				
-guaranteeTerms : GUARANTEE_TERMS (guaranteeTerm)*;
+guaranteeTerms : GUARANTEE_TERMS 
+                 (guaranteeTerm)*
+               ;
 				
-guaranteeTerm : Identifier ':' 
-                (guarantee_def | cuantif OF grouped_guaranteeTerm) (END)?
-              ;
-
-grouped_guaranteeTerm : (guaranteeTerm)+;
+guaranteeTerm : Identifier ':' (guarantee_def | cuantif OF (guaranteeTerm)+) (END)?;
 							
 guarantee_def : ob=(PROVIDER | CONSUMER) GUARANTEES slo temporality? ';' 
                 (serviceScope)?
@@ -144,8 +146,6 @@ compensation : OF e1=expression IF e2=expression ';';
 // CORE ELEMENTS
 //----------------------------------
 
-id : Identifier;
-
 versionNumber : Float
               | Version
               ;
@@ -154,47 +154,41 @@ url : Url
     | String
     ;
 
-key_value_prop : k=(Identifier | Access | BOOLEAN | INTEGER ) ':' 
-                 (v=String | v2=type)  (EQ a=assig_value ';')?
-               ;
+property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN) (ASSIG value=expression ';')? ;
 
-assig_value : val=(Identifier | Integer | String)+ (operation)?
-            | (TRUE | FALSE)
-            | Float (Unit)? (operation)?
-            | S_Float (Unit)? (operation)?
-            | S_Integer (Unit)? (operation)?
-            | list
-            ;
 
-operation : Operador assig_value;
+expression: Identifier ASSIG expression                     #assigExpr
+          | NOT expression                                  #notExpr
+          | expression op=(MULTIPLY | DIVIDE) expression    #multiplicationExpr
+          | expression op=(ADD | SUBTRACT) expression       #additiveExpr
+          | expression op=(LTE | GTE | LT | GT) expression  #relationalExpr
+          | expression op=(EQ | NEQ) expression             #equalityExpr
+          | expression AND expression                       #andExpr
+          | expression OR expression                        #orExpr
+          | atom                                            #atomExpr
+          ;
 
-expression : NOT e1=expression
-           | '(' e1=expression ')'
-             (log=(AND|OR|IMPLIES) e2=expression)?
-           | ident=(Identifier | Access | String) (cmp=(EQ|LT|GT|LTE|GTE) val=assig_value)? (log=(AND|OR|IMPLIES) e1=expression)?
-           | ident=(Identifier | Access) BELONGS l=list (log=(AND|OR|IMPLIES) e1=expression)?
-           ;
+atom
+ : PA expression PC                         #parExpr
+ | (Integer | S_Integer | Float | S_Float)  #numberAtom
+ | (TRUE | FALSE)                           #booleanAtom
+ | Identifier                               #idAtom
+ | String                                   #stringAtom
+ ;
 
-op : Identifier ('(' Identifier (',' Identifier )* ')')?;
+
+feature_operation : Identifier ('(' Identifier (',' Identifier )* ')')?;
 
 cuantif : EXACTLY_ONE 
         | ONE_OR_MORE
         | ALL
         ;
 
-type : Identifier 
-     | SET list 
-     | ENUM list 
-     | v=(INTEGER | FLOAT | NATURAL | NUMBER | BOOLEAN) (range)? 
-     ;
-
-list : '{' l1=listArg (',' l2=listArg)* '}'
-     ;
+list : '{' l1=listArg (',' l2=listArg)* '}' ;
 
 listArg : l1=(Identifier | String | Integer | S_Integer | Float | S_Float);
 
-range : '[' min=(Integer | S_Integer) '..' max=(Integer | S_Integer) ']'
-      ;
+range : '[' min=(Integer | S_Integer) '..' max=(Integer | S_Integer) ']' ;
 
 
 /*=====================================
@@ -308,14 +302,30 @@ ALL : 'all';
 
 
 //---------------------------------------
-// Relational tokens
+// Logical operators
 //---------------------------------------
 
 LT : '<';
 GT : '>';
-EQ : '=';
+EQ : '==';
+NEQ : '!=';
 LTE : '<=';
 GTE : '>=';
+
+//---------------------------------------
+// Arithmetical operators
+//---------------------------------------
+
+ADD: '+';
+SUBTRACT: '-';
+MULTIPLY: '*';
+DIVIDE: '/';
+
+//---------------------------------------
+// Relational tokens
+//---------------------------------------
+
+ASSIG: '=';
 BELONGS : 'belongs';
 UPON : 'upon';
 
@@ -348,7 +358,6 @@ Date : Integer [-/] Integer [-/] Integer;
 Hour : Digit? Digit ':' Digit Digit;
 Access : Identifier ('.' Identifier)+;
 Unit : '%' | 'min';
-Operador : '+'|'-'|'*'|'/';
 fragment Digit : '0' | NonZeroDigit;
 fragment NonZeroDigit : [1-9];
 String : '\'' ~[']* '\'' 

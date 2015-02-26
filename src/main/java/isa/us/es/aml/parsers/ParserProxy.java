@@ -20,7 +20,7 @@ public class ParserProxy {
             case WSAG:
                 return new WsagParser();
             default:
-                throw new IllegalArgumentException("there is no parser for this language" + lang.toString());
+                throw new IllegalArgumentException("there is no parser for this language: " + lang.toString());
         }
     }
 
