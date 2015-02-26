@@ -3,7 +3,7 @@
  */
 package test;
 
-import isa.us.es.aml.Service;
+import isa.us.es.aml.AgreementService;
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.translators.Translator;
 import isa.us.es.aml.translators.opl.OPLBuilder;
@@ -21,10 +21,10 @@ public class ParserTest {
 	 */
 	public static void main(String[] args) {
 
-		Service serv = new Service();
+		AgreementService serv = new AgreementService();
 
 		String SLA = Util.loadFile("samples/iagree/AmazonS3.at");
-		serv.addTemplate(SLA, AgreementLanguage.IAGREE);
+		serv.addTemplateFile(SLA, AgreementLanguage.IAGREE);
 		AgreementModel model = serv.getTemplateModel();
 		System.out.println(model.toString());
 		
