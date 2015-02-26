@@ -5,12 +5,11 @@
  */
 package isa.us.es.aml.operations.core;
 
+import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.operations.Operation;
 import isa.us.es.aml.operations.reasoners.Reasoner;
 import isa.us.es.aml.translators.csp.CoreTranslator;
 import isa.us.es.aml.util.CoreOperationType;
-
-
 
 /**
  *
@@ -21,6 +20,7 @@ public abstract class CoreOperation implements Operation {
     private Reasoner reasoner;
     private CoreTranslator coreTranslator;
     private CoreOperationType type;
+    protected AgreementModel model;
 
     public CoreTranslator getCoreTranslator() {
         return coreTranslator;
@@ -45,7 +45,13 @@ public abstract class CoreOperation implements Operation {
     public void setType(CoreOperationType type) {
         this.type = type;
     }
-    
-    
+
+    public AgreementModel getModel() {
+        return model;
+    }
+
+    public void setModel(AgreementModel model) {
+        this.model = model;
+    }
 
 }

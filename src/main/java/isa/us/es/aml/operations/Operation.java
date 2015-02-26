@@ -5,11 +5,9 @@
  */
 package isa.us.es.aml.operations;
 
-import isa.us.es.aml.model.AgreementModel;
-
 public interface Operation {
 
-    public void analyze(AgreementModel agreementModel);
+    public void analyze();
 
     public Object getResult();
 

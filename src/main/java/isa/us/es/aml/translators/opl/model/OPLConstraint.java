@@ -7,40 +7,40 @@ import isa.us.es.aml.model.SLO;
  *
  */
 public class OPLConstraint implements Comparable<OPLConstraint> {
-	
-	private String id;
-	private SLO slo;
-	
-	public OPLConstraint(String id, SLO slo) {
-		super();
-		this.id = id;
-		this.slo = slo;
-	}
 
-	public String getId() {
-		return id;
-	}
+    private String id;
+    private SLO slo;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public OPLConstraint(String id, SLO slo) {
+        super();
+        this.id = id;
+        this.slo = slo;
+    }
 
-	public SLO getSlo() {
-		return slo;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public void setSlo(SLO slo) {
-		this.slo = slo;
-	}
-	
-	@Override
-	public String toString() {
-		return getId() + ": " + getSlo().toString() + ";";
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	@Override
-	public int compareTo(OPLConstraint o) {
-		return this.getId().compareTo(o.getId());
-	}
-	
+    public SLO getSlo() {
+        return slo;
+    }
+
+    public void setSlo(SLO slo) {
+        this.slo = slo;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + ": " + getSlo().toString() + ";";
+    }
+
+    @Override
+    public int compareTo(OPLConstraint o) {
+        return this.getId().compareTo(o.getId());
+    }
+
 }

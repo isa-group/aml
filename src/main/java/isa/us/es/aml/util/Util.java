@@ -30,7 +30,7 @@ public class Util {
     }
 
     private static final Logger LOG = Logger.getLogger(Util.class.getName());
-    
+
     public static String withoutDoubleQuotes(String s) {
         String str = s;
         if (str.startsWith("\"")) {
@@ -111,14 +111,13 @@ public class Util {
             res = sb.toString();
             is.close();
         } catch (FileNotFoundException e) {
-           LOG.log(Level.WARNING, "loadFile error", e);
-            
+            LOG.log(Level.WARNING, "loadFile error", e);
+
         } catch (IOException e) {
             LOG.log(Level.WARNING, "loadFile error", e);
         }
         return res;
     }
-    
 
     public static String DOM2String(Document doc) {
         String xmlString = null;

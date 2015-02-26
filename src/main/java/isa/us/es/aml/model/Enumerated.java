@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package isa.us.es.aml.model;
 
@@ -11,33 +11,30 @@ import java.util.List;
  *
  */
 public class Enumerated extends Domain {
-	
-	private List<Object> values;
-	
-	
-	public Enumerated() {
-		values = new ArrayList<Object>();
-	}
 
+    private List<Object> values;
 
-	/**
-	 * @return the values
-	 */
-	public List<Object> getValues() {
-		return values;
-	}
+    public Enumerated() {
+        values = new ArrayList<Object>();
+    }
 
+    /**
+     * @return the values
+     */
+    public List<Object> getValues() {
+        return values;
+    }
 
-	/**
-	 * @param values the values to set
-	 */
-	public void setValues(List<Object> values) {
-		this.values = values;
-	}
-	
-	@Override
-	public String toString() {
-		return getValues().toString().replace("[", "{").replace("]", "}");
-	}
+    /**
+     * @param values the values to set
+     */
+    public void setValues(List<Object> values) {
+        this.values = values;
+    }
+
+    @Override
+    public String toString() {
+        return getValues().toString().replace("[", "{").replace("]", "}");
+    }
 
 }

@@ -11,5 +11,5 @@ package isa.us.es.aml.util;
  */
 public enum CoreOperationType {
 
-    NumberOfAlternativeDocs, ExistDeadTerms, ExistInconsistencies, ExistLudicrousTerms;
+    ExistInconsistencies;
 }

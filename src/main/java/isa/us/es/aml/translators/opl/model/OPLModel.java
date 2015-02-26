@@ -11,74 +11,77 @@ import java.util.Set;
  *
  */
 public class OPLModel {
-	
-	private Set<OPLRange> ranges;
-	private Set<OPLVar> variables;
-	private Set<OPLConstraint> constraints;
 
-	public OPLModel() {
-		ranges = new HashSet<OPLRange>();
-		variables = new HashSet<OPLVar>();
-		constraints = new HashSet<OPLConstraint>();
-	}
-	
-	public void addRange(OPLRange range) {		
-		ranges.add(range);
-	}
-	
-	public void addVar(OPLVar var){
-		variables.add(var);
-	}
-	
-	public void addConstraint(OPLConstraint constraint){
-		constraints.add(constraint);
-	}
-	
-	public Set<OPLRange> getRanges() {
-		return ranges;
-	}
+    private Set<OPLRange> ranges;
+    private Set<OPLVar> variables;
+    private Set<OPLConstraint> constraints;
 
-	public void setRanges(Set<OPLRange> ranges) {
-		this.ranges = ranges;
-	}
+    public OPLModel() {
+        ranges = new HashSet<OPLRange>();
+        variables = new HashSet<OPLVar>();
+        constraints = new HashSet<OPLConstraint>();
+    }
 
-	public Set<OPLVar> getVariables() {
-		return variables;
-	}
+    public void addRange(OPLRange range) {
+        ranges.add(range);
+    }
 
-	public void setVariables(Set<OPLVar> variables) {
-		this.variables = variables;
-	}
+    public void addVar(OPLVar var) {
+        variables.add(var);
+    }
 
-	public Set<OPLConstraint> getConstraints() {
-		return constraints;
-	}
+    public void addConstraint(OPLConstraint constraint) {
+        constraints.add(constraint);
+    }
 
-	public void setConstraints(Set<OPLConstraint> constraints) {
-		this.constraints = constraints;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
+    public Set<OPLRange> getRanges() {
+        return ranges;
+    }
 
-		for (OPLRange range : getRanges())
-			sb.append(range.toString() + "\n");
-		sb.append("\n");
+    public void setRanges(Set<OPLRange> ranges) {
+        this.ranges = ranges;
+    }
 
-		for (OPLVar var : getVariables())
-			sb.append(var.toString() + "\n");
-		sb.append("\n");
+    public Set<OPLVar> getVariables() {
+        return variables;
+    }
 
-		sb.append("subject to {" + "\n");
-		
-		List<OPLConstraint> ordered = new ArrayList<OPLConstraint>(getConstraints());
-		Collections.sort(ordered);
-		for (OPLConstraint cons : ordered)
-			sb.append("\t" + cons.toString() + "\n");
-		sb.append("}");
+    public void setVariables(Set<OPLVar> variables) {
+        this.variables = variables;
+    }
 
-		return sb.toString();
-	}
-	
+    public Set<OPLConstraint> getConstraints() {
+        return constraints;
+    }
+
+    public void setConstraints(Set<OPLConstraint> constraints) {
+        this.constraints = constraints;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        for (OPLRange range : getRanges()) {
+            sb.append(range.toString() + "\n");
+        }
+        sb.append("\n");
+
+        for (OPLVar var : getVariables()) {
+            sb.append(var.toString() + "\n");
+        }
+        sb.append("\n");
+
+        sb.append("subject to {" + "\n");
+
+        List<OPLConstraint> ordered = new ArrayList<OPLConstraint>(getConstraints());
+        Collections.sort(ordered);
+        for (OPLConstraint cons : ordered) {
+            sb.append("\t" + cons.toString() + "\n");
+        }
+        sb.append("}");
+
+        return sb.toString();
+    }
+
 }

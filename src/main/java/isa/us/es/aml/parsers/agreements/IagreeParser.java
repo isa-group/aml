@@ -15,8 +15,6 @@ import isa.us.es.aml.util.AgreementLanguage;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
-
-
 /**
  *
  * @author AntonioGamez

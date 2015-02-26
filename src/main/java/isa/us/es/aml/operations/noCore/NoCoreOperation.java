@@ -20,35 +20,44 @@ import java.util.Set;
  */
 public abstract class NoCoreOperation implements Operation {
 
-    protected Set<CoreOperation> coreOperations;
-    private Object result;
+    protected Set<CoreOperation> coreOperations = new HashSet<>();
+    protected AgreementModel model;
+    protected Object result;
 
     protected NoCoreOperation() {
         this.coreOperations = new HashSet<>();
     }
 
-    public Set<CoreOperation> getCoreOperations() {
-        return coreOperations; //we really want modify this field from outside
-    }
+    @Override
+    public abstract void analyze() throws AssertionError;
 
     @Override
     public Object getResult() {
         return result;
     }
 
-    @Override
-    public abstract void analyze(AgreementModel agreementModel) throws AssertionError;
-
     protected void setResult(Object result) {
         this.result = result;
     }
 
-    public void setCoreOperations(Set<CoreOperation> coreOperations) {
+    public Set<CoreOperation> getCoreOperations() {
+        return coreOperations; //we really want modify this field from outside
+    }
+
+    protected void setCoreOperations(Set<CoreOperation> coreOperations) {
         this.coreOperations = coreOperations;
     }
 
+    public AgreementModel getModel() {
+        return model;
+    }
+
+    public void setModel(AgreementModel model) {
+        this.model = model;
+    }
+
     public void setDefaultConfig(ReasonerEngineType type) {
-        Reasoner reasoner = DefaultReasonerProxy.createReasoner(type);
+        Reasoner reasoner = DefaultReasonerProxy.createDefaultReasoner(type);
         for (CoreOperation op : coreOperations) {
             op.setReasoner(reasoner);
         }

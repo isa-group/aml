@@ -40,7 +40,11 @@ public class ParserTest {
 		
 		
 //		serv.addOffer(SLA, AgreementLanguage.IAGREE);
-//		AgreementModel model = serv.getOfferModel();		
+//		AgreementModel model = serv.getOfferModel();	
+                
+                System.out.println("==========================================================");
+		System.out.println("\n");
+                System.err.println(serv.isValidTemplate());
 
 	}
 

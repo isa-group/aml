@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author AntonioGamez
  */
-public class ChocoReasoner implements Reasoner {
+public class CplexReasoner implements Reasoner {
 
     @Override
     public Object execute(CoreOperation coreOperation, AgreementModel agreementModel) {
@@ -54,7 +54,7 @@ public class ChocoReasoner implements Reasoner {
 
     @Override
     public ReasonerType getType() {
-        return ReasonerType.CHOCO;
+        return ReasonerType.CPLEX;
     }
 
 }

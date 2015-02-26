@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package isa.us.es.aml.model;
 

@@ -15,9 +15,17 @@ import isa.us.es.aml.util.ReasonerType;
  */
 public interface Reasoner {
 
-    public void analyze(CoreOperation coreOperation, AgreementModel agreementModel);
+    public Object execute(CoreOperation coreOperation, AgreementModel agreementModel);
 
-    public Object getResult();
-    
     public ReasonerType getType();
+
+    public void addProblem(Object model);
+
+    public Object solve();
+
+    public Object explain();
+
+    public Object implies();
+
+    public Object whyNotImplies();
 }

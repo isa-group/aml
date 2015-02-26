@@ -8,8 +8,8 @@ package isa.us.es.aml;
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.subsystems.AnalyzerService;
 import isa.us.es.aml.subsystems.DocumentService;
-import isa.us.es.aml.util.AgreementLanguage;
 import isa.us.es.aml.util.AgreementFile;
+import isa.us.es.aml.util.AgreementLanguage;
 
 /**
  *
@@ -57,16 +57,16 @@ public class AgreementService {
 
 //   End agreement files and model management
 //   Start agreement operations management
-    public Boolean isConsistentTemplate() {
-        return isConsistent("template");
+    public Boolean isValidTemplate() {
+        return isValid("template");
     }
 
-    public Boolean isConsistentOffer() {
-        return isConsistent("offer");
+    public Boolean isValidOffer() {
+        return isValid("offer");
     }
 
-    public Boolean isConsistent(String name) {
-        return analyzerService.existCondInconsTerms(getAgreementModel(name));
+    public Boolean isValid(String name) {
+        return analyzerService.valid(getAgreementModel(name));
     }
 
 //   End agreement operations management

@@ -13,19 +13,29 @@ import isa.us.es.aml.model.Service;
  *
  */
 public interface IBuilder {
-	
-	public String addId(String id);
-	public Float addVersion(Float version);
-	public Object addResponder(Object responder);
-	public String addMetric(Metric metric);
-	public String addAgreementTerms(AgreementTerms at);
-	public String addService(Service service);
-	public String addConfigurationProperty(Property cp);
-	public String addMonitorableProperty(Property mp);
-	public String addGuaranteeTerm(GuaranteeTerm gt);
-	public String addCreationConstraint(CreationConstraint cc);
-	public String generate();
-	
-	public void setModel(AgreementModel model);	
-	
+
+    public String addId(String id);
+
+    public Float addVersion(Float version);
+
+    public Object addResponder(Object responder);
+
+    public String addMetric(Metric metric);
+
+    public String addAgreementTerms(AgreementTerms at);
+
+    public String addService(Service service);
+
+    public String addConfigurationProperty(Property cp);
+
+    public String addMonitorableProperty(Property mp);
+
+    public String addGuaranteeTerm(GuaranteeTerm gt);
+
+    public String addCreationConstraint(CreationConstraint cc);
+
+    public String generate();
+
+    public void setModel(AgreementModel model);
+
 }

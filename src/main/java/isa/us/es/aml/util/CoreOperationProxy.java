@@ -1,7 +1,9 @@
 package isa.us.es.aml.util;
 
 import isa.us.es.aml.operations.core.CoreOperation;
-import isa.us.es.aml.operations.core.csp.choco.ChocoNumberOfAlternativeDocsCOp;
+import isa.us.es.aml.operations.core.csp.choco.ChocoExistsInconsistenciesCOp;
+import isa.us.es.aml.operations.core.csp.choco.CplexExistsInconsistenciesCOp;
+
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -22,14 +24,16 @@ public class CoreOperationProxy {
 
             case CHOCO:
                 switch (operationType) {
-                    case NumberOfAlternativeDocs:
-                        return new ChocoNumberOfAlternativeDocsCOp();
+                    case ExistInconsistencies:
+                        return new ChocoExistsInconsistenciesCOp();
                     default:
                         throw new IllegalArgumentException("there is no operation for this reasoner" + operationType.toString() + " " + reasonerType.toString());
                 }
 
-            case OPL:
+            case CPLEX:
                 switch (operationType) {
+                    case ExistInconsistencies:
+                        return new CplexExistsInconsistenciesCOp();
                     default:
                         throw new IllegalArgumentException("there is no operation for this reasoner" + operationType.toString() + " " + reasonerType.toString());
                 }
