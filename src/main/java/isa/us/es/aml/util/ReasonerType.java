@@ -9,7 +9,7 @@ package isa.us.es.aml.util;
  *
  * @author AntonioGamez
  */
-public enum AgreementLanguage {
+public enum ReasonerType {
 
-    IAGREE, WSAG
+    CHOCO, OPL
 }

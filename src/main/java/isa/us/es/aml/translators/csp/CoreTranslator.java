@@ -3,13 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package isa.us.es.aml.util;
+package isa.us.es.aml.translators.csp;
 
 /**
  *
  * @author AntonioGamez
  */
-public enum AgreementLanguage {
+public abstract class CoreTranslator {
 
-    IAGREE, WSAG
 }

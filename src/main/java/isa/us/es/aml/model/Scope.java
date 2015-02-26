@@ -5,6 +5,7 @@ package isa.us.es.aml.model;
  *
  */
 public enum Scope {
-	Global,
-	Specific
+
+    Global,
+    Specific
 }
