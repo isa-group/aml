@@ -1,4 +1,4 @@
-package isa.us.es.aml.translators.opl;
+package isa.us.es.aml.translators.csp.opl;
 
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.model.AgreementTerms;
@@ -10,10 +10,10 @@ import isa.us.es.aml.model.MonitorableProperty;
 import isa.us.es.aml.model.Property;
 import isa.us.es.aml.model.Service;
 import isa.us.es.aml.translators.IBuilder;
-import isa.us.es.aml.translators.opl.model.OPLConstraint;
-import isa.us.es.aml.translators.opl.model.OPLModel;
-import isa.us.es.aml.translators.opl.model.OPLRange;
-import isa.us.es.aml.translators.opl.model.OPLVar;
+import isa.us.es.aml.translators.csp.opl.model.OPLConstraint;
+import isa.us.es.aml.translators.csp.opl.model.OPLModel;
+import isa.us.es.aml.translators.csp.opl.model.OPLRange;
+import isa.us.es.aml.translators.csp.opl.model.OPLVar;
 import java.util.Collections;
 
 /**
@@ -61,16 +61,16 @@ public class OPLBuilder implements IBuilder {
 
         StringBuilder sb = new StringBuilder();
         for (ConfigurationProperty cp : at.getConfigurationProperties()) {
-            sb.append(addConfigurationProperty(cp) + "\n");
+            sb.append(addConfigurationProperty(cp)).append("\n");
         }
         for (MonitorableProperty mp : at.getMonitorableProperties()) {
-            sb.append(addMonitorableProperty(mp) + "\n");
+            sb.append(addMonitorableProperty(mp)).append("\n");
         }
         sb.append("subject to {" + "\n");
 
         Collections.sort(at.getGuaranteeTerms());
         for (GuaranteeTerm gt : at.getGuaranteeTerms()) {
-            sb.append("\t" + addGuaranteeTerm(gt) + "\n");
+            sb.append("\t").append(addGuaranteeTerm(gt)).append("\n");
         }
 
         sb.append("}");
@@ -134,7 +134,7 @@ public class OPLBuilder implements IBuilder {
 
     @Override
     public void setModel(AgreementModel model) {
-		// TODO Auto-generated method stub
+        // TODO Auto-generated method stub
 
     }
 }

@@ -32,8 +32,8 @@ public class DefaultReasonerProxy {
     public static Reasoner createDefaultReasoner(ReasonerEngineType type) {
         switch (type) {
             case CSP:
-                return new ChocoReasoner();
-            //return new CplexReasoner();
+                //return new ChocoReasoner();
+                return new CplexReasoner();
             case DL:
                 throw new UnsupportedOperationException("there is no reasoner yet for this entgine type" + type.toString());
             default:

@@ -30,6 +30,10 @@ public class AgreementService {
         return documentService;
     }
 
+    protected AnalyzerService getAnalyzerService() {
+        return analyzerService;
+    }
+
     public void addTemplateFile(String template, AgreementLanguage lang) {
         addAgreementFile("template", template, lang);
     }

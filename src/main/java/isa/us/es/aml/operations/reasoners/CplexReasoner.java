@@ -6,8 +6,8 @@
 package isa.us.es.aml.operations.reasoners;
 
 import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.operations.core.CoreOperation;
-import isa.us.es.aml.util.CoreOperationProxy;
+import isa.us.es.aml.translators.Translator;
+import isa.us.es.aml.translators.csp.opl.OPLBuilder;
 import isa.us.es.aml.util.ReasonerType;
 import java.util.Random;
 
@@ -15,26 +15,28 @@ import java.util.Random;
  *
  * @author AntonioGamez
  */
-public class CplexReasoner implements Reasoner {
+public class CplexReasoner extends Reasoner {
 
-    @Override
-    public Object execute(CoreOperation coreOperation, AgreementModel agreementModel) {
-        CoreOperation op = CoreOperationProxy.createOperation(coreOperation.getType(), getType());
-        op.setModel(agreementModel);
-        op.setReasoner(coreOperation.getReasoner());
-        op.analyze();
-        return op.getResult();
+    private String oplString;
+
+    public CplexReasoner() {
+        type = ReasonerType.CPLEX;
+        translator = new Translator(new OPLBuilder());
     }
 
     @Override
-    public void addProblem(Object model) {
-
+    public void addProblem(AgreementModel model) {
+        oplString = translator.export(model);
     }
 
     @Override
     public Object solve() {
         //todo: realizar lo que sea correcto aqui
-        return new Random().nextBoolean();
+        if (oplString != null) {
+            return new Random().nextBoolean();
+        } else {
+            return new Random().nextBoolean();
+        }
     }
 
     @Override
@@ -50,11 +52,6 @@ public class CplexReasoner implements Reasoner {
     @Override
     public Object whyNotImplies() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public ReasonerType getType() {
-        return ReasonerType.CPLEX;
     }
 
 }

@@ -13,6 +13,8 @@ import isa.us.es.aml.model.Service;
 import isa.us.es.aml.model.Template;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author jdelafuente
@@ -20,7 +22,8 @@ import java.util.List;
  */
 public class Translator {
 
-    private IBuilder builder;
+    private final IBuilder builder;
+    private static final Logger LOG = Logger.getLogger(Translator.class.getName());
 
     public Translator(IBuilder builder) {
         this.builder = builder;
@@ -57,10 +60,8 @@ public class Translator {
     public String export(Metric metric) {
         try {
             return export(metric, builder.getClass().newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException e) {
+            LOG.log(Level.WARNING, "export_Metric exception", e);
         }
         return null;
     }
@@ -72,10 +73,8 @@ public class Translator {
     public String export(AgreementTerms at) {
         try {
             return export(at, builder.getClass().newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException e) {
+            LOG.log(Level.WARNING, "export_AgreementTerms exception", e);
         }
         return null;
     }
@@ -87,10 +86,8 @@ public class Translator {
     public String export(Service service) {
         try {
             return export(service, builder.getClass().newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException e) {
+            LOG.log(Level.WARNING, "export_Service exception", e);
         }
         return null;
     }
@@ -102,10 +99,8 @@ public class Translator {
     public String export(Property p) {
         try {
             return export(p, builder.getClass().newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException e) {
+            LOG.log(Level.WARNING, "export_Property exception", e);
         }
         return null;
     }
@@ -123,10 +118,8 @@ public class Translator {
     public String export(GuaranteeTerm gt) {
         try {
             return export(gt, builder.getClass().newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException e) {
+            LOG.log(Level.WARNING, "export_GuaranteeTerm exception", e);
         }
         return null;
     }
@@ -138,10 +131,8 @@ public class Translator {
     public String export(CreationConstraint cc) {
         try {
             return export(cc, builder.getClass().newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException e) {
+            LOG.log(Level.WARNING, "export_CreationConstraint exception", e);
         }
         return null;
     }
@@ -153,10 +144,8 @@ public class Translator {
     public String export(List<? extends AgreementElement> objects) {
         try {
             return export(objects, builder.getClass().newInstance());
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (InstantiationException | IllegalAccessException e) {
+            LOG.log(Level.WARNING, "export_AgreementElement exception", e);
         }
         return null;
     }
@@ -165,16 +154,16 @@ public class Translator {
         StringBuilder sb = new StringBuilder();
         for (AgreementElement object : objects) {
             if (object instanceof Metric) {
-                sb.append(export((Metric) object, builder) + "\n");
+                sb.append(export((Metric) object, builder)).append("\n");
             }
             if (object instanceof Property) {
-                sb.append(export((Property) object, builder) + "\n");
+                sb.append(export((Property) object, builder)).append("\n");
             }
             if (object instanceof GuaranteeTerm) {
-                sb.append(export((GuaranteeTerm) object, builder) + "\n");
+                sb.append(export((GuaranteeTerm) object, builder)).append("\n");
             }
             if (object instanceof CreationConstraint) {
-                sb.append(export((CreationConstraint) object, builder) + "\n");
+                sb.append(export((CreationConstraint) object, builder)).append("\n");
             }
         }
         return sb.toString();
