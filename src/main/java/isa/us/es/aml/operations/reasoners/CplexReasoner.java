@@ -18,7 +18,7 @@ import ilog.opl.IloOplSettings;
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.operations.core.CoreOperation;
 import isa.us.es.aml.translators.Translator;
-import isa.us.es.aml.translators.opl.OPLBuilder;
+import isa.us.es.aml.translators.csp.opl.OPLBuilder;
 import isa.us.es.aml.util.CoreOperationProxy;
 import isa.us.es.aml.util.ReasonerType;
 
@@ -33,7 +33,7 @@ import java.util.Date;
  *
  * @author AntonioGamez
  */
-public class CplexReasoner implements Reasoner {
+public class CplexReasoner extends Reasoner {
 
 	AgreementModel model;
 
@@ -49,7 +49,7 @@ public class CplexReasoner implements Reasoner {
 	}
 
 	@Override
-	public void addProblem(Object model) {
+	public void addProblem(AgreementModel model) {
 		this.model = (AgreementModel) model;
 	}
 

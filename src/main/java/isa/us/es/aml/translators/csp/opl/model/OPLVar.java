@@ -2,6 +2,7 @@ package isa.us.es.aml.translators.csp.opl.model;
 
 import isa.us.es.aml.model.Metric;
 import isa.us.es.aml.model.expression.Expression;
+import isa.us.es.aml.translators.opl.model.OPLUtil;
 
 /**
  * @author jdelafuente

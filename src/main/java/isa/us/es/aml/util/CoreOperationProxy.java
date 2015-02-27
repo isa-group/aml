@@ -2,7 +2,7 @@ package isa.us.es.aml.util;
 
 import isa.us.es.aml.operations.core.CoreOperation;
 import isa.us.es.aml.operations.core.csp.choco.ChocoExistsInconsistenciesCOp;
-import isa.us.es.aml.operations.core.csp.choco.CplexExistsInconsistenciesCOp;
+import isa.us.es.aml.operations.core.csp.cplex.CplexExistsInconsistenciesCOp;
 
 
 /*
