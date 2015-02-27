@@ -6,8 +6,8 @@
 package isa.us.es.aml.operations.reasoners;
 
 import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.operations.core.CoreOperation;
-import isa.us.es.aml.util.CoreOperationProxy;
+import isa.us.es.aml.translators.Translator;
+import isa.us.es.aml.translators.csp.choco.ChocoBuilder;
 import isa.us.es.aml.util.ReasonerType;
 import java.util.Random;
 
@@ -15,26 +15,29 @@ import java.util.Random;
  *
  * @author AntonioGamez
  */
-public class ChocoReasoner implements Reasoner {
+public class ChocoReasoner extends Reasoner {
 
-    @Override
-    public Object execute(CoreOperation coreOperation, AgreementModel agreementModel) {
-        CoreOperation op = CoreOperationProxy.createOperation(coreOperation.getType(), getType());
-        op.setModel(agreementModel);
-        op.setReasoner(coreOperation.getReasoner());
-        op.analyze();
-        return op.getResult();
+    private String chocoString;
+
+    public ChocoReasoner() {
+        type = ReasonerType.CHOCO;
+        translator = new Translator(new ChocoBuilder());
     }
 
     @Override
-    public void addProblem(Object model) {
+    public void addProblem(AgreementModel model) {
+        chocoString = translator.export(model);
 
     }
 
     @Override
     public Object solve() {
         //todo: realizar lo que sea correcto aqui
-        return new Random().nextBoolean();
+        if (chocoString != null) {
+            return new Random().nextBoolean();
+        } else {
+            return new Random().nextBoolean();
+        }
     }
 
     @Override

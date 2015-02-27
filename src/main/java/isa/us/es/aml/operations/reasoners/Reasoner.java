@@ -7,25 +7,43 @@ package isa.us.es.aml.operations.reasoners;
 
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.operations.core.CoreOperation;
+import isa.us.es.aml.translators.IBuilder;
+import isa.us.es.aml.translators.Translator;
+import isa.us.es.aml.util.CoreOperationProxy;
 import isa.us.es.aml.util.ReasonerType;
 
 /**
  *
  * @author AntonioGamez
  */
-public interface Reasoner {
+public abstract class Reasoner {
 
-    public Object execute(CoreOperation coreOperation, AgreementModel agreementModel);
+    protected Translator translator;
+    protected ReasonerType type;
 
-    public ReasonerType getType();
+    public Object execute(CoreOperation coreOperation, AgreementModel agreementModel) {
+        CoreOperation op = CoreOperationProxy.createOperation(coreOperation.getType(), getType());
+        op.setModel(agreementModel);
+        op.setReasoner(coreOperation.getReasoner());
+        op.analyze();
+        return op.getResult();
+    }
 
-    public void addProblem(Object model);
+    public ReasonerType getType() {
+        return type;
+    }
 
-    public Object solve();
+    public Translator getTranslator() {
+        return translator;
+    }
 
-    public Object explain();
+    public abstract void addProblem(AgreementModel model);
 
-    public Object implies();
+    public abstract Object solve();
 
-    public Object whyNotImplies();
+    public abstract Object explain();
+
+    public abstract Object implies();
+
+    public abstract Object whyNotImplies();
 }

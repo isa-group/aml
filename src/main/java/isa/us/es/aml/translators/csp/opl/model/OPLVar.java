@@ -1,4 +1,4 @@
-package isa.us.es.aml.translators.opl.model;
+package isa.us.es.aml.translators.csp.opl.model;
 
 import isa.us.es.aml.model.Metric;
 import isa.us.es.aml.model.expression.Expression;
@@ -77,7 +77,7 @@ public class OPLVar {
     public boolean equals(Object obj) {
         if (obj instanceof OPLVar) {
             OPLVar elem = (OPLVar) obj;
-            return this.id.equals(elem.id);
+            return this.id.equals(elem.getId());
         }
         return false;
     }

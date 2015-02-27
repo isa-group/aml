@@ -8,7 +8,6 @@ package isa.us.es.aml.operations.core;
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.operations.Operation;
 import isa.us.es.aml.operations.reasoners.Reasoner;
-import isa.us.es.aml.translators.csp.CoreTranslator;
 import isa.us.es.aml.util.CoreOperationType;
 
 /**
@@ -18,17 +17,8 @@ import isa.us.es.aml.util.CoreOperationType;
 public abstract class CoreOperation implements Operation {
 
     private Reasoner reasoner;
-    private CoreTranslator coreTranslator;
     private CoreOperationType type;
     protected AgreementModel model;
-
-    public CoreTranslator getCoreTranslator() {
-        return coreTranslator;
-    }
-
-    public void setCoreTranslator(CoreTranslator coreTranslator) {
-        this.coreTranslator = coreTranslator;
-    }
 
     public Reasoner getReasoner() {
         return reasoner;

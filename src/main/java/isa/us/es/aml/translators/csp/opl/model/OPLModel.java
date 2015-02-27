@@ -1,4 +1,4 @@
-package isa.us.es.aml.translators.opl.model;
+package isa.us.es.aml.translators.csp.opl.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,9 +17,9 @@ public class OPLModel {
     private Set<OPLConstraint> constraints;
 
     public OPLModel() {
-        ranges = new HashSet<OPLRange>();
-        variables = new HashSet<OPLVar>();
-        constraints = new HashSet<OPLConstraint>();
+        ranges = new HashSet<>();
+        variables = new HashSet<>();
+        constraints = new HashSet<>();
     }
 
     public void addRange(OPLRange range) {
@@ -65,21 +65,21 @@ public class OPLModel {
         sb.append("using CP;" + "\n");
 
         for (OPLRange range : getRanges()) {
-            sb.append(range.toString() + "\n");
+            sb.append(range.toString()).append("\n");
         }
         sb.append("\n");
 
         for (OPLVar var : getVariables()) {
-            sb.append(var.toString() + "\n");
+            sb.append(var.toString()).append("\n");
         }
         sb.append("\n");
 
         sb.append("subject to {" + "\n");
 
-        List<OPLConstraint> ordered = new ArrayList<OPLConstraint>(getConstraints());
+        List<OPLConstraint> ordered = new ArrayList<>(getConstraints());
         Collections.sort(ordered);
         for (OPLConstraint cons : ordered) {
-            sb.append("\t" + cons.toString() + "\n");
+            sb.append("\t").append(cons.toString()).append("\n");
         }
         sb.append("}");
 
