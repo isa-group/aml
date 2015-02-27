@@ -11,28 +11,20 @@ public class OPLVar {
 
     private String id;
     private String type;
-    private Metric metric;
+    private OPLRange range;
     private Expression value;
     private Boolean dvar;
 
-    public OPLVar(String id, Metric metric, Boolean dvar) {
-        super();
-        this.id = id;
-        this.type = metric.getType();
-        this.metric = metric;
-        this.dvar = dvar;
-    }
+  	public OPLVar(String id, Metric metric, OPLRange range, boolean dvar) {
+  		super();
+          this.id = id;
+          setType(metric.getType());
+          this.range = range;
+          this.dvar = dvar;
+  	}
+  
 
-    public OPLVar(String id, Metric metric, Expression value, Boolean dvar) {
-        super();
-        this.id = id;
-        this.type = metric.getType();
-        this.metric = metric;
-        this.value = value;
-        this.dvar = dvar;
-    }
-
-    public String getId() {
+	public String getId() {
         return id;
     }
 
@@ -45,15 +37,15 @@ public class OPLVar {
     }
 
     public void setType(String type) {
-        this.type = type;
+    	this.type = OPLUtil.DATATYPES.get(type);
     }
 
-    public Metric getMetric() {
-        return metric;
+    public OPLRange getRange() {
+        return range;
     }
 
-    public void setMetric(Metric metric) {
-        this.metric = metric;
+    public void setRange(OPLRange range) {
+        this.range = range;
     }
 
     public Expression getExpression() {
@@ -75,7 +67,7 @@ public class OPLVar {
     @Override
     public String toString() {
         if (dvar) {
-            return "dvar " + getType() + " " + getId() + " in " + getMetric().getId() + ";";
+            return "dvar " + getType() + " " + getId() + " in " + getRange().getId() + ";";
         } else {
             return getType() + " " + getId() + " = " + getExpression();
         }

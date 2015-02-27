@@ -14,7 +14,10 @@ import isa.us.es.aml.translators.opl.model.OPLConstraint;
 import isa.us.es.aml.translators.opl.model.OPLModel;
 import isa.us.es.aml.translators.opl.model.OPLRange;
 import isa.us.es.aml.translators.opl.model.OPLVar;
+
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jdelafuente
@@ -48,7 +51,7 @@ public class OPLBuilder implements IBuilder {
         if (model == null) {
             model = new OPLModel();
         }
-        OPLRange range = new OPLRange(metric.getId(), metric.getDomain());
+        OPLRange range = new OPLRange("range_" + metric.getId(), metric.getDomain());
         model.addRange(range);
         return range.toString();
     }
@@ -88,8 +91,12 @@ public class OPLBuilder implements IBuilder {
         if (model == null) {
             model = new OPLModel();
         }
-
-        OPLVar var = new OPLVar(mp.getId(), mp.getMetric(), true);
+        
+        Map<String, OPLRange> ranges = new HashMap<String, OPLRange>();
+        for(OPLRange range : model.getRanges())
+        	ranges.put(range.getId(), range);
+        
+        OPLVar var = new OPLVar(mp.getId(), mp.getMetric(), ranges.get("range_" + mp.getMetric().getId()), true);
         model.addVar(var);
         return var.toString();
     }
@@ -100,7 +107,11 @@ public class OPLBuilder implements IBuilder {
             model = new OPLModel();
         }
 
-        OPLVar var = new OPLVar(cp.getId(), cp.getMetric(), true);
+        Map<String, OPLRange> ranges = new HashMap<String, OPLRange>();
+        for(OPLRange range : model.getRanges())
+        	ranges.put(range.getId(), range);
+        
+        OPLVar var = new OPLVar(cp.getId(), cp.getMetric(), ranges.get("range_" + cp.getMetric().getId()), true);
         model.addVar(var);
         return var.toString();
     }

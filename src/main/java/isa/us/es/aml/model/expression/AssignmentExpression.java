@@ -6,8 +6,8 @@ package isa.us.es.aml.model.expression;
  */
 public class AssignmentExpression extends CompoundExpression {
 
-    public AssignmentExpression(Expression e1, Expression e2) {
-        exp1 = e1;
+    public AssignmentExpression(Var v, Expression e2) {
+        exp1 = v;
         exp2 = e2;
         this.operator = "assig";
     }
@@ -16,6 +16,10 @@ public class AssignmentExpression extends CompoundExpression {
     public Object calculate() {
         exp1.setValue(exp2.calculate());
         return exp1.getValue();
+    }
+    
+    public Var getVar() {
+    	return (Var) exp1;
     }
 
     @Override

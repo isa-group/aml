@@ -13,11 +13,11 @@ import java.util.List;
 public class OPLRange {
 
     private String id;
-    private Domain domain;
+    private String domain;
 
     public OPLRange(String id, Domain domain) {
-        this.id = id;
-        this.domain = domain;
+        this.id = id;        
+        setDomain(domain);
     }
 
     public String getId() {
@@ -28,27 +28,27 @@ public class OPLRange {
         this.id = id;
     }
 
-    public Domain getDomain() {
+    public String getDomain() {
         return domain;
     }
 
     public void setDomain(Domain domain) {
-        this.domain = domain;
+    	Range range = null;
+    	
+    	if (domain instanceof Enumerated) {
+            // TODO mapear enumerado
+            List<Object> values = ((Enumerated) domain).getValues();
+            range = new Range(0, values.size() - 1);
+        } else if (domain instanceof Range) {
+        	range = (Range) domain;
+        }
+    	
+        this.domain = range.getMin() + ".." + range.getMax();
     }
 
     @Override
     public String toString() {
-        String res = "";
-
-        if (Enumerated.class.isAssignableFrom(getDomain().getClass())) {
-            // TODO mapear enumerado
-            List<Object> values = ((Enumerated) getDomain()).getValues();
-            res = "range " + getId() + " in " + new Range(0, values.size() - 1) + ";";
-        } else if (Range.class.isAssignableFrom(getDomain().getClass())) {
-            res = "range " + getId() + " in " + ((Range) getDomain()) + ";";
-        }
-
-        return res;
+        return "range " + getId() + " = " + getDomain() + ";";
     }
 
     @Override

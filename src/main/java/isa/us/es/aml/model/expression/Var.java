@@ -21,7 +21,7 @@ public class Var extends Expression {
 
     @Override
     public String toString() {
-        if (AgreementElement.class.isAssignableFrom(id.getClass())) {
+        if (id instanceof AgreementElement) {
             return ((AgreementElement) id).getId().toString();
         } else {
             return id.toString();

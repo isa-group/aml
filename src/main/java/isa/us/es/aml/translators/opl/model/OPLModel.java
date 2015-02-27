@@ -61,6 +61,8 @@ public class OPLModel {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        
+        sb.append("using CP;" + "\n");
 
         for (OPLRange range : getRanges()) {
             sb.append(range.toString() + "\n");

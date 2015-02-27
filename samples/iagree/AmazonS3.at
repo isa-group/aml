@@ -4,11 +4,15 @@ Template AmazonS3 version 1.0
 		percent: float [0..100]
 		time: integer [0..100]
 		interfaces: set {SOAP, REST}
+		size: integer [0..200]
+		price: integer [0..400]
 		
 AgreementTerms
 	Service AWS-S3 availableAt. "aws.amazon.com/s3"
 		GlobalDescription
 			Interface: interfaces
+			StorageSize: size
+			StoragePrice: price
 
 	MonitorableProperties
 		global:
@@ -16,11 +20,9 @@ AgreementTerms
 			ResponseTime: time
 				
 	GuaranteeTerms
-		G1: Provider guarantees (TransferredGb<StorageSize*2)AND(ReadRequests>WriteRequests);
-		G2: Provider guarantees ResponseTime<=100;
+		G1: Provider guarantees ResponseTime<=100;
 
 CreationConstraints
-	C1: StoragePrice = StorageSize * 1;
-	C2: TotalPrice=StoragePrice+SupportPlanPrice; 
+	C1: StoragePrice = StorageSize * 1; 
 	
 EndTemplate

@@ -35,7 +35,12 @@ public class OPLConstraint implements Comparable<OPLConstraint> {
 
     @Override
     public String toString() {
-        return getId() + ": " + getSlo().toString() + ";";
+    	
+    	String exp = getSlo().getExpression().toString();
+    	if(!exp.contains("<=") && !exp.contains(">="))
+    		exp = exp.replaceAll("=", "==");
+    	
+        return getId() + ": " + exp + ";";
     }
 
     @Override

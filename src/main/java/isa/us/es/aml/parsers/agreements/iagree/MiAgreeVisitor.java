@@ -522,9 +522,9 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Expression visitAssigExpr(AssigExprContext ctx) {
-        Expression e1 = new Var(ctx.Identifier().getText());
+        Var v = new Var(ctx.Identifier().getText());
         Expression e2 = visitExpression(ctx.expression());
-        Expression res = new AssignmentExpression(e1, e2);
+        Expression res = new AssignmentExpression(v, e2);
         return res;
     }
 

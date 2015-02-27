@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package isa.us.es.aml.operations.core.csp.choco;
+package isa.us.es.aml.operations.core.csp.cplex;
 
 import isa.us.es.aml.operations.core.CoreOperation;
 import isa.us.es.aml.util.CoreOperationType;
@@ -27,8 +27,6 @@ public class CplexExistsInconsistenciesCOp extends CoreOperation {
         getReasoner().addProblem(model);
         // using reasoner
         existsInconsistencies = (Boolean) getReasoner().solve();
-        // processing answer
-        existsInconsistencies = !existsInconsistencies;
     }
 
     @Override
