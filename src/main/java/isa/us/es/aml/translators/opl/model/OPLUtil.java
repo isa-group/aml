@@ -22,6 +22,7 @@ public class OPLUtil {
             put("integer", "int");
             put("float", "int");
             put("set", "int");
+            put("Boolean", "int");
         }
     };
 

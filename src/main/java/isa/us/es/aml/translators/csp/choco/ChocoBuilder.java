@@ -73,9 +73,4 @@ public class ChocoBuilder implements IBuilder {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public void setModel(AgreementModel model) {
-        // TODO Auto-generated method stub
-    }
-
 }

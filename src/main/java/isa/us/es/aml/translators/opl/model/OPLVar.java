@@ -66,7 +66,7 @@ public class OPLVar {
 
     @Override
     public String toString() {
-        if (dvar) {
+        if (dvar) {        	
             return "dvar " + getType() + " " + getId() + " in " + getRange().getId() + ";";
         } else {
             return getType() + " " + getId() + " = " + getExpression();

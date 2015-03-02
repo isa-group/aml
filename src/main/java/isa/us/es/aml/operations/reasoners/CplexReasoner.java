@@ -71,8 +71,11 @@ public class CplexReasoner extends Reasoner {
 			bw.write(content);
 			bw.close();
 
+			IloOplFactory.setDebugMode(false);
+			
 			IloEnv env = new IloEnv();
 			IloOplFactory oplF = new IloOplFactory();
+			
 			ByteArrayOutputStream errors = new ByteArrayOutputStream();
 			IloOplErrorHandler errHandler = oplF.createOplErrorHandler(errors);
 			IloOplModelSource modelSource = oplF.createOplModelSource(temp.getAbsolutePath());

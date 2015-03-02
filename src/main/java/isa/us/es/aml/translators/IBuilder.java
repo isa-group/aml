@@ -36,6 +36,4 @@ public interface IBuilder {
 
     public String generate();
 
-    public void setModel(AgreementModel model);
-
 }

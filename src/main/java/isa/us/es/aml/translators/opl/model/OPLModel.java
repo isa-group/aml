@@ -23,7 +23,8 @@ public class OPLModel {
     }
 
     public void addRange(OPLRange range) {
-        ranges.add(range);
+    	if(!ranges.contains(range))
+    		ranges.add(range);
     }
 
     public void addVar(OPLVar var) {
@@ -63,7 +64,7 @@ public class OPLModel {
         StringBuilder sb = new StringBuilder();
         
         sb.append("using CP;" + "\n");
-
+        
         for (OPLRange range : getRanges()) {
             sb.append(range.toString()).append("\n");
         }

@@ -40,6 +40,9 @@ public class OPLConstraint implements Comparable<OPLConstraint> {
     	if(!exp.contains("<=") && !exp.contains(">="))
     		exp = exp.replaceAll("=", "==");
     	
+    	exp = exp.replace("AND", "&&");
+    	exp = exp.replace("OR", "||");
+    	
         return getId() + ": " + exp + ";";
     }
 

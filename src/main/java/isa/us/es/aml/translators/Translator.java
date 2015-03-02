@@ -35,8 +35,6 @@ public class Translator {
 
     public String export(AgreementModel model) {
 
-        builder.setModel(model);
-
         builder.addId(model.getID());
         builder.addVersion(model.getVersion());
         builder.addResponder(model.getResponder());
