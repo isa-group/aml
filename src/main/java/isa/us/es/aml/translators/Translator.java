@@ -33,11 +33,6 @@ public class Translator {
         return builder;
     }
 
-    public AgreementModel importDocument(String content) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public String export(AgreementModel model) {
 
         builder.setModel(model);

@@ -6,12 +6,13 @@
 package isa.us.es.aml.parsers.agreements;
 
 import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.parsers.agreements.iagree.MiAgreeVisitor;
 import isa.us.es.aml.parsers.agreements.iagree.iAgreeLexer;
 import isa.us.es.aml.parsers.agreements.iagree.iAgreeParser;
 import isa.us.es.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
+import isa.us.es.aml.translators.iagree.IAgreeBuilder;
 import isa.us.es.aml.util.AgreementFile;
 import isa.us.es.aml.util.AgreementLanguage;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -19,9 +20,9 @@ import org.antlr.v4.runtime.CommonTokenStream;
  *
  * @author AntonioGamez
  */
-public class IagreeParser implements AgreementParser {
+public class IAgreeParser implements AgreementParser {
 
-    public IagreeParser() {
+    public IAgreeParser() {
     }
 
     @Override
@@ -43,7 +44,7 @@ public class IagreeParser implements AgreementParser {
         EntryContext context = parser.entry();
 
         // Walk it and attach our listener
-        MiAgreeVisitor visitor = new MiAgreeVisitor();
+        IAgreeBuilder visitor = new IAgreeBuilder();
         AgreementModel model = visitor.visitEntry(context);
 
         return model;

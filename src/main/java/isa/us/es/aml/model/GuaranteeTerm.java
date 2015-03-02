@@ -32,11 +32,6 @@ public class GuaranteeTerm extends AgreementElement implements Comparable<Guaran
     }
 
     @Override
-    public String toString() {
-        return getId() + ": " + getActor() + " guarantees " + getSlo().toString() + ";";
-    }
-
-    @Override
     public int compareTo(GuaranteeTerm o) {
         return this.getId().compareTo(o.getId());
     }

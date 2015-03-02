@@ -6,7 +6,7 @@ package isa.us.es.aml.model;
  */
 public class AgreementElement {
 
-    private String id;
+    protected String id;
 
     public AgreementElement(String id) {
         super();
@@ -25,4 +25,13 @@ public class AgreementElement {
     public String toString() {
         return getId();
     }
+    
+    @Override
+   	public boolean equals(Object obj) {
+   		if (obj instanceof AgreementElement) {
+   			AgreementElement elem = (AgreementElement) obj;
+   			return this.id.equals(elem.id);
+   		}
+   		return false;
+   	}
 }

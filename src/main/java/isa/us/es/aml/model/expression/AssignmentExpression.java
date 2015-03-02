@@ -10,11 +10,12 @@ public class AssignmentExpression extends CompoundExpression {
         exp1 = v;
         exp2 = e2;
         this.operator = "assig";
+        
+        exp1.setValue(exp2.calculate());
     }
 
     @Override
     public Object calculate() {
-        exp1.setValue(exp2.calculate());
         return exp1.getValue();
     }
     

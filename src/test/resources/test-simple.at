@@ -1,0 +1,25 @@
+Template AmazonS3 version 1.0
+	Provider as Responder
+	Metrics:
+		time: integer [0..23]
+		size: integer [0..512]
+		percent: float [0..100]
+		
+AgreementTerms
+	Service AWS-S3 availableAt. "aws.amazon.com/s3"
+		GlobalDescription
+			StorageSize: size
+
+	MonitorableProperties
+		global:
+			ResponseTime: time
+			MUP: percent
+				
+	GuaranteeTerms
+		G1: Provider guarantees ResponseTime <= 100;
+		G2: Consumer guarantees MUP < 99.95;
+
+CreationConstraints
+	C1: StoragePrice = StorageSize * 2; 
+	
+EndTemplate

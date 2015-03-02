@@ -18,7 +18,7 @@ import ilog.opl.IloOplSettings;
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.operations.core.CoreOperation;
 import isa.us.es.aml.translators.Translator;
-import isa.us.es.aml.translators.csp.opl.OPLBuilder;
+import isa.us.es.aml.translators.opl.OPLBuilder;
 import isa.us.es.aml.util.CoreOperationProxy;
 import isa.us.es.aml.util.ReasonerType;
 
@@ -50,7 +50,7 @@ public class CplexReasoner extends Reasoner {
 
 	@Override
 	public void addProblem(AgreementModel model) {
-		this.model = (AgreementModel) model;
+		this.model = model;
 	}
 
 	@Override
@@ -76,7 +76,6 @@ public class CplexReasoner extends Reasoner {
 			ByteArrayOutputStream errors = new ByteArrayOutputStream();
 			IloOplErrorHandler errHandler = oplF.createOplErrorHandler(errors);
 			IloOplModelSource modelSource = oplF.createOplModelSource(temp.getAbsolutePath());
-//			IloOplModelSource modelSource = oplF.createOplModelSource("samples/sampleopl.opl");
 
 			IloOplSettings settings = new IloOplSettings(env, errHandler);
 			IloOplModelDefinition def = oplF.createOplModelDefinition(

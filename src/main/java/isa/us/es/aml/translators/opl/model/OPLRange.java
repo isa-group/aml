@@ -1,4 +1,4 @@
-package isa.us.es.aml.translators.csp.opl.model;
+package isa.us.es.aml.translators.opl.model;
 
 import isa.us.es.aml.model.Domain;
 import isa.us.es.aml.model.Enumerated;

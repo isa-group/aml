@@ -1,4 +1,4 @@
-package isa.us.es.aml.translators.csp.opl.model;
+package isa.us.es.aml.translators.opl.model;
 
 import java.util.ArrayList;
 import java.util.Collections;

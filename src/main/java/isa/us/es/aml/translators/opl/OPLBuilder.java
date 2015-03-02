@@ -1,4 +1,4 @@
-package isa.us.es.aml.translators.csp.opl;
+package isa.us.es.aml.translators.opl;
 
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.model.AgreementTerms;
@@ -10,10 +10,10 @@ import isa.us.es.aml.model.MonitorableProperty;
 import isa.us.es.aml.model.Property;
 import isa.us.es.aml.model.Service;
 import isa.us.es.aml.translators.IBuilder;
-import isa.us.es.aml.translators.csp.opl.model.OPLConstraint;
-import isa.us.es.aml.translators.csp.opl.model.OPLModel;
-import isa.us.es.aml.translators.csp.opl.model.OPLRange;
-import isa.us.es.aml.translators.csp.opl.model.OPLVar;
+import isa.us.es.aml.translators.opl.model.OPLConstraint;
+import isa.us.es.aml.translators.opl.model.OPLModel;
+import isa.us.es.aml.translators.opl.model.OPLRange;
+import isa.us.es.aml.translators.opl.model.OPLVar;
 
 import java.util.Collections;
 import java.util.HashMap;

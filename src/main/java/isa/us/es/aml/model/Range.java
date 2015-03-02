@@ -6,8 +6,8 @@ package isa.us.es.aml.model;
  */
 public class Range extends Domain {
 
-    private int min;
-    private int max;
+    protected int min;
+    protected int max;
 
     public Range() {
         min = 0;
@@ -33,10 +33,5 @@ public class Range extends Domain {
 
     public void setMax(int max) {
         this.max = max;
-    }
-
-    public String toString() {
-        String res = "[" + min + "," + max + "]";
-        return res;
     }
 }

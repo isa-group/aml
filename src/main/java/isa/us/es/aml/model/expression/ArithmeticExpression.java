@@ -39,8 +39,8 @@ public class ArithmeticExpression extends CompoundExpression {
                             / Double.valueOf(exp2.calculate().toString());
                     break;
             }
-        } catch (Exception e) {
-            System.out.println("Error calculating the expression");
+        } catch (NumberFormatException e) {
+            throw new ArithmeticException("One of the arguments is not a valid number");
         }
 
         return res;

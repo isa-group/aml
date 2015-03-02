@@ -22,9 +22,4 @@ public class SLO {
     public void setExpression(Expression expression) {
         this.expression = expression;
     }
-
-    @Override
-    public String toString() {
-        return getExpression().toString();
-    }
 }

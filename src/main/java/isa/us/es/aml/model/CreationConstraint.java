@@ -20,10 +20,4 @@ public class CreationConstraint extends AgreementElement {
     public void setSlo(SLO slo) {
         this.slo = slo;
     }
-
-    @Override
-    public String toString() {
-        return getId() + ": " + getSlo().toString() + ";";
-    }
-
 }

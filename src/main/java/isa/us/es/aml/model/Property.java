@@ -64,14 +64,4 @@ public class Property extends AgreementElement {
     public void setScope(Scope scope) {
         this.scope = scope;
     }
-
-    @Override
-    public String toString() {
-        if (getExpression() != null) {
-            return getId() + ": " + getMetric().getId() + " = " + getExpression() + ";";
-        } else {
-            return getId() + ": " + getMetric().getId();
-        }
-    }
-
 }

@@ -33,10 +33,4 @@ public class Service {
     public void setServiceReference(String serviceReference) {
         this.serviceReference = serviceReference;
     }
-
-    @Override
-    public String toString() {
-        return "Service " + getServiceName() + " availableAt. " + "\"" + getServiceReference() + "\"";
-    }
-
 }
