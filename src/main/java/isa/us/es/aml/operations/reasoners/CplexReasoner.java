@@ -55,57 +55,69 @@ public class CplexReasoner extends Reasoner {
 
 	@Override
 	public Object solve() {
+		
 		Boolean solve = false;
+		
+		if (model != null) {
 
-		Translator translator = new Translator(new OPLBuilder());
+			Translator translator = new Translator(new OPLBuilder());
 
-		Date date = new Date();
-		File temp;
+			Date date = new Date();
+			File temp;
 
-		try {
-			temp = File.createTempFile(String.valueOf(date.getTime()), ".opl");
-			String content = translator.export(model);
-			
-			// write it
-			BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
-			bw.write(content);
-			bw.close();
+			try {
+				temp = File.createTempFile(String.valueOf(date.getTime()),
+						".opl");
+				String content = translator.export(model);
 
-			IloOplFactory.setDebugMode(false);
-			
-			IloEnv env = new IloEnv();
-			IloOplFactory oplF = new IloOplFactory();
-			
-			ByteArrayOutputStream errors = new ByteArrayOutputStream();
-			IloOplErrorHandler errHandler = oplF.createOplErrorHandler(errors);
-			IloOplModelSource modelSource = oplF.createOplModelSource(temp.getAbsolutePath());
+				// write it
+				BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
+				bw.write(content);
+				bw.close();
 
-			IloOplSettings settings = new IloOplSettings(env, errHandler);
-			IloOplModelDefinition def = oplF.createOplModelDefinition(
-					modelSource, settings);
+				IloOplFactory.setDebugMode(false);
 
-			String using = content.substring(0, content.indexOf("\n")).trim();
-			Boolean useCP = using.equals("using CP;") ? true : false;
+				IloEnv env = new IloEnv();
+				IloOplFactory oplF = new IloOplFactory();
 
-			if (useCP) {
-				IloCP cp = oplF.createCP();
-				cp.setOut(null);
-				cp.setParameter(IloCP.IntParam.ConflictRefinerOnVariables,
-						IloCP.ParameterValues.On);
-				IloOplModel opl = oplF.createOplModel(def, cp);
-				opl.generate();
-				solve = cp.solve();
-			} else {
-				IloCplex cplex = oplF.createCplex();
-				cplex.setOut(null);
-				IloOplModel opl = oplF.createOplModel(def, cplex);
-				opl.generate();
-				solve = cplex.solve();
+				ByteArrayOutputStream errors = new ByteArrayOutputStream();
+				IloOplErrorHandler errHandler = oplF
+						.createOplErrorHandler(errors);
+				IloOplModelSource modelSource = oplF.createOplModelSource(temp
+						.getAbsolutePath());
+
+				IloOplSettings settings = new IloOplSettings(env, errHandler);
+				IloOplModelDefinition def = oplF.createOplModelDefinition(
+						modelSource, settings);
+
+				String using = content.substring(0, content.indexOf("\n"))
+						.trim();
+				Boolean useCP = using.equals("using CP;") ? true : false;
+
+				if (useCP) {
+					IloCP cp = oplF.createCP();
+					cp.setOut(null);
+					cp.setParameter(IloCP.IntParam.ConflictRefinerOnVariables,
+							IloCP.ParameterValues.On);
+					IloOplModel opl = oplF.createOplModel(def, cp);
+					opl.generate();
+					solve = cp.solve();
+				} else {
+					IloCplex cplex = oplF.createCplex();
+					cplex.setOut(null);
+					IloOplModel opl = oplF.createOplModel(def, cplex);
+					opl.generate();
+					solve = cplex.solve();
+				}
+			} catch (IOException e) {
+				solve = false;
+				e.printStackTrace();
+			} catch (IloException e) {
+				solve = false;
+				e.printStackTrace();
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (IloException e) {
-			e.printStackTrace();
+		} else {
+			solve = false;
 		}
 
 		return solve;

@@ -22,37 +22,39 @@ import org.antlr.v4.runtime.CommonTokenStream;
  */
 public class IAgreeParser implements AgreementParser {
 
-    public IAgreeParser() {
-    }
+	public IAgreeParser() {
+	}
 
-    @Override
-    public AgreementModel doParse(AgreementFile file) {
+	@Override
+	public AgreementModel doParse(AgreementFile file) {
 
-        iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(
-                file.getContent()));
+		AgreementModel model;
+		
+		iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(
+				file.getContent()));
 
-        // Get a list of matched tokens
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
+		// Get a list of matched tokens
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        // Pass the tokens to the parser
-        iAgreeParser parser = new iAgreeParser(tokens);
+		// Pass the tokens to the parser
+		iAgreeParser parser = new iAgreeParser(tokens);
 
-        // TODO implementar error listener
-        // IAgreeErrorListener errorListener = new IAgreeErrorListener();
-        // parser.addErrorListener(errorListener);
-        // Specify our entry point
-        EntryContext context = parser.entry();
+		// TODO implementar error listener
+		// IAgreeErrorListener errorListener = new IAgreeErrorListener();
+		// parser.addErrorListener(errorListener);
+		// Specify our entry point
+		EntryContext context = parser.entry();
 
-        // Walk it and attach our listener
-        IAgreeBuilder visitor = new IAgreeBuilder();
-        AgreementModel model = visitor.visitEntry(context);
+		// Walk it and attach our listener
+		IAgreeBuilder visitor = new IAgreeBuilder();
+		model = visitor.visitEntry(context);
 
-        return model;
-    }
+		return model;
+	}
 
-    @Override
-    public AgreementLanguage getSupportedLang() {
-        return AgreementLanguage.IAGREE;
-    }
+	@Override
+	public AgreementLanguage getSupportedLang() {
+		return AgreementLanguage.IAGREE;
+	}
 
 }
