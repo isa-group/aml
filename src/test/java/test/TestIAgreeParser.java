@@ -39,6 +39,17 @@ import org.junit.Test;
  */
 public class TestIAgreeParser {
 	
+	
+	/**
+	 * Retrieve the model returned by parsing the provided document. 
+	 * Then, translate the model to the original document's language (iAgree) and
+	 * compare it with the original document.
+	 * <br>
+	 * <br>
+	 * Test lifecycle:
+	 * <br>
+	 * Document 1 -> Model -> Document 2 -> Document 1 vs Document 2
+	 */
 	@Test
 	public void testParser() {
 		InputStream in = getClass().getResourceAsStream("/test-simple.at");
@@ -51,6 +62,20 @@ public class TestIAgreeParser {
 		assertEquals(content.replaceAll("\\s+", ""), model.toString().replaceAll("\\s+", ""));
 	}
 	
+	/**
+	 * Parse a document and retrieve the model. 
+	 * Then, compare each model element with a new one, 
+	 * equivalent to the original element, created by hand.
+	 * <br>
+	 * <br>
+	 * Test lifecycle:
+	 * <br>
+	 * Document 1 -> Model 1 -> Element 1
+	 * <br>
+	 * Model 2 -> Element 2
+	 * <br>
+	 * Element 1 vs Element 2
+	 */
 	@Test
 	public void testModel() {
 
@@ -61,48 +86,51 @@ public class TestIAgreeParser {
 		IAgreeParser parser = new IAgreeParser();
 		AgreementModel model = parser.doParse(sla);
 		
-		// ID y Version
+		// Asserts ID y Version
 		assertEquals(model.getID(), "AmazonS3");
 		assertEquals(model.getVersion(), 1.0f, 0.0);
 		
-		// Responder
+		// Asserts Responder
 		assertEquals(model.getResponder(), Actor.Provider);
 		
 		
 		// Metrics
 		IAgreeMetric metric_time = new IAgreeMetric("time", "integer", new Range(0, 23));
-		assertEquals(model.getMetrics().get(0), metric_time);
-		
-		IAgreeMetric metric_size = new IAgreeMetric("size", "integer", new Range(0, 512));
-		assertEquals(model.getMetrics().get(1), metric_size);
-		
+		IAgreeMetric metric_size = new IAgreeMetric("size", "integer", new Range(0, 512));	
 		IAgreeMetric metric_percent = new IAgreeMetric("percent", "float", new Range(0, 100));
+		
+		
+		// Asserts metrics
+		assertEquals(model.getMetrics().get(0), metric_time);
+		assertEquals(model.getMetrics().get(1), metric_size);
 		assertEquals(model.getMetrics().get(2), metric_percent);
 		
-		// Agreement Terms
 		
+		// Agreement Terms
 		IAgreeAgreementTerms at = new IAgreeAgreementTerms();
 		
+		
+		// Service reference
 		IAgreeService service = new IAgreeService();
 		service.setServiceName("AWS-S3");
 		service.setServiceReference("aws.amazon.com/s3");
 		at.setService(service);
 		
+		
+		// Configuration properties
 		IAgreeConfigurationProperty storage_size = new IAgreeConfigurationProperty("StorageSize", metric_size, Scope.Global);
 		at.getConfigurationProperties().add(storage_size);
 		
-		assertEquals(model.getAgreementTerms().getConfigurationProperties(), at.getConfigurationProperties());
 		
-				
+		// Monitorable properties
 		IAgreeMonitorableProperty response_time = new IAgreeMonitorableProperty("ResponseTime", metric_time, Scope.Global);
 		at.getMonitorableProperties().add(response_time);
 		
 		IAgreeMonitorableProperty mup = new IAgreeMonitorableProperty("MUP", metric_percent, Scope.Global);
 		at.getMonitorableProperties().add(mup);
 		
-		assertEquals(model.getAgreementTerms().getMonitorableProperties(), at.getMonitorableProperties());
 		
-		
+		// Guarantee terms
 		Expression exp = new RelationalExpression(new Var(response_time), new Atomic(100), RelationalOperator.lte);
 		IAgreeSLO slo = new IAgreeSLO(exp);
 		IAgreeGuaranteeTerm g1 = new IAgreeGuaranteeTerm("G1", Actor.Provider, slo);
@@ -114,17 +142,20 @@ public class TestIAgreeParser {
 		at.getGuaranteeTerms().add(g1);
 		at.getGuaranteeTerms().add(g2);		
 		
+		
+		// Asserts Agreement Terms
+		assertEquals(model.getAgreementTerms().getConfigurationProperties(), at.getConfigurationProperties());
+		assertEquals(model.getAgreementTerms().getMonitorableProperties(), at.getMonitorableProperties());
 		assertEquals(model.getAgreementTerms().getGuaranteeTerms(), at.getGuaranteeTerms());
 		
 		
 		// Creation constraints
-		
 		Expression exp3 = new RelationalExpression(new Var(mup), new Atomic(99.95), RelationalOperator.lt);
 		IAgreeSLO slo3 = new IAgreeSLO(exp3);
 		
 		IAgreeCreationConstraint cc = new IAgreeCreationConstraint("C1", slo3);
-		((IAgreeTemplate) model).getCreationConstraints().add(cc);
 		
+		// Assert Creation Constraint
 		assertEquals(((IAgreeTemplate) model).getCreationConstraints().get(0), cc);
 	}
 	

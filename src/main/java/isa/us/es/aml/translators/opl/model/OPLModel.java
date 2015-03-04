@@ -63,7 +63,7 @@ public class OPLModel {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         
-        sb.append("using CP;" + "\n");
+        sb.append("using CP;" + "\n\n");
         
         for (OPLRange range : getRanges()) {
             sb.append(range.toString()).append("\n");
@@ -77,7 +77,7 @@ public class OPLModel {
 
         sb.append("subject to {" + "\n");
 
-        List<OPLConstraint> ordered = new ArrayList<>(getConstraints());
+        List<OPLConstraint> ordered = new ArrayList<OPLConstraint>(getConstraints());
         Collections.sort(ordered);
         for (OPLConstraint cons : ordered) {
             sb.append("\t").append(cons.toString()).append("\n");

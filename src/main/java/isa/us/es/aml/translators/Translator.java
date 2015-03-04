@@ -42,7 +42,7 @@ public class Translator {
         export(model.getMetrics(), builder);
         export(model.getAgreementTerms(), builder);
 
-        if (model.getClass() == Template.class) {
+        if (model instanceof Template) {
             export(((Template) model).getCreationConstraints(), builder);
         }
 

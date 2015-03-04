@@ -6,6 +6,7 @@
 package isa.us.es.aml.parsers.agreements;
 
 import isa.us.es.aml.model.AgreementModel;
+import isa.us.es.aml.parsers.agreements.iagree.IAgreeErrorListener;
 import isa.us.es.aml.parsers.agreements.iagree.iAgreeLexer;
 import isa.us.es.aml.parsers.agreements.iagree.iAgreeParser;
 import isa.us.es.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
@@ -22,6 +23,8 @@ import org.antlr.v4.runtime.CommonTokenStream;
  */
 public class IAgreeParser implements AgreementParser {
 
+	private IAgreeErrorListener errorListener;
+	
 	public IAgreeParser() {
 	}
 
@@ -29,7 +32,7 @@ public class IAgreeParser implements AgreementParser {
 	public AgreementModel doParse(AgreementFile file) {
 
 		AgreementModel model;
-		
+
 		iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(
 				file.getContent()));
 
@@ -39,9 +42,9 @@ public class IAgreeParser implements AgreementParser {
 		// Pass the tokens to the parser
 		iAgreeParser parser = new iAgreeParser(tokens);
 
-		// TODO implementar error listener
-		// IAgreeErrorListener errorListener = new IAgreeErrorListener();
-		// parser.addErrorListener(errorListener);
+		errorListener = new IAgreeErrorListener();
+		parser.addErrorListener(errorListener);
+
 		// Specify our entry point
 		EntryContext context = parser.entry();
 
@@ -55,6 +58,10 @@ public class IAgreeParser implements AgreementParser {
 	@Override
 	public AgreementLanguage getSupportedLang() {
 		return AgreementLanguage.IAGREE;
+	}
+	
+	public IAgreeErrorListener getErrorListener() {
+		return errorListener;
 	}
 
 }
