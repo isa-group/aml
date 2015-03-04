@@ -3,22 +3,35 @@
  */
 package test;
 
-import isa.us.es.aml.model.*;
-import isa.us.es.aml.model.expression.*;
-import isa.us.es.aml.parsers.agreements.IAgreeParser;
-import isa.us.es.aml.translators.iagree.model.*;
-import isa.us.es.aml.util.AgreementFile;
-import isa.us.es.aml.util.AgreementLanguage;
-import org.junit.Test;
-
+import es.us.isa.aml.model.Actor;
+import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.Range;
+import es.us.isa.aml.model.Scope;
+import es.us.isa.aml.model.Template;
+import es.us.isa.aml.model.expression.Atomic;
+import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.RelationalExpression;
+import es.us.isa.aml.model.expression.RelationalOperator;
+import es.us.isa.aml.model.expression.Var;
+import es.us.isa.aml.parsers.agreements.IAgreeParser;
+import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTerms;
+import es.us.isa.aml.translators.iagree.model.IAgreeConfigurationProperty;
+import es.us.isa.aml.translators.iagree.model.IAgreeCreationConstraint;
+import es.us.isa.aml.translators.iagree.model.IAgreeGuaranteeTerm;
+import es.us.isa.aml.translators.iagree.model.IAgreeMetric;
+import es.us.isa.aml.translators.iagree.model.IAgreeMonitorableProperty;
+import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
+import es.us.isa.aml.translators.iagree.model.IAgreeService;
+import es.us.isa.aml.util.AgreementFile;
+import es.us.isa.aml.util.AgreementLanguage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * @author jdelafuente

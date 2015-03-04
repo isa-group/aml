@@ -3,9 +3,9 @@
  */
 package test;
 
-import isa.us.es.aml.AgreementService;
-import isa.us.es.aml.util.AgreementLanguage;
-import isa.us.es.aml.util.Util;
+import es.us.isa.aml.AgreementManager;
+import es.us.isa.aml.util.AgreementLanguage;
+import es.us.isa.aml.util.Util;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,7 +24,7 @@ public class TestLibLocal {
 
         String SLA = Util.loadFile("samples/iagree/AmazonS3-medium.at");
 
-        AgreementService serv = new AgreementService();
+        AgreementManager serv = new AgreementManager();
         serv.addTemplateFile(SLA, AgreementLanguage.IAGREE);
 
         TestLibLocal.LOG.log(Level.INFO, "Valid template: {0}", serv.isValidTemplate());
