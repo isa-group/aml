@@ -17,17 +17,17 @@ public class ExistsInconsistenciesCOp extends CoreOperation {
     private Boolean existsInconsistencies;
 
     public ExistsInconsistenciesCOp() {
-        setType(CoreOperationType.ExistInconsistencies);
+        this.setType(CoreOperationType.ExistInconsistencies);
     }
 
     @Override
     public void analyze() {
-        existsInconsistencies = (Boolean) getReasoner().execute(this, model);
+        this.existsInconsistencies = (Boolean) this.getReasoner().execute(this, this.model);
     }
 
     @Override
     public Boolean getResult() {
-        return existsInconsistencies;
+        return this.existsInconsistencies;
     }
 
 }

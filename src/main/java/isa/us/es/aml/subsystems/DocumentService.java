@@ -7,16 +7,11 @@ package isa.us.es.aml.subsystems;
 
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.parsers.agreements.AgreementParser;
-import isa.us.es.aml.util.ParserProxy;
 import isa.us.es.aml.util.AgreementFile;
 import isa.us.es.aml.util.AgreementLanguage;
-import java.util.ArrayList;
-import java.util.Collections;
+import isa.us.es.aml.util.ParserProxy;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.*;
 
 /**
  *
@@ -30,68 +25,68 @@ public class DocumentService {
     private Boolean isParsed;
 
     public DocumentService() {
-        agreementFileMap = new HashMap<>();
-        agreementModelMap = new HashMap<>();
-        parsers = new ArrayList<>();
-        isParsed = false;
+        this.agreementFileMap = new HashMap<>();
+        this.agreementModelMap = new HashMap<>();
+        this.parsers = new ArrayList<>();
+        this.isParsed = false;
     }
 
     public Map<String, AgreementFile> getAgreementFileMap() {
-        return Collections.unmodifiableMap(agreementFileMap);
+        return Collections.unmodifiableMap(this.agreementFileMap);
         //instead of make a map copy, it's more memory efficient
     }
 
     public Map<String, AgreementModel> getAgreementModelMap() {
-        return Collections.unmodifiableMap(agreementModelMap);
+        return Collections.unmodifiableMap(this.agreementModelMap);
     }
 
     public AgreementModel getAgreementModel(String name) {
-        if (!isParsed) {
-            parseAgreementFileMap();
+        if (!this.isParsed) {
+            this.parseAgreementFileMap();
         }
-        return agreementModelMap.get(name.toLowerCase());
+        return this.agreementModelMap.get(name.toLowerCase());
     }
 
     public void addAgreementFile(String name, AgreementFile file) {
-        agreementFileMap.put(name.toLowerCase(), file);
-        isParsed = false;
+        this.agreementFileMap.put(name.toLowerCase(), file);
+        this.isParsed = false;
     }
 
     public void deleteAgreementFile(String name) {
-        agreementFileMap.remove(name);
-        isParsed = false;
+        this.agreementFileMap.remove(name);
+        this.isParsed = false;
 
     }
 
     public void parseAgreementFileMap() {
-        for (Entry<String, AgreementFile> entry : agreementFileMap.entrySet()) {
+        for (Map.Entry<String, AgreementFile> entry : this.agreementFileMap.entrySet()) {
             AgreementFile agreementFile = entry.getValue();
-            AgreementModel agreementModel = parseAgreementFile(agreementFile);
-            agreementModelMap.put(entry.getKey().toLowerCase(), agreementModel);
+            AgreementModel agreementModel = this.parseAgreementFile(agreementFile);
+            this.agreementModelMap.put(entry.getKey().toLowerCase(), agreementModel);
         }
-        isParsed = true;
+        this.isParsed = true;
     }
 
     public AgreementModel parseAgreementFileElement(String name) {
-        AgreementFile agreementFile = agreementFileMap.get(name);
-        return parseAgreementFile(agreementFile);
+        AgreementFile agreementFile = this.agreementFileMap.get(name);
+        return this.parseAgreementFile(agreementFile);
     }
 
     private AgreementModel parseAgreementFile(AgreementFile agreementFile) {
-        AgreementParser parser = getParser(agreementFile.getLang());
+        AgreementParser parser = this.getParser(agreementFile.getLang());
         AgreementModel agreementModel = parser.doParse(agreementFile);
         return agreementModel;
     }
 
     // avoid having multiple instances of the same parser object
     private AgreementParser getParser(AgreementLanguage lang) {
-        for (AgreementParser p : parsers) {
+        for (AgreementParser p : this.parsers) {
             if (p.getSupportedLang().equals(lang)) {
                 return p;
             }
         }
         AgreementParser parser = ParserProxy.createParser(lang);
-        parsers.add(parser);
+        this.parsers.add(parser);
         return parser;
     }
 

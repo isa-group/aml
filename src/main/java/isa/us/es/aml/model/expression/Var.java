@@ -8,59 +8,62 @@ import isa.us.es.aml.model.AgreementElement;
  */
 public class Var extends Expression {
 
-	private Object id;
+    private Object id;
 
-	public Var(Object n) {
-		id = n;
-	}
-	
-	public Var(Object n, Expression e) {
-		id = n;
-		new AssignmentExpression(this, e);
-	}
+    public Var(Object n) {
+        this.id = n;
+    }
 
-	@Override
-	public Object calculate() {
-		return value;
-	}
+    public Var(Object n, Expression e) {
+        this.id = n;
+        new AssignmentExpression(this, e);
+    }
 
-	@Override
-	public String toString() {
-		if (id instanceof AgreementElement) {
-			return ((AgreementElement) id).getId().toString();
-		} else {
-			return id.toString();
-		}
-	}
+    @Override
+    public Object calculate() {
+        return this.value;
+    }
 
-	public Double getDoubleValue() {
-		if (value instanceof Number)
-			return ((Number) value).doubleValue();
-		else if(value == null)
-			throw new NullPointerException("Variable " + id + " has not been initialized");
-		else
-			throw new NumberFormatException();
-	}
+    @Override
+    public String toString() {
+        if (this.id instanceof AgreementElement) {
+            return ((AgreementElement) this.id).getId();
+        } else {
+            return this.id.toString();
+        }
+    }
 
-	public Integer getIntegerValue() {
-		if (value instanceof Number)
-			return ((Number) value).intValue();
-		else if(value == null)
-			throw new NullPointerException("Variable " + id + " has not been initialized");
-		else
-			throw new NumberFormatException();
-	}
+    public Double getDoubleValue() {
+        if (this.value instanceof Number) {
+            return ((Number) this.value).doubleValue();
+        } else if (this.value == null) {
+            throw new NullPointerException("Variable " + this.id + " has not been initialized");
+        } else {
+            throw new NumberFormatException();
+        }
+    }
 
-	public Boolean getBooleanValue() {
-		try {
-			if (value instanceof Boolean)
-				return ((Boolean) value).booleanValue();
-			else if(value == null)
-				throw new NullPointerException("Variable " + id + " has not been initialized");
-			else
-				return null;
-		} catch (NullPointerException e) {
-			throw new IllegalArgumentException();
-		}
-	}
+    public Integer getIntegerValue() {
+        if (this.value instanceof Number) {
+            return ((Number) this.value).intValue();
+        } else if (this.value == null) {
+            throw new NullPointerException("Variable " + this.id + " has not been initialized");
+        } else {
+            throw new NumberFormatException();
+        }
+    }
+
+    public Boolean getBooleanValue() {
+        try {
+            if (this.value instanceof Boolean) {
+                return (Boolean) this.value;
+            } else if (this.value == null) {
+                throw new NullPointerException("Variable " + this.id + " has not been initialized");
+            } else {
+                return null;
+            }
+        } catch (NullPointerException e) {
+            throw new IllegalArgumentException();
+        }
+    }
 }

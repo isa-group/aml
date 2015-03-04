@@ -7,10 +7,11 @@ package isa.us.es.aml.operations.noCore;
 
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.operations.Operation;
-import isa.us.es.aml.operations.reasoners.Reasoner;
 import isa.us.es.aml.operations.core.CoreOperation;
+import isa.us.es.aml.operations.reasoners.Reasoner;
 import isa.us.es.aml.util.DefaultReasonerProxy;
 import isa.us.es.aml.util.ReasonerEngineType;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -25,7 +26,7 @@ public abstract class NoCoreOperation implements Operation {
     protected Object result;
 
     protected NoCoreOperation() {
-        this.coreOperations = new HashSet<>();
+        coreOperations = new HashSet<>();
     }
 
     @Override
@@ -33,7 +34,7 @@ public abstract class NoCoreOperation implements Operation {
 
     @Override
     public Object getResult() {
-        return result;
+        return this.result;
     }
 
     protected void setResult(Object result) {
@@ -41,7 +42,7 @@ public abstract class NoCoreOperation implements Operation {
     }
 
     public Set<CoreOperation> getCoreOperations() {
-        return coreOperations; //we really want modify this field from outside
+        return this.coreOperations; //we really want modify this field from outside
     }
 
     protected void setCoreOperations(Set<CoreOperation> coreOperations) {
@@ -49,7 +50,7 @@ public abstract class NoCoreOperation implements Operation {
     }
 
     public AgreementModel getModel() {
-        return model;
+        return this.model;
     }
 
     public void setModel(AgreementModel model) {
@@ -58,13 +59,13 @@ public abstract class NoCoreOperation implements Operation {
 
     public void setDefaultConfig(ReasonerEngineType type) {
         Reasoner reasoner = DefaultReasonerProxy.createDefaultReasoner(type);
-        for (CoreOperation op : coreOperations) {
+        for (CoreOperation op : this.coreOperations) {
             op.setReasoner(reasoner);
         }
     }
 
     protected void checkReasonerExistence() {
-        for (CoreOperation op : coreOperations) {
+        for (CoreOperation op : this.coreOperations) {
             if (op.getReasoner() == null) {
                 throw new AssertionError("all core operation should have been provided of an reasoner");
             }

@@ -12,13 +12,12 @@ public class OPLConstraint implements Comparable<OPLConstraint> {
     private SLO slo;
 
     public OPLConstraint(String id, SLO slo) {
-        super();
         this.id = id;
         this.slo = slo;
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -26,7 +25,7 @@ public class OPLConstraint implements Comparable<OPLConstraint> {
     }
 
     public SLO getSlo() {
-        return slo;
+        return this.slo;
     }
 
     public void setSlo(SLO slo) {
@@ -35,20 +34,21 @@ public class OPLConstraint implements Comparable<OPLConstraint> {
 
     @Override
     public String toString() {
-    	
-    	String exp = getSlo().getExpression().toString();
-    	if(!exp.contains("<=") && !exp.contains(">="))
-    		exp = exp.replaceAll("=", "==");
-    	
-    	exp = exp.replace("AND", "&&");
-    	exp = exp.replace("OR", "||");
-    	
-        return getId() + ": " + exp + ";";
+
+        String exp = this.getSlo().getExpression().toString();
+        if (!exp.contains("<=") && !exp.contains(">=")) {
+            exp = exp.replaceAll("=", "==");
+        }
+
+        exp = exp.replace("AND", "&&");
+        exp = exp.replace("OR", "||");
+
+        return this.getId() + ": " + exp + ";";
     }
 
     @Override
     public int compareTo(OPLConstraint o) {
-        return this.getId().compareTo(o.getId());
+        return getId().compareTo(o.getId());
     }
 
 }

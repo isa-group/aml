@@ -9,6 +9,7 @@ import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.translators.Translator;
 import isa.us.es.aml.translators.csp.choco.ChocoBuilder;
 import isa.us.es.aml.util.ReasonerType;
+
 import java.util.Random;
 
 /**
@@ -20,20 +21,20 @@ public class ChocoReasoner extends Reasoner {
     private String chocoString;
 
     public ChocoReasoner() {
-        type = ReasonerType.CHOCO;
-        translator = new Translator(new ChocoBuilder());
+        this.type = ReasonerType.CHOCO;
+        this.translator = new Translator(new ChocoBuilder());
     }
 
     @Override
     public void addProblem(AgreementModel model) {
-        chocoString = translator.export(model);
+        this.chocoString = this.translator.export(model);
 
     }
 
     @Override
     public Object solve() {
         //todo: realizar lo que sea correcto aqui
-        if (chocoString != null) {
+        if (this.chocoString != null) {
             return new Random().nextBoolean();
         } else {
             return new Random().nextBoolean();
@@ -42,17 +43,17 @@ public class ChocoReasoner extends Reasoner {
 
     @Override
     public Object explain() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
     public Object implies() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override
     public Object whyNotImplies() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet."); 
     }
 
     @Override

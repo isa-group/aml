@@ -7,8 +7,8 @@ package isa.us.es.aml.operations;
 
 public interface Operation {
 
-    public void analyze();
+    void analyze();
 
-    public Object getResult();
+    Object getResult();
 
 }

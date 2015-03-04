@@ -23,7 +23,7 @@ public class AgreementFile {
     }
 
     public String getContent() {
-        return content;
+        return this.content;
     }
 
     public void setContent(String content) {
@@ -31,7 +31,7 @@ public class AgreementFile {
     }
 
     public AgreementLanguage getLang() {
-        return lang;
+        return this.lang;
     }
 
     public void setLang(AgreementLanguage lang) {

@@ -9,5 +9,4 @@ public class CHOCOModel {
     public CHOCOModel() {
     }
 
-
 }

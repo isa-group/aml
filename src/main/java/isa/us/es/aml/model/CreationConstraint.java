@@ -14,7 +14,7 @@ public class CreationConstraint extends AgreementElement {
     }
 
     public SLO getSlo() {
-        return slo;
+        return this.slo;
     }
 
     public void setSlo(SLO slo) {

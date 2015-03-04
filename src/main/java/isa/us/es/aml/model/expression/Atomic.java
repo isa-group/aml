@@ -8,23 +8,23 @@ import isa.us.es.aml.model.AgreementElement;
  */
 public class Atomic extends Expression {
 
-    private Object value;
+    private final Object value;
 
     public Atomic(Object n) {
-        value = n;
+        this.value = n;
     }
 
     @Override
     public Object calculate() {
-        return value;
+        return this.value;
     }
 
     @Override
     public String toString() {
-        if (AgreementElement.class.isAssignableFrom(value.getClass())) {
-            return ((AgreementElement) value).getId().toString();
+        if (AgreementElement.class.isAssignableFrom(this.value.getClass())) {
+            return ((AgreementElement) this.value).getId();
         } else {
-            return value.toString();
+            return this.value.toString();
         }
     }
 }

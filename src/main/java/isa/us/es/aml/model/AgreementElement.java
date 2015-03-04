@@ -9,12 +9,11 @@ public class AgreementElement {
     protected String id;
 
     public AgreementElement(String id) {
-        super();
         this.id = id;
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -23,15 +22,15 @@ public class AgreementElement {
 
     @Override
     public String toString() {
-        return getId();
+        return this.getId();
     }
-    
+
     @Override
-   	public boolean equals(Object obj) {
-   		if (obj instanceof AgreementElement) {
-   			AgreementElement elem = (AgreementElement) obj;
-   			return this.id.equals(elem.id);
-   		}
-   		return false;
-   	}
+    public boolean equals(Object obj) {
+        if (obj instanceof AgreementElement) {
+            AgreementElement elem = (AgreementElement) obj;
+            return id.equals(elem.id);
+        }
+        return false;
+    }
 }

@@ -11,12 +11,11 @@ public class SLO {
     private Expression expression;
 
     public SLO(Expression expression) {
-        super();
         this.expression = expression;
     }
 
     public Expression getExpression() {
-        return expression;
+        return this.expression;
     }
 
     public void setExpression(Expression expression) {

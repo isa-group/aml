@@ -7,10 +7,10 @@ import isa.us.es.aml.model.Service;
  *
  */
 public class IAgreeService extends Service {
-	
+
     @Override
     public String toString() {
-        return "Service " + getServiceName() + " availableAt. " + "\"" + getServiceReference() + "\"";
+        return "Service " + this.getServiceName() + " availableAt. " + "\"" + this.getServiceReference() + "\"";
     }
 
 }

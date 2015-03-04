@@ -21,7 +21,7 @@ public abstract class CoreOperation implements Operation {
     protected AgreementModel model;
 
     public Reasoner getReasoner() {
-        return reasoner;
+        return this.reasoner;
     }
 
     public void setReasoner(Reasoner reasoner) {
@@ -29,7 +29,7 @@ public abstract class CoreOperation implements Operation {
     }
 
     public CoreOperationType getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(CoreOperationType type) {
@@ -37,7 +37,7 @@ public abstract class CoreOperation implements Operation {
     }
 
     public AgreementModel getModel() {
-        return model;
+        return this.model;
     }
 
     public void setModel(AgreementModel model) {

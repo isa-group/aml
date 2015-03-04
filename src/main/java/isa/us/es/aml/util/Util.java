@@ -1,33 +1,17 @@
 package isa.us.es.aml.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
+import org.w3c.dom.Document;
+
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
-import org.w3c.dom.Document;
-
 public class Util {
-
-    public Util() {
-    }
 
     private static final Logger LOG = Logger.getLogger(Util.class.getName());
 
@@ -111,10 +95,10 @@ public class Util {
             res = sb.toString();
             is.close();
         } catch (FileNotFoundException e) {
-            LOG.log(Level.WARNING, "loadFile error", e);
+            Util.LOG.log(Level.WARNING, "loadFile error", e);
 
         } catch (IOException e) {
-            LOG.log(Level.WARNING, "loadFile error", e);
+            Util.LOG.log(Level.WARNING, "loadFile error", e);
         }
         return res;
     }
@@ -137,9 +121,9 @@ public class Util {
 
             xmlString = result.getWriter().toString();
         } catch (TransformerConfigurationException e) {
-            LOG.log(Level.WARNING, "DOM2String error", e);
+            Util.LOG.log(Level.WARNING, "DOM2String error", e);
         } catch (IllegalArgumentException | TransformerFactoryConfigurationError | TransformerException e) {
-            LOG.log(Level.WARNING, "DOM2String error", e);
+            Util.LOG.log(Level.WARNING, "DOM2String error", e);
         }
 
         return xmlString;
@@ -174,18 +158,21 @@ public class Util {
             }
 
         } catch (IOException e) {
-            LOG.log(Level.WARNING, "getStringFromInputStream error", e);
+            Util.LOG.log(Level.WARNING, "getStringFromInputStream error", e);
         } finally {
             if (br != null) {
                 try {
                     br.close();
                 } catch (IOException e) {
-                    LOG.log(Level.WARNING, "getStringFromInputStream error", e);
+                    Util.LOG.log(Level.WARNING, "getStringFromInputStream error", e);
                 }
             }
         }
 
         return sb.toString();
 
+    }
+
+    private Util() {
     }
 }

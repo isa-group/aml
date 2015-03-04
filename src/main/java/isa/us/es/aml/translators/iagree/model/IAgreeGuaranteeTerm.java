@@ -9,15 +9,14 @@ import isa.us.es.aml.model.SLO;
  *
  */
 public class IAgreeGuaranteeTerm extends GuaranteeTerm {
-	
-	
-	public IAgreeGuaranteeTerm(String id, Actor actor, SLO slo) {
-		super(id, actor, slo);
-	}
 
-	@Override
+    public IAgreeGuaranteeTerm(String id, Actor actor, SLO slo) {
+        super(id, actor, slo);
+    }
+
+    @Override
     public String toString() {
-        return getId() + ": " + getActor() + " guarantees " + getSlo().toString() + ";";
+        return this.getId() + ": " + this.getActor() + " guarantees " + this.getSlo() + ";";
     }
 
 }

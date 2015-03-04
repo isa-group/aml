@@ -15,9 +15,6 @@ import isa.us.es.aml.operations.reasoners.Reasoner;
  */
 public class DefaultReasonerProxy {
 
-    public DefaultReasonerProxy() {
-    }
-
     public static Reasoner createReasoner(ReasonerType type) {
         switch (type) {
             case CHOCO:
@@ -25,7 +22,7 @@ public class DefaultReasonerProxy {
             case CPLEX:
                 return new CplexReasoner();
             default:
-                throw new IllegalArgumentException("there is no reasoner for this type" + type.toString());
+                throw new IllegalArgumentException("there is no reasoner for this type" + type);
         }
     }
 
@@ -35,10 +32,13 @@ public class DefaultReasonerProxy {
                 //return new ChocoReasoner();
                 return new CplexReasoner();
             case DL:
-                throw new UnsupportedOperationException("there is no reasoner yet for this entgine type" + type.toString());
+                throw new UnsupportedOperationException("there is no reasoner yet for this entgine type" + type);
             default:
-                throw new IllegalArgumentException("there is no reasoner for this entgine type" + type.toString());
+                throw new IllegalArgumentException("there is no reasoner for this entgine type" + type);
         }
+    }
+
+    private DefaultReasonerProxy() {
     }
 
 }

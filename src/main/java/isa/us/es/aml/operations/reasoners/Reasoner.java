@@ -7,7 +7,6 @@ package isa.us.es.aml.operations.reasoners;
 
 import isa.us.es.aml.model.AgreementModel;
 import isa.us.es.aml.operations.core.CoreOperation;
-import isa.us.es.aml.translators.IBuilder;
 import isa.us.es.aml.translators.Translator;
 import isa.us.es.aml.util.CoreOperationProxy;
 import isa.us.es.aml.util.ReasonerType;
@@ -22,7 +21,7 @@ public abstract class Reasoner {
     protected ReasonerType type;
 
     public Object execute(CoreOperation coreOperation, AgreementModel agreementModel) {
-        CoreOperation op = CoreOperationProxy.createOperation(coreOperation.getType(), getType());
+        CoreOperation op = CoreOperationProxy.createOperation(coreOperation.getType(), this.getType());
         op.setModel(agreementModel);
         op.setReasoner(coreOperation.getReasoner());
         op.analyze();
@@ -30,11 +29,11 @@ public abstract class Reasoner {
     }
 
     public ReasonerType getType() {
-        return type;
+        return this.type;
     }
 
     public Translator getTranslator() {
-        return translator;
+        return this.translator;
     }
 
     public abstract void addProblem(AgreementModel model);

@@ -8,8 +8,8 @@ public class ArithmeticExpression extends CompoundExpression {
 
     public ArithmeticExpression(Expression e1, Expression e2,
             ArithmeticOperator operator) {
-        exp1 = e1;
-        exp2 = e2;
+        this.exp1 = e1;
+        this.exp2 = e2;
         this.operator = operator;
     }
 
@@ -18,25 +18,25 @@ public class ArithmeticExpression extends CompoundExpression {
         Number res = 0;
 
         try {
-            switch ((ArithmeticOperator) operator) {
+            switch ((ArithmeticOperator) this.operator) {
                 case add:
-                    res = Double.valueOf(exp1.calculate().toString())
-                            + Double.valueOf(exp2.calculate().toString());
+                    res = Double.valueOf(this.exp1.calculate().toString())
+                            + Double.valueOf(this.exp2.calculate().toString());
 
                     break;
                 case subtract:
-                    res = Double.valueOf(exp1.calculate().toString())
-                            - Double.valueOf(exp2.calculate().toString());
+                    res = Double.valueOf(this.exp1.calculate().toString())
+                            - Double.valueOf(this.exp2.calculate().toString());
 
                     break;
                 case multiply:
-                    res = Double.valueOf(exp1.calculate().toString())
-                            * Double.valueOf(exp2.calculate().toString());
+                    res = Double.valueOf(this.exp1.calculate().toString())
+                            * Double.valueOf(this.exp2.calculate().toString());
 
                     break;
                 case divide:
-                    res = Double.valueOf(exp1.calculate().toString())
-                            / Double.valueOf(exp2.calculate().toString());
+                    res = Double.valueOf(this.exp1.calculate().toString())
+                            / Double.valueOf(this.exp2.calculate().toString());
                     break;
             }
         } catch (NumberFormatException e) {
@@ -49,7 +49,7 @@ public class ArithmeticExpression extends CompoundExpression {
     @Override
     public String toString() {
         String op = "";
-        switch ((ArithmeticOperator) operator) {
+        switch ((ArithmeticOperator) this.operator) {
             case add:
                 op = "+";
                 break;
@@ -63,8 +63,8 @@ public class ArithmeticExpression extends CompoundExpression {
                 op = "/";
                 break;
         }
-        
-        return exp1.toString() + " " + op + " " + exp2.toString();
+
+        return this.exp1 + " " + op + " " + this.exp2;
     }
 
 }

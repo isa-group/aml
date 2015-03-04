@@ -16,7 +16,7 @@ public class GuaranteeTerm extends AgreementElement implements Comparable<Guaran
     }
 
     public Actor getActor() {
-        return actor;
+        return this.actor;
     }
 
     public void setActor(Actor actor) {
@@ -24,7 +24,7 @@ public class GuaranteeTerm extends AgreementElement implements Comparable<Guaran
     }
 
     public SLO getSlo() {
-        return slo;
+        return this.slo;
     }
 
     public void setSlo(SLO slo) {
@@ -33,7 +33,7 @@ public class GuaranteeTerm extends AgreementElement implements Comparable<Guaran
 
     @Override
     public int compareTo(GuaranteeTerm o) {
-        return this.getId().compareTo(o.getId());
+        return getId().compareTo(o.getId());
     }
 
 }

@@ -36,13 +36,13 @@ public class IAgreeMonitorableProperty extends MonitorableProperty {
             Scope scope) {
         super(id, metric, expr, scope);
     }
-    
+
     @Override
     public String toString() {
-        if (getExpression() != null) {
-            return getId() + ": " + getMetric().getId() + " = " + getExpression() + ";";
+        if (this.getExpression() != null) {
+            return this.getId() + ": " + this.getMetric().getId() + " = " + this.getExpression() + ";";
         } else {
-            return getId() + ": " + getMetric().getId();
+            return this.getId() + ": " + this.getMetric().getId();
         }
     }
 }

@@ -18,7 +18,7 @@ public class Property extends AgreementElement {
     public Property(String id, Metric metric) {
         super(id);
         this.metric = metric;
-        this.scope = Scope.Global;
+        scope = Scope.Global;
     }
 
     public Property(String id, Metric metric, Scope scope) {
@@ -31,7 +31,7 @@ public class Property extends AgreementElement {
         super(id);
         this.metric = metric;
         this.expr = expr;
-        this.scope = Scope.Global;
+        scope = Scope.Global;
     }
 
     public Property(String id, Metric metric, Expression expr, Scope scope) {
@@ -42,7 +42,7 @@ public class Property extends AgreementElement {
     }
 
     public Metric getMetric() {
-        return metric;
+        return this.metric;
     }
 
     public void setMetric(Metric metric) {
@@ -50,7 +50,7 @@ public class Property extends AgreementElement {
     }
 
     public Expression getExpression() {
-        return expr;
+        return this.expr;
     }
 
     public void setExpression(Expression expr) {
@@ -58,7 +58,7 @@ public class Property extends AgreementElement {
     }
 
     public Scope getScope() {
-        return scope;
+        return this.scope;
     }
 
     public void setScope(Scope scope) {

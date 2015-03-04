@@ -15,14 +15,14 @@ public class AgreementTerms {
     private List<GuaranteeTerm> gts;
 
     public AgreementTerms() {
-        service = new Service();
-        cps = new ArrayList<ConfigurationProperty>();
-        mps = new ArrayList<MonitorableProperty>();
-        gts = new ArrayList<GuaranteeTerm>();
+        this.service = new Service();
+        this.cps = new ArrayList<>();
+        this.mps = new ArrayList<>();
+        this.gts = new ArrayList<>();
     }
 
     public Service getService() {
-        return service;
+        return this.service;
     }
 
     public void setService(Service service) {
@@ -30,7 +30,7 @@ public class AgreementTerms {
     }
 
     public List<ConfigurationProperty> getConfigurationProperties() {
-        return cps;
+        return this.cps;
     }
 
     public void setConfigurationProperties(List<ConfigurationProperty> cps) {
@@ -38,7 +38,7 @@ public class AgreementTerms {
     }
 
     public List<MonitorableProperty> getMonitorableProperties() {
-        return mps;
+        return this.mps;
     }
 
     public void setMonitorableProperties(List<MonitorableProperty> mps) {
@@ -46,7 +46,7 @@ public class AgreementTerms {
     }
 
     public List<GuaranteeTerm> getGuaranteeTerms() {
-        return gts;
+        return this.gts;
     }
 
     public void setGuaranteeTerms(List<GuaranteeTerm> gts) {

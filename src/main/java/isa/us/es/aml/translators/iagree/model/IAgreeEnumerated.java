@@ -13,7 +13,7 @@ public class IAgreeEnumerated extends Enumerated {
 
     @Override
     public String toString() {
-        return getValues().toString().replace("[", "{").replace("]", "}");
+        return this.getValues().toString().replace("[", "{").replace("]", "}");
     }
 
 }

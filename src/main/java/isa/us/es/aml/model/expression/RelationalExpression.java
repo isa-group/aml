@@ -7,34 +7,34 @@ package isa.us.es.aml.model.expression;
 public class RelationalExpression extends CompoundExpression {
 
     public RelationalExpression(Expression e1, Expression e2, RelationalOperator operator) {
-        exp1 = e1;
-        exp2 = e2;
+        this.exp1 = e1;
+        this.exp2 = e2;
         this.operator = operator;
     }
 
     @Override
     public Boolean calculate() {
         Boolean res = null;
-        switch ((RelationalOperator) operator) {
+        switch ((RelationalOperator) this.operator) {
             case gt:
-                res = Double.valueOf(exp1.calculate().toString()) > Double
-                        .valueOf(exp2.calculate().toString());
+                res = Double.valueOf(this.exp1.calculate().toString()) > Double
+                        .valueOf(this.exp2.calculate().toString());
                 break;
             case lt:
-                res = Double.valueOf(exp1.calculate().toString()) < Double
-                        .valueOf(exp2.calculate().toString());
+                res = Double.valueOf(this.exp1.calculate().toString()) < Double
+                        .valueOf(this.exp2.calculate().toString());
                 break;
             case gte:
-                res = Double.valueOf(exp1.calculate().toString()) >= Double
-                        .valueOf(exp2.calculate().toString());
+                res = Double.valueOf(this.exp1.calculate().toString()) >= Double
+                        .valueOf(this.exp2.calculate().toString());
                 break;
             case lte:
-                res = Double.valueOf(exp1.calculate().toString()) <= Double
-                        .valueOf(exp2.calculate().toString());
+                res = Double.valueOf(this.exp1.calculate().toString()) <= Double
+                        .valueOf(this.exp2.calculate().toString());
                 break;
             case eq:
-                res = Double.valueOf(exp1.calculate().toString()).equals(
-                        Double.valueOf(exp2.calculate().toString()));
+                res = Double.valueOf(this.exp1.calculate().toString()).equals(
+                        Double.valueOf(this.exp2.calculate().toString()));
                 break;
         }
 
@@ -44,7 +44,7 @@ public class RelationalExpression extends CompoundExpression {
     @Override
     public String toString() {
         String op = "";
-        switch ((RelationalOperator) operator) {
+        switch ((RelationalOperator) this.operator) {
             case eq:
                 op = "==";
                 break;
@@ -61,7 +61,7 @@ public class RelationalExpression extends CompoundExpression {
                 op = "<=";
                 break;
         }
-        
-        return exp1.toString() + " " + op + " " + exp2.toString();
+
+        return this.exp1 + " " + op + " " + this.exp2;
     }
 }

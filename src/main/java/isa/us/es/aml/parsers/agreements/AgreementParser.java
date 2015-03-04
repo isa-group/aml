@@ -15,7 +15,7 @@ import isa.us.es.aml.util.AgreementLanguage;
  */
 public interface AgreementParser {
 
-    public AgreementModel doParse(AgreementFile file);
+    AgreementModel doParse(AgreementFile file);
 
-    public AgreementLanguage getSupportedLang();
+    AgreementLanguage getSupportedLang();
 }
