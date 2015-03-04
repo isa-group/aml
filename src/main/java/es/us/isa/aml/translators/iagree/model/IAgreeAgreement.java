@@ -26,7 +26,7 @@ public class IAgreeAgreement extends Agreement {
             sb.append("\t\t").append(metric).append("\n");
         }
 
-        sb.append(this.getAgreementTerms());
+        sb.append(getAgreementTerms());
 
         sb.append("\n" + "EndAgreement");
 

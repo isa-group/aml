@@ -1,6 +1,4 @@
-package isa.us.es.aml.parsers.agreements.iagree;
-
-import isa.us.es.aml.parsers.Error.ERROR_SEVERITY;
+package es.us.isa.aml.parsers.agreements.iagree;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -9,6 +7,8 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.Token;
+
+import es.us.isa.aml.parsers.Error.ERROR_SEVERITY;
 
 public class IAgreeErrorListener extends BaseErrorListener {
 

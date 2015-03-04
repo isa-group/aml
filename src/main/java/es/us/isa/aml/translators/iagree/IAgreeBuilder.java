@@ -3,12 +3,25 @@
  */
 package es.us.isa.aml.translators.iagree;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.RuleNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
 import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.Domain;
 import es.us.isa.aml.model.Enumerated;
 import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.Property;
+import es.us.isa.aml.model.QualifyingCondition;
 import es.us.isa.aml.model.Scope;
 import es.us.isa.aml.model.Template;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
@@ -22,6 +35,7 @@ import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.QualifyingConditionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeVisitor;
 import es.us.isa.aml.translators.iagree.model.IAgreeAgreementOffer;
 import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTerms;
@@ -35,16 +49,6 @@ import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
 import es.us.isa.aml.translators.iagree.model.IAgreeTemplate;
 import es.us.isa.aml.util.Util;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
  * @author jdelafuente
@@ -394,7 +398,11 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
             IAgreeSLO slo = new IAgreeSLO(exp);
             Actor actor = Actor.valueOf(ctx.ob.getText());
 
-            gt = new IAgreeGuaranteeTerm("", actor, slo);
+            if(ctx.qualifyingCondition() != null){
+            	QualifyingCondition qc = visitQualifyingCondition(ctx.qualifyingCondition());
+            	gt = new IAgreeGuaranteeTerm("", actor, slo, qc);
+            } else
+            	gt = new IAgreeGuaranteeTerm("", actor, slo);
 
         } catch (Exception e) {
             System.out
@@ -416,6 +424,13 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
         }
 
         return exp;
+    }
+    
+    @Override
+    public QualifyingCondition visitQualifyingCondition(QualifyingConditionContext ctx) {
+    	Expression exp_qc = visitExpression(ctx.expression());
+    	QualifyingCondition qc = new QualifyingCondition(exp_qc);
+    	return qc;
     }
 
     @Override
@@ -720,30 +735,6 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
     }
 
     @Override
-    public Object visit(ParseTree tree) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Object visitChildren(RuleNode node) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Object visitTerminal(TerminalNode node) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Object visitErrorNode(ErrorNode node) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public Object visitServiceProvider_prop(iAgreeParser.ServiceProvider_propContext ctx) {
         // TODO Auto-generated method stub
         return null;
@@ -853,12 +844,6 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
     }
 
     @Override
-    public Object visitQualifyingCondition(iAgreeParser.QualifyingConditionContext ctx) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public Object visitGlobalPeriod_prop(iAgreeParser.GlobalPeriod_propContext ctx) {
         // TODO Auto-generated method stub
         return null;
@@ -902,6 +887,30 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
     @Override
     public Object visitCompensations(iAgreeParser.CompensationsContext ctx) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public Object visit(ParseTree tree) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object visitChildren(RuleNode node) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object visitTerminal(TerminalNode node) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Object visitErrorNode(ErrorNode node) {
         // TODO Auto-generated method stub
         return null;
     }

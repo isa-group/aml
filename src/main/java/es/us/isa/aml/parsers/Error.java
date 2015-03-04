@@ -1,4 +1,4 @@
-package isa.us.es.aml.parsers;
+package es.us.isa.aml.parsers;
 
 public class Error {
     public enum ERROR_SEVERITY {

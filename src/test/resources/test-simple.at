@@ -17,6 +17,8 @@ AgreementTerms
 				
 	GuaranteeTerms
 		G1: Provider guarantees ResponseTime <= 100;
+		onlyIf(MUP > 99.95);
+		
 		G2: Consumer guarantees MUP < 99.95;
 
 CreationConstraints
