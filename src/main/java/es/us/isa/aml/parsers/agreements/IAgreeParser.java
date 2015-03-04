@@ -3,30 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-<<<<<<< HEAD:src/main/java/es/us/isa/aml/parsers/agreements/IAgreeParser.java
 package es.us.isa.aml.parsers.agreements;
+
+import isa.us.es.aml.parsers.agreements.iagree.IAgreeErrorListener;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeLexer;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
 import es.us.isa.aml.translators.iagree.IAgreeBuilder;
 import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
-=======
-package isa.us.es.aml.parsers.agreements;
-
-import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.parsers.agreements.iagree.IAgreeErrorListener;
-import isa.us.es.aml.parsers.agreements.iagree.iAgreeLexer;
-import isa.us.es.aml.parsers.agreements.iagree.iAgreeParser;
-import isa.us.es.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
-import isa.us.es.aml.translators.iagree.IAgreeBuilder;
-import isa.us.es.aml.util.AgreementFile;
-import isa.us.es.aml.util.AgreementLanguage;
-
->>>>>>> 56ce2d3e8953ccb3c64f8b2cd58faa66438081fd:src/main/java/isa/us/es/aml/parsers/agreements/IAgreeParser.java
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  *

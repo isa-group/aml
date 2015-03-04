@@ -3,12 +3,19 @@
  */
 package test;
 
-<<<<<<< HEAD
+import static org.junit.Assert.assertEquals;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.junit.Test;
+
 import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.Range;
 import es.us.isa.aml.model.Scope;
-import es.us.isa.aml.model.Template;
 import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.RelationalExpression;
@@ -23,45 +30,9 @@ import es.us.isa.aml.translators.iagree.model.IAgreeMetric;
 import es.us.isa.aml.translators.iagree.model.IAgreeMonitorableProperty;
 import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
+import es.us.isa.aml.translators.iagree.model.IAgreeTemplate;
 import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
-=======
-import static org.junit.Assert.assertEquals;
-import isa.us.es.aml.model.Actor;
-import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.model.Range;
-import isa.us.es.aml.model.Scope;
-import isa.us.es.aml.model.expression.Atomic;
-import isa.us.es.aml.model.expression.Expression;
-import isa.us.es.aml.model.expression.RelationalExpression;
-import isa.us.es.aml.model.expression.RelationalOperator;
-import isa.us.es.aml.model.expression.Var;
-import isa.us.es.aml.parsers.agreements.IAgreeParser;
-import isa.us.es.aml.translators.iagree.model.IAgreeAgreementTerms;
-import isa.us.es.aml.translators.iagree.model.IAgreeConfigurationProperty;
-import isa.us.es.aml.translators.iagree.model.IAgreeCreationConstraint;
-import isa.us.es.aml.translators.iagree.model.IAgreeGuaranteeTerm;
-import isa.us.es.aml.translators.iagree.model.IAgreeMetric;
-import isa.us.es.aml.translators.iagree.model.IAgreeMonitorableProperty;
-import isa.us.es.aml.translators.iagree.model.IAgreeSLO;
-import isa.us.es.aml.translators.iagree.model.IAgreeService;
-import isa.us.es.aml.translators.iagree.model.IAgreeTemplate;
-import isa.us.es.aml.util.AgreementFile;
-import isa.us.es.aml.util.AgreementLanguage;
-
->>>>>>> 56ce2d3e8953ccb3c64f8b2cd58faa66438081fd
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-<<<<<<< HEAD
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import static org.junit.Assert.assertEquals;
-=======
-
->>>>>>> 56ce2d3e8953ccb3c64f8b2cd58faa66438081fd
-import org.junit.Test;
 
 /**
  * @author jdelafuente

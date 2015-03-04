@@ -1,6 +1,9 @@
-<<<<<<< HEAD:src/main/java/es/us/isa/aml/translators/Translator.java
 package es.us.isa.aml.translators;
 
+
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AgreementElement;
 import es.us.isa.aml.model.AgreementModel;
@@ -13,25 +16,6 @@ import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.Service;
 import es.us.isa.aml.model.Template;
-=======
-package isa.us.es.aml.translators;
-
-import isa.us.es.aml.model.AgreementElement;
-import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.model.AgreementTerms;
-import isa.us.es.aml.model.ConfigurationProperty;
-import isa.us.es.aml.model.CreationConstraint;
-import isa.us.es.aml.model.GuaranteeTerm;
-import isa.us.es.aml.model.Metric;
-import isa.us.es.aml.model.MonitorableProperty;
-import isa.us.es.aml.model.Property;
-import isa.us.es.aml.model.Service;
-import isa.us.es.aml.model.Template;
-
->>>>>>> 56ce2d3e8953ccb3c64f8b2cd58faa66438081fd:src/main/java/isa/us/es/aml/translators/Translator.java
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author jdelafuente
