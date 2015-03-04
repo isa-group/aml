@@ -1,12 +1,6 @@
 package isa.us.es.aml.translators;
 
-import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.model.AgreementTerms;
-import isa.us.es.aml.model.CreationConstraint;
-import isa.us.es.aml.model.GuaranteeTerm;
-import isa.us.es.aml.model.Metric;
-import isa.us.es.aml.model.Property;
-import isa.us.es.aml.model.Service;
+import isa.us.es.aml.model.*;
 
 /**
  * @author jdelafuente
@@ -14,26 +8,26 @@ import isa.us.es.aml.model.Service;
  */
 public interface IBuilder {
 
-    public String addId(String id);
+    String addId(String id);
 
-    public Float addVersion(Float version);
+    Float addVersion(Float version);
 
-    public Object addResponder(Object responder);
+    Object addResponder(Object responder);
 
-    public String addMetric(Metric metric);
+    String addMetric(Metric metric);
 
-    public String addAgreementTerms(AgreementTerms at);
+    String addAgreementTerms(AgreementTerms at);
 
-    public String addService(Service service);
+    String addService(Service service);
 
-    public String addConfigurationProperty(Property cp);
+    String addConfigurationProperty(Property cp);
 
-    public String addMonitorableProperty(Property mp);
+    String addMonitorableProperty(Property mp);
 
-    public String addGuaranteeTerm(GuaranteeTerm gt);
+    String addGuaranteeTerm(GuaranteeTerm gt);
 
-    public String addCreationConstraint(CreationConstraint cc);
+    String addCreationConstraint(CreationConstraint cc);
 
-    public String generate();
+    String generate();
 
 }

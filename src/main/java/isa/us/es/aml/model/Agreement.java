@@ -1,6 +1,5 @@
 package isa.us.es.aml.model;
 
-
 /**
  * @author jdelafuente
  *
@@ -8,6 +7,5 @@ package isa.us.es.aml.model;
 public class Agreement extends AgreementModel {
 
     public Agreement() {
-        super();
     }
 }

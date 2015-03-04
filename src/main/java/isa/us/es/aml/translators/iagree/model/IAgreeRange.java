@@ -9,15 +9,16 @@ import isa.us.es.aml.model.Range;
 public class IAgreeRange extends Range {
 
     /**
-	 * @param valueOf
-	 * @param valueOf2
-	 */
-	public IAgreeRange(Integer min, Integer max) {
-		super(min, max);
-	}
+     * @param valueOf
+     * @param valueOf2
+     */
+    public IAgreeRange(Integer min, Integer max) {
+        super(min, max);
+    }
 
-	public String toString() {
-        String res = "[" + min + ".." + max + "]";
+    @Override
+    public String toString() {
+        String res = "[" + this.min + ".." + this.max + "]";
         return res;
     }
 }

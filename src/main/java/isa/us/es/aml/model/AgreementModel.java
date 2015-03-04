@@ -18,15 +18,15 @@ public abstract class AgreementModel {
     AgreementTerms agreementTerms;
 
     public AgreementModel() {
-        id = "";
-        version = 0.0f;
-        responder = Actor.Provider;
-        metrics = new ArrayList<>();
-        agreementTerms = new AgreementTerms();
+        this.id = "";
+        this.version = 0.0f;
+        this.responder = Actor.Provider;
+        this.metrics = new ArrayList<>();
+        this.agreementTerms = new AgreementTerms();
     }
 
     public String getID() {
-        return id;
+        return this.id;
     }
 
     public void setID(String id) {
@@ -34,7 +34,7 @@ public abstract class AgreementModel {
     }
 
     public Float getVersion() {
-        return version;
+        return this.version;
     }
 
     public void setVersion(Float version) {
@@ -42,7 +42,7 @@ public abstract class AgreementModel {
     }
 
     public String getInitiator() {
-        return initiator;
+        return this.initiator;
     }
 
     public void setInitiator(String initiator) {
@@ -50,7 +50,7 @@ public abstract class AgreementModel {
     }
 
     public Object getResponder() {
-        return responder;
+        return this.responder;
     }
 
     public void setResponder(Object responder) {
@@ -58,7 +58,7 @@ public abstract class AgreementModel {
     }
 
     public Object getServiceProvider() {
-        return serviceProvider;
+        return this.serviceProvider;
     }
 
     public void setServiceProvider(Object serviceProvider) {
@@ -66,7 +66,7 @@ public abstract class AgreementModel {
     }
 
     public List<Metric> getMetrics() {
-        return metrics;
+        return this.metrics;
     }
 
     public void setMetrics(List<Metric> metrics) {
@@ -74,7 +74,7 @@ public abstract class AgreementModel {
     }
 
     public AgreementTerms getAgreementTerms() {
-        return agreementTerms;
+        return this.agreementTerms;
     }
 
     public void setAgreementTerms(AgreementTerms agreementTerms) {

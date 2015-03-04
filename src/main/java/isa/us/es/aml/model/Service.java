@@ -13,13 +13,12 @@ public class Service {
     }
 
     public Service(String serviceName, String serviceReference) {
-        super();
         this.serviceName = serviceName;
         this.serviceReference = serviceReference;
     }
 
     public String getServiceName() {
-        return serviceName;
+        return this.serviceName;
     }
 
     public void setServiceName(String serviceName) {
@@ -27,7 +26,7 @@ public class Service {
     }
 
     public String getServiceReference() {
-        return serviceReference;
+        return this.serviceReference;
     }
 
     public void setServiceReference(String serviceReference) {

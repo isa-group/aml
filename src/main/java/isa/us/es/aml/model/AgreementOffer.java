@@ -10,11 +10,9 @@ public class AgreementOffer extends AgreementModel {
     private Float templateVersion;
 
     public AgreementOffer() {
-        super();
     }
 
     public AgreementOffer(String templateId, Float templateVersion) {
-        super();
         this.templateId = templateId;
         this.templateVersion = templateVersion;
     }
@@ -23,7 +21,7 @@ public class AgreementOffer extends AgreementModel {
      * @return the templateId
      */
     public String getTemplateId() {
-        return templateId;
+        return this.templateId;
     }
 
     /**
@@ -37,7 +35,7 @@ public class AgreementOffer extends AgreementModel {
      * @return the templateVersion
      */
     public Float getTemplateVersion() {
-        return templateVersion;
+        return this.templateVersion;
     }
 
     /**

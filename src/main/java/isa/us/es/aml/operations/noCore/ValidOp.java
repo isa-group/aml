@@ -18,13 +18,13 @@ public class ValidOp extends NoCoreOperation {
     private ExistsInconsistenciesCOp existsInconsistenciesCOp;
 
     public ValidOp() {
-        existsInconsistenciesCOp = new ExistsInconsistenciesCOp();
-        getCoreOperations().add(existsInconsistenciesCOp);
-        this.setDefaultConfig(ReasonerEngineType.CSP);
+        this.existsInconsistenciesCOp = new ExistsInconsistenciesCOp();
+        this.getCoreOperations().add(this.existsInconsistenciesCOp);
+        setDefaultConfig(ReasonerEngineType.CSP);
     }
 
     public CoreOperation getExistsInconsistenciesCOp() {
-        return existsInconsistenciesCOp;
+        return this.existsInconsistenciesCOp;
     }
 
     public void setExistsInconsistenciesCOp(ExistsInconsistenciesCOp existsInconsistenciesCOp) {
@@ -33,15 +33,15 @@ public class ValidOp extends NoCoreOperation {
 
     @Override
     public void analyze() {
-        checkReasonerExistence(); // throws AssertionError if no reasoners have been provided
-        existsInconsistenciesCOp.setModel(model);
-        existsInconsistenciesCOp.analyze();
-        result = existsInconsistenciesCOp.getResult();
+        this.checkReasonerExistence(); // throws AssertionError if no reasoners have been provided
+        this.existsInconsistenciesCOp.setModel(this.model);
+        this.existsInconsistenciesCOp.analyze();
+        this.result = this.existsInconsistenciesCOp.getResult();
     }
 
     @Override
     public Boolean getResult() {
-        return (Boolean) result;
+        return (Boolean) this.result;
     }
 
 }

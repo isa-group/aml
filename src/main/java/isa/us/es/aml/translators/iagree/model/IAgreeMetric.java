@@ -9,18 +9,17 @@ import isa.us.es.aml.model.Metric;
  */
 public class IAgreeMetric extends Metric {
 
-    
-	public IAgreeMetric(String id) {
-		super(id);
-	}
-	
-	public IAgreeMetric(String id, String type, Domain domain) {
-		super(id, type, domain);
-	}
+    public IAgreeMetric(String id) {
+        super(id);
+    }
 
-	@Override
+    public IAgreeMetric(String id, String type, Domain domain) {
+        super(id, type, domain);
+    }
+
+    @Override
     public String toString() {
-        return getId() + ": " + getType() + getDomain();
+        return this.getId() + ": " + this.getType() + this.getDomain();
     }
 
 }

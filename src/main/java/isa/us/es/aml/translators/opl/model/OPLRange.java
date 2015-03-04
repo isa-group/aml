@@ -10,18 +10,18 @@ import java.util.List;
  * @author jdelafuente
  *
  */
-public class OPLRange {
+public final class OPLRange {
 
     private String id;
     private String domain;
 
     public OPLRange(String id, Domain domain) {
-        this.id = id;        
-        setDomain(domain);
+        this.id = id;
+        this.setDomain(domain);
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -29,40 +29,40 @@ public class OPLRange {
     }
 
     public String getDomain() {
-        return domain;
+        return this.domain;
     }
 
     public void setDomain(Domain domain) {
-    	Range range = null;
-    	
-    	if (domain instanceof Enumerated) {
+        Range range = null;
+
+        if (domain instanceof Enumerated) {
             // TODO mapear enumerado
             List<Object> values = ((Enumerated) domain).getValues();
             range = new Range(0, values.size() - 1);
         } else if (domain instanceof Range) {
-        	range = (Range) domain;
+            range = (Range) domain;
         }
-    	
+
         this.domain = range.getMin() + ".." + range.getMax();
     }
 
     @Override
     public String toString() {
-        return "range " + getId() + " = " + getDomain() + ";";
+        return "range " + this.getId() + " = " + this.getDomain() + ";";
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof OPLRange) {
             OPLRange elem = (OPLRange) obj;
-            return this.id.equals(elem.id);
+            return id.equals(elem.id);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return this.id.hashCode();
     }
 
 }

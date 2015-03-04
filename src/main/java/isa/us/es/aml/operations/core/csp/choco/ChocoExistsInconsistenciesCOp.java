@@ -17,23 +17,23 @@ public class ChocoExistsInconsistenciesCOp extends CoreOperation {
     private Boolean existsInconsistencies;
 
     public ChocoExistsInconsistenciesCOp() {
-        setType(CoreOperationType.ExistInconsistencies);
+        this.setType(CoreOperationType.ExistInconsistencies);
     }
 
     @Override
     public void analyze() {
         // business logic with reasoner
         // init reasoner
-        getReasoner().addProblem(model);
+        this.getReasoner().addProblem(this.model);
         // using reasoner
-        existsInconsistencies = (Boolean) getReasoner().solve();
+        this.existsInconsistencies = (Boolean) this.getReasoner().solve();
         // processing answer
-        existsInconsistencies = !existsInconsistencies;
+        this.existsInconsistencies = !this.existsInconsistencies;
     }
 
     @Override
     public Boolean getResult() {
-        return existsInconsistencies;
+        return this.existsInconsistencies;
     }
 
 }

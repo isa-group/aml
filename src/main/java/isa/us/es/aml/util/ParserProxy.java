@@ -15,9 +15,6 @@ import isa.us.es.aml.parsers.agreements.WsagParser;
  */
 public class ParserProxy {
 
-    public ParserProxy() {
-    }
-
     public static AgreementParser createParser(AgreementLanguage lang) {
         switch (lang) {
             case IAGREE:
@@ -25,8 +22,11 @@ public class ParserProxy {
             case WSAG:
                 return new WsagParser();
             default:
-                throw new IllegalArgumentException("there is no parser for this language: " + lang.toString());
+                throw new IllegalArgumentException("there is no parser for this language: " + lang);
         }
+    }
+
+    private ParserProxy() {
     }
 
 }

@@ -17,21 +17,21 @@ public class CplexExistsInconsistenciesCOp extends CoreOperation {
     private Boolean existsInconsistencies;
 
     public CplexExistsInconsistenciesCOp() {
-        setType(CoreOperationType.ExistInconsistencies);
+        this.setType(CoreOperationType.ExistInconsistencies);
     }
 
     @Override
     public void analyze() {
         // business logic with reasoner
         // init reasoner
-        getReasoner().addProblem(model);
+        this.getReasoner().addProblem(this.model);
         // using reasoner
-        existsInconsistencies = (Boolean) getReasoner().solve();
+        this.existsInconsistencies = (Boolean) this.getReasoner().solve();
     }
 
     @Override
     public Boolean getResult() {
-        return existsInconsistencies;
+        return this.existsInconsistencies;
     }
 
 }

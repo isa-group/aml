@@ -15,20 +15,20 @@ public abstract class CompoundExpression extends Expression {
 
     public List<Expression> getExpressions() {
         List<Expression> res = new ArrayList<>();
-        res.add(exp1);
-        res.add(exp2);
+        res.add(this.exp1);
+        res.add(this.exp2);
         return res;
     }
 
     public Expression getExpresion1() {
-        return exp1;
+        return this.exp1;
     }
 
     public Expression getExpresion2() {
-        return exp2;
+        return this.exp2;
     }
 
     public Object getOperator() {
-        return operator;
+        return this.operator;
     }
 }

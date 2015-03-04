@@ -16,9 +16,6 @@ import isa.us.es.aml.operations.core.csp.cplex.CplexExistsInconsistenciesCOp;
  */
 public class CoreOperationProxy {
 
-    public CoreOperationProxy() {
-    }
-
     public static CoreOperation createOperation(CoreOperationType operationType, ReasonerType reasonerType) {
         switch (reasonerType) {
 
@@ -27,7 +24,7 @@ public class CoreOperationProxy {
                     case ExistInconsistencies:
                         return new ChocoExistsInconsistenciesCOp();
                     default:
-                        throw new IllegalArgumentException("there is no operation for this reasoner" + operationType.toString() + " " + reasonerType.toString());
+                        throw new IllegalArgumentException("there is no operation for this reasoner" + operationType + " " + reasonerType);
                 }
 
             case CPLEX:
@@ -35,12 +32,15 @@ public class CoreOperationProxy {
                     case ExistInconsistencies:
                         return new CplexExistsInconsistenciesCOp();
                     default:
-                        throw new IllegalArgumentException("there is no operation for this reasoner" + operationType.toString() + " " + reasonerType.toString());
+                        throw new IllegalArgumentException("there is no operation for this reasoner" + operationType + " " + reasonerType);
                 }
 
             default:
-                throw new IllegalArgumentException("there is no reasoner for" + reasonerType.toString());
+                throw new IllegalArgumentException("there is no reasoner for" + reasonerType);
         }
+    }
+
+    private CoreOperationProxy() {
     }
 
 }

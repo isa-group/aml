@@ -10,8 +10,8 @@ public class Range extends Domain {
     protected int max;
 
     public Range() {
-        min = 0;
-        max = 100;
+        this.min = 0;
+        this.max = 100;
     }
 
     public Range(int min, int max) {
@@ -20,7 +20,7 @@ public class Range extends Domain {
     }
 
     public int getMin() {
-        return min;
+        return this.min;
     }
 
     public void setMin(int min) {
@@ -28,7 +28,7 @@ public class Range extends Domain {
     }
 
     public int getMax() {
-        return max;
+        return this.max;
     }
 
     public void setMax(int max) {

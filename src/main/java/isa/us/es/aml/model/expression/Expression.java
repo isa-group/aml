@@ -9,39 +9,33 @@ import java.util.Set;
  */
 public abstract class Expression {
 
-    protected Object value;
-
-    public abstract Object calculate();
-
     public static Set<Atomic> getAtomics(Expression exp) {
-        Set<Atomic> lst = new HashSet<Atomic>();
+        Set<Atomic> lst = new HashSet<>();
         if (exp.getClass() != Atomic.class) {
             if (CompoundExpression.class.isAssignableFrom(exp.getClass())) {
                 CompoundExpression ce = (CompoundExpression) exp;
                 for (Expression ex : ce.getExpressions()) {
-                    lst.addAll(getAtomics(ex));
+                    lst.addAll(Expression.getAtomics(ex));
                 }
             }
         } else {
             lst.add((Atomic) exp);
         }
-
         return lst;
     }
 
     public static Set<Var> getVars(Expression exp) {
-        Set<Var> lst = new HashSet<Var>();
+        Set<Var> lst = new HashSet<>();
         if (exp.getClass() != Var.class) {
             if (CompoundExpression.class.isAssignableFrom(exp.getClass())) {
                 CompoundExpression ce = (CompoundExpression) exp;
                 for (Expression ex : ce.getExpressions()) {
-                    lst.addAll(getVars(ex));
+                    lst.addAll(Expression.getVars(ex));
                 }
             }
         } else {
             lst.add((Var) exp);
         }
-
         return lst;
     }
 
@@ -61,7 +55,7 @@ public abstract class Expression {
                     System.out.println(tab + "[=]");
                 }
                 for (Expression ex : ce.getExpressions()) {
-                    printTree(ex, index);
+                    Expression.printTree(ex, index);
                 }
             }
         } else {
@@ -69,11 +63,15 @@ public abstract class Expression {
         }
     }
 
+    protected Object value;
+
+    public abstract Object calculate();
+
     /**
      * @return the value
      */
     public Object getValue() {
-        return value;
+        return this.value;
     }
 
     /**

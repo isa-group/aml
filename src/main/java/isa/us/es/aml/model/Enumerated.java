@@ -15,14 +15,14 @@ public class Enumerated extends Domain {
     private List<Object> values;
 
     public Enumerated() {
-        values = new ArrayList<Object>();
+        this.values = new ArrayList<>();
     }
 
     /**
      * @return the values
      */
     public List<Object> getValues() {
-        return values;
+        return this.values;
     }
 
     /**
@@ -34,7 +34,7 @@ public class Enumerated extends Domain {
 
     @Override
     public String toString() {
-        return getValues().toString().replace("[", "{").replace("]", "}");
+        return this.getValues().toString().replace("[", "{").replace("]", "}");
     }
 
 }

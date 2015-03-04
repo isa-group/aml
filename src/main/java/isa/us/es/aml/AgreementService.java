@@ -21,56 +21,56 @@ public class AgreementService {
     private final AnalyzerService analyzerService;
 
     public AgreementService() {
-        documentService = new DocumentService();
-        analyzerService = new AnalyzerService();
+        this.documentService = new DocumentService();
+        this.analyzerService = new AnalyzerService();
     }
 
 //   Start agreement files and model management
     protected DocumentService getDocumentService() {
-        return documentService;
+        return this.documentService;
     }
 
     protected AnalyzerService getAnalyzerService() {
-        return analyzerService;
+        return this.analyzerService;
     }
 
     public void addTemplateFile(String template, AgreementLanguage lang) {
-        addAgreementFile("template", template, lang);
+        this.addAgreementFile("template", template, lang);
     }
 
     public void addOfferFile(String offer, AgreementLanguage lang) {
-        addAgreementFile("offer", offer, lang);
+        this.addAgreementFile("offer", offer, lang);
     }
 
     public AgreementModel getTemplateModel() {
-        return getAgreementModel("template");
+        return this.getAgreementModel("template");
     }
 
     public AgreementModel getOfferModel() {
-        return getAgreementModel("offer");
+        return this.getAgreementModel("offer");
     }
 
     public void addAgreementFile(String name, String content, AgreementLanguage lang) {
         AgreementFile file = new AgreementFile(content, lang);
-        documentService.addAgreementFile(name, file);
+        this.documentService.addAgreementFile(name, file);
     }
 
     public AgreementModel getAgreementModel(String name) {
-        return documentService.getAgreementModel(name);
+        return this.documentService.getAgreementModel(name);
     }
 
 //   End agreement files and model management
 //   Start agreement operations management
     public Boolean isValidTemplate() {
-        return isValid("template");
+        return this.isValid("template");
     }
 
     public Boolean isValidOffer() {
-        return isValid("offer");
+        return this.isValid("offer");
     }
 
     public Boolean isValid(String name) {
-        return analyzerService.valid(getAgreementModel(name));
+        return this.analyzerService.valid(this.getAgreementModel(name));
     }
 
 //   End agreement operations management

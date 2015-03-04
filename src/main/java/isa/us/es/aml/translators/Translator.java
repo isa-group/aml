@@ -1,16 +1,6 @@
 package isa.us.es.aml.translators;
 
-import isa.us.es.aml.model.AgreementElement;
-import isa.us.es.aml.model.AgreementModel;
-import isa.us.es.aml.model.AgreementTerms;
-import isa.us.es.aml.model.ConfigurationProperty;
-import isa.us.es.aml.model.CreationConstraint;
-import isa.us.es.aml.model.GuaranteeTerm;
-import isa.us.es.aml.model.Metric;
-import isa.us.es.aml.model.MonitorableProperty;
-import isa.us.es.aml.model.Property;
-import isa.us.es.aml.model.Service;
-import isa.us.es.aml.model.Template;
+import isa.us.es.aml.model.*;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -22,39 +12,39 @@ import java.util.logging.Logger;
  */
 public class Translator {
 
-    private final IBuilder builder;
     private static final Logger LOG = Logger.getLogger(Translator.class.getName());
+    private final IBuilder builder;
 
     public Translator(IBuilder builder) {
         this.builder = builder;
     }
 
     public IBuilder getBuilder() {
-        return builder;
+        return this.builder;
     }
 
     public String export(AgreementModel model) {
 
-        builder.addId(model.getID());
-        builder.addVersion(model.getVersion());
-        builder.addResponder(model.getResponder());
+        this.builder.addId(model.getID());
+        this.builder.addVersion(model.getVersion());
+        this.builder.addResponder(model.getResponder());
 
-        export(model.getMetrics(), builder);
-        export(model.getAgreementTerms(), builder);
+        this.export(model.getMetrics(), this.builder);
+        this.export(model.getAgreementTerms(), this.builder);
 
         if (model.getClass() == Template.class) {
-            export(((Template) model).getCreationConstraints(), builder);
+            this.export(((Template) model).getCreationConstraints(), this.builder);
         }
 
-        return builder.generate();
+        return this.builder.generate();
     }
 
     // TODO especificar excepciones
     public String export(Metric metric) {
         try {
-            return export(metric, builder.getClass().newInstance());
+            return this.export(metric, this.builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            LOG.log(Level.WARNING, "export_Metric exception", e);
+            Translator.LOG.log(Level.WARNING, "export_Metric exception", e);
         }
         return null;
     }
@@ -65,9 +55,9 @@ public class Translator {
 
     public String export(AgreementTerms at) {
         try {
-            return export(at, builder.getClass().newInstance());
+            return this.export(at, this.builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            LOG.log(Level.WARNING, "export_AgreementTerms exception", e);
+            Translator.LOG.log(Level.WARNING, "export_AgreementTerms exception", e);
         }
         return null;
     }
@@ -78,9 +68,9 @@ public class Translator {
 
     public String export(Service service) {
         try {
-            return export(service, builder.getClass().newInstance());
+            return this.export(service, this.builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            LOG.log(Level.WARNING, "export_Service exception", e);
+            Translator.LOG.log(Level.WARNING, "export_Service exception", e);
         }
         return null;
     }
@@ -91,9 +81,9 @@ public class Translator {
 
     public String export(Property p) {
         try {
-            return export(p, builder.getClass().newInstance());
+            return this.export(p, this.builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            LOG.log(Level.WARNING, "export_Property exception", e);
+            Translator.LOG.log(Level.WARNING, "export_Property exception", e);
         }
         return null;
     }
@@ -110,9 +100,9 @@ public class Translator {
 
     public String export(GuaranteeTerm gt) {
         try {
-            return export(gt, builder.getClass().newInstance());
+            return this.export(gt, this.builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            LOG.log(Level.WARNING, "export_GuaranteeTerm exception", e);
+            Translator.LOG.log(Level.WARNING, "export_GuaranteeTerm exception", e);
         }
         return null;
     }
@@ -123,9 +113,9 @@ public class Translator {
 
     public String export(CreationConstraint cc) {
         try {
-            return export(cc, builder.getClass().newInstance());
+            return this.export(cc, this.builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            LOG.log(Level.WARNING, "export_CreationConstraint exception", e);
+            Translator.LOG.log(Level.WARNING, "export_CreationConstraint exception", e);
         }
         return null;
     }
@@ -136,9 +126,9 @@ public class Translator {
 
     public String export(List<? extends AgreementElement> objects) {
         try {
-            return export(objects, builder.getClass().newInstance());
+            return this.export(objects, this.builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            LOG.log(Level.WARNING, "export_AgreementElement exception", e);
+            Translator.LOG.log(Level.WARNING, "export_AgreementElement exception", e);
         }
         return null;
     }
@@ -147,16 +137,16 @@ public class Translator {
         StringBuilder sb = new StringBuilder();
         for (AgreementElement object : objects) {
             if (object instanceof Metric) {
-                sb.append(export((Metric) object, builder)).append("\n");
+                sb.append(this.export((Metric) object, builder)).append("\n");
             }
             if (object instanceof Property) {
-                sb.append(export((Property) object, builder)).append("\n");
+                sb.append(this.export((Property) object, builder)).append("\n");
             }
             if (object instanceof GuaranteeTerm) {
-                sb.append(export((GuaranteeTerm) object, builder)).append("\n");
+                sb.append(this.export((GuaranteeTerm) object, builder)).append("\n");
             }
             if (object instanceof CreationConstraint) {
-                sb.append(export((CreationConstraint) object, builder)).append("\n");
+                sb.append(this.export((CreationConstraint) object, builder)).append("\n");
             }
         }
         return sb.toString();

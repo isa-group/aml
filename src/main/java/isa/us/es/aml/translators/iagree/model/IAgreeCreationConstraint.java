@@ -9,14 +9,13 @@ import isa.us.es.aml.model.SLO;
  */
 public class IAgreeCreationConstraint extends CreationConstraint {
 
-	
-	public IAgreeCreationConstraint(String id, SLO slo) {
-		super(id, slo);
-	}
+    public IAgreeCreationConstraint(String id, SLO slo) {
+        super(id, slo);
+    }
 
-	@Override
+    @Override
     public String toString() {
-        return getId() + ": " + getSlo().toString() + ";";
+        return this.getId() + ": " + this.getSlo() + ";";
     }
 
 }

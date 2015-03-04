@@ -12,12 +12,11 @@ public class Template extends AgreementModel {
     List<CreationConstraint> creationConstraints;
 
     public Template() {
-        super();
-        creationConstraints = new ArrayList<>();
+        this.creationConstraints = new ArrayList<>();
     }
 
     public List<CreationConstraint> getCreationConstraints() {
-        return creationConstraints;
+        return this.creationConstraints;
     }
 
     public void setCreationConstraints(List<CreationConstraint> creationConstraints) {

@@ -7,7 +7,7 @@ import isa.us.es.aml.model.expression.Expression;
  * @author jdelafuente
  *
  */
-public class OPLVar {
+public final class OPLVar {
 
     private String id;
     private String type;
@@ -15,17 +15,15 @@ public class OPLVar {
     private Expression value;
     private Boolean dvar;
 
-  	public OPLVar(String id, Metric metric, OPLRange range, boolean dvar) {
-  		super();
-          this.id = id;
-          setType(metric.getType());
-          this.range = range;
-          this.dvar = dvar;
-  	}
-  
+    public OPLVar(String id, Metric metric, OPLRange range, boolean dvar) {
+        this.id = id;
+        this.setType(metric.getType());
+        this.range = range;
+        this.dvar = dvar;
+    }
 
-	public String getId() {
-        return id;
+    public String getId() {
+        return this.id;
     }
 
     public void setId(String id) {
@@ -33,15 +31,15 @@ public class OPLVar {
     }
 
     public String getType() {
-        return type;
+        return this.type;
     }
 
     public void setType(String type) {
-    	this.type = OPLUtil.DATATYPES.get(type);
+        this.type = OPLUtil.DATATYPES.get(type);
     }
 
     public OPLRange getRange() {
-        return range;
+        return this.range;
     }
 
     public void setRange(OPLRange range) {
@@ -49,7 +47,7 @@ public class OPLVar {
     }
 
     public Expression getExpression() {
-        return value;
+        return this.value;
     }
 
     public void setExpression(Expression value) {
@@ -57,7 +55,7 @@ public class OPLVar {
     }
 
     public Boolean getDvar() {
-        return dvar;
+        return this.dvar;
     }
 
     public void setDvar(Boolean dvar) {
@@ -66,10 +64,10 @@ public class OPLVar {
 
     @Override
     public String toString() {
-        if (dvar) {        	
-            return "dvar " + getType() + " " + getId() + " in " + getRange().getId() + ";";
+        if (this.dvar) {
+            return "dvar " + this.getType() + " " + this.getId() + " in " + this.getRange().getId() + ";";
         } else {
-            return getType() + " " + getId() + " = " + getExpression();
+            return this.getType() + " " + this.getId() + " = " + this.getExpression();
         }
     }
 
@@ -77,14 +75,14 @@ public class OPLVar {
     public boolean equals(Object obj) {
         if (obj instanceof OPLVar) {
             OPLVar elem = (OPLVar) obj;
-            return this.id.equals(elem.getId());
+            return id.equals(elem.getId());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return this.id.hashCode();
     }
 
 }

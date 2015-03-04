@@ -9,13 +9,12 @@ import isa.us.es.aml.model.expression.Expression;
  */
 public class IAgreeSLO extends SLO {
 
-	
-	public IAgreeSLO(Expression expression) {
-		super(expression);
-	}
+    public IAgreeSLO(Expression expression) {
+        super(expression);
+    }
 
-	@Override
+    @Override
     public String toString() {
-        return getExpression().toString();
+        return this.getExpression().toString();
     }
 }
