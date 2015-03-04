@@ -17,27 +17,26 @@ public class OPLModel {
     private Set<OPLConstraint> constraints;
 
     public OPLModel() {
-        this.ranges = new HashSet<>();
-        this.variables = new HashSet<>();
-        this.constraints = new HashSet<>();
+        ranges = new HashSet<>();
+        variables = new HashSet<>();
+        constraints = new HashSet<>();
     }
 
     public void addRange(OPLRange range) {
-        if (!this.ranges.contains(range)) {
-            this.ranges.add(range);
-        }
+    	if(!ranges.contains(range))
+    		ranges.add(range);
     }
 
     public void addVar(OPLVar var) {
-        this.variables.add(var);
+        variables.add(var);
     }
 
     public void addConstraint(OPLConstraint constraint) {
-        this.constraints.add(constraint);
+        constraints.add(constraint);
     }
 
     public Set<OPLRange> getRanges() {
-        return this.ranges;
+        return ranges;
     }
 
     public void setRanges(Set<OPLRange> ranges) {
@@ -45,7 +44,7 @@ public class OPLModel {
     }
 
     public Set<OPLVar> getVariables() {
-        return this.variables;
+        return variables;
     }
 
     public void setVariables(Set<OPLVar> variables) {
@@ -53,7 +52,7 @@ public class OPLModel {
     }
 
     public Set<OPLConstraint> getConstraints() {
-        return this.constraints;
+        return constraints;
     }
 
     public void setConstraints(Set<OPLConstraint> constraints) {
@@ -63,25 +62,25 @@ public class OPLModel {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
-        sb.append("using CP;" + "\n");
-
-        for (OPLRange range : this.getRanges()) {
-            sb.append(range).append("\n");
+        
+        sb.append("using CP;" + "\n\n");
+        
+        for (OPLRange range : getRanges()) {
+            sb.append(range.toString()).append("\n");
         }
         sb.append("\n");
 
-        for (OPLVar var : this.getVariables()) {
-            sb.append(var).append("\n");
+        for (OPLVar var : getVariables()) {
+            sb.append(var.toString()).append("\n");
         }
         sb.append("\n");
 
         sb.append("subject to {" + "\n");
 
-        List<OPLConstraint> ordered = new ArrayList<>(this.getConstraints());
+        List<OPLConstraint> ordered = new ArrayList<OPLConstraint>(getConstraints());
         Collections.sort(ordered);
         for (OPLConstraint cons : ordered) {
-            sb.append("\t").append(cons).append("\n");
+            sb.append("\t").append(cons.toString()).append("\n");
         }
         sb.append("}");
 

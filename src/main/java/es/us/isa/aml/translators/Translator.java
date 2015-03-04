@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/main/java/es/us/isa/aml/translators/Translator.java
 package es.us.isa.aml.translators;
 
 
@@ -12,6 +13,22 @@ import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.Service;
 import es.us.isa.aml.model.Template;
+=======
+package isa.us.es.aml.translators;
+
+import isa.us.es.aml.model.AgreementElement;
+import isa.us.es.aml.model.AgreementModel;
+import isa.us.es.aml.model.AgreementTerms;
+import isa.us.es.aml.model.ConfigurationProperty;
+import isa.us.es.aml.model.CreationConstraint;
+import isa.us.es.aml.model.GuaranteeTerm;
+import isa.us.es.aml.model.Metric;
+import isa.us.es.aml.model.MonitorableProperty;
+import isa.us.es.aml.model.Property;
+import isa.us.es.aml.model.Service;
+import isa.us.es.aml.model.Template;
+
+>>>>>>> 56ce2d3e8953ccb3c64f8b2cd58faa66438081fd:src/main/java/isa/us/es/aml/translators/Translator.java
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,39 +39,39 @@ import java.util.logging.Logger;
  */
 public class Translator {
 
-    private static final Logger LOG = Logger.getLogger(Translator.class.getName());
     private final IBuilder builder;
+    private static final Logger LOG = Logger.getLogger(Translator.class.getName());
 
     public Translator(IBuilder builder) {
         this.builder = builder;
     }
 
     public IBuilder getBuilder() {
-        return this.builder;
+        return builder;
     }
 
     public String export(AgreementModel model) {
 
-        this.builder.addId(model.getID());
-        this.builder.addVersion(model.getVersion());
-        this.builder.addResponder(model.getResponder());
+        builder.addId(model.getID());
+        builder.addVersion(model.getVersion());
+        builder.addResponder(model.getResponder());
 
-        this.export(model.getMetrics(), this.builder);
-        this.export(model.getAgreementTerms(), this.builder);
+        export(model.getMetrics(), builder);
+        export(model.getAgreementTerms(), builder);
 
-        if (model.getClass() == Template.class) {
-            this.export(((Template) model).getCreationConstraints(), this.builder);
+        if (model instanceof Template) {
+            export(((Template) model).getCreationConstraints(), builder);
         }
 
-        return this.builder.generate();
+        return builder.generate();
     }
 
     // TODO especificar excepciones
     public String export(Metric metric) {
         try {
-            return this.export(metric, this.builder.getClass().newInstance());
+            return export(metric, builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Translator.LOG.log(Level.WARNING, "export_Metric exception", e);
+            LOG.log(Level.WARNING, "export_Metric exception", e);
         }
         return null;
     }
@@ -65,9 +82,9 @@ public class Translator {
 
     public String export(AgreementTerms at) {
         try {
-            return this.export(at, this.builder.getClass().newInstance());
+            return export(at, builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Translator.LOG.log(Level.WARNING, "export_AgreementTerms exception", e);
+            LOG.log(Level.WARNING, "export_AgreementTerms exception", e);
         }
         return null;
     }
@@ -78,9 +95,9 @@ public class Translator {
 
     public String export(Service service) {
         try {
-            return this.export(service, this.builder.getClass().newInstance());
+            return export(service, builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Translator.LOG.log(Level.WARNING, "export_Service exception", e);
+            LOG.log(Level.WARNING, "export_Service exception", e);
         }
         return null;
     }
@@ -91,9 +108,9 @@ public class Translator {
 
     public String export(Property p) {
         try {
-            return this.export(p, this.builder.getClass().newInstance());
+            return export(p, builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Translator.LOG.log(Level.WARNING, "export_Property exception", e);
+            LOG.log(Level.WARNING, "export_Property exception", e);
         }
         return null;
     }
@@ -110,9 +127,9 @@ public class Translator {
 
     public String export(GuaranteeTerm gt) {
         try {
-            return this.export(gt, this.builder.getClass().newInstance());
+            return export(gt, builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Translator.LOG.log(Level.WARNING, "export_GuaranteeTerm exception", e);
+            LOG.log(Level.WARNING, "export_GuaranteeTerm exception", e);
         }
         return null;
     }
@@ -123,9 +140,9 @@ public class Translator {
 
     public String export(CreationConstraint cc) {
         try {
-            return this.export(cc, this.builder.getClass().newInstance());
+            return export(cc, builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Translator.LOG.log(Level.WARNING, "export_CreationConstraint exception", e);
+            LOG.log(Level.WARNING, "export_CreationConstraint exception", e);
         }
         return null;
     }
@@ -136,9 +153,9 @@ public class Translator {
 
     public String export(List<? extends AgreementElement> objects) {
         try {
-            return this.export(objects, this.builder.getClass().newInstance());
+            return export(objects, builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
-            Translator.LOG.log(Level.WARNING, "export_AgreementElement exception", e);
+            LOG.log(Level.WARNING, "export_AgreementElement exception", e);
         }
         return null;
     }
@@ -147,16 +164,16 @@ public class Translator {
         StringBuilder sb = new StringBuilder();
         for (AgreementElement object : objects) {
             if (object instanceof Metric) {
-                sb.append(this.export((Metric) object, builder)).append("\n");
+                sb.append(export((Metric) object, builder)).append("\n");
             }
             if (object instanceof Property) {
-                sb.append(this.export((Property) object, builder)).append("\n");
+                sb.append(export((Property) object, builder)).append("\n");
             }
             if (object instanceof GuaranteeTerm) {
-                sb.append(this.export((GuaranteeTerm) object, builder)).append("\n");
+                sb.append(export((GuaranteeTerm) object, builder)).append("\n");
             }
             if (object instanceof CreationConstraint) {
-                sb.append(this.export((CreationConstraint) object, builder)).append("\n");
+                sb.append(export((CreationConstraint) object, builder)).append("\n");
             }
         }
         return sb.toString();
