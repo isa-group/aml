@@ -1,6 +1,6 @@
-package isa.us.es.aml.parsers.agreements.iagree;
+package es.us.isa.aml.parsers.agreements.iagree;
 
-import isa.us.es.aml.parsers.Error;
+import es.us.isa.aml.parsers.Error;
 
 public class IAgreeError extends Error {
 	

@@ -1,6 +1,6 @@
-package isa.us.es.aml.parsers.agreements.iagree;
+package es.us.isa.aml.parsers.agreements.iagree;
 
-import isa.us.es.aml.parsers.Error.ERROR_SEVERITY;
+import es.us.isa.aml.parsers.Error.ERROR_SEVERITY;
 
 import java.util.LinkedList;
 import java.util.List;
