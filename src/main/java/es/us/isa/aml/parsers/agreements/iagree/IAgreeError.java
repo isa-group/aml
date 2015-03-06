@@ -45,7 +45,7 @@ public class IAgreeError extends Error {
 
 	@Override
     public String toString() {
-        return "( "+lineNo+":"+charStart+":"+charEnd+") "+severity+": "+message;
+        return severity + ": " + message;
     }
 
 }

@@ -38,9 +38,9 @@ public class Translator {
 
         builder.addId(model.getID());
         builder.addVersion(model.getVersion());
-        builder.addResponder(model.getResponder());
+        builder.addResponder(model.getContext().getResponder());
 
-        export(model.getMetrics(), builder);
+        export(model.getContext().getMetrics(), builder);
         export(model.getAgreementTerms(), builder);
 
         if (model instanceof Template) {

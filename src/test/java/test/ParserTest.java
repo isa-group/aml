@@ -28,7 +28,24 @@ public class ParserTest {
 		IAgreeParser parser = new IAgreeParser();
 		AgreementModel model = parser.doParse(sla);
 		
-		System.out.println(model.toString());
+//		Translator t = new Translator(new OPLBuilder());
+//		System.out.println(t.export(model).toString());
+		if(model != null)
+			System.out.println(model.toString());
+		else
+			System.out.println(parser.getErrorListener().getErrors());
+		
+		
+		
+		
+//		Expression e = new ParenthesisExpression(new ArithmeticExpression(new Atomic(2), new Atomic(3), ArithmeticOperator.add));
+//		
+//		Expression e2 = new ArithmeticExpression(e, new Atomic(8), ArithmeticOperator.multiply);
+//		
+//		System.out.println(e2);
+//		System.out.println(e2.calculate());
+//		
+//		Expression.printTree(e2, 0);
 	}
 	
 

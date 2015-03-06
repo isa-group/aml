@@ -1,5 +1,10 @@
 package es.us.isa.aml.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author jdelafuente
  *
@@ -8,13 +13,21 @@ public class Service {
 
     private String serviceName;
     private String serviceReference;
+    private Map<String, Feature> features;
+    private List<ConfigurationProperty> cps;
 
     public Service() {
+    	serviceName = "";
+    	serviceReference = "";
+    	features = new HashMap<String, Feature>();
+    	cps = new ArrayList<ConfigurationProperty>();
     }
 
     public Service(String serviceName, String serviceReference) {
         this.serviceName = serviceName;
         this.serviceReference = serviceReference;
+        features = new HashMap<String, Feature>();
+        cps = new ArrayList<ConfigurationProperty>();
     }
 
     public String getServiceName() {
@@ -31,5 +44,21 @@ public class Service {
 
     public void setServiceReference(String serviceReference) {
         this.serviceReference = serviceReference;
+    }
+    
+    public Map<String, Feature> getFeatures() {
+		return features;
+	}
+
+	public void setFeatures(Map<String, Feature> features) {
+		this.features = features;
+	}
+
+	public List<ConfigurationProperty> getConfigurationProperties() {
+        return this.cps;
+    }
+
+    public void setConfigurationProperties(List<ConfigurationProperty> cps) {
+        this.cps = cps;
     }
 }

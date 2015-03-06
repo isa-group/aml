@@ -68,13 +68,13 @@ public class OPLBuilder implements IBuilder {
         }
 
         StringBuilder sb = new StringBuilder();
-        for (ConfigurationProperty cp : at.getConfigurationProperties()) {
-            sb.append(this.addConfigurationProperty(cp)).append("\n");
-        }
+        
+        sb.append(addService(at.getService()));
+        
         for (MonitorableProperty mp : at.getMonitorableProperties()) {
             sb.append(this.addMonitorableProperty(mp)).append("\n");
         }
-        sb.append("subject to {" + "\n");
+        sb.append("subject to {").append("\n");
 
         Collections.sort(at.getGuaranteeTerms());
         for (GuaranteeTerm gt : at.getGuaranteeTerms()) {
@@ -88,7 +88,11 @@ public class OPLBuilder implements IBuilder {
 
     @Override
     public String addService(Service service) {
-        return "";
+    	StringBuilder sb = new StringBuilder();
+    	for (ConfigurationProperty cp : service.getConfigurationProperties()) {
+            sb.append(this.addConfigurationProperty(cp)).append("\n");
+        }
+        return sb.toString();
     }
 
     @Override

@@ -10,13 +10,12 @@ import java.util.List;
 public class AgreementTerms {
 
     private Service service;
-    private List<ConfigurationProperty> cps;
     private List<MonitorableProperty> mps;
     private List<GuaranteeTerm> gts;
 
     public AgreementTerms() {
         this.service = new Service();
-        this.cps = new ArrayList<>();
+        
         this.mps = new ArrayList<>();
         this.gts = new ArrayList<>();
     }
@@ -27,14 +26,6 @@ public class AgreementTerms {
 
     public void setService(Service service) {
         this.service = service;
-    }
-
-    public List<ConfigurationProperty> getConfigurationProperties() {
-        return this.cps;
-    }
-
-    public void setConfigurationProperties(List<ConfigurationProperty> cps) {
-        this.cps = cps;
     }
 
     public List<MonitorableProperty> getMonitorableProperties() {

@@ -17,6 +17,9 @@ public abstract class Expression {
                 for (Expression ex : ce.getExpressions()) {
                     lst.addAll(Expression.getAtomics(ex));
                 }
+            } else if (UnitaryExpression.class.isAssignableFrom(exp.getClass())) {
+            	UnitaryExpression ue = (UnitaryExpression) exp;
+            	lst.addAll(Expression.getAtomics(ue.getExpression()));
             }
         } else {
             lst.add((Atomic) exp);
@@ -32,6 +35,9 @@ public abstract class Expression {
                 for (Expression ex : ce.getExpressions()) {
                     lst.addAll(Expression.getVars(ex));
                 }
+            } else if (UnitaryExpression.class.isAssignableFrom(exp.getClass())) {
+            	UnitaryExpression ue = (UnitaryExpression) exp;
+            	lst.addAll(Expression.getVars(ue.getExpression()));
             }
         } else {
             lst.add((Var) exp);
@@ -57,6 +63,10 @@ public abstract class Expression {
                 for (Expression ex : ce.getExpressions()) {
                     Expression.printTree(ex, index);
                 }
+            } else if (UnitaryExpression.class.isAssignableFrom(exp.getClass())) {
+            	UnitaryExpression ue = (UnitaryExpression) exp;
+                index++;
+                Expression.printTree(ue.getExpression(), index);
             }
         } else {
             System.out.println(tab + "[" + exp + "]");

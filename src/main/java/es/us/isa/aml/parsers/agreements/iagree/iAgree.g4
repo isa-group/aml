@@ -82,20 +82,18 @@ period_def : FROM Hour '..' Hour (ON Identifier)? datePeriod_def
 service : SERVICE Identifier (AVAL_AT url)? 
           (features)? 
           globalDescription 
-          descriptions
+          localDescription*
         ;
 
 features : FEATURES ':' feature*;
 feature : feature_operation (',' feature_operation)*;
+feature_operation : id=Identifier ('(' Identifier (',' Identifier )* ')')?;
 
 globalDescription : GLOBALDESCRIPTION
                     (property)+
                   ;
 
-descriptions : description*;
-description : DESCRIPTION FOR feature (',' feature)* 
-              (property)+
-            ;
+localDescription : DESCRIPTION FOR Identifier ':' (property)+;
 		
 monitorableProperties : MONITORABLEPROPERTIES (Identifier)? 
                         global_MonitorableProperties? 
@@ -165,19 +163,16 @@ expression: Identifier ASSIG expression                     #assigExpr
           | expression op=(EQ | NEQ) expression             #equalityExpr
           | expression AND expression                       #andExpr
           | expression OR expression                        #orExpr
+          | PA expression PC                                #parExpr
           | atom                                            #atomExpr
           ;
 
 atom
- : PA expression PC                         #parExpr
- | (Integer | S_Integer | Float | S_Float)  #numberAtom
+ : (Integer | S_Integer | Float | S_Float)  #numberAtom
  | (TRUE | FALSE)                           #booleanAtom
  | Identifier                               #idAtom
  | String                                   #stringAtom
  ;
-
-
-feature_operation : Identifier ('(' Identifier (',' Identifier )* ')')?;
 
 cuantif : EXACTLY_ONE 
         | ONE_OR_MORE
@@ -220,7 +215,7 @@ CREATION_CONSTRAINTS : 'CreationConstraints';
 GUARANTEE_TERMS : 'GuaranteeTerms';
 
 SERVICE : 'Service';
-FEATURES: 'Features/Operations';
+FEATURES: 'Features';
 GLOBALDESCRIPTION : 'GlobalDescription';
 DESCRIPTION : 'Description';
 GLOBAL : 'global';

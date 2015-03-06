@@ -1,7 +1,5 @@
 package es.us.isa.aml.model;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jdelafuente
@@ -11,17 +9,13 @@ public abstract class AgreementModel {
 
     String id;
     Float version;
-    String initiator;
-    Object responder;
-    Object serviceProvider;
-    List<Metric> metrics;
+    Context context;
     AgreementTerms agreementTerms;
 
     public AgreementModel() {
         this.id = "";
         this.version = 0.0f;
-        this.responder = Actor.Provider;
-        this.metrics = new ArrayList<>();
+        context = new Context();
         this.agreementTerms = new AgreementTerms();
     }
 
@@ -40,40 +34,16 @@ public abstract class AgreementModel {
     public void setVersion(Float version) {
         this.version = version;
     }
+    
+    public Context getContext() {
+		return context;
+	}
 
-    public String getInitiator() {
-        return this.initiator;
-    }
+	public void setContext(Context context) {
+		this.context = context;
+	}
 
-    public void setInitiator(String initiator) {
-        this.initiator = initiator;
-    }
-
-    public Object getResponder() {
-        return this.responder;
-    }
-
-    public void setResponder(Object responder) {
-        this.responder = responder;
-    }
-
-    public Object getServiceProvider() {
-        return this.serviceProvider;
-    }
-
-    public void setServiceProvider(Object serviceProvider) {
-        this.serviceProvider = serviceProvider;
-    }
-
-    public List<Metric> getMetrics() {
-        return this.metrics;
-    }
-
-    public void setMetrics(List<Metric> metrics) {
-        this.metrics = metrics;
-    }
-
-    public AgreementTerms getAgreementTerms() {
+	public AgreementTerms getAgreementTerms() {
         return this.agreementTerms;
     }
 

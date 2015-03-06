@@ -49,7 +49,7 @@ public class IAgreeParser implements AgreementParser {
 		EntryContext context = parser.entry();
 
 		// Walk it and attach our listener
-		IAgreeBuilder visitor = new IAgreeBuilder();
+		IAgreeBuilder visitor = new IAgreeBuilder(parser);
 		model = visitor.visitEntry(context);
 
 		return model;

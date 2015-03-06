@@ -7,5 +7,5 @@ package es.us.isa.aml.model;
 public enum Scope {
 
     Global,
-    Specific
+    Local
 }

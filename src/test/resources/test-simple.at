@@ -1,27 +1,41 @@
-Template AmazonS3 version 1.0
+Template TestTemplate version 1.0
+	Initiator: "Amazon"
 	Provider as Responder
+	
 	Metrics:
-		time: integer [0..23]
-		size: integer [0..512]
-		percent: float [0..100]
+		met1: integer [0..23]
+		met2: integer [0..23]
+		met3: float [0..128]
+		met4: integer [0..512]
+		met5: float [0..100]
+		met6: integer [-100..100]
 		
 AgreementTerms
-	Service AWS-S3 availableAt. "aws.amazon.com/s3"
+	Service TTS availableAt. "test.template.com/service"
+		Features: testFeatures1, testFeatures2(param1), testFeatures3(param1, param2)
 		GlobalDescription
-			StorageSize: size
+			ConfProp1: met1
+			ConfProp2: met2 = 18;
+		Description for testFeatures1:
+			ConfProp3: met3
 
 	MonitorableProperties
 		global:
-			ResponseTime: time
-			MUP: percent
+			MonitProp1: met4
+			MonitProp2: met5
+		for testFeatures2:
+			MonitProp3: met4
+		for testFeatures3:
+			MonitProp4: met5
 				
 	GuaranteeTerms
-		G1: Provider guarantees ResponseTime <= 100;
-		onlyIf(MUP > 99.95);
+		G1: Provider guarantees MonitProp1 <= 64;
+			onlyIf(MonitProp3 > 99.95);
 		
-		G2: Consumer guarantees MUP < 99.95;
+		G2: Consumer guarantees MonitProp2 < 256;
 
 CreationConstraints
-	C1: StoragePrice = StorageSize * 2; 
+	C1: ConfProp1 = ConfProp2 * 2;
+	C2: (MonitProp1 > 256) AND ((ConfProp2 <= 18) OR (ConfProp3 >= 64));
 	
 EndTemplate

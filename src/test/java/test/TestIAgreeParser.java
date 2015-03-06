@@ -92,7 +92,7 @@ public class TestIAgreeParser {
 		assertEquals(model.getVersion(), 1.0f, 0.0);
 		
 		// Asserts Responder
-		assertEquals(model.getResponder(), Actor.Provider);
+		assertEquals(model.getContext().getResponder(), Actor.Provider);
 		
 		
 		// Metrics
@@ -102,9 +102,9 @@ public class TestIAgreeParser {
 		
 		
 		// Asserts metrics
-		assertEquals(model.getMetrics().get(0), metric_time);
-		assertEquals(model.getMetrics().get(1), metric_size);
-		assertEquals(model.getMetrics().get(2), metric_percent);
+		assertEquals(model.getContext().getMetrics().get(0), metric_time);
+		assertEquals(model.getContext().getMetrics().get(1), metric_size);
+		assertEquals(model.getContext().getMetrics().get(2), metric_percent);
 		
 		
 		// Agreement Terms
@@ -119,15 +119,18 @@ public class TestIAgreeParser {
 		
 		
 		// Configuration properties
-		IAgreeConfigurationProperty storage_size = new IAgreeConfigurationProperty("StorageSize", metric_size, Scope.Global);
-		at.getConfigurationProperties().add(storage_size);
+		IAgreeConfigurationProperty storage_size = new IAgreeConfigurationProperty("StorageSize", metric_size);
+		storage_size.setScope(Scope.Global);
+		at.getService().getConfigurationProperties().add(storage_size);
 		
 		
 		// Monitorable properties
-		IAgreeMonitorableProperty response_time = new IAgreeMonitorableProperty("ResponseTime", metric_time, Scope.Global);
+		IAgreeMonitorableProperty response_time = new IAgreeMonitorableProperty("ResponseTime", metric_time);
+		response_time.setScope(Scope.Global);
 		at.getMonitorableProperties().add(response_time);
 		
-		IAgreeMonitorableProperty mup = new IAgreeMonitorableProperty("MUP", metric_percent, Scope.Global);
+		IAgreeMonitorableProperty mup = new IAgreeMonitorableProperty("MUP", metric_percent);
+		mup.setScope(Scope.Global);
 		at.getMonitorableProperties().add(mup);
 		
 		
@@ -145,7 +148,7 @@ public class TestIAgreeParser {
 		
 		
 		// Asserts Agreement Terms
-		assertEquals(model.getAgreementTerms().getConfigurationProperties(), at.getConfigurationProperties());
+		assertEquals(model.getAgreementTerms().getService().getConfigurationProperties(), at.getService().getConfigurationProperties());
 		assertEquals(model.getAgreementTerms().getMonitorableProperties(), at.getMonitorableProperties());
 		assertEquals(model.getAgreementTerms().getGuaranteeTerms(), at.getGuaranteeTerms());
 		

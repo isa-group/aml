@@ -24,11 +24,12 @@ public class IAgreeGuaranteeTerm extends GuaranteeTerm {
     @Override
     public String toString() {
     	if(getQc() == null)
-    		return getId() + ": " + getActor() + " guarantees " + getSlo() + ";";
+    		return "\t\t" + getId() + ": " + getActor() + " guarantees " + getSlo() + ";" + "\n";
     	else {
     		StringBuilder sb = new StringBuilder();
-    		sb.append(getId() + ": " + getActor() + " guarantees " + getSlo() + ";" + "\n");
-    		sb.append(Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF]) + "(" + getQc().getCondition() + ")" + ";");
+    		sb.append("\t\t" + getId() + ": " + getActor() + " guarantees " + getSlo() + ";" + "\n");
+    		sb.append("\t\t" + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF]) + "(" + getQc().getCondition() + ")" + ";");
+    		sb.append("\n");
     		return sb.toString();
     	}		
     }
