@@ -23,8 +23,9 @@ public class OPLModel {
     }
 
     public void addRange(OPLRange range) {
-    	if(!ranges.contains(range))
-    		ranges.add(range);
+        if (!ranges.contains(range)) {
+            ranges.add(range);
+        }
     }
 
     public void addVar(OPLVar var) {
@@ -62,9 +63,9 @@ public class OPLModel {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append("using CP;" + "\n\n");
-        
+
         for (OPLRange range : getRanges()) {
             sb.append(range.toString()).append("\n");
         }
@@ -77,7 +78,7 @@ public class OPLModel {
 
         sb.append("subject to {" + "\n");
 
-        List<OPLConstraint> ordered = new ArrayList<OPLConstraint>(getConstraints());
+        List<OPLConstraint> ordered = new ArrayList<>(getConstraints());
         Collections.sort(ordered);
         for (OPLConstraint cons : ordered) {
             sb.append("\t").append(cons.toString()).append("\n");

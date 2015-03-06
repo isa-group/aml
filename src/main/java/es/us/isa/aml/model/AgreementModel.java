@@ -1,5 +1,6 @@
 package es.us.isa.aml.model;
 
+import es.us.isa.aml.AgreementManager;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +10,14 @@ import java.util.List;
  */
 public abstract class AgreementModel {
 
-    String id;
-    Float version;
-    String initiator;
-    Object responder;
-    Object serviceProvider;
-    List<Metric> metrics;
-    AgreementTerms agreementTerms;
+    private String id;
+    private Float version;
+    private String initiator;
+    private Object responder;
+    private Object serviceProvider;
+    private List<Metric> metrics;
+    private AgreementTerms agreementTerms;
+    private AgreementManager agreementManager;
 
     public AgreementModel() {
         this.id = "";
@@ -23,6 +25,12 @@ public abstract class AgreementModel {
         this.responder = Actor.Provider;
         this.metrics = new ArrayList<>();
         this.agreementTerms = new AgreementTerms();
+    }
+
+    public AgreementModel(AgreementManager agreementManager) {
+        super();
+        this.agreementManager = agreementManager;
+
     }
 
     public String getID() {
@@ -79,6 +87,15 @@ public abstract class AgreementModel {
 
     public void setAgreementTerms(AgreementTerms agreementTerms) {
         this.agreementTerms = agreementTerms;
+    }
+
+    public void setAgreementManager(AgreementManager agreementManager) {
+        this.agreementManager = agreementManager;
+    }
+
+    // OPERATIONS -  This should be syncronized with AgreementManager methods
+    public Boolean isValid() {
+        return agreementManager.isValid(this);
     }
 
 }

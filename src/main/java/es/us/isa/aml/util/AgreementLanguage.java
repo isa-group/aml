@@ -11,5 +11,5 @@ package es.us.isa.aml.util;
  */
 public enum AgreementLanguage {
 
-    IAGREE, WSAG, OPL
+    IAGREE, WSAG, OPL, LUSDL
 }

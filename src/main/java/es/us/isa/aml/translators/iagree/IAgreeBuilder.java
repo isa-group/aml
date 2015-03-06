@@ -3,20 +3,9 @@
  */
 package es.us.isa.aml.translators.iagree;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.Domain;
 import es.us.isa.aml.model.Enumerated;
 import es.us.isa.aml.model.Metric;
@@ -49,6 +38,16 @@ import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
 import es.us.isa.aml.translators.iagree.model.IAgreeTemplate;
 import es.us.isa.aml.util.Util;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.RuleNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
  * @author jdelafuente
@@ -65,7 +64,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
         try {
             this.timeStamp = Calendar.getInstance().getTimeInMillis();
-            this.metrics = new HashMap<String, Metric>();
+            this.metrics = new HashMap<>();
 
             if (ctx.template() != null) {
                 this.model = new IAgreeTemplate();
@@ -90,7 +89,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
             this.visitTemplate_def(ctx.template_def());
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             System.out
                     .println("iAgree parsing exception catched: enterTemplate");
             throw new IllegalArgumentException();
@@ -105,14 +104,14 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
             this.model.setID(ctx.id.getText());
             this.model.setVersion(new Float(ctx.version.getText()));
 
-            ((IAgreeAgreementOffer) this.model).setTemplateId(ctx.templateId
+            ((AgreementOffer) this.model).setTemplateId(ctx.templateId
                     .getText());
-            ((IAgreeAgreementOffer) this.model).setTemplateVersion(new Float(
+            ((AgreementOffer) this.model).setTemplateVersion(new Float(
                     ctx.templateVersion.getText()));
 
             this.visitAg_def(ctx.ag_def());
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             System.out
                     .println("iAgree parsing exception catched: enterAgOffer");
             throw new IllegalArgumentException();
@@ -398,11 +397,12 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
             IAgreeSLO slo = new IAgreeSLO(exp);
             Actor actor = Actor.valueOf(ctx.ob.getText());
 
-            if(ctx.qualifyingCondition() != null){
-            	QualifyingCondition qc = visitQualifyingCondition(ctx.qualifyingCondition());
-            	gt = new IAgreeGuaranteeTerm("", actor, slo, qc);
-            } else
-            	gt = new IAgreeGuaranteeTerm("", actor, slo);
+            if (ctx.qualifyingCondition() != null) {
+                QualifyingCondition qc = visitQualifyingCondition(ctx.qualifyingCondition());
+                gt = new IAgreeGuaranteeTerm("", actor, slo, qc);
+            } else {
+                gt = new IAgreeGuaranteeTerm("", actor, slo);
+            }
 
         } catch (Exception e) {
             System.out
@@ -425,12 +425,12 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
         return exp;
     }
-    
+
     @Override
     public QualifyingCondition visitQualifyingCondition(QualifyingConditionContext ctx) {
-    	Expression exp_qc = visitExpression(ctx.expression());
-    	QualifyingCondition qc = new QualifyingCondition(exp_qc);
-    	return qc;
+        Expression exp_qc = visitExpression(ctx.expression());
+        QualifyingCondition qc = new QualifyingCondition(exp_qc);
+        return qc;
     }
 
     @Override
@@ -653,7 +653,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
     public Metric visitMetrics_prop(iAgreeParser.Metrics_propContext ctx) {
         try {
             Enumerated en = new Enumerated();
-            List<Object> ls = new ArrayList<Object>();
+            List<Object> ls = new ArrayList<>();
             ls.add(true);
             ls.add(false);
             IAgreeMetric m = new IAgreeMetric("boolean", "Boolean", en);
@@ -706,7 +706,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
         try {
             r = new IAgreeRange(Integer.valueOf(ctx.min.getText()),
                     Integer.valueOf(ctx.max.getText()));
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             System.out.println("iAgree parsing exception catched: visitRange");
             throw new IllegalArgumentException();
         }
@@ -719,7 +719,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
         Enumerated e = new Enumerated();
         try {
 
-            List<Object> ls = new ArrayList<Object>();
+            List<Object> ls = new ArrayList<>();
             for (iAgreeParser.ListArgContext lctx : ctx.listArg()) {
                 ls.add(lctx.getText());
             }
@@ -890,7 +890,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     @Override
     public Object visit(ParseTree tree) {
         // TODO Auto-generated method stub

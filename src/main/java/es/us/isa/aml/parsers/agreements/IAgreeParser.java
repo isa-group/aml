@@ -5,9 +5,6 @@
  */
 package es.us.isa.aml.parsers.agreements;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.iagree.IAgreeErrorListener;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeLexer;
@@ -16,6 +13,8 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
 import es.us.isa.aml.translators.iagree.IAgreeBuilder;
 import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  *
@@ -23,45 +22,45 @@ import es.us.isa.aml.util.AgreementLanguage;
  */
 public class IAgreeParser implements AgreementParser {
 
-	private IAgreeErrorListener errorListener;
-	
-	public IAgreeParser() {
-	}
+    private IAgreeErrorListener errorListener;
 
-	@Override
-	public AgreementModel doParse(AgreementFile file) {
+    public IAgreeParser() {
+    }
 
-		AgreementModel model;
+    @Override
+    public AgreementModel doParse(AgreementFile file) {
 
-		iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(
-				file.getContent()));
+        AgreementModel model;
 
-		// Get a list of matched tokens
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
+        iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(
+                file.getContent()));
 
-		// Pass the tokens to the parser
-		iAgreeParser parser = new iAgreeParser(tokens);
+        // Get a list of matched tokens
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-		errorListener = new IAgreeErrorListener();
-		parser.addErrorListener(errorListener);
+        // Pass the tokens to the parser
+        iAgreeParser parser = new iAgreeParser(tokens);
 
-		// Specify our entry point
-		EntryContext context = parser.entry();
+        errorListener = new IAgreeErrorListener();
+        parser.addErrorListener(errorListener);
 
-		// Walk it and attach our listener
-		IAgreeBuilder visitor = new IAgreeBuilder();
-		model = visitor.visitEntry(context);
+        // Specify our entry point
+        EntryContext context = parser.entry();
 
-		return model;
-	}
+        // Walk it and attach our listener
+        IAgreeBuilder visitor = new IAgreeBuilder();
+        model = visitor.visitEntry(context);
 
-	@Override
-	public AgreementLanguage getSupportedLang() {
-		return AgreementLanguage.IAGREE;
-	}
-	
-	public IAgreeErrorListener getErrorListener() {
-		return errorListener;
-	}
+        return model;
+    }
+
+    @Override
+    public AgreementLanguage getSupportedLang() {
+        return AgreementLanguage.IAGREE;
+    }
+
+    public IAgreeErrorListener getErrorListener() {
+        return errorListener;
+    }
 
 }

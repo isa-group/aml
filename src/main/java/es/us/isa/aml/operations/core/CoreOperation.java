@@ -5,43 +5,17 @@
  */
 package es.us.isa.aml.operations.core;
 
-import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.operations.Operation;
 import es.us.isa.aml.operations.reasoners.Reasoner;
-import es.us.isa.aml.util.CoreOperationType;
+import es.us.isa.aml.util.OperationResponse;
 
 /**
  *
  * @author AntonioGamez
  */
-public abstract class CoreOperation implements Operation {
+public abstract class CoreOperation {
 
-    private Reasoner reasoner;
-    private CoreOperationType type;
-    protected AgreementModel model;
+    protected OperationResponse result = new OperationResponse();
+    protected Reasoner reasoner;
 
-    public Reasoner getReasoner() {
-        return this.reasoner;
-    }
-
-    public void setReasoner(Reasoner reasoner) {
-        this.reasoner = reasoner;
-    }
-
-    public CoreOperationType getType() {
-        return this.type;
-    }
-
-    public void setType(CoreOperationType type) {
-        this.type = type;
-    }
-
-    public AgreementModel getModel() {
-        return this.model;
-    }
-
-    public void setModel(AgreementModel model) {
-        this.model = model;
-    }
-
+    public abstract OperationResponse getResult();
 }

@@ -16,21 +16,21 @@ public class IAgreeGuaranteeTerm extends GuaranteeTerm {
     public IAgreeGuaranteeTerm(String id, Actor actor, SLO slo) {
         super(id, actor, slo);
     }
-    
+
     public IAgreeGuaranteeTerm(String id, Actor actor, SLO slo, QualifyingCondition qc) {
         super(id, actor, slo, qc);
     }
 
     @Override
     public String toString() {
-    	if(getQc() == null)
-    		return getId() + ": " + getActor() + " guarantees " + getSlo() + ";";
-    	else {
-    		StringBuilder sb = new StringBuilder();
-    		sb.append(getId() + ": " + getActor() + " guarantees " + getSlo() + ";" + "\n");
-    		sb.append(Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF]) + "(" + getQc().getCondition() + ")" + ";");
-    		return sb.toString();
-    	}		
+        if (getQc() == null) {
+            return getId() + ": " + getActor() + " guarantees " + getSlo() + ";";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(getId()).append(": ").append(getActor()).append(" guarantees ").append(getSlo()).append(";" + "\n");
+            sb.append(Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])).append("(").append(getQc().getCondition()).append(")" + ";");
+            return sb.toString();
+        }
     }
 
 }

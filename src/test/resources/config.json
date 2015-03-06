@@ -1,0 +1,5 @@
+{
+    "defaultInputFormat": "IAGREE",
+    "CSPReasoner": "CPLEX",
+    "DLReasoner": "none"
+}

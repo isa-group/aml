@@ -1,6 +1,5 @@
 package es.us.isa.aml.translators.iagree.model;
 
-
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.GuaranteeTerm;

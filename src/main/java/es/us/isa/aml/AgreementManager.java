@@ -6,8 +6,13 @@
 package es.us.isa.aml;
 
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.operations.noCore.ValidOp;
 import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
+import es.us.isa.aml.util.Config;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,61 +20,62 @@ import es.us.isa.aml.util.AgreementLanguage;
  */
 public class AgreementManager {
 
-    private final Store documentService;
-    private final Analyzer analyzerService;
+    private static final Logger LOG = Logger.getLogger(AgreementManager.class.getName());
+    private final Store store;
 
-    public AgreementManager() {
-        this.documentService = new Store();
-        this.analyzerService = new Analyzer();
+    public AgreementManager(String json) {
+        try {
+            Config.loadConfig(json);
+        } catch (IOException ex) {
+            LOG.log(Level.WARNING, "AgreementManager load config error", ex);
+        }
+        this.store = new Store();
     }
 
-//   Start agreement files and model management
-    protected Store getDocumentService() {
-        return this.documentService;
+    protected Store getStoreManager() {
+        return this.store;
     }
 
-    protected Analyzer getAnalyzerService() {
-        return this.analyzerService;
+    //   Start agreement files and model management
+    public AgreementModel createAgreementOffer(String content) {
+        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        return createAgreementOffer(content, lang);
     }
 
-    public void addTemplateFile(String template, AgreementLanguage lang) {
-        this.addAgreementFile("template", template, lang);
+    public AgreementModel createAgreementOffer(String content, AgreementLanguage lang) {
+        return createAgreement(content, lang, true);
     }
 
-    public void addOfferFile(String offer, AgreementLanguage lang) {
-        this.addAgreementFile("offer", offer, lang);
+    public AgreementModel createAgreementTemplate(String content) {
+        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        return createAgreementOffer(content, lang);
     }
 
-    public AgreementModel getTemplateModel() {
-        return this.getAgreementModel("template");
+    public AgreementModel createAgreementTemplate(String content, AgreementLanguage lang) {
+        return createAgreement(content, lang, false);
     }
 
-    public AgreementModel getOfferModel() {
-        return this.getAgreementModel("offer");
-    }
-
-    public void addAgreementFile(String name, String content, AgreementLanguage lang) {
+    private AgreementModel createAgreement(String content, AgreementLanguage lang, boolean isOffer) {
         AgreementFile file = new AgreementFile(content, lang);
-        this.documentService.addAgreementFile(name, file);
+        AgreementModel model;
+        if (isOffer) {
+            store.addAgreementFile("offer", file);
+            model = store.getAgreementModel("offer");
+        } else {
+            store.addAgreementFile("template", file);
+            model = store.getAgreementModel("template");
+        }
+        model.setAgreementManager(this);
+        return model;
+    }
+    //   End agreement files and model management
+
+    // Start operations
+    public Boolean isValid(AgreementModel agreementModel) {
+        ValidOp op = new ValidOp();
+        op.analyze(agreementModel);
+        return op.getResult();
     }
 
-    public AgreementModel getAgreementModel(String name) {
-        return this.documentService.getAgreementModel(name);
-    }
-
-//   End agreement files and model management
-//   Start agreement operations management
-    public Boolean isValidTemplate() {
-        return this.isValid("template");
-    }
-
-    public Boolean isValidOffer() {
-        return this.isValid("offer");
-    }
-
-    public Boolean isValid(String name) {
-        return this.analyzerService.valid(this.getAgreementModel(name));
-    }
-
-//   End agreement operations management
+    //
 }

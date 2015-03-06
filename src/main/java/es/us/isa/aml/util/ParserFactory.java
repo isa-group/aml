@@ -13,7 +13,7 @@ import es.us.isa.aml.parsers.agreements.WsagParser;
  *
  * @author AntonioGamez
  */
-public class ParserProxy {
+public class ParserFactory {
 
     public static AgreementParser createParser(AgreementLanguage lang) {
         switch (lang) {
@@ -26,7 +26,7 @@ public class ParserProxy {
         }
     }
 
-    private ParserProxy() {
+    private ParserFactory() {
     }
 
 }

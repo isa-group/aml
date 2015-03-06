@@ -2406,6 +2406,10 @@ public class iAgreeParser extends Parser {
 
     public static class EntryContext extends ParserRuleContext {
 
+        public EntryContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode END_TEMPLATE() {
             return getToken(iAgreeParser.END_TEMPLATE, 0);
         }
@@ -2420,10 +2424,6 @@ public class iAgreeParser extends Parser {
 
         public AgOfferContext agOffer() {
             return getRuleContext(AgOfferContext.class, 0);
-        }
-
-        public EntryContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2446,6 +2446,10 @@ public class iAgreeParser extends Parser {
         public Token id;
         public VersionNumberContext version;
 
+        public TemplateContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public VersionNumberContext versionNumber() {
             return getRuleContext(VersionNumberContext.class, 0);
         }
@@ -2464,10 +2468,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode TEMPLATE() {
             return getToken(iAgreeParser.TEMPLATE, 0);
-        }
-
-        public TemplateContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2491,6 +2491,10 @@ public class iAgreeParser extends Parser {
         public VersionNumberContext version;
         public Token templateId;
         public VersionNumberContext templateVersion;
+
+        public AgOfferContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public List<VersionNumberContext> versionNumber() {
             return getRuleContexts(VersionNumberContext.class);
@@ -2532,10 +2536,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.VERSION, i);
         }
 
-        public AgOfferContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_agOffer;
@@ -2553,6 +2553,10 @@ public class iAgreeParser extends Parser {
 
     public static class Template_defContext extends ParserRuleContext {
 
+        public Template_defContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public CreationConstraintsContext creationConstraints() {
             return getRuleContext(CreationConstraintsContext.class, 0);
         }
@@ -2567,10 +2571,6 @@ public class iAgreeParser extends Parser {
 
         public List<Temp_propertiesContext> temp_properties() {
             return getRuleContexts(Temp_propertiesContext.class);
-        }
-
-        public Template_defContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2591,6 +2591,10 @@ public class iAgreeParser extends Parser {
 
     public static class Ag_defContext extends ParserRuleContext {
 
+        public Ag_defContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public Temp_propertiesContext temp_properties(int i) {
             return getRuleContext(Temp_propertiesContext.class, i);
         }
@@ -2601,10 +2605,6 @@ public class iAgreeParser extends Parser {
 
         public List<Temp_propertiesContext> temp_properties() {
             return getRuleContexts(Temp_propertiesContext.class);
-        }
-
-        public Ag_defContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2623,6 +2623,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class Temp_propertiesContext extends ParserRuleContext {
+
+        public Temp_propertiesContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public Responder_propContext responder_prop() {
             return getRuleContext(Responder_propContext.class, 0);
@@ -2660,10 +2664,6 @@ public class iAgreeParser extends Parser {
             return getRuleContext(GlobalPeriod_propContext.class, 0);
         }
 
-        public Temp_propertiesContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_temp_properties;
@@ -2681,6 +2681,10 @@ public class iAgreeParser extends Parser {
 
     public static class AgreementTermsContext extends ParserRuleContext {
 
+        public AgreementTermsContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public ServiceContext service() {
             return getRuleContext(ServiceContext.class, 0);
         }
@@ -2695,10 +2699,6 @@ public class iAgreeParser extends Parser {
 
         public GuaranteeTermsContext guaranteeTerms() {
             return getRuleContext(GuaranteeTermsContext.class, 0);
-        }
-
-        public AgreementTermsContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2718,6 +2718,10 @@ public class iAgreeParser extends Parser {
 
     public static class CreationConstraintsContext extends ParserRuleContext {
 
+        public CreationConstraintsContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public CreationConstraintContext creationConstraint(int i) {
             return getRuleContext(CreationConstraintContext.class, i);
         }
@@ -2728,10 +2732,6 @@ public class iAgreeParser extends Parser {
 
         public List<CreationConstraintContext> creationConstraint() {
             return getRuleContexts(CreationConstraintContext.class);
-        }
-
-        public CreationConstraintsContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2751,6 +2751,10 @@ public class iAgreeParser extends Parser {
 
     public static class CreationConstraintContext extends ParserRuleContext {
 
+        public CreationConstraintContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode Identifier() {
             return getToken(iAgreeParser.Identifier, 0);
         }
@@ -2761,10 +2765,6 @@ public class iAgreeParser extends Parser {
 
         public QualifyingConditionContext qualifyingCondition() {
             return getRuleContext(QualifyingConditionContext.class, 0);
-        }
-
-        public CreationConstraintContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2784,16 +2784,16 @@ public class iAgreeParser extends Parser {
 
     public static class Initiator_propContext extends ParserRuleContext {
 
+        public Initiator_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode String() {
             return getToken(iAgreeParser.String, 0);
         }
 
         public TerminalNode INITIATOR() {
             return getToken(iAgreeParser.INITIATOR, 0);
-        }
-
-        public Initiator_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2812,6 +2812,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class Responder_propContext extends ParserRuleContext {
+
+        public Responder_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public TerminalNode CONSUMER() {
             return getToken(iAgreeParser.CONSUMER, 0);
@@ -2833,10 +2837,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.Identifier, 0);
         }
 
-        public Responder_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_responder_prop;
@@ -2854,16 +2854,16 @@ public class iAgreeParser extends Parser {
 
     public static class ServiceProvider_propContext extends ParserRuleContext {
 
+        public ServiceProvider_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode String() {
             return getToken(iAgreeParser.String, 0);
         }
 
         public TerminalNode SERVICEPROVIDER() {
             return getToken(iAgreeParser.SERVICEPROVIDER, 0);
-        }
-
-        public ServiceProvider_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2883,16 +2883,16 @@ public class iAgreeParser extends Parser {
 
     public static class ExpirationTime_propContext extends ParserRuleContext {
 
+        public ExpirationTime_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode String() {
             return getToken(iAgreeParser.String, 0);
         }
 
         public TerminalNode EXPIRATIONTIME() {
             return getToken(iAgreeParser.EXPIRATIONTIME, 0);
-        }
-
-        public ExpirationTime_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2912,16 +2912,16 @@ public class iAgreeParser extends Parser {
 
     public static class DateFormat_propContext extends ParserRuleContext {
 
+        public DateFormat_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode String() {
             return getToken(iAgreeParser.String, 0);
         }
 
         public TerminalNode DATEFORMAT() {
             return getToken(iAgreeParser.DATEFORMAT, 0);
-        }
-
-        public DateFormat_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2941,6 +2941,10 @@ public class iAgreeParser extends Parser {
 
     public static class GmtZone_propContext extends ParserRuleContext {
 
+        public GmtZone_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode Integer() {
             return getToken(iAgreeParser.Integer, 0);
         }
@@ -2951,10 +2955,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode S_Integer() {
             return getToken(iAgreeParser.S_Integer, 0);
-        }
-
-        public GmtZone_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -2974,16 +2974,16 @@ public class iAgreeParser extends Parser {
 
     public static class GlobalPeriod_propContext extends ParserRuleContext {
 
+        public GlobalPeriod_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public DatePeriod_defContext datePeriod_def() {
             return getRuleContext(DatePeriod_defContext.class, 0);
         }
 
         public TerminalNode GLOBALPERIOD() {
             return getToken(iAgreeParser.GLOBALPERIOD, 0);
-        }
-
-        public GlobalPeriod_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3003,6 +3003,10 @@ public class iAgreeParser extends Parser {
 
     public static class DefinedPeriod_propContext extends ParserRuleContext {
 
+        public DefinedPeriod_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public List<PeriodContext> period() {
             return getRuleContexts(PeriodContext.class);
         }
@@ -3013,10 +3017,6 @@ public class iAgreeParser extends Parser {
 
         public PeriodContext period(int i) {
             return getRuleContext(PeriodContext.class, i);
-        }
-
-        public DefinedPeriod_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3036,6 +3036,10 @@ public class iAgreeParser extends Parser {
 
     public static class Metrics_propContext extends ParserRuleContext {
 
+        public Metrics_propContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public MetricContext metric(int i) {
             return getRuleContext(MetricContext.class, i);
         }
@@ -3046,10 +3050,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode METRICS() {
             return getToken(iAgreeParser.METRICS, 0);
-        }
-
-        public Metrics_propContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3071,6 +3071,10 @@ public class iAgreeParser extends Parser {
 
         public Token id;
         public Token type;
+
+        public MetricContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public TerminalNode SET() {
             return getToken(iAgreeParser.SET, 0);
@@ -3112,10 +3116,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.INTEGER, 0);
         }
 
-        public MetricContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_metric;
@@ -3133,6 +3133,10 @@ public class iAgreeParser extends Parser {
 
     public static class DatePeriod_defContext extends ParserRuleContext {
 
+        public DatePeriod_defContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode DURING() {
             return getToken(iAgreeParser.DURING, 0);
         }
@@ -3143,10 +3147,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode Date(int i) {
             return getToken(iAgreeParser.Date, i);
-        }
-
-        public DatePeriod_defContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3167,16 +3167,16 @@ public class iAgreeParser extends Parser {
 
     public static class TemporalityContext extends ParserRuleContext {
 
+        public TemporalityContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode ON() {
             return getToken(iAgreeParser.ON, 0);
         }
 
         public TerminalNode Identifier() {
             return getToken(iAgreeParser.Identifier, 0);
-        }
-
-        public TemporalityContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3196,6 +3196,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class PeriodContext extends ParserRuleContext {
+
+        public PeriodContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public List<TerminalNode> EXCEPT() {
             return getTokens(iAgreeParser.EXCEPT);
@@ -3225,10 +3229,6 @@ public class iAgreeParser extends Parser {
             return getRuleContext(Period_defContext.class, i);
         }
 
-        public PeriodContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_period;
@@ -3245,6 +3245,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class Period_defContext extends ParserRuleContext {
+
+        public Period_defContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public TerminalNode ON() {
             return getToken(iAgreeParser.ON, 0);
@@ -3274,10 +3278,6 @@ public class iAgreeParser extends Parser {
             return getTokens(iAgreeParser.Hour);
         }
 
-        public Period_defContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_period_def;
@@ -3294,6 +3294,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class ServiceContext extends ParserRuleContext {
+
+        public ServiceContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public GlobalDescriptionContext globalDescription() {
             return getRuleContext(GlobalDescriptionContext.class, 0);
@@ -3323,10 +3327,6 @@ public class iAgreeParser extends Parser {
             return getRuleContext(DescriptionsContext.class, 0);
         }
 
-        public ServiceContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_service;
@@ -3344,6 +3344,10 @@ public class iAgreeParser extends Parser {
 
     public static class FeaturesContext extends ParserRuleContext {
 
+        public FeaturesContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public List<FeatureContext> feature() {
             return getRuleContexts(FeatureContext.class);
         }
@@ -3354,10 +3358,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode FEATURES() {
             return getToken(iAgreeParser.FEATURES, 0);
-        }
-
-        public FeaturesContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3377,16 +3377,16 @@ public class iAgreeParser extends Parser {
 
     public static class FeatureContext extends ParserRuleContext {
 
+        public FeatureContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public Feature_operationContext feature_operation(int i) {
             return getRuleContext(Feature_operationContext.class, i);
         }
 
         public List<Feature_operationContext> feature_operation() {
             return getRuleContexts(Feature_operationContext.class);
-        }
-
-        public FeatureContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3406,6 +3406,10 @@ public class iAgreeParser extends Parser {
 
     public static class GlobalDescriptionContext extends ParserRuleContext {
 
+        public GlobalDescriptionContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode GLOBALDESCRIPTION() {
             return getToken(iAgreeParser.GLOBALDESCRIPTION, 0);
         }
@@ -3416,10 +3420,6 @@ public class iAgreeParser extends Parser {
 
         public List<PropertyContext> property() {
             return getRuleContexts(PropertyContext.class);
-        }
-
-        public GlobalDescriptionContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3439,16 +3439,16 @@ public class iAgreeParser extends Parser {
 
     public static class DescriptionsContext extends ParserRuleContext {
 
+        public DescriptionsContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public List<DescriptionContext> description() {
             return getRuleContexts(DescriptionContext.class);
         }
 
         public DescriptionContext description(int i) {
             return getRuleContext(DescriptionContext.class, i);
-        }
-
-        public DescriptionsContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3467,6 +3467,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class DescriptionContext extends ParserRuleContext {
+
+        public DescriptionContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public List<FeatureContext> feature() {
             return getRuleContexts(FeatureContext.class);
@@ -3492,10 +3496,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.DESCRIPTION, 0);
         }
 
-        public DescriptionContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_description;
@@ -3512,6 +3512,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class MonitorablePropertiesContext extends ParserRuleContext {
+
+        public MonitorablePropertiesContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public Local_MonitorablePropertiesContext local_MonitorableProperties(int i) {
             return getRuleContext(Local_MonitorablePropertiesContext.class, i);
@@ -3533,10 +3537,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.Identifier, 0);
         }
 
-        public MonitorablePropertiesContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_monitorableProperties;
@@ -3554,6 +3554,10 @@ public class iAgreeParser extends Parser {
 
     public static class Global_MonitorablePropertiesContext extends ParserRuleContext {
 
+        public Global_MonitorablePropertiesContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode GLOBAL() {
             return getToken(iAgreeParser.GLOBAL, 0);
         }
@@ -3564,10 +3568,6 @@ public class iAgreeParser extends Parser {
 
         public List<PropertyContext> property() {
             return getRuleContexts(PropertyContext.class);
-        }
-
-        public Global_MonitorablePropertiesContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3587,6 +3587,10 @@ public class iAgreeParser extends Parser {
 
     public static class Local_MonitorablePropertiesContext extends ParserRuleContext {
 
+        public Local_MonitorablePropertiesContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode FOR() {
             return getToken(iAgreeParser.FOR, 0);
         }
@@ -3601,10 +3605,6 @@ public class iAgreeParser extends Parser {
 
         public List<PropertyContext> property() {
             return getRuleContexts(PropertyContext.class);
-        }
-
-        public Local_MonitorablePropertiesContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3624,6 +3624,10 @@ public class iAgreeParser extends Parser {
 
     public static class GuaranteeTermsContext extends ParserRuleContext {
 
+        public GuaranteeTermsContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public GuaranteeTermContext guaranteeTerm(int i) {
             return getRuleContext(GuaranteeTermContext.class, i);
         }
@@ -3634,10 +3638,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode GUARANTEE_TERMS() {
             return getToken(iAgreeParser.GUARANTEE_TERMS, 0);
-        }
-
-        public GuaranteeTermsContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3656,6 +3656,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class GuaranteeTermContext extends ParserRuleContext {
+
+        public GuaranteeTermContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public CuantifContext cuantif() {
             return getRuleContext(CuantifContext.class, 0);
@@ -3685,10 +3689,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.END, 0);
         }
 
-        public GuaranteeTermContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_guaranteeTerm;
@@ -3707,6 +3707,10 @@ public class iAgreeParser extends Parser {
     public static class Guarantee_defContext extends ParserRuleContext {
 
         public Token ob;
+
+        public Guarantee_defContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public List<CompensationsContext> compensations() {
             return getRuleContexts(CompensationsContext.class);
@@ -3744,10 +3748,6 @@ public class iAgreeParser extends Parser {
             return getRuleContext(TemporalityContext.class, 0);
         }
 
-        public Guarantee_defContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_guarantee_def;
@@ -3765,12 +3765,12 @@ public class iAgreeParser extends Parser {
 
     public static class SloContext extends ParserRuleContext {
 
-        public ExpressionContext expression() {
-            return getRuleContext(ExpressionContext.class, 0);
-        }
-
         public SloContext(ParserRuleContext parent, int invokingState) {
             super(parent, invokingState);
+        }
+
+        public ExpressionContext expression() {
+            return getRuleContext(ExpressionContext.class, 0);
         }
 
         @Override
@@ -3790,16 +3790,16 @@ public class iAgreeParser extends Parser {
 
     public static class ServiceScopeContext extends ParserRuleContext {
 
+        public ServiceScopeContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode Identifier() {
             return getToken(iAgreeParser.Identifier, 0);
         }
 
         public TerminalNode UPON() {
             return getToken(iAgreeParser.UPON, 0);
-        }
-
-        public ServiceScopeContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3819,16 +3819,16 @@ public class iAgreeParser extends Parser {
 
     public static class QualifyingConditionContext extends ParserRuleContext {
 
+        public QualifyingConditionContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode ONLY_IF() {
             return getToken(iAgreeParser.ONLY_IF, 0);
         }
 
         public ExpressionContext expression() {
             return getRuleContext(ExpressionContext.class, 0);
-        }
-
-        public QualifyingConditionContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3850,6 +3850,10 @@ public class iAgreeParser extends Parser {
 
         public CompensationsIntervalContext interv;
         public Token compType;
+
+        public CompensationsContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public CompensationsIntervalContext compensationsInterval() {
             return getRuleContext(CompensationsIntervalContext.class, 0);
@@ -3879,10 +3883,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.END, 0);
         }
 
-        public CompensationsContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_compensations;
@@ -3899,6 +3899,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class CompensationsIntervalContext extends ParserRuleContext {
+
+        public CompensationsIntervalContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public TerminalNode MONTHLY() {
             return getToken(iAgreeParser.MONTHLY, 0);
@@ -3924,10 +3928,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.YEARLY, 0);
         }
 
-        public CompensationsIntervalContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_compensationsInterval;
@@ -3948,6 +3948,10 @@ public class iAgreeParser extends Parser {
         public ExpressionContext e1;
         public ExpressionContext e2;
 
+        public CompensationContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public ExpressionContext expression(int i) {
             return getRuleContext(ExpressionContext.class, i);
         }
@@ -3962,10 +3966,6 @@ public class iAgreeParser extends Parser {
 
         public List<ExpressionContext> expression() {
             return getRuleContexts(ExpressionContext.class);
-        }
-
-        public CompensationContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -3985,16 +3985,16 @@ public class iAgreeParser extends Parser {
 
     public static class VersionNumberContext extends ParserRuleContext {
 
+        public VersionNumberContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode Float() {
             return getToken(iAgreeParser.Float, 0);
         }
 
         public TerminalNode Version() {
             return getToken(iAgreeParser.Version, 0);
-        }
-
-        public VersionNumberContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -4014,16 +4014,16 @@ public class iAgreeParser extends Parser {
 
     public static class UrlContext extends ParserRuleContext {
 
+        public UrlContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode String() {
             return getToken(iAgreeParser.String, 0);
         }
 
         public TerminalNode Url() {
             return getToken(iAgreeParser.Url, 0);
-        }
-
-        public UrlContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -4047,6 +4047,10 @@ public class iAgreeParser extends Parser {
         public Token met;
         public ExpressionContext value;
 
+        public PropertyContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode BOOLEAN() {
             return getToken(iAgreeParser.BOOLEAN, 0);
         }
@@ -4069,10 +4073,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode ASSIG() {
             return getToken(iAgreeParser.ASSIG, 0);
-        }
-
-        public PropertyContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -4103,12 +4103,12 @@ public class iAgreeParser extends Parser {
             this._p = _p;
         }
 
+        public ExpressionContext() {
+        }
+
         @Override
         public int getRuleIndex() {
             return RULE_expression;
-        }
-
-        public ExpressionContext() {
         }
 
         public void copyFrom(ExpressionContext ctx) {
@@ -4118,6 +4118,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class AssigExprContext extends ExpressionContext {
+
+        public AssigExprContext(ExpressionContext ctx) {
+            copyFrom(ctx);
+        }
 
         public TerminalNode Identifier() {
             return getToken(iAgreeParser.Identifier, 0);
@@ -4129,10 +4133,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode ASSIG() {
             return getToken(iAgreeParser.ASSIG, 0);
-        }
-
-        public AssigExprContext(ExpressionContext ctx) {
-            copyFrom(ctx);
         }
 
         @Override
@@ -4147,6 +4147,10 @@ public class iAgreeParser extends Parser {
 
     public static class AndExprContext extends ExpressionContext {
 
+        public AndExprContext(ExpressionContext ctx) {
+            copyFrom(ctx);
+        }
+
         public ExpressionContext expression(int i) {
             return getRuleContext(ExpressionContext.class, i);
         }
@@ -4157,10 +4161,6 @@ public class iAgreeParser extends Parser {
 
         public List<ExpressionContext> expression() {
             return getRuleContexts(ExpressionContext.class);
-        }
-
-        public AndExprContext(ExpressionContext ctx) {
-            copyFrom(ctx);
         }
 
         @Override
@@ -4176,6 +4176,10 @@ public class iAgreeParser extends Parser {
     public static class RelationalExprContext extends ExpressionContext {
 
         public Token op;
+
+        public RelationalExprContext(ExpressionContext ctx) {
+            copyFrom(ctx);
+        }
 
         public ExpressionContext expression(int i) {
             return getRuleContext(ExpressionContext.class, i);
@@ -4201,10 +4205,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.GT, 0);
         }
 
-        public RelationalExprContext(ExpressionContext ctx) {
-            copyFrom(ctx);
-        }
-
         @Override
         public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
             if (visitor instanceof iAgreeVisitor) {
@@ -4217,12 +4217,12 @@ public class iAgreeParser extends Parser {
 
     public static class AtomExprContext extends ExpressionContext {
 
-        public AtomContext atom() {
-            return getRuleContext(AtomContext.class, 0);
-        }
-
         public AtomExprContext(ExpressionContext ctx) {
             copyFrom(ctx);
+        }
+
+        public AtomContext atom() {
+            return getRuleContext(AtomContext.class, 0);
         }
 
         @Override
@@ -4238,6 +4238,10 @@ public class iAgreeParser extends Parser {
     public static class AdditiveExprContext extends ExpressionContext {
 
         public Token op;
+
+        public AdditiveExprContext(ExpressionContext ctx) {
+            copyFrom(ctx);
+        }
 
         public ExpressionContext expression(int i) {
             return getRuleContext(ExpressionContext.class, i);
@@ -4255,10 +4259,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.ADD, 0);
         }
 
-        public AdditiveExprContext(ExpressionContext ctx) {
-            copyFrom(ctx);
-        }
-
         @Override
         public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
             if (visitor instanceof iAgreeVisitor) {
@@ -4272,6 +4272,10 @@ public class iAgreeParser extends Parser {
     public static class EqualityExprContext extends ExpressionContext {
 
         public Token op;
+
+        public EqualityExprContext(ExpressionContext ctx) {
+            copyFrom(ctx);
+        }
 
         public TerminalNode NEQ() {
             return getToken(iAgreeParser.NEQ, 0);
@@ -4289,10 +4293,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.EQ, 0);
         }
 
-        public EqualityExprContext(ExpressionContext ctx) {
-            copyFrom(ctx);
-        }
-
         @Override
         public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
             if (visitor instanceof iAgreeVisitor) {
@@ -4306,6 +4306,10 @@ public class iAgreeParser extends Parser {
     public static class MultiplicationExprContext extends ExpressionContext {
 
         public Token op;
+
+        public MultiplicationExprContext(ExpressionContext ctx) {
+            copyFrom(ctx);
+        }
 
         public ExpressionContext expression(int i) {
             return getRuleContext(ExpressionContext.class, i);
@@ -4323,10 +4327,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.DIVIDE, 0);
         }
 
-        public MultiplicationExprContext(ExpressionContext ctx) {
-            copyFrom(ctx);
-        }
-
         @Override
         public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
             if (visitor instanceof iAgreeVisitor) {
@@ -4339,16 +4339,16 @@ public class iAgreeParser extends Parser {
 
     public static class NotExprContext extends ExpressionContext {
 
+        public NotExprContext(ExpressionContext ctx) {
+            copyFrom(ctx);
+        }
+
         public TerminalNode NOT() {
             return getToken(iAgreeParser.NOT, 0);
         }
 
         public ExpressionContext expression() {
             return getRuleContext(ExpressionContext.class, 0);
-        }
-
-        public NotExprContext(ExpressionContext ctx) {
-            copyFrom(ctx);
         }
 
         @Override
@@ -4363,6 +4363,10 @@ public class iAgreeParser extends Parser {
 
     public static class OrExprContext extends ExpressionContext {
 
+        public OrExprContext(ExpressionContext ctx) {
+            copyFrom(ctx);
+        }
+
         public ExpressionContext expression(int i) {
             return getRuleContext(ExpressionContext.class, i);
         }
@@ -4373,10 +4377,6 @@ public class iAgreeParser extends Parser {
 
         public List<ExpressionContext> expression() {
             return getRuleContexts(ExpressionContext.class);
-        }
-
-        public OrExprContext(ExpressionContext ctx) {
-            copyFrom(ctx);
         }
 
         @Override
@@ -4395,12 +4395,12 @@ public class iAgreeParser extends Parser {
             super(parent, invokingState);
         }
 
+        public AtomContext() {
+        }
+
         @Override
         public int getRuleIndex() {
             return RULE_atom;
-        }
-
-        public AtomContext() {
         }
 
         public void copyFrom(AtomContext ctx) {
@@ -4409,6 +4409,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class ParExprContext extends AtomContext {
+
+        public ParExprContext(AtomContext ctx) {
+            copyFrom(ctx);
+        }
 
         public TerminalNode PA() {
             return getToken(iAgreeParser.PA, 0);
@@ -4420,10 +4424,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode PC() {
             return getToken(iAgreeParser.PC, 0);
-        }
-
-        public ParExprContext(AtomContext ctx) {
-            copyFrom(ctx);
         }
 
         @Override
@@ -4438,12 +4438,12 @@ public class iAgreeParser extends Parser {
 
     public static class IdAtomContext extends AtomContext {
 
-        public TerminalNode Identifier() {
-            return getToken(iAgreeParser.Identifier, 0);
-        }
-
         public IdAtomContext(AtomContext ctx) {
             copyFrom(ctx);
+        }
+
+        public TerminalNode Identifier() {
+            return getToken(iAgreeParser.Identifier, 0);
         }
 
         @Override
@@ -4458,12 +4458,12 @@ public class iAgreeParser extends Parser {
 
     public static class StringAtomContext extends AtomContext {
 
-        public TerminalNode String() {
-            return getToken(iAgreeParser.String, 0);
-        }
-
         public StringAtomContext(AtomContext ctx) {
             copyFrom(ctx);
+        }
+
+        public TerminalNode String() {
+            return getToken(iAgreeParser.String, 0);
         }
 
         @Override
@@ -4477,6 +4477,10 @@ public class iAgreeParser extends Parser {
     }
 
     public static class NumberAtomContext extends AtomContext {
+
+        public NumberAtomContext(AtomContext ctx) {
+            copyFrom(ctx);
+        }
 
         public TerminalNode Integer() {
             return getToken(iAgreeParser.Integer, 0);
@@ -4494,10 +4498,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.S_Integer, 0);
         }
 
-        public NumberAtomContext(AtomContext ctx) {
-            copyFrom(ctx);
-        }
-
         @Override
         public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
             if (visitor instanceof iAgreeVisitor) {
@@ -4510,16 +4510,16 @@ public class iAgreeParser extends Parser {
 
     public static class BooleanAtomContext extends AtomContext {
 
+        public BooleanAtomContext(AtomContext ctx) {
+            copyFrom(ctx);
+        }
+
         public TerminalNode TRUE() {
             return getToken(iAgreeParser.TRUE, 0);
         }
 
         public TerminalNode FALSE() {
             return getToken(iAgreeParser.FALSE, 0);
-        }
-
-        public BooleanAtomContext(AtomContext ctx) {
-            copyFrom(ctx);
         }
 
         @Override
@@ -4534,16 +4534,16 @@ public class iAgreeParser extends Parser {
 
     public static class Feature_operationContext extends ParserRuleContext {
 
+        public Feature_operationContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode Identifier(int i) {
             return getToken(iAgreeParser.Identifier, i);
         }
 
         public List<TerminalNode> Identifier() {
             return getTokens(iAgreeParser.Identifier);
-        }
-
-        public Feature_operationContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -4563,6 +4563,10 @@ public class iAgreeParser extends Parser {
 
     public static class CuantifContext extends ParserRuleContext {
 
+        public CuantifContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public TerminalNode ONE_OR_MORE() {
             return getToken(iAgreeParser.ONE_OR_MORE, 0);
         }
@@ -4573,10 +4577,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode EXACTLY_ONE() {
             return getToken(iAgreeParser.EXACTLY_ONE, 0);
-        }
-
-        public CuantifContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -4599,16 +4599,16 @@ public class iAgreeParser extends Parser {
         public ListArgContext l1;
         public ListArgContext l2;
 
+        public ListContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public ListArgContext listArg(int i) {
             return getRuleContext(ListArgContext.class, i);
         }
 
         public List<ListArgContext> listArg() {
             return getRuleContexts(ListArgContext.class);
-        }
-
-        public ListContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
@@ -4629,6 +4629,10 @@ public class iAgreeParser extends Parser {
     public static class ListArgContext extends ParserRuleContext {
 
         public Token l1;
+
+        public ListArgContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
 
         public TerminalNode String() {
             return getToken(iAgreeParser.String, 0);
@@ -4654,10 +4658,6 @@ public class iAgreeParser extends Parser {
             return getToken(iAgreeParser.Identifier, 0);
         }
 
-        public ListArgContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
-        }
-
         @Override
         public int getRuleIndex() {
             return RULE_listArg;
@@ -4678,6 +4678,10 @@ public class iAgreeParser extends Parser {
         public Token min;
         public Token max;
 
+        public RangeContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
         public List<TerminalNode> Integer() {
             return getTokens(iAgreeParser.Integer);
         }
@@ -4692,10 +4696,6 @@ public class iAgreeParser extends Parser {
 
         public TerminalNode S_Integer(int i) {
             return getToken(iAgreeParser.S_Integer, i);
-        }
-
-        public RangeContext(ParserRuleContext parent, int invokingState) {
-            super(parent, invokingState);
         }
 
         @Override
