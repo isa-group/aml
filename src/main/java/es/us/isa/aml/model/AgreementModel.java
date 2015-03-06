@@ -1,5 +1,6 @@
 package es.us.isa.aml.model;
 
+import es.us.isa.aml.AgreementManager;
 
 /**
  * @author jdelafuente
@@ -7,16 +8,23 @@ package es.us.isa.aml.model;
  */
 public abstract class AgreementModel {
 
-    String id;
-    Float version;
-    Context context;
-    AgreementTerms agreementTerms;
+    private String id;
+    private Float version;
+    private Context context;
+    private AgreementTerms agreementTerms;
+    private AgreementManager agreementManager;
 
     public AgreementModel() {
         this.id = "";
         this.version = 0.0f;
         context = new Context();
         this.agreementTerms = new AgreementTerms();
+    }
+
+    public AgreementModel(AgreementManager agreementManager) {
+        super();
+        this.agreementManager = agreementManager;
+
     }
 
     public String getID() {
@@ -34,7 +42,7 @@ public abstract class AgreementModel {
     public void setVersion(Float version) {
         this.version = version;
     }
-    
+
     public Context getContext() {
 		return context;
 	}
@@ -49,6 +57,15 @@ public abstract class AgreementModel {
 
     public void setAgreementTerms(AgreementTerms agreementTerms) {
         this.agreementTerms = agreementTerms;
+    }
+
+    public void setAgreementManager(AgreementManager agreementManager) {
+        this.agreementManager = agreementManager;
+    }
+
+    // OPERATIONS -  This should be syncronized with AgreementManager methods
+    public Boolean isValid() {
+        return agreementManager.isValid(this);
     }
 
 }

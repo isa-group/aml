@@ -9,7 +9,7 @@ import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.AgreementParser;
 import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
-import es.us.isa.aml.util.ParserProxy;
+import es.us.isa.aml.util.ParserFactory;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -58,7 +58,6 @@ public class Store {
     public void deleteAgreementFile(String name) {
         this.agreementFileMap.remove(name);
         this.isParsed = false;
-
     }
 
     public void parseAgreementFileMap() {
@@ -88,7 +87,7 @@ public class Store {
                 return p;
             }
         }
-        AgreementParser parser = ParserProxy.createParser(lang);
+        AgreementParser parser = ParserFactory.createParser(lang);
         this.parsers.add(parser);
         return parser;
     }

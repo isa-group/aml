@@ -1,10 +1,5 @@
 package es.us.isa.aml.translators;
 
-
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import es.us.isa.aml.model.AgreementElement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTerms;
@@ -16,6 +11,9 @@ import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.Service;
 import es.us.isa.aml.model.Template;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author jdelafuente
@@ -23,8 +21,8 @@ import es.us.isa.aml.model.Template;
  */
 public class Translator {
 
-    private final IBuilder builder;
     private static final Logger LOG = Logger.getLogger(Translator.class.getName());
+    private final IBuilder builder;
 
     public Translator(IBuilder builder) {
         this.builder = builder;

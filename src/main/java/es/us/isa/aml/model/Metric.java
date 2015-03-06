@@ -6,8 +6,8 @@ package es.us.isa.aml.model;
  */
 public class Metric extends AgreementElement {
 
-    String type;
-    Domain domain;
+    private String type;
+    private Domain domain;
 
     public Metric(String id) {
         super(id);

@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Template extends AgreementModel {
 
-    List<CreationConstraint> creationConstraints;
+    private List<CreationConstraint> creationConstraints;
 
     public Template() {
         this.creationConstraints = new ArrayList<>();

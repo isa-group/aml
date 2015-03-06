@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.model;
 
@@ -10,23 +10,20 @@ import es.us.isa.aml.model.expression.Expression;
  *
  */
 public class QualifyingCondition {
-	
-	private Expression condition;
 
+    private Expression condition;
 
-	public QualifyingCondition(Expression condition) {
-		super();
-		this.condition = condition;
-	}
+    public QualifyingCondition(Expression condition) {
+        super();
+        this.condition = condition;
+    }
 
-	public Expression getCondition() {
-		return condition;
-	}
+    public Expression getCondition() {
+        return condition;
+    }
 
-	public void setCondition(Expression condition) {
-		this.condition = condition;
-	}
-	
-	
+    public void setCondition(Expression condition) {
+        this.condition = condition;
+    }
 
 }

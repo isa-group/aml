@@ -1,6 +1,5 @@
 package es.us.isa.aml.model;
 
-
 /**
  * @author jdelafuente
  *
@@ -16,7 +15,7 @@ public class GuaranteeTerm extends AgreementElement implements Comparable<Guaran
         this.actor = actor;
         this.slo = slo;
     }
-    
+
     public GuaranteeTerm(String id, Actor actor, SLO slo, QualifyingCondition qc) {
         super(id);
         this.actor = actor;
@@ -40,15 +39,15 @@ public class GuaranteeTerm extends AgreementElement implements Comparable<Guaran
         this.slo = slo;
     }
 
-	public QualifyingCondition getQc() {
-		return qc;
-	}
+    public QualifyingCondition getQc() {
+        return qc;
+    }
 
-	public void setQc(QualifyingCondition qc) {
-		this.qc = qc;
-	}
+    public void setQc(QualifyingCondition qc) {
+        this.qc = qc;
+    }
 
-	@Override
+    @Override
     public int compareTo(GuaranteeTerm o) {
         return getId().compareTo(o.getId());
     }

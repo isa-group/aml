@@ -88,6 +88,13 @@
 
 		<!-- <dependency> <groupId>com.ibm.cplex</groupId> <artifactId>OPL</artifactId> 
 			<version>12.5.1</version> </dependency> -->
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		
 	</dependencies>
 
 	<build>

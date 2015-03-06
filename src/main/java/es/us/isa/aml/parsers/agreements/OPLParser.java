@@ -20,7 +20,7 @@ public class OPLParser implements AgreementParser {
 
     @Override
     public AgreementModel doParse(AgreementFile file) {
-        throw new UnsupportedOperationException("Not supported yet."); 
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
