@@ -132,8 +132,12 @@ public class OPLBuilder implements IBuilder {
         if (this.model == null) {
             this.model = new OPLModel();
         }
-
-        OPLConstraint cons = new OPLConstraint(gt.getId(), gt.getSlo());
+        OPLConstraint cons = null;
+        if(gt.getQc() != null)
+        	cons = new OPLConstraint(gt.getId(), gt.getSlo(), gt.getQc());
+        else
+        	cons = new OPLConstraint(gt.getId(), gt.getSlo());
+        	
         this.model.addConstraint(cons);
         return cons.toString();
     }
@@ -144,7 +148,12 @@ public class OPLBuilder implements IBuilder {
             this.model = new OPLModel();
         }
 
-        OPLConstraint cons = new OPLConstraint(cc.getId(), cc.getSlo());
+        OPLConstraint cons = null;
+        if(cc.getQc() != null)
+        	cons = new OPLConstraint(cc.getId(), cc.getSlo(), cc.getQc());
+        else
+        	cons = new OPLConstraint(cc.getId(), cc.getSlo());
+        
         this.model.addConstraint(cons);
         return cons.toString();
     }

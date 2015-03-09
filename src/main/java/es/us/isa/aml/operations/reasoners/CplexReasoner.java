@@ -5,11 +5,6 @@
  */
 package es.us.isa.aml.operations.reasoners;
 
-import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.translators.Translator;
-import es.us.isa.aml.translators.csp.opl.OPLBuilder;
-import es.us.isa.aml.util.ReasonerType;
-import ilog.concert.IloException;
 import ilog.concert.cppimpl.IloEnv;
 import ilog.cp.IloCP;
 import ilog.cp.IloCP.IntParam;
@@ -21,14 +16,19 @@ import ilog.opl.IloOplModel;
 import ilog.opl.IloOplModelDefinition;
 import ilog.opl.IloOplModelSource;
 import ilog.opl.IloOplSettings;
+
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.translators.Translator;
+import es.us.isa.aml.translators.csp.opl.OPLBuilder;
+import es.us.isa.aml.util.ReasonerType;
 
 /**
  *
@@ -58,7 +58,7 @@ public class CplexReasoner extends Reasoner {
                         BufferedWriter bw = new BufferedWriter(new FileWriter(temp))) {
                     bw.write(content);
                 }
-                IloOplFactory.setDebugMode(false);
+//                IloOplFactory.setDebugMode(false);
 
                 IloEnv env = new IloEnv();
                 IloOplFactory oplF = new IloOplFactory();
@@ -87,7 +87,7 @@ public class CplexReasoner extends Reasoner {
                     opl.generate();
                     solve = cplex.solve();
                 }
-            } catch (IOException | IloException e) {
+            } catch (Error | Exception e) {
                 solve = false;
                 LOG.log(Level.WARNING, null, e);
             }

@@ -5,14 +5,17 @@
  */
 package es.us.isa.aml;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.operations.noCore.ValidOp;
 import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import es.us.isa.aml.util.Util;
 
 /**
  *
@@ -23,8 +26,20 @@ public class AgreementManager {
     private static final Logger LOG = Logger.getLogger(AgreementManager.class.getName());
     private final Store store;
 
+    
+	public AgreementManager() {
+		try {
+			InputStream in = getClass().getResourceAsStream("/config.json");
+	        String config = Util.getStringFromInputStream(in);
+            Config.loadConfig(config);
+        } catch (IOException ex) {
+            LOG.log(Level.WARNING, "AgreementManager load config error", ex);
+        }
+        this.store = new Store();
+	}
+    
     public AgreementManager(String json) {
-        try {
+    	try {
             Config.loadConfig(json);
         } catch (IOException ex) {
             LOG.log(Level.WARNING, "AgreementManager load config error", ex);

@@ -3,6 +3,12 @@
  */
 package test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
@@ -13,10 +19,6 @@ import es.us.isa.aml.model.expression.LogicalOperator;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import org.junit.Test;
 
 /**
  * @author jdelafuente
@@ -29,10 +31,11 @@ public class TestExpression {
     public void testAssignmentExpression() {
 
         Var a = new Var("a", new Atomic(2.0));
-        assertEquals(2.0, a.getDoubleValue(), 0.0);
+        assertEquals(2.0, a.getDoubleValue(), 0.0);        
 
         Var b = new Var("b");
         Expression e = new AssignmentExpression(b, new Atomic(2));
+        e.calculate();
         assertEquals(2, b.getIntegerValue().intValue());
 
         Var c = new Var("c", new Atomic(false));
@@ -100,8 +103,9 @@ public class TestExpression {
     // Check uninitialized variables
     @Test(expected = NullPointerException.class)
     public void testNoInitializedVariable() {
-        Var a = new Var("a");
-        a.getIntegerValue();
+        Var a = new Var("a");        
+        Expression exp = new ArithmeticExpression(a, new Atomic(2), ArithmeticOperator.add);
+        exp.calculate();
     }
 
 }

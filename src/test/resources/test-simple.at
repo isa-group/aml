@@ -1,6 +1,7 @@
 Template TestTemplate version 1.0
-	Initiator: "Amazon"
-	Provider as Responder
+	Initiator: "Initiator1";
+	Provider "Prov1" as Responder;
+	Consumer "Cons7";
 	
 	Metrics:
 		met1: integer [0..23]
@@ -21,8 +22,8 @@ AgreementTerms
 
 	MonitorableProperties
 		global:
-			MonitProp1: met4
-			MonitProp2: met5
+			MonitProp1: met2
+			MonitProp2: met3
 		for testFeatures2:
 			MonitProp3: met4
 		for testFeatures3:
@@ -33,9 +34,13 @@ AgreementTerms
 			onlyIf(MonitProp3 > 99.95);
 		
 		G2: Consumer guarantees MonitProp2 < 256;
+			with monthly penalty
+				of MonitProp4 = 20 if MonitProp3 > 256;
+				of MonitProp4 = 50 if MonitProp3 >= 512;
+			end
 
 CreationConstraints
-	C1: ConfProp1 = ConfProp2 * 2;
+	C1: ConfProp1 == ConfProp2 * 2;
 	C2: (MonitProp1 > 256) AND ((ConfProp2 <= 18) OR (ConfProp3 >= 64));
 	
 EndTemplate

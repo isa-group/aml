@@ -7,6 +7,5 @@ package es.us.isa.aml.model;
 public enum Actor {
 
     Provider,
-    Responder,
     Consumer
 }

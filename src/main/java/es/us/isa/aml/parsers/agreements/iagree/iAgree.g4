@@ -18,7 +18,9 @@ template_def : temp_properties* agreementTerms creationConstraints?;
 ag_def : temp_properties*  agreementTerms;
 
 temp_properties : initiator_prop
-                | responder_prop 
+                | responder_prop
+                | provider_prop
+                | consumer_prop
                 | serviceProvider_prop 
                 | expirationTime_prop
                 | dateFormat_prop
@@ -38,11 +40,15 @@ creationConstraint : (Identifier) ':' expression ';' qualifyingCondition?;
 // Template properties
 //---------------------------------------
 
-initiator_prop : INITIATOR ':' String;
+initiator_prop : INITIATOR ':' id=String ';';
 
-responder_prop : (PROVIDER | CONSUMER | Identifier) AS RESPONDER;
+responder_prop : responder=(PROVIDER | CONSUMER) id=(Identifier | String) AS RESPONDER ';';
 
-serviceProvider_prop : SERVICEPROVIDER ':' String;
+provider_prop : PROVIDER id=(Identifier | String) ';';
+
+consumer_prop : CONSUMER id=(Identifier | String) ';';
+
+serviceProvider_prop : SERVICEPROVIDER ':' id=String ';';
 				
 expirationTime_prop : EXPIRATIONTIME ':' String;
 
@@ -115,7 +121,7 @@ guaranteeTerm : Identifier ':' (guarantee_def | cuantif OF (guaranteeTerm)+) (EN
 guarantee_def : ob=(PROVIDER | CONSUMER) GUARANTEES slo temporality? ';' 
                 (serviceScope)?
                 (qualifyingCondition)?
-                (compensations)*
+                (compensation)*
               ;
 
 slo : expression;
@@ -124,9 +130,11 @@ serviceScope : UPON Identifier ';';
 	
 qualifyingCondition : ONLY_IF '(' expression ')' ';';
 
-compensations : WITH interv=compensationsInterval  compType=(PENALTY | REWARD)
-                (compensation)+
+compensation :  WITH interv=compensationsInterval  compType=(PENALTY | REWARD)
+                compensationElement+
                 END;
+
+compensationElement : OF exp=expression IF cond=expression ';';
 
 compensationsInterval : YEARLY
          | MONTHLY
@@ -135,9 +143,6 @@ compensationsInterval : YEARLY
          | HOURLY
          | MINUTELY
          ;
-
-compensation : OF e1=expression IF e2=expression ';';
-
 
 
 //----------------------------------

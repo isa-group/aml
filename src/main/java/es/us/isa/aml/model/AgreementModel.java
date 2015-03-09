@@ -7,18 +7,25 @@ import es.us.isa.aml.AgreementManager;
  *
  */
 public abstract class AgreementModel {
+	
+	public enum DocType {
+		Template,
+		Offer
+	}
 
     private String id;
     private Float version;
     private Context context;
     private AgreementTerms agreementTerms;
     private AgreementManager agreementManager;
+    private DocType docType;
 
     public AgreementModel() {
         this.id = "";
         this.version = 0.0f;
         context = new Context();
         this.agreementTerms = new AgreementTerms();
+        docType = DocType.Template;
     }
 
     public AgreementModel(AgreementManager agreementManager) {
@@ -62,8 +69,16 @@ public abstract class AgreementModel {
     public void setAgreementManager(AgreementManager agreementManager) {
         this.agreementManager = agreementManager;
     }
+    
+    public DocType getDocType() {
+		return docType;
+	}
 
-    // OPERATIONS -  This should be syncronized with AgreementManager methods
+	public void setDocType(DocType docType) {
+		this.docType = docType;
+	}
+
+	// OPERATIONS -  This should be syncronized with AgreementManager methods
     public Boolean isValid() {
         return agreementManager.isValid(this);
     }

@@ -19,9 +19,9 @@ public class IAgreeContext extends Context {
 		StringBuilder sb = new StringBuilder();
 		
 		if(!getInitiator().isEmpty())
-        	sb.append("\t").append("Initiator: "+ "\"" + this.getInitiator() + "\"" + "\n");
+        	sb.append("\t").append("Initiator: "+ "\"" + this.getInitiator() + "\";" + "\n");
         if(getResponder() != null)
-        	sb.append("\t").append(this.getResponder()).append(" as Responder" + "\n");
+        	sb.append("\t").append(this.getResponder()).append(";" + "\n");
 
         sb.append("\t" + "Metrics:" + "\n");
         List<Metric> metrics = this.getMetrics();

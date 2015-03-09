@@ -21,50 +21,40 @@ import es.us.isa.aml.util.AgreementLanguage;
  */
 public class ParserTest {
 
-    private static final Logger LOG = Logger.getLogger(ParserTest.class.getName());
+	private static final Logger LOG = Logger.getLogger(ParserTest.class
+			.getName());
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
 
-        InputStream in = ParserTest.class.getResourceAsStream("/test-simple.at");
-        String content = getStringFromInputStream(in);
-        AgreementFile sla = new AgreementFile(content, AgreementLanguage.IAGREE);
+		InputStream in = ParserTest.class
+				.getResourceAsStream("/test-simple.at");
+		String content = getStringFromInputStream(in);
+		AgreementFile sla = new AgreementFile(content, AgreementLanguage.IAGREE);
 
-        IAgreeParser parser = new IAgreeParser();
-        AgreementModel model = parser.doParse(sla);
+		IAgreeParser parser = new IAgreeParser();
+		AgreementModel model = parser.doParse(sla);
 
-        
-        
-//        Translator t = new Translator(new OPLBuilder());
-//		System.out.println(t.export(model).toString());
-		
-        if(model != null)
-        	System.out.println(model.toString()); /*LOG.info(model.toString()); */
+		if (model != null)
+			System.out.println(model.toString()); /* LOG.info(model.toString()); */
 		else
-			LOG.severe(parser.getErrorListener().getErrors().toString());		
-		
-//		Expression e = new ParenthesisExpression(new ArithmeticExpression(new Atomic(2), new Atomic(3), ArithmeticOperator.add));
-//		
-//		Expression e2 = new ArithmeticExpression(e, new Atomic(8), ArithmeticOperator.multiply);
-//		
-//		System.out.println(e2);
-//		System.out.println(e2.calculate());
-//		
-//		Expression.printTree(e2, 0);
-    }
+			LOG.severe(parser.getErrorListener().getErrors().toString());
 
-    public static String getStringFromInputStream(InputStream in) {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(in));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line.replaceAll("	", "\t")).append("\n");
-            }
-        } catch (IOException e) {
-            LOG.log(Level.WARNING, null, e);
-        }
-        return sb.toString();
-    }
+		// Translator t = new Translator(new OPLBuilder());
+		// System.out.println(t.export(model));
+	}
+
+	public static String getStringFromInputStream(InputStream in) {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		StringBuilder sb = new StringBuilder();
+		String line = null;
+		try {
+			while ((line = reader.readLine()) != null) {
+				sb.append(line.replaceAll("	", "\t")).append("\n");
+			}
+		} catch (IOException e) {
+			LOG.log(Level.WARNING, null, e);
+		}
+		return sb.toString();
+	}
 
 }

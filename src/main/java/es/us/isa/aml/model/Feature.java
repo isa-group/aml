@@ -21,11 +21,18 @@ public class Feature {
 		parameters = new ArrayList<String>();
 	}
 
+	public Feature(String id) {
+		this.id = id;
+		parameters = new ArrayList<String>();
+	}
+
 	public Feature(String id, List<String> parameters) {
 		super();
 		this.id = id;
 		this.parameters = parameters;
 	}
+
+
 
 	/**
 	 * @return the id

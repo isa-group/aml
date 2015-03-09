@@ -8,8 +8,6 @@ import es.us.isa.aml.model.AgreementElement;
  */
 public class Atomic extends Expression {
 
-    private final Object value;
-
     public Atomic(Object n) {
         this.value = n;
     }
@@ -27,4 +25,20 @@ public class Atomic extends Expression {
             return this.value.toString();
         }
     }
+    
+    public void setValue(Object o) {
+		this.value = o;
+	}
+    
+    public void setDoubleValue(Double n) {
+		this.value = n;
+	}
+    
+    public void setIntegerValue(Integer n) {
+		this.value = n;
+	}
+    
+    public void setBooleanValue(Boolean b) {
+		this.value = b;
+	}
 }

@@ -7,6 +7,7 @@ package es.us.isa.aml.model;
 public class CreationConstraint extends AgreementElement {
 
     private SLO slo;
+    private QualifyingCondition qc;
 
     public CreationConstraint(String id, SLO slo) {
         super(id);
@@ -19,5 +20,13 @@ public class CreationConstraint extends AgreementElement {
 
     public void setSlo(SLO slo) {
         this.slo = slo;
+    }
+    
+    public QualifyingCondition getQc() {
+        return qc;
+    }
+
+    public void setQc(QualifyingCondition qc) {
+        this.qc = qc;
     }
 }

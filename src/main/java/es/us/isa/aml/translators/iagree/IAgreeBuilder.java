@@ -17,6 +17,11 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.Compensation;
+import es.us.isa.aml.model.AgreementModel.DocType;
+import es.us.isa.aml.model.Compensation.AssessmentInterval;
+import es.us.isa.aml.model.Compensation.CompensationType;
+import es.us.isa.aml.model.CompensationElement;
 import es.us.isa.aml.model.Domain;
 import es.us.isa.aml.model.Enumerated;
 import es.us.isa.aml.model.Feature;
@@ -37,16 +42,23 @@ import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationElementContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationsIntervalContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Consumer_propContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CuantifContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeatureContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Feature_operationContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeaturesContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.LocalDescriptionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Local_MonitorablePropertiesContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Provider_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.QualifyingConditionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ServiceProvider_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeVisitor;
 import es.us.isa.aml.translators.iagree.model.IAgreeAgreementOffer;
 import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTerms;
+import es.us.isa.aml.translators.iagree.model.IAgreeCompensation;
 import es.us.isa.aml.translators.iagree.model.IAgreeConfigurationProperty;
 import es.us.isa.aml.translators.iagree.model.IAgreeContext;
 import es.us.isa.aml.translators.iagree.model.IAgreeCreationConstraint;
@@ -55,6 +67,7 @@ import es.us.isa.aml.translators.iagree.model.IAgreeGuaranteeTerm;
 import es.us.isa.aml.translators.iagree.model.IAgreeMetric;
 import es.us.isa.aml.translators.iagree.model.IAgreeMonitorableProperty;
 import es.us.isa.aml.translators.iagree.model.IAgreeRange;
+import es.us.isa.aml.translators.iagree.model.IAgreeResponder;
 import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
 import es.us.isa.aml.translators.iagree.model.IAgreeTemplate;
@@ -86,11 +99,13 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
 			if (ctx.template() != null) {
 				this.model = new IAgreeTemplate();
+				model.setDocType(DocType.Template);
 				model.setContext(context);
 				this.visitTemplate(ctx.template());
 
 			} else if (ctx.agOffer() != null) {
 				this.model = new IAgreeAgreementOffer();
+				model.setDocType(DocType.Offer);
 				model.setContext(context);
 				this.visitAgOffer(ctx.agOffer());
 			}
@@ -190,6 +205,11 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 		IAgreeSLO slo = new IAgreeSLO(exp);
 		IAgreeCreationConstraint cc = new IAgreeCreationConstraint(ctx
 				.Identifier().getText(), slo);
+		
+		if(ctx.qualifyingCondition() != null){
+			QualifyingCondition qc = visitQualifyingCondition(ctx.qualifyingCondition());
+			cc.setQc(qc);
+		}
 
 		((Template) this.model).getCreationConstraints().add(cc);
 
@@ -212,7 +232,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 			visitFeatures(ctx.features());
 
 		this.visitGlobalDescription(ctx.globalDescription());
-		for(LocalDescriptionContext desc : ctx.localDescription())
+		for (LocalDescriptionContext desc : ctx.localDescription())
 			this.visitLocalDescription(desc);
 
 		return null;
@@ -300,14 +320,27 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
 	@Override
 	public Object visitResponder_prop(iAgreeParser.Responder_propContext ctx) {
-		if (ctx.PROVIDER() != null)
-			this.model.getContext().setResponder(
-					Actor.valueOf(ctx.PROVIDER().getText()));
-		else if (ctx.CONSUMER() != null)
-			this.model.getContext().setResponder(
-					Actor.valueOf(ctx.CONSUMER().getText()));
-		else if (ctx.Identifier() != null)
-			this.model.getContext().setResponder(ctx.Identifier().getText());
+		IAgreeResponder r = null;
+		if(ctx.PROVIDER() != null){
+			r = new IAgreeResponder(ctx.id.getText(), Actor.Provider);
+		} else if(ctx.CONSUMER() != null)
+			r = new IAgreeResponder(ctx.id.getText(), Actor.Consumer);
+		
+		if(r != null)
+			this.model.getContext().setResponder(r);
+		
+		return null;
+	}
+	
+	@Override
+	public Object visitProvider_prop(Provider_propContext ctx) {
+		this.model.getContext().setProvider(ctx.id.getText());
+		return null;
+	}
+	
+	@Override
+	public Object visitConsumer_prop(Consumer_propContext ctx) {
+		this.model.getContext().setConsumer(ctx.id.getText());
 		return null;
 	}
 
@@ -353,53 +386,60 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
 		for (iAgreeParser.PropertyContext prop : ctx.property()) {
 			Property p = this.visitProperty(prop);
-			IAgreeConfigurationProperty cp = new IAgreeConfigurationProperty(
-					p.getId(), p.getMetric());
-			cp.setExpression(p.getExpression());
-			cp.setScope(Scope.Global);
-			this.model.getAgreementTerms().getService()
-					.getConfigurationProperties().add(cp);
+			if (p != null) {
+				IAgreeConfigurationProperty cp = new IAgreeConfigurationProperty(
+						p.getId(), p.getMetric());
+				cp.setExpression(p.getExpression());
+				cp.setScope(Scope.Global);
+				this.model.getAgreementTerms().getService()
+						.getConfigurationProperties().add(cp);
+			}
 		}
 
 		return null;
 	}
-	
+
 	@Override
 	public Object visitLocalDescription(LocalDescriptionContext ctx) {
 		for (iAgreeParser.PropertyContext prop : ctx.property()) {
 			Property p = this.visitProperty(prop);
-			IAgreeConfigurationProperty cp = new IAgreeConfigurationProperty(
-					p.getId(), p.getMetric());
-			cp.setExpression(p.getExpression());
-			cp.setScope(Scope.Local);
+			if (p != null) {
+				IAgreeConfigurationProperty cp = new IAgreeConfigurationProperty(
+						p.getId(), p.getMetric());
+				cp.setExpression(p.getExpression());
+				cp.setScope(Scope.Local);
 
-			Map<String, Feature> features = model.getAgreementTerms()
-					.getService().getFeatures();
-			if (features.containsKey(ctx.Identifier().getText())) {
-				cp.setFeature(features.get(ctx.Identifier().getText()));
-				this.model.getAgreementTerms().getService().getConfigurationProperties().add(cp);
-			} else {
-				parser.notifyErrorListeners("Feature \""
-						+ ctx.Identifier().getText()
-						+ "\" has not been declared.");
-				throw new IllegalArgumentException();
+				Map<String, Feature> features = model.getAgreementTerms()
+						.getService().getFeatures();
+				if (features.containsKey(ctx.Identifier().getText())) {
+					cp.setFeature(features.get(ctx.Identifier().getText()));
+					this.model.getAgreementTerms().getService()
+							.getConfigurationProperties().add(cp);
+				} else {
+					parser.notifyErrorListeners(ctx.start, "Feature \""
+							+ ctx.Identifier().getText()
+							+ "\" has not been declared.", null);
+				}
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public Object visitGlobal_MonitorableProperties(
 			iAgreeParser.Global_MonitorablePropertiesContext ctx) {
 
 		for (iAgreeParser.PropertyContext prop : ctx.property()) {
 			Property p = this.visitProperty(prop);
-			IAgreeMonitorableProperty mp = new IAgreeMonitorableProperty(
-					p.getId(), p.getMetric());
-			mp.setExpression(p.getExpression());
-			mp.setScope(Scope.Global);
-			this.model.getAgreementTerms().getMonitorableProperties().add(mp);
+			if (p != null) {
+				IAgreeMonitorableProperty mp = new IAgreeMonitorableProperty(
+						p.getId(), p.getMetric());
+				mp.setExpression(p.getExpression());
+				mp.setScope(Scope.Global);
+				this.model.getAgreementTerms().getMonitorableProperties()
+						.add(mp);
+			}
 		}
 
 		return null;
@@ -411,21 +451,23 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
 		for (iAgreeParser.PropertyContext prop : ctx.property()) {
 			Property p = this.visitProperty(prop);
-			IAgreeMonitorableProperty mp = new IAgreeMonitorableProperty(
-					p.getId(), p.getMetric());
-			mp.setExpression(p.getExpression());
-			mp.setScope(Scope.Local);
+			if (p != null) {
+				IAgreeMonitorableProperty mp = new IAgreeMonitorableProperty(
+						p.getId(), p.getMetric());
+				mp.setExpression(p.getExpression());
+				mp.setScope(Scope.Local);
 
-			Map<String, Feature> features = model.getAgreementTerms()
-					.getService().getFeatures();
-			if (features.containsKey(ctx.Identifier().getText())) {
-				mp.setFeature(features.get(ctx.Identifier().getText()));
-				this.model.getAgreementTerms().getMonitorableProperties().add(mp);
-			} else {
-				parser.notifyErrorListeners("Feature \""
-						+ ctx.Identifier().getText()
-						+ "\" has not been declared.");
-				throw new IllegalArgumentException();
+				Map<String, Feature> features = model.getAgreementTerms()
+						.getService().getFeatures();
+				if (features.containsKey(ctx.Identifier().getText())) {
+					mp.setFeature(features.get(ctx.Identifier().getText()));
+					this.model.getAgreementTerms().getMonitorableProperties()
+							.add(mp);
+				} else {
+					parser.notifyErrorListeners(ctx.start, "Feature \""
+							+ ctx.Identifier().getText()
+							+ "\" has not been declared.", null);
+				}
 			}
 		}
 
@@ -453,21 +495,64 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 	@Override
 	public IAgreeGuaranteeTerm visitGuarantee_def(
 			iAgreeParser.Guarantee_defContext ctx) {
-		IAgreeGuaranteeTerm gt = null;
 
 		Expression exp = this.visitSlo(ctx.slo());
 
 		IAgreeSLO slo = new IAgreeSLO(exp);
 		Actor actor = Actor.valueOf(ctx.ob.getText());
 
+		IAgreeGuaranteeTerm gt = new IAgreeGuaranteeTerm("", actor, slo);
+
+		if (ctx.serviceScope() != null) {
+			String serviceScope = visitServiceScope(ctx.serviceScope());
+			gt.setServiceScope(serviceScope);
+		}
+
 		if (ctx.qualifyingCondition() != null) {
 			QualifyingCondition qc = visitQualifyingCondition(ctx
 					.qualifyingCondition());
-			gt = new IAgreeGuaranteeTerm("", actor, slo, qc);
-		} else
-			gt = new IAgreeGuaranteeTerm("", actor, slo);
+			gt.setQc(qc);
+		}
+
+		List<Compensation> compensations = new ArrayList<Compensation>();
+		for (CompensationContext comp : ctx.compensation()) {
+			IAgreeCompensation c = visitCompensation(comp);
+			compensations.add(c);
+		}
+		gt.setCompensations(compensations);
 
 		return gt;
+	}
+
+	@Override
+	public IAgreeCompensation visitCompensation(CompensationContext ctx) {
+		IAgreeCompensation c = new IAgreeCompensation();
+
+		AssessmentInterval interval = visitCompensationsInterval(ctx.interv);
+		CompensationType compType = CompensationType.valueOf(ctx.compType
+				.getText().toUpperCase());
+		c.setAssessmentInterval(interval);
+		c.setCompensationType(compType);
+
+		List<CompensationElement> elements = new ArrayList<CompensationElement>();
+		for (CompensationElementContext compElem : ctx.compensationElement()) {
+			CompensationElement elem = visitCompensationElement(compElem);
+			elements.add(elem);
+		}
+		c.setElements(elements);
+
+		return c;
+	}
+
+	@Override
+	public CompensationElement visitCompensationElement(
+			CompensationElementContext ctx) {
+		Expression exp = visitExpression(ctx.exp);
+		Expression condition = visitExpression(ctx.cond);
+		CompensationElement elem = new CompensationElement();
+		elem.setExpression(exp);
+		elem.setCondition(condition);
+		return elem;
 	}
 
 	@Override
@@ -493,11 +578,17 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 		String metric_id = ctx.met.getText();
 		Metric m = this.metrics.get(metric_id);
 
-		p = new Property(id, m);
+		if (m != null) {
 
-		if (ctx.value != null) {
-			Expression expr = this.visitExpression(ctx.expression());
-			p.setExpression(expr);
+			p = new Property(id, m);
+
+			if (ctx.value != null) {
+				Expression expr = this.visitExpression(ctx.expression());
+				p.setExpression(expr);
+			}
+		} else {
+			parser.notifyErrorListeners(ctx.start, "Metric \"" + metric_id
+					+ "\" has not been declared.", null);
 		}
 
 		return p;
@@ -753,20 +844,18 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 	}
 
 	@Override
+	public String visitServiceScope(iAgreeParser.ServiceScopeContext ctx) {
+		return ctx.Identifier().getText();
+	}
+
+	@Override
+	public AssessmentInterval visitCompensationsInterval(
+			CompensationsIntervalContext ctx) {
+		return AssessmentInterval.valueOf(ctx.getText().toUpperCase());
+	}
+
+	@Override
 	public Object visitTemporality(iAgreeParser.TemporalityContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitCompensationsInterval(
-			iAgreeParser.CompensationsIntervalContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitServiceScope(iAgreeParser.ServiceScopeContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -785,12 +874,6 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
 	@Override
 	public Object visitVersionNumber(iAgreeParser.VersionNumberContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitCuantif(iAgreeParser.CuantifContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -828,12 +911,6 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Object visitCompensation(iAgreeParser.CompensationContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Object visitDatePeriod_def(iAgreeParser.DatePeriod_defContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
@@ -848,12 +925,6 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
 	@Override
 	public Object visitListArg(iAgreeParser.ListArgContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitCompensations(iAgreeParser.CompensationsContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -878,6 +949,12 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
 	@Override
 	public Object visitErrorNode(ErrorNode node) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visitCuantif(CuantifContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}
