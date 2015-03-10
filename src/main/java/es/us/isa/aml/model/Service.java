@@ -17,10 +17,10 @@ public class Service {
     private List<ConfigurationProperty> cps;
 
     public Service() {
-    	serviceName = "";
-    	serviceReference = "";
-    	features = new HashMap<String, Feature>();
-    	cps = new ArrayList<ConfigurationProperty>();
+        serviceName = "";
+        serviceReference = "";
+        features = new HashMap<String, Feature>();
+        cps = new ArrayList<ConfigurationProperty>();
     }
 
     public Service(String serviceName, String serviceReference) {
@@ -45,16 +45,16 @@ public class Service {
     public void setServiceReference(String serviceReference) {
         this.serviceReference = serviceReference;
     }
-    
+
     public Map<String, Feature> getFeatures() {
-		return features;
-	}
+        return features;
+    }
 
-	public void setFeatures(Map<String, Feature> features) {
-		this.features = features;
-	}
+    public void setFeatures(Map<String, Feature> features) {
+        this.features = features;
+    }
 
-	public List<ConfigurationProperty> getConfigurationProperties() {
+    public List<ConfigurationProperty> getConfigurationProperties() {
         return this.cps;
     }
 

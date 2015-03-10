@@ -68,9 +68,9 @@ public class OPLBuilder implements IBuilder {
         }
 
         StringBuilder sb = new StringBuilder();
-        
+
         sb.append(addService(at.getService()));
-        
+
         for (MonitorableProperty mp : at.getMonitorableProperties()) {
             sb.append(this.addMonitorableProperty(mp)).append("\n");
         }
@@ -88,8 +88,8 @@ public class OPLBuilder implements IBuilder {
 
     @Override
     public String addService(Service service) {
-    	StringBuilder sb = new StringBuilder();
-    	for (ConfigurationProperty cp : service.getConfigurationProperties()) {
+        StringBuilder sb = new StringBuilder();
+        for (ConfigurationProperty cp : service.getConfigurationProperties()) {
             sb.append(this.addConfigurationProperty(cp)).append("\n");
         }
         return sb.toString();
@@ -133,11 +133,12 @@ public class OPLBuilder implements IBuilder {
             this.model = new OPLModel();
         }
         OPLConstraint cons = null;
-        if(gt.getQc() != null)
-        	cons = new OPLConstraint(gt.getId(), gt.getSlo(), gt.getQc());
-        else
-        	cons = new OPLConstraint(gt.getId(), gt.getSlo());
-        	
+        if (gt.getQc() != null) {
+            cons = new OPLConstraint(gt.getId(), gt.getSlo(), gt.getQc());
+        } else {
+            cons = new OPLConstraint(gt.getId(), gt.getSlo());
+        }
+
         this.model.addConstraint(cons);
         return cons.toString();
     }
@@ -149,11 +150,12 @@ public class OPLBuilder implements IBuilder {
         }
 
         OPLConstraint cons = null;
-        if(cc.getQc() != null)
-        	cons = new OPLConstraint(cc.getId(), cc.getSlo(), cc.getQc());
-        else
-        	cons = new OPLConstraint(cc.getId(), cc.getSlo());
-        
+        if (cc.getQc() != null) {
+            cons = new OPLConstraint(cc.getId(), cc.getSlo(), cc.getQc());
+        } else {
+            cons = new OPLConstraint(cc.getId(), cc.getSlo());
+        }
+
         this.model.addConstraint(cons);
         return cons.toString();
     }

@@ -15,7 +15,7 @@ public class AgreementTerms {
 
     public AgreementTerms() {
         this.service = new Service();
-        
+
         this.mps = new ArrayList<>();
         this.gts = new ArrayList<>();
     }

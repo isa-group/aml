@@ -18,7 +18,7 @@ public class OPLConstraint implements Comparable<OPLConstraint> {
         this.slo = slo;
         qc = null;
     }
-    
+
     public OPLConstraint(String id, SLO slo, QualifyingCondition qc) {
         this.id = id;
         this.slo = slo;
@@ -40,30 +40,30 @@ public class OPLConstraint implements Comparable<OPLConstraint> {
     public void setSlo(SLO slo) {
         this.slo = slo;
     }
-    
+
     public QualifyingCondition getQc() {
-		return qc;
-	}
+        return qc;
+    }
 
-	public void setQc(QualifyingCondition qc) {
-		this.qc = qc;
-	}
+    public void setQc(QualifyingCondition qc) {
+        this.qc = qc;
+    }
 
-	@Override
+    @Override
     public String toString() {
-		StringBuilder sb = new StringBuilder();
-		
-		if(getQc() != null){
-			sb.append(getQc().getCondition().toString() + " => ");
-		}
-		
-		String exp = this.getSlo().getExpression().toString();
-		exp = exp.replace("AND", "&&");
+        StringBuilder sb = new StringBuilder();
+
+        if (getQc() != null) {
+            sb.append(getQc().getCondition().toString() + " => ");
+        }
+
+        String exp = this.getSlo().getExpression().toString();
+        exp = exp.replace("AND", "&&");
         exp = exp.replace("OR", "||");
-        
-		sb.append(exp);
-        
-		return this.getId() + ": " + sb.toString() + ";";
+
+        sb.append(exp);
+
+        return this.getId() + ": " + sb.toString() + ";";
     }
 
     @Override

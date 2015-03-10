@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.translators.iagree.model;
 
@@ -11,15 +11,15 @@ import es.us.isa.aml.model.Responder;
  *
  */
 public class IAgreeResponder extends Responder {
-	
-	
-	public IAgreeResponder(String id, Actor roleType) {
-		super(id, roleType);
-	}
 
-	@Override
-	public String toString() {
-		return getRoleType() + " " + getId() + " as Responder";
-	};
+    public IAgreeResponder(String id, Actor roleType) {
+        super(id, roleType);
+    }
+
+    @Override
+    public String toString() {
+        return getRoleType() + " " + getId() + " as Responder";
+    }
+;
 
 }

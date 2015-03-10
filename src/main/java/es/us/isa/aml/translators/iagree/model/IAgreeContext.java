@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.translators.iagree.model;
 
@@ -13,15 +13,17 @@ import es.us.isa.aml.model.Metric;
  *
  */
 public class IAgreeContext extends Context {
-	
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		
-		if(!getInitiator().isEmpty())
-        	sb.append("\t").append("Initiator: "+ "\"" + this.getInitiator() + "\";" + "\n");
-        if(getResponder() != null)
-        	sb.append("\t").append(this.getResponder()).append(";" + "\n");
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        if (!getInitiator().isEmpty()) {
+            sb.append("\t").append("Initiator: " + "\"" + this.getInitiator() + "\";" + "\n");
+        }
+        if (getResponder() != null) {
+            sb.append("\t").append(this.getResponder()).append(";" + "\n");
+        }
 
         sb.append("\t" + "Metrics:" + "\n");
         List<Metric> metrics = this.getMetrics();
@@ -30,7 +32,7 @@ public class IAgreeContext extends Context {
         }
 
         return sb.toString();
-		
-	}
+
+    }
 
 }

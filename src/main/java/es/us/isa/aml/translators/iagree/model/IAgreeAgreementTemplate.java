@@ -1,13 +1,13 @@
 package es.us.isa.aml.translators.iagree.model;
 
 import es.us.isa.aml.model.CreationConstraint;
-import es.us.isa.aml.model.Template;
+import es.us.isa.aml.model.AgreementTemplate;
 
 /**
  * @author jdelafuente
  *
  */
-public class IAgreeTemplate extends Template {
+public class IAgreeAgreementTemplate extends AgreementTemplate {
 
     @Override
     public String toString() {
