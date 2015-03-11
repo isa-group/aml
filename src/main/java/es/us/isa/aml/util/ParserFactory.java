@@ -15,18 +15,21 @@ import es.us.isa.aml.parsers.agreements.WsagParser;
  */
 public class ParserFactory {
 
+    private static final IAgreeParser iAgreeParser = new IAgreeParser();
+    private static final WsagParser wsagParser = new WsagParser();
+
+    private ParserFactory() {
+    }
+
     public static AgreementParser createParser(AgreementLanguage lang) {
         switch (lang) {
             case IAGREE:
-                return new IAgreeParser();
+                return iAgreeParser;
             case WSAG:
-                return new WsagParser();
+                return wsagParser;
             default:
                 throw new IllegalArgumentException("there is no parser for this language: " + lang);
         }
-    }
-
-    private ParserFactory() {
     }
 
 }

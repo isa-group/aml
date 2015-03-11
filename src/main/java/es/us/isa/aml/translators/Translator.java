@@ -10,7 +10,7 @@ import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.Service;
-import es.us.isa.aml.model.Template;
+import es.us.isa.aml.model.AgreementTemplate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,8 +41,8 @@ public class Translator {
         export(model.getContext().getMetrics(), builder);
         export(model.getAgreementTerms(), builder);
 
-        if (model instanceof Template) {
-            export(((Template) model).getCreationConstraints(), builder);
+        if (model instanceof AgreementTemplate) {
+            export(((AgreementTemplate) model).getCreationConstraints(), builder);
         }
 
         return builder.generate();

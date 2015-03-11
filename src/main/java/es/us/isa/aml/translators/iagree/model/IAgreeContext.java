@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.translators.iagree.model;
 

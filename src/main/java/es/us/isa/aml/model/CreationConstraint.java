@@ -21,7 +21,7 @@ public class CreationConstraint extends AgreementElement {
     public void setSlo(SLO slo) {
         this.slo = slo;
     }
-    
+
     public QualifyingCondition getQc() {
         return qc;
     }

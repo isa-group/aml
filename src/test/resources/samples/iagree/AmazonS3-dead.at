@@ -1,0 +1,48 @@
+Template AmazonS3 version 1.0
+    Provider Papamoscas as Responder;
+    Consumer Client1;
+	Metrics:
+		percent: float [0..100]
+		size: integer [0..200]
+		mediumInt: integer [0..100]
+		time: integer [0..100]
+		interfaces: set {SOAP, REST}
+		price: integer [0..400]
+		
+AgreementTerms
+	Service AWS-S3 availableAt. "aws.amazon.com/s3"
+		GlobalDescription
+			Interface: interfaces
+			RRS: boolean
+			StorageSize: size
+			FirstProject: boolean
+			TotalPrice: price
+			StoragePrice: price
+			SupportPlanPrice: price
+
+	MonitorableProperties
+		global:
+			MUP: percent
+			TransferredGb: mediumInt
+			ResponseTime: time
+			ReadRequests: mediumInt
+			WriteRequests: mediumInt
+			OnlineReportingSupport: boolean
+			PhoneSupport: boolean
+			TurnAroundTime: time
+				
+	GuaranteeTerms
+		G1: Provider guarantees MUP>=99;	
+		G2: Consumer guarantees (TransferredGb<StorageSize*2)AND(ReadRequests>WriteRequests);
+		G3: Provider guarantees ResponseTime<=100;
+			onlyIf (Interface="SOAP");
+		G4: Provider guarantees ResponseTime<=70;
+			onlyIf (Interface="REST");	
+
+CreationConstraints
+        C1: (TransferredGb < StorageSize * 100) AND (ReadRequests > WriteRequests);
+        C2: (WriteRequests > ReadRequests) IMPLIES ResponseTime <= 0.1;
+        C3: MUP >= 99.9;
+
+
+EndTemplate
