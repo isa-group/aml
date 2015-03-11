@@ -13,10 +13,8 @@ import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.ParserFactory;
 import es.us.isa.aml.util.Util;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,15 +47,13 @@ public class Store {
     //main methods
     //creation
     public AgreementOffer createAgreementOffer(String content, AgreementLanguage lang, AgreementManager manager) {
-        AgreementOffer offer = new AgreementOffer();
-        offer.loadFromFile(content, lang);
+        AgreementOffer offer = (AgreementOffer) parseAgreementFile(content, lang);
         offer.setAgreementManager(manager);
         return offer;
     }
 
     public AgreementTemplate createAgreementTemplate(String content, AgreementLanguage lang, AgreementManager manager) {
-        AgreementTemplate template = new AgreementTemplate();
-        template.loadFromFile(content, lang);
+        AgreementTemplate template = (AgreementTemplate) parseAgreementFile(content, lang);
         template.setAgreementManager(manager);
         return template;
     }
@@ -100,7 +96,7 @@ public class Store {
     public Map<String, AgreementModel> getAgreementMap() {
         return Collections.unmodifiableMap(this.agreementModelMap);
     }
-    
+
     public void removeAgreement(String name) {
         agreementModelMap.remove(name);
     }

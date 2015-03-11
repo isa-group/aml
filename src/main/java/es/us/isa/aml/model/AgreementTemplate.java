@@ -1,8 +1,8 @@
 package es.us.isa.aml.model;
 
-import es.us.isa.aml.Store;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
+import es.us.isa.aml.util.DocType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +18,9 @@ public class AgreementTemplate extends AgreementModel {
         this.creationConstraints = new ArrayList<>();
     }
 
-    protected AgreementTemplate(AgreementModel agreementModel) {
+    public AgreementTemplate(AgreementModel agreementModel) {
         super(agreementModel);
+        this.docType=DocType.TEMPLATE;
     }
 
     public List<CreationConstraint> getCreationConstraints() {

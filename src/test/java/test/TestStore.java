@@ -20,7 +20,7 @@ public class TestStore {
         Store s = m.getStoreManager();
 
         //MODO_1:
-        String path1 = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+        String path1 = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template1 = m.createAgreementTemplateFromFile(path1);
         Assert.assertNotNull(template1);
     }
@@ -31,7 +31,7 @@ public class TestStore {
         Store s = m.getStoreManager();
 
         //MODO_2:
-        String path2 = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+        String path2 = "src/test/resources/samples/iagree-core.at";
         String content2 = Util.loadFile(path2);
         AgreementTemplate template2 = m.createAgreementTemplate(content2);
         Assert.assertNotNull(template2);
@@ -43,7 +43,7 @@ public class TestStore {
 //        Store s = m.getStoreManager();
 //
 //        //MODO_3
-//        String path3 = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+//        String path3 = "src/test/resources/samples/iagree-core.at";
 //        AgreementTemplate template3 = new AgreementTemplate();
 //        template3.loadFromFile(path3);
 //        Assert.assertNotNull(template3);
@@ -55,7 +55,7 @@ public class TestStore {
         Store s = m.getStoreManager();
 
         //MODO_1:
-        String path1 = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+        String path1 = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template1 = m.createAgreementTemplateFromFile(path1);
         m.registerTemplate(template1);
         AgreementTemplate template1R = m.getAgreementTemplate();
@@ -68,7 +68,7 @@ public class TestStore {
         Store s = m.getStoreManager();
 
         //MODO_2a:
-        String path2a = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+        String path2a = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template2a = m.createAgreementTemplateFromFile(path2a);
         s.register(template2a);
         AgreementTemplate template2aR = s.getAgreementTemplate(template2a.getID());
@@ -81,7 +81,7 @@ public class TestStore {
         Store s = m.getStoreManager();
 
         //MODO_2b:
-        String path2b = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+        String path2b = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template2b = m.createAgreementTemplateFromFile(path2b);
         s.register("hola", template2b);
         AgreementTemplate template2bR = s.getAgreementTemplate("hola");
@@ -94,7 +94,7 @@ public class TestStore {
         Store s = m.getStoreManager();
 
         //MODO_3a
-        String path3a = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+        String path3a = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template3a = m.createAgreementTemplateFromFile(path3a);
         template3a.register();
         AgreementTemplate template3aR = s.getAgreementTemplate(template3a.getID());
@@ -107,7 +107,7 @@ public class TestStore {
         Store s = m.getStoreManager();
 
         //MODO_3b
-        String path3b = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+        String path3b = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template3b = m.createAgreementTemplateFromFile(path3b);
         template3b.register("hola");
         AgreementTemplate template3bR = s.getAgreementTemplate("hola");
@@ -119,7 +119,7 @@ public class TestStore {
         AgreementManager m = new AgreementManager();
         Store s = m.getStoreManager();
 
-        String path = "src/test/resources/samples/iagree/AmazonS3-medium.at";
+        String path = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template = m.createAgreementTemplateFromFile(path);
 
         template.register("plantilla");

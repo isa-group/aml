@@ -2,6 +2,7 @@ package es.us.isa.aml.model;
 
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
+import es.us.isa.aml.util.DocType;
 
 /**
  * @author jdelafuente
@@ -20,8 +21,9 @@ public class AgreementOffer extends AgreementModel {
         this.templateVersion = templateVersion;
     }
 
-    protected AgreementOffer(AgreementModel agreementModel) {
+    public AgreementOffer(AgreementModel agreementModel) {
         super(agreementModel);
+         this.docType=DocType.OFFER;
     }
 
     /**

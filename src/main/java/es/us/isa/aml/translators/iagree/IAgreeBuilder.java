@@ -18,7 +18,6 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.Compensation;
-import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.model.Compensation.AssessmentInterval;
 import es.us.isa.aml.model.Compensation.CompensationType;
 import es.us.isa.aml.model.CompensationElement;
@@ -72,6 +71,7 @@ import es.us.isa.aml.translators.iagree.model.IAgreeResponder;
 import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
 import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTemplate;
+import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
 
 /**
@@ -80,127 +80,127 @@ import es.us.isa.aml.util.Util;
  */
 public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
-    private iAgreeParser parser;
-    public AgreementModel model;
-    public Map<String, Metric> metrics;
-    public long timeStamp;
+	private iAgreeParser parser;
+	public AgreementModel model;
+	public Map<String, Metric> metrics;
+	public long timeStamp;
 
-    public IAgreeBuilder(iAgreeParser parser) {
-        this.parser = parser;
-    }
+	public IAgreeBuilder(iAgreeParser parser) {
+		this.parser = parser;
+	}
 
-    @Override
-    public AgreementModel visitEntry(iAgreeParser.EntryContext ctx) {
+	@Override
+	public AgreementModel visitEntry(iAgreeParser.EntryContext ctx) {
 
-        try {
-            this.timeStamp = Calendar.getInstance().getTimeInMillis();
-            this.metrics = new HashMap<String, Metric>();
+		try {
+			this.timeStamp = Calendar.getInstance().getTimeInMillis();
+			this.metrics = new HashMap<String, Metric>();
 
-            IAgreeContext context = new IAgreeContext();
+			IAgreeContext context = new IAgreeContext();
 
-            if (ctx.template() != null) {
-                this.model = new IAgreeAgreementTemplate();
-                model.setDocType(DocType.TEMPLATE);
-                model.setContext(context);
-                this.visitTemplate(ctx.template());
+			if (ctx.template() != null) {
+				this.model = new IAgreeAgreementTemplate();
+				model.setDocType(DocType.TEMPLATE);
+				model.setContext(context);
+				this.visitTemplate(ctx.template());
 
-            } else if (ctx.agOffer() != null) {
-                this.model = new IAgreeAgreementOffer();
-                model.setDocType(DocType.OFFER);
-                model.setContext(context);
-                this.visitAgOffer(ctx.agOffer());
-            }
-        } catch (Exception e) {
-            this.model = null;
-            e.printStackTrace();
-        }
+			} else if (ctx.agOffer() != null) {
+				this.model = new IAgreeAgreementOffer();
+				model.setDocType(DocType.OFFER);
+				model.setContext(context);
+				this.visitAgOffer(ctx.agOffer());
+			}
+		} catch (Exception e) {
+			this.model = null;
+		}
 
-        return this.model;
-    }
+		return this.model;
+	}
 
-    @Override
-    public Object visitTemplate(iAgreeParser.TemplateContext ctx) {
+	@Override
+	public Object visitTemplate(iAgreeParser.TemplateContext ctx) {
 
-        this.model.setID(ctx.id.getText());
-        this.model.setVersion(new Float(ctx.version.getText()));
+		this.model.setID(ctx.id.getText());
+		this.model.setVersion(new Float(ctx.version.getText()));
 
-        this.visitTemplate_def(ctx.template_def());
+		this.visitTemplate_def(ctx.template_def());
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public Object visitAgOffer(iAgreeParser.AgOfferContext ctx) {
+	@Override
+	public Object visitAgOffer(iAgreeParser.AgOfferContext ctx) {
 
-        this.model.setID(ctx.id.getText());
-        this.model.setVersion(new Float(ctx.version.getText()));
+		this.model.setID(ctx.id.getText());
+		this.model.setVersion(new Float(ctx.version.getText()));
 
-        ((IAgreeAgreementOffer) this.model).setTemplateId(ctx.templateId
-                .getText());
-        ((IAgreeAgreementOffer) this.model).setTemplateVersion(new Float(
-                ctx.templateVersion.getText()));
+		((IAgreeAgreementOffer) this.model).setTemplateId(ctx.templateId
+				.getText());
+		((IAgreeAgreementOffer) this.model).setTemplateVersion(new Float(
+				ctx.templateVersion.getText()));
 
-        this.visitAg_def(ctx.ag_def());
+		this.visitAg_def(ctx.ag_def());
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public Object visitTemplate_def(iAgreeParser.Template_defContext ctx) {
+	@Override
+	public Object visitTemplate_def(iAgreeParser.Template_defContext ctx) {
 
-        for (iAgreeParser.Temp_propertiesContext tempCtx : ctx.temp_properties()) {
-            this.visitTemp_properties(tempCtx);
-        }
+		for (iAgreeParser.Temp_propertiesContext tempCtx : ctx
+				.temp_properties()) {
+			this.visitTemp_properties(tempCtx);
+		}
 
-        this.visitAgreementTerms(ctx.agreementTerms());
+		this.visitAgreementTerms(ctx.agreementTerms());
 
-        this.visitCreationConstraints(ctx.creationConstraints());
+		this.visitCreationConstraints(ctx.creationConstraints());
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public Object visitAg_def(iAgreeParser.Ag_defContext ctx) {
+	@Override
+	public Object visitAg_def(iAgreeParser.Ag_defContext ctx) {
 
-        for (iAgreeParser.Temp_propertiesContext tp : ctx.temp_properties()) {
-            this.visitTemp_properties(tp);
-        }
+		for (iAgreeParser.Temp_propertiesContext tp : ctx.temp_properties()) {
+			this.visitTemp_properties(tp);
+		}
 
-        this.visitAgreementTerms(ctx.agreementTerms());
+		this.visitAgreementTerms(ctx.agreementTerms());
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public Object visitAgreementTerms(iAgreeParser.AgreementTermsContext ctx) {
+	@Override
+	public Object visitAgreementTerms(iAgreeParser.AgreementTermsContext ctx) {
 
-        IAgreeAgreementTerms at = new IAgreeAgreementTerms();
-        this.model.setAgreementTerms(at);
+		IAgreeAgreementTerms at = new IAgreeAgreementTerms();
+		this.model.setAgreementTerms(at);
 
-        this.visitService(ctx.service());
+		this.visitService(ctx.service());
 
-        this.visitMonitorableProperties(ctx.monitorableProperties());
+		this.visitMonitorableProperties(ctx.monitorableProperties());
 
-        this.visitGuaranteeTerms(ctx.guaranteeTerms());
+		this.visitGuaranteeTerms(ctx.guaranteeTerms());
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public Object visitCreationConstraints(
-            iAgreeParser.CreationConstraintsContext ctx) {
+	@Override
+	public Object visitCreationConstraints(
+			iAgreeParser.CreationConstraintsContext ctx) {
 
-        for (iAgreeParser.CreationConstraintContext cc : ctx
-                .creationConstraint()) {
-            this.visitCreationConstraint(cc);
-        }
+		for (iAgreeParser.CreationConstraintContext cc : ctx
+				.creationConstraint()) {
+			this.visitCreationConstraint(cc);
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    @Override
-    public Object visitCreationConstraint(
-            iAgreeParser.CreationConstraintContext ctx) {
+	@Override
+	public Object visitCreationConstraint(
+			iAgreeParser.CreationConstraintContext ctx) {
 
 		Expression exp = this.visitExpression(ctx.expression());
 		IAgreeSLO slo = new IAgreeSLO(exp);
@@ -213,15 +213,13 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 			cc.setQc(qc);
 		}
 
-        if (ctx.qualifyingCondition() != null) {
-            QualifyingCondition qc = visitQualifyingCondition(ctx.qualifyingCondition());
-            cc.setQc(qc);
-        }
+		((AgreementTemplate) this.model).getCreationConstraints().add(cc);
 
-        ((AgreementTemplate) this.model).getCreationConstraints().add(cc);
+		return null;
+	}
 
-        return null;
-    }
+	@Override
+	public Object visitService(iAgreeParser.ServiceContext ctx) {
 
 		IAgreeService service = new IAgreeService();
 		model.getAgreementTerms().setService(service);

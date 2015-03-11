@@ -14,7 +14,6 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeLexer;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
 import es.us.isa.aml.translators.iagree.IAgreeBuilder;
-import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
 
 /**
@@ -29,12 +28,11 @@ public class IAgreeParser implements AgreementParser {
 	}
 
 	@Override
-	public AgreementModel doParse(AgreementFile file) {
+	public AgreementModel doParse(String content) {
 
 		AgreementModel model;
 
-		iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(
-				file.getContent()));
+		iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(content));
 
 		// Get a list of matched tokens
 		CommonTokenStream tokens = new CommonTokenStream(lexer);

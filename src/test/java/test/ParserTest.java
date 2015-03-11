@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.IAgreeParser;
-import es.us.isa.aml.util.AgreementLanguage;
 
 /**
  * @author jdelafuente
@@ -20,13 +19,11 @@ import es.us.isa.aml.util.AgreementLanguage;
  */
 public class ParserTest {
 
-    private static final Logger LOG = Logger.getLogger(ParserTest.class
-            .getName());
+    private static final Logger LOG = Logger.getLogger(ParserTest.class.getName());
 
     public static void main(String[] args) {
 
-        InputStream in = ParserTest.class
-                .getResourceAsStream("/test-simple.at");
+        InputStream in = ParserTest.class.getResourceAsStream("/samples/iagree-core.at");
         String content = getStringFromInputStream(in);
 
         IAgreeParser parser = new IAgreeParser();

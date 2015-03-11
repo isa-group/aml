@@ -19,14 +19,10 @@ public class Context {
     private Object serviceProvider;
     private List<Metric> metrics;
 
-    
-
+    /**
+     *
+     */
     public Context() {
-        initiator = "";
-        responder = null;
-        provider = "";
-        consumer = "";
-        serviceProvider = null;
         metrics = new ArrayList<>();
     }
 
