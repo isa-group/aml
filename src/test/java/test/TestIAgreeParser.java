@@ -154,6 +154,4 @@ public class TestIAgreeParser {
         assertEquals(((AgreementTemplate) model).getCreationConstraints().get(0), cc);
     }
 
-    
-
 }

@@ -21,8 +21,6 @@ public class TestLibLocal {
     private static final Logger LOG = Logger.getLogger(TestLibLocal.class.getName());
     private static AgreementManager serv;
     private static AgreementModel model1;
-    private static AgreementModel model2;
-    private static AgreementModel model3;
 
     @BeforeClass
     public static void init() {
@@ -37,7 +35,7 @@ public class TestLibLocal {
         LOG.log(Level.INFO, "Showing model: \n{0}", model1);
         LOG.log(Level.INFO, "model1a: {0}", serv.isValid(model1));
         LOG.log(Level.INFO, "model1b: {0}", model1.isValid());
-        
+
         assertFalse(serv.isValid(model1));
         assertFalse(model1.isValid());
     }

@@ -12,8 +12,8 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    TestExpression.class, 
-    TestIAgreeParser.class, 
+    TestExpression.class,
+    TestIAgreeParser.class,
     OtherTests.class,
     TestConfig.class,
     TestLibLocal.class,

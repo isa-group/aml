@@ -48,7 +48,6 @@ public class TestStore {
 //        template3.loadFromFile(path3);
 //        Assert.assertNotNull(template3);
 //    }
-
     @Test
     public void testRegistration1() {
         AgreementManager m = new AgreementManager();

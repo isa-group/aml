@@ -46,7 +46,7 @@ public class CplexReasoner extends Reasoner {
 
     @Override
     public Object solve() {
-    	    	
+
         Boolean solve = false;
         if (this.model != null) {
             Translator translator = new Translator(new OPLBuilder());

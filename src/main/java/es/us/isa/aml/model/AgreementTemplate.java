@@ -20,7 +20,7 @@ public class AgreementTemplate extends AgreementModel {
 
     public AgreementTemplate(AgreementModel agreementModel) {
         super(agreementModel);
-        this.docType=DocType.TEMPLATE;
+        this.docType = DocType.TEMPLATE;
     }
 
     public List<CreationConstraint> getCreationConstraints() {
@@ -47,8 +47,8 @@ public class AgreementTemplate extends AgreementModel {
         this.id = newT.id;
         this.version = newT.version;
     }
-    
-    public AgreementOffer generateAgreement(){
+
+    public AgreementOffer generateAgreement() {
         //todo: por ahora es una copia de la template
         return new AgreementOffer(this);
     }

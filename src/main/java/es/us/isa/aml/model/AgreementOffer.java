@@ -23,7 +23,7 @@ public class AgreementOffer extends AgreementModel {
 
     public AgreementOffer(AgreementModel agreementModel) {
         super(agreementModel);
-         this.docType=DocType.OFFER;
+        this.docType = DocType.OFFER;
     }
 
     /**
@@ -53,8 +53,8 @@ public class AgreementOffer extends AgreementModel {
     public void setTemplateVersion(Float templateVersion) {
         this.templateVersion = templateVersion;
     }
-    
-     public void loadFromFile(String path) {
+
+    public void loadFromFile(String path) {
         AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
         loadFromFile(path, lang);
     }
@@ -65,12 +65,11 @@ public class AgreementOffer extends AgreementModel {
         this.agreementManager = newT.agreementManager;
         this.agreementTerms = newT.agreementTerms;
         this.context = newT.context;
-        this.templateId=newT.templateId;
-        this.templateVersion=newT.templateVersion;
+        this.templateId = newT.templateId;
+        this.templateVersion = newT.templateVersion;
         this.docType = newT.docType;
         this.id = newT.id;
         this.version = newT.version;
     }
-    
 
 }

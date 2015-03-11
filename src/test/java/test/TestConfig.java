@@ -39,13 +39,13 @@ public class TestConfig {
 
     }
 
-/*    @Test(expected = Exception.class)
-    public void testLoadConfigBadJson() throws IOException, NullPointerException {
-        String json = "{'CSPReasoner':'cplex','otraCosa':'algo',{}}dsfdff";
-        Config.getProperty("CSPReasoner");
+    /*    @Test(expected = Exception.class)
+     public void testLoadConfigBadJson() throws IOException, NullPointerException {
+     String json = "{'CSPReasoner':'cplex','otraCosa':'algo',{}}dsfdff";
+     Config.getProperty("CSPReasoner");
 
-    }
-*/
+     }
+     */
     private void loadData() {
         //String json = "{" + " \"CSPReasoner\": \"cplex\"," + "\"otraCosa\": \"algo\"" + "}";
         try {
