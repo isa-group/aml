@@ -5,11 +5,7 @@ package test;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Test;
@@ -19,7 +15,7 @@ import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.Feature;
 import es.us.isa.aml.model.Range;
 import es.us.isa.aml.model.Scope;
-import es.us.isa.aml.model.Template;
+import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.Atomic;
@@ -36,8 +32,7 @@ import es.us.isa.aml.translators.iagree.model.IAgreeMetric;
 import es.us.isa.aml.translators.iagree.model.IAgreeMonitorableProperty;
 import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
-import es.us.isa.aml.util.AgreementFile;
-import es.us.isa.aml.util.AgreementLanguage;
+import static es.us.isa.aml.util.Util.getStringFromInputStream;
 
 /**
  * @author jdelafuente
@@ -59,12 +54,11 @@ public class TestIAgreeParser {
      */
     @Test
     public void testParser() {
-        InputStream in = getClass().getResourceAsStream("/iagree-core.at");
+        InputStream in = getClass().getResourceAsStream("/samples/iagree-core.at");
         String content = getStringFromInputStream(in);
-        AgreementFile sla = new AgreementFile(content, AgreementLanguage.IAGREE);
 
         IAgreeParser parser = new IAgreeParser();
-        AgreementModel model = parser.doParse(sla);
+        AgreementModel model = parser.doParse(content);
 
 //        assertEquals(content.replaceAll("\\s+", ""), model.toString().replaceAll("\\s+", ""));
     }
@@ -85,12 +79,11 @@ public class TestIAgreeParser {
     @Test
     public void testModel() {
 
-        InputStream in = getClass().getResourceAsStream("/iagree-core.at");
+        InputStream in = getClass().getResourceAsStream("/samples/iagree-core.at");
         String content = getStringFromInputStream(in);
-        AgreementFile sla = new AgreementFile(content, AgreementLanguage.IAGREE);
 
         IAgreeParser parser = new IAgreeParser();
-        AgreementModel model = parser.doParse(sla);
+        AgreementModel model = parser.doParse(content);
 
         // Asserts ID y Version
         assertEquals(model.getID(), "IAgreeCore");
@@ -118,7 +111,7 @@ public class TestIAgreeParser {
         service.setServiceReference("test.template.com/service");
         at.setService(service);
 
-     // Configuration properties
+        // Configuration properties
         IAgreeConfigurationProperty ConfProp1 = new IAgreeConfigurationProperty("ConfProp1", met1);
         ConfProp1.setScope(Scope.Global);
         at.getService().getConfigurationProperties().add(ConfProp1);
@@ -158,22 +151,7 @@ public class TestIAgreeParser {
         IAgreeCreationConstraint cc = new IAgreeCreationConstraint("C1", slo3);
 
         // Assert Creation Constraint
-        assertEquals(((Template) model).getCreationConstraints().get(0), cc);
-    }
-
-    String getStringFromInputStream(InputStream in) {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(in));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line.replaceAll("	", "\t")).append("\n");
-            }
-        } catch (IOException e) {
-            LOG.log(Level.WARNING, null, e);
-        }
-        return sb.toString();
+        assertEquals(((AgreementTemplate) model).getCreationConstraints().get(0), cc);
     }
 
 }

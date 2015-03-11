@@ -12,27 +12,31 @@ import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
  *
  * @author AntonioGamez
  */
-public class ValidOp extends NoCoreOperation {
+public class ExistDeadTermsOp extends NoCoreOperation {
 
     private final ExistInconsistenciesOp existsInconsistenciesOp;
-    private final ExistDeadTermsOp existDeadTermsOp;
+    private Boolean consistent;
 
-    public ValidOp() {
+    public ExistDeadTermsOp() {
         this.existsInconsistenciesOp = new ExistInconsistenciesOp();
-        this.existDeadTermsOp = new ExistDeadTermsOp();
     }
 
     public void analyze(AgreementModel model) {
         existsInconsistenciesOp.analyze(model);
-        existDeadTermsOp.analyze(model);
+        consistent = !(Boolean) existsInconsistenciesOp.getResult().getResponseObject(0);
+        AgreementModel modelCopy = model.clone();
+        modelCopy.getAgreementTerms();
+
+        while (consistent) {
+            System.out.println(modelCopy.getAgreementTerms().getGuaranteeTerms());
+            consistent = false;
+        }
 
     }
 
     @Override
     public Boolean getResult() {
-        Boolean noInconsistencies = !(Boolean) existsInconsistenciesOp.getResult().getResponseObject(0);
-        Boolean noDeadTerms = !existDeadTermsOp.getResult();
-        return noInconsistencies && noDeadTerms;
+        return true;
     }
 
 }

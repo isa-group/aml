@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.model;
 
@@ -11,22 +11,22 @@ import java.util.List;
  *
  */
 public class Context {
-	
-	private String initiator;
-	private Responder responder;
-	private String provider;
-	private String consumer;
-	private Object serviceProvider;
-	private List<Metric> metrics;
-    
+
+    private String initiator;
+    private Responder responder;
+    private String provider;
+    private String consumer;
+    private Object serviceProvider;
+    private List<Metric> metrics;
+
     /**
-	 * 
-	 */
-	public Context() {
+     *
+     */
+    public Context() {
         metrics = new ArrayList<>();
-	}
-	
-	public String getInitiator() {
+    }
+
+    public String getInitiator() {
         return this.initiator;
     }
 
@@ -41,24 +41,24 @@ public class Context {
     public void setResponder(Responder responder) {
         this.responder = responder;
     }
-    
+
     public String getProvider() {
-		return provider;
-	}
+        return provider;
+    }
 
-	public void setProvider(String provider) {
-		this.provider = provider;
-	}
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
 
-	public String getConsumer() {
-		return consumer;
-	}
-    
+    public String getConsumer() {
+        return consumer;
+    }
+
     public void setConsumer(String consumer) {
-		this.consumer = consumer;
-	}
+        this.consumer = consumer;
+    }
 
-	public Object getServiceProvider() {
+    public Object getServiceProvider() {
         return this.serviceProvider;
     }
 

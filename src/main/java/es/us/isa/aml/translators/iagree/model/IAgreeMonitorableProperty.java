@@ -11,8 +11,8 @@ import es.us.isa.aml.model.MonitorableProperty;
  *
  */
 public class IAgreeMonitorableProperty extends MonitorableProperty {
-	
-	public IAgreeMonitorableProperty(String id, Metric metric) {
+
+    public IAgreeMonitorableProperty(String id, Metric metric) {
         super(id, metric);
     }
 

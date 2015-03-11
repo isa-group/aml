@@ -7,7 +7,6 @@ package es.us.isa.aml.operations.core.csp;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.operations.core.CoreOperation;
-import es.us.isa.aml.operations.reasoners.CSPResponse;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerFactory;
 
@@ -15,23 +14,24 @@ import es.us.isa.aml.util.ReasonerFactory;
  *
  * @author AntonioGamez
  */
-public class CSPExistsInconsistenciesCOp extends CoreOperation {
+public class ExistInconsistenciesOp extends CoreOperation {
 
-    private Boolean existsInconsistencies;
+    private Boolean existInconsistencies;
 
-    public CSPExistsInconsistenciesCOp() {
+    public ExistInconsistenciesOp() {
         this.reasoner = ReasonerFactory.createCSPReasoner();
     }
 
     public void analyze(AgreementModel model) {
         this.reasoner.addProblem(model);
-        CSPResponse response = (CSPResponse) this.reasoner.solve();
-        existsInconsistencies = response.getConsistent();
+        existInconsistencies = !(Boolean) this.reasoner.solve();
+        // reasoner.solve() gives us "isConsistent" operation
+        // but we want "existInconsistencies" one.
     }
 
     @Override
     public OperationResponse getResult() {
-        this.result.addResponseObject(existsInconsistencies);
+        this.result.addResponseObject(existInconsistencies);
         return this.result;
     }
 }

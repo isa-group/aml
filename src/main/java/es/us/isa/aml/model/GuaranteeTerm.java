@@ -39,16 +39,16 @@ public class GuaranteeTerm extends AgreementElement implements Comparable<Guaran
     public void setSlo(SLO slo) {
         this.slo = slo;
     }
-    
+
     public String getServiceScope() {
-		return serviceScope;
-	}
+        return serviceScope;
+    }
 
-	public void setServiceScope(String serviceScope) {
-		this.serviceScope = serviceScope;
-	}
+    public void setServiceScope(String serviceScope) {
+        this.serviceScope = serviceScope;
+    }
 
-	public QualifyingCondition getQc() {
+    public QualifyingCondition getQc() {
         return qc;
     }
 
@@ -57,14 +57,14 @@ public class GuaranteeTerm extends AgreementElement implements Comparable<Guaran
     }
 
     public List<Compensation> getCompensations() {
-		return compensations;
-	}
+        return compensations;
+    }
 
-	public void setCompensations(List<Compensation> compensations) {
-		this.compensations = compensations;
-	}
+    public void setCompensations(List<Compensation> compensations) {
+        this.compensations = compensations;
+    }
 
-	@Override
+    @Override
     public int compareTo(GuaranteeTerm o) {
         return getId().compareTo(o.getId());
     }

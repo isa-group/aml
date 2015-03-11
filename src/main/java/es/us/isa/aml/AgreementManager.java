@@ -11,8 +11,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementOffer;
+import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.operations.noCore.ValidOp;
-import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.Util;
@@ -26,20 +27,19 @@ public class AgreementManager {
     private static final Logger LOG = Logger.getLogger(AgreementManager.class.getName());
     private final Store store;
 
-    
-	public AgreementManager() {
-		try {
-			InputStream in = getClass().getResourceAsStream("/defaultConfig.json");
-	        String config = Util.getStringFromInputStream(in);
+    public AgreementManager() {
+        try {
+            InputStream in = getClass().getResourceAsStream("/config.json");
+            String config = Util.getStringFromInputStream(in);
             Config.loadConfig(config);
         } catch (IOException ex) {
             LOG.log(Level.WARNING, "AgreementManager load config error", ex);
         }
-        this.store = new Store();
-	}
-    
+        this.store = Store.getInstance();
+    }
+
     public AgreementManager(String json) {
-    	try {
+        try {
             Config.loadConfig(json);
         } catch (IOException ex) {
             LOG.log(Level.WARNING, "AgreementManager load config error", ex);
@@ -47,44 +47,63 @@ public class AgreementManager {
         this.store = new Store();
     }
 
-    protected Store getStoreManager() {
+    public Store getStoreManager() {
         return this.store;
     }
 
     //   Start agreement files and model management
-    public AgreementModel createAgreementOffer(String content) {
+    // Creation
+    public AgreementOffer createAgreementOfferFromFile(String path) {
         AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
-        return createAgreementOffer(content, lang);
+        String content = Util.loadFile(path);
+        return store.createAgreementOffer(content, lang, this);
     }
 
-    public AgreementModel createAgreementOffer(String content, AgreementLanguage lang) {
-        return createAgreement(content, lang, true);
+    public AgreementOffer createAgreementOfferFromFile(String path, AgreementLanguage lang) {
+        String content = Util.loadFile(path);
+        return store.createAgreementOffer(content, lang, this);
     }
 
-    public AgreementModel createAgreementTemplate(String content) {
+    public AgreementOffer createAgreementOffer(String content) {
         AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
-        return createAgreementOffer(content, lang);
+        return store.createAgreementOffer(content, lang, this);
     }
 
-    public AgreementModel createAgreementTemplate(String content, AgreementLanguage lang) {
-        return createAgreement(content, lang, false);
+    public AgreementTemplate createAgreementTemplateFromFile(String path) {
+        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        String content = Util.loadFile(path);
+        return store.createAgreementTemplate(content, lang, this);
     }
 
-    private AgreementModel createAgreement(String content, AgreementLanguage lang, boolean isOffer) {
-        AgreementFile file = new AgreementFile(content, lang);
-        AgreementModel model;
-        if (isOffer) {
-            store.addAgreementFile("offer", file);
-            model = store.getAgreementModel("offer");
-        } else {
-            store.addAgreementFile("template", file);
-            model = store.getAgreementModel("template");
-        }
-        model.setAgreementManager(this);
-        return model;
+    public AgreementTemplate createAgreementTemplateFromFile(String path, AgreementLanguage lang) {
+        String content = Util.loadFile(path);
+        return store.createAgreementTemplate(content, lang, this);
     }
-    //   End agreement files and model management
 
+    public AgreementTemplate createAgreementTemplate(String content) {
+        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        return store.createAgreementTemplate(content, lang, this);
+    }
+
+    // Registration
+    public void registerTemplate(AgreementTemplate template) {
+        store.register("template", template);
+    }
+
+    public void registerOffer(AgreementOffer offer) {
+        store.register("offer", offer);
+    }
+
+    // Retrieve
+    public AgreementTemplate getAgreementTemplate() {
+        return store.getAgreementTemplate("template");
+    }
+
+    public AgreementOffer getAgreementOffer() {
+        return store.getAgreementOffer("offer");
+    }
+
+    // End agreement files and model management
     // Start operations
     public Boolean isValid(AgreementModel agreementModel) {
         ValidOp op = new ValidOp();

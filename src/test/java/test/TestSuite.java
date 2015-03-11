@@ -13,7 +13,11 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
     TestExpression.class,
-    TestIAgreeParser.class
+    TestIAgreeParser.class,
+    OtherTests.class,
+    TestConfig.class,
+    TestLibLocal.class,
+    TestStore.class
 })
 
 public class TestSuite {

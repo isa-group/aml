@@ -15,7 +15,7 @@ public class IAgreeAgreement extends Agreement {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Agreement ").append(this.getID()).append(" version ").append(this.getVersion()).append("\n");
-        
+
         sb.append(getContext()).append("\n");
 
         sb.append(getAgreementTerms());

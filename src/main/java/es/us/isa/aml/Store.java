@@ -6,14 +6,15 @@
 package es.us.isa.aml;
 
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementOffer;
+import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.parsers.agreements.AgreementParser;
-import es.us.isa.aml.util.AgreementFile;
 import es.us.isa.aml.util.AgreementLanguage;
+import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.ParserFactory;
-import java.util.ArrayList;
+import es.us.isa.aml.util.Util;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,74 +23,82 @@ import java.util.Map;
  */
 public class Store {
 
-    private final Map<String, AgreementFile> agreementFileMap;
+    private static Store instance = null;
     private final Map<String, AgreementModel> agreementModelMap;
-    private final List<AgreementParser> parsers;
-    private Boolean isParsed;
 
-    public Store() {
-        this.agreementFileMap = new HashMap<>();
-        this.agreementModelMap = new HashMap<>();
-        this.parsers = new ArrayList<>();
-        this.isParsed = false;
+    protected Store() {
+        agreementModelMap = new HashMap<>();
     }
 
-    public Map<String, AgreementFile> getAgreementFileMap() {
-        return Collections.unmodifiableMap(this.agreementFileMap);
-        //instead of make a map copy, it's more memory efficient
+    public static Store getInstance() {
+        if (instance == null) {
+            instance = new Store();
+        }
+        return instance;
     }
 
-    public Map<String, AgreementModel> getAgreementModelMap() {
+    protected static Store getInstance(String json) {
+        if (instance == null) {
+            instance = new Store();
+        }
+        return instance;
+    }
+
+    //main methods
+    //creation
+    public AgreementOffer createAgreementOffer(String content, AgreementLanguage lang, AgreementManager manager) {
+        AgreementOffer offer = (AgreementOffer) parseAgreementFile(content, lang);
+        offer.setAgreementManager(manager);
+        return offer;
+    }
+
+    public AgreementTemplate createAgreementTemplate(String content, AgreementLanguage lang, AgreementManager manager) {
+        AgreementTemplate template = (AgreementTemplate) parseAgreementFile(content, lang);
+        template.setAgreementManager(manager);
+        return template;
+    }
+
+    // Registration
+    public void registerFromFile(String path) {
+        register(parseAgreementFile(Util.loadFile(path)));
+    }
+
+    public void register(AgreementModel model) {
+        register(model.getID(), model);
+    }
+
+    public void register(String name, AgreementModel model) {
+        agreementModelMap.put(name, model);
+    }
+
+    // Retrieve
+    public AgreementTemplate getAgreementTemplate(String name) {
+        return (AgreementTemplate) agreementModelMap.get(name);
+    }
+
+    public AgreementOffer getAgreementOffer(String name) {
+        return (AgreementOffer) agreementModelMap.get(name);
+    }
+
+    // Parsing
+    public AgreementModel parseAgreementFile(String content) {
+        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementParser parser = ParserFactory.createParser(lang);
+        return parser.doParse(content);
+    }
+
+    public AgreementModel parseAgreementFile(String content, AgreementLanguage lang) {
+        AgreementParser parser = ParserFactory.createParser(lang);
+        return parser.doParse(content);
+    }
+
+    //other methods
+    public Map<String, AgreementModel> getAgreementMap() {
         return Collections.unmodifiableMap(this.agreementModelMap);
     }
 
-    public AgreementModel getAgreementModel(String name) {
-        if (!this.isParsed) {
-            this.parseAgreementFileMap();
-        }
-        return this.agreementModelMap.get(name.toLowerCase());
-    }
-
-    public void addAgreementFile(String name, AgreementFile file) {
-        this.agreementFileMap.put(name.toLowerCase(), file);
-        this.isParsed = false;
-    }
-
-    public void deleteAgreementFile(String name) {
-        this.agreementFileMap.remove(name);
-        this.isParsed = false;
-    }
-
-    public void parseAgreementFileMap() {
-        for (Map.Entry<String, AgreementFile> entry : this.agreementFileMap.entrySet()) {
-            AgreementFile agreementFile = entry.getValue();
-            AgreementModel agreementModel = this.parseAgreementFile(agreementFile);
-            this.agreementModelMap.put(entry.getKey().toLowerCase(), agreementModel);
-        }
-        this.isParsed = true;
-    }
-
-    public AgreementModel parseAgreementFileElement(String name) {
-        AgreementFile agreementFile = this.agreementFileMap.get(name);
-        return this.parseAgreementFile(agreementFile);
-    }
-
-    private AgreementModel parseAgreementFile(AgreementFile agreementFile) {
-        AgreementParser parser = this.getParser(agreementFile.getLang());
-        AgreementModel agreementModel = parser.doParse(agreementFile);
-        return agreementModel;
-    }
-
-    // avoid having multiple instances of the same parser object
-    private AgreementParser getParser(AgreementLanguage lang) {
-        for (AgreementParser p : this.parsers) {
-            if (p.getSupportedLang().equals(lang)) {
-                return p;
-            }
-        }
-        AgreementParser parser = ParserFactory.createParser(lang);
-        this.parsers.add(parser);
-        return parser;
+    public void removeAgreement(String name) {
+        agreementModelMap.remove(name);
     }
 
 }

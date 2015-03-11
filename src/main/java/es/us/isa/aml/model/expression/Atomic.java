@@ -25,20 +25,20 @@ public class Atomic extends Expression {
             return this.value.toString();
         }
     }
-    
+
     public void setValue(Object o) {
-		this.value = o;
-	}
-    
+        this.value = o;
+    }
+
     public void setDoubleValue(Double n) {
-		this.value = n;
-	}
-    
+        this.value = n;
+    }
+
     public void setIntegerValue(Integer n) {
-		this.value = n;
-	}
-    
+        this.value = n;
+    }
+
     public void setBooleanValue(Boolean b) {
-		this.value = b;
-	}
+        this.value = b;
+    }
 }
