@@ -5,11 +5,13 @@
  */
 package es.us.isa.aml.operations.reasoners;
 
+import ilog.concert.cppimpl.IloEnv;
 import ilog.cp.IloCP;
 import ilog.cp.IloCP.IntParam;
 import ilog.cp.IloCP.ParameterValues;
 import ilog.cplex.IloCplex;
 import ilog.opl.IloOplErrorHandler;
+import ilog.opl.IloOplFactory;
 import ilog.opl.IloOplModel;
 import ilog.opl.IloOplModelDefinition;
 import ilog.opl.IloOplModelSource;
@@ -24,7 +26,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.operations.reasoners.util.CplexConfig;
 import es.us.isa.aml.translators.Translator;
 import es.us.isa.aml.translators.csp.opl.OPLBuilder;
 import es.us.isa.aml.util.ReasonerType;
@@ -61,26 +62,28 @@ public class CplexReasoner extends Reasoner {
 //                IloOplFactory.setDebugMode(false);
 
                 ByteArrayOutputStream errors = new ByteArrayOutputStream();
-                IloOplErrorHandler errHandler = CplexConfig.getInstance().getOplFactory().createOplErrorHandler(errors);
-                IloOplModelSource modelSource = CplexConfig.getInstance().getOplFactory().createOplModelSource(temp.getAbsolutePath());
+                IloEnv env = new IloEnv();
+                IloOplFactory oplFactory = new IloOplFactory();
+                IloOplErrorHandler errHandler = oplFactory.createOplErrorHandler(errors);
+                IloOplModelSource modelSource = oplFactory.createOplModelSource(temp.getAbsolutePath());
 
-                IloOplSettings settings = new IloOplSettings(CplexConfig.getInstance().getEnv(), errHandler);
-                IloOplModelDefinition def = CplexConfig.getInstance().getOplFactory().createOplModelDefinition(modelSource, settings);
+                IloOplSettings settings = new IloOplSettings(env, errHandler);
+                IloOplModelDefinition def = oplFactory.createOplModelDefinition(modelSource, settings);
 
                 String using = content.substring(0, content.indexOf('\n')).trim();
                 Boolean useCP = using.equals("using CP;");
 
                 if (useCP) {
-                    IloCP cp = CplexConfig.getInstance().getOplFactory().createCP();
+                    IloCP cp = oplFactory.createCP();
                     cp.setOut(null);
                     cp.setParameter(IntParam.ConflictRefinerOnVariables, ParameterValues.On);
-                    IloOplModel opl = CplexConfig.getInstance().getOplFactory().createOplModel(def, cp);
+                    IloOplModel opl = oplFactory.createOplModel(def, cp);
                     opl.generate();
                     solve = cp.solve();
                 } else {
-                    IloCplex cplex = CplexConfig.getInstance().getOplFactory().createCplex();
+                    IloCplex cplex = oplFactory.createCplex();
                     cplex.setOut(null);
-                    IloOplModel opl = CplexConfig.getInstance().getOplFactory().createOplModel(def, cplex);
+                    IloOplModel opl = oplFactory.createOplModel(def, cplex);
                     opl.generate();
                     solve = cplex.solve();
                 }
