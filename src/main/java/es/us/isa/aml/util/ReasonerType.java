@@ -11,5 +11,5 @@ package es.us.isa.aml.util;
  */
 public enum ReasonerType {
 
-    CHOCO, CPLEX
+    CHOCO, CPLEX, CSPWebReasoner
 }

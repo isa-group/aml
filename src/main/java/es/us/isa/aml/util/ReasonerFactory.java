@@ -1,5 +1,6 @@
 package es.us.isa.aml.util;
 
+import es.us.isa.aml.operations.reasoners.CSPWebReasoner;
 import es.us.isa.aml.operations.reasoners.ChocoReasoner;
 import es.us.isa.aml.operations.reasoners.CplexReasoner;
 import es.us.isa.aml.operations.reasoners.Reasoner;
@@ -22,6 +23,8 @@ public class ReasonerFactory {
                 return new ChocoReasoner();
             case CPLEX:
                 return new CplexReasoner();
+            case CSPWebReasoner:
+            	return new CSPWebReasoner();
             default:
                 throw new IllegalArgumentException("there is no reasoner for this type: " + type);
         }

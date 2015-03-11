@@ -80,13 +80,23 @@ public class CplexReasoner extends Reasoner {
                     IloOplModel opl = oplFactory.createOplModel(def, cp);
                     opl.generate();
                     solve = cp.solve();
+                    
+                    cp.clearModel();
+                    opl.endAll();
+                    
                 } else {
                     IloCplex cplex = oplFactory.createCplex();
                     cplex.setOut(null);
                     IloOplModel opl = oplFactory.createOplModel(def, cplex);
                     opl.generate();
                     solve = cplex.solve();
+                    
+                    cplex.clearModel();
+                    opl.endAll();
                 }
+//                oplFactory.end();
+//                env.end();
+                
             } catch (Error | Exception e) {
                 solve = false;
                 LOG.log(Level.SEVERE, "There was an error processing the file", e);

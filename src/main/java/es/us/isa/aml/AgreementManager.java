@@ -29,7 +29,7 @@ public class AgreementManager {
     
 	public AgreementManager() {
 		try {
-			InputStream in = getClass().getResourceAsStream("/config.json");
+			InputStream in = getClass().getResourceAsStream("/defaultConfig.json");
 	        String config = Util.getStringFromInputStream(in);
             Config.loadConfig(config);
         } catch (IOException ex) {

@@ -27,7 +27,7 @@ public class ParserTest {
 	public static void main(String[] args) {
 
 		InputStream in = ParserTest.class
-				.getResourceAsStream("/test-simple.at");
+				.getResourceAsStream("/iagree-core.at");
 		String content = getStringFromInputStream(in);
 		AgreementFile sla = new AgreementFile(content, AgreementLanguage.IAGREE);
 

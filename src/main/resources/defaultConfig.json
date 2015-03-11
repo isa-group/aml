@@ -1,0 +1,6 @@
+{
+    "defaultInputFormat": "IAGREE",
+    "CSPReasoner": "CplexReasoner",
+    "CSPWebReasonerEndpoint" : "",
+    "DLReasoner": "none"
+}

@@ -7,6 +7,7 @@ package es.us.isa.aml.operations.core.csp;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.operations.core.CoreOperation;
+import es.us.isa.aml.operations.reasoners.CSPResponse;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerFactory;
 
@@ -24,7 +25,8 @@ public class CSPExistsInconsistenciesCOp extends CoreOperation {
 
     public void analyze(AgreementModel model) {
         this.reasoner.addProblem(model);
-        existsInconsistencies = (Boolean) this.reasoner.solve();
+        CSPResponse response = (CSPResponse) this.reasoner.solve();
+        existsInconsistencies = response.getConsistent();
     }
 
     @Override
