@@ -27,20 +27,25 @@ AgreementTerms
 		global:
 			MonitProp1: met2;
 			MonitProp2: met3;
+                        TransferredGb: met5;
+                        StorageSize: met5;
+                        ReadRequests: met5;
+                        WriteRequests: met5;
+                        ResponseTime:met5;
+                        MUP: met5;
 		for testFeatures2:
 			MonitProp3: met4;
 		for testFeatures3:
 			MonitProp4: met5;
 				
 	GuaranteeTerms
-		G1: Provider guarantees MonitProp1 >= 64;
-			onlyIf(MonitProp3 >= 128);
+		G1: Provider guarantees (TransferredGb < StorageSize * 100) AND (ReadRequests > WriteRequests);
+
+                G2: Provider guarantees ResponseTime <= 0.1;
+			onlyIf(WriteRequests > ReadRequests);
 		
-		G2: Consumer guarantees MonitProp2 >= 95.5;
-			with monthly penalty
-				of MonitProp4 = 20 if MonitProp3 > 256;
-				of MonitProp4 = 50 if MonitProp3 >= 512;
-			end
+		G3: Provider guarantees MUP >= 99.9;
+			
 
 CreationConstraints
 	C1: ConfProp2 == ConfProp1 * 2;
