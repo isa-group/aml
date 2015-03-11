@@ -23,11 +23,6 @@ public class Context {
 	 * 
 	 */
 	public Context() {
-		initiator = "";
-		responder = null;
-		provider = "";
-		consumer = "";
-		serviceProvider = null;
         metrics = new ArrayList<>();
 	}
 	

@@ -5,13 +5,11 @@
  */
 package es.us.isa.aml.operations.reasoners;
 
-import ilog.concert.cppimpl.IloEnv;
 import ilog.cp.IloCP;
 import ilog.cp.IloCP.IntParam;
 import ilog.cp.IloCP.ParameterValues;
 import ilog.cplex.IloCplex;
 import ilog.opl.IloOplErrorHandler;
-import ilog.opl.IloOplFactory;
 import ilog.opl.IloOplModel;
 import ilog.opl.IloOplModelDefinition;
 import ilog.opl.IloOplModelSource;
@@ -26,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.operations.reasoners.util.CplexConfig;
 import es.us.isa.aml.translators.Translator;
 import es.us.isa.aml.translators.csp.opl.OPLBuilder;
 import es.us.isa.aml.util.ReasonerType;
@@ -46,6 +45,7 @@ public class CplexReasoner extends Reasoner {
 
     @Override
     public Object solve() {
+    	    	
         Boolean solve = false;
         if (this.model != null) {
             Translator translator = new Translator(new OPLBuilder());
@@ -60,36 +60,33 @@ public class CplexReasoner extends Reasoner {
                 }
 //                IloOplFactory.setDebugMode(false);
 
-                IloEnv env = new IloEnv();
-                IloOplFactory oplF = new IloOplFactory();
-
                 ByteArrayOutputStream errors = new ByteArrayOutputStream();
-                IloOplErrorHandler errHandler = oplF.createOplErrorHandler(errors);
-                IloOplModelSource modelSource = oplF.createOplModelSource(temp.getAbsolutePath());
+                IloOplErrorHandler errHandler = CplexConfig.getInstance().getOplFactory().createOplErrorHandler(errors);
+                IloOplModelSource modelSource = CplexConfig.getInstance().getOplFactory().createOplModelSource(temp.getAbsolutePath());
 
-                IloOplSettings settings = new IloOplSettings(env, errHandler);
-                IloOplModelDefinition def = oplF.createOplModelDefinition(modelSource, settings);
+                IloOplSettings settings = new IloOplSettings(CplexConfig.getInstance().getEnv(), errHandler);
+                IloOplModelDefinition def = CplexConfig.getInstance().getOplFactory().createOplModelDefinition(modelSource, settings);
 
                 String using = content.substring(0, content.indexOf('\n')).trim();
                 Boolean useCP = using.equals("using CP;");
 
                 if (useCP) {
-                    IloCP cp = oplF.createCP();
+                    IloCP cp = CplexConfig.getInstance().getOplFactory().createCP();
                     cp.setOut(null);
                     cp.setParameter(IntParam.ConflictRefinerOnVariables, ParameterValues.On);
-                    IloOplModel opl = oplF.createOplModel(def, cp);
+                    IloOplModel opl = CplexConfig.getInstance().getOplFactory().createOplModel(def, cp);
                     opl.generate();
                     solve = cp.solve();
                 } else {
-                    IloCplex cplex = oplF.createCplex();
+                    IloCplex cplex = CplexConfig.getInstance().getOplFactory().createCplex();
                     cplex.setOut(null);
-                    IloOplModel opl = oplF.createOplModel(def, cplex);
+                    IloOplModel opl = CplexConfig.getInstance().getOplFactory().createOplModel(def, cplex);
                     opl.generate();
                     solve = cplex.solve();
                 }
             } catch (Error | Exception e) {
                 solve = false;
-                LOG.log(Level.WARNING, null, e);
+                LOG.log(Level.SEVERE, "There was an error processing the file", e);
             }
         } else {
             solve = false;

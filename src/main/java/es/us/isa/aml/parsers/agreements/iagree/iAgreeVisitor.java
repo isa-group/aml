@@ -82,6 +82,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFeatures(@NotNull iAgreeParser.FeaturesContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#partiesRoles_prop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPartiesRoles_prop(@NotNull iAgreeParser.PartiesRoles_propContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#feature}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -122,13 +129,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCreationConstraints(@NotNull iAgreeParser.CreationConstraintsContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#responder_prop}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitResponder_prop(@NotNull iAgreeParser.Responder_propContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#guaranteeTerms}.

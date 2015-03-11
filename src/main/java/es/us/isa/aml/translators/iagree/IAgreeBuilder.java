@@ -52,6 +52,7 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Feature_operationCon
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeaturesContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.LocalDescriptionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Local_MonitorablePropertiesContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.PartiesRoles_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Provider_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.QualifyingConditionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ServiceProvider_propContext;
@@ -205,9 +206,10 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 		IAgreeSLO slo = new IAgreeSLO(exp);
 		IAgreeCreationConstraint cc = new IAgreeCreationConstraint(ctx
 				.Identifier().getText(), slo);
-		
-		if(ctx.qualifyingCondition() != null){
-			QualifyingCondition qc = visitQualifyingCondition(ctx.qualifyingCondition());
+
+		if (ctx.qualifyingCondition() != null) {
+			QualifyingCondition qc = visitQualifyingCondition(ctx
+					.qualifyingCondition());
 			cc.setQc(qc);
 		}
 
@@ -273,8 +275,8 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
 		if (ctx.initiator_prop() != null)
 			visitInitiator_prop(ctx.initiator_prop());
-		else if (ctx.responder_prop() != null)
-			visitResponder_prop(ctx.responder_prop());
+		else if (ctx.partiesRoles_prop() != null)
+			visitPartiesRoles_prop(ctx.partiesRoles_prop());
 		else if (ctx.serviceProvider_prop() != null)
 			visitServiceProvider_prop(ctx.serviceProvider_prop());
 		else if (ctx.expirationTime_prop() != null) {
@@ -319,25 +321,29 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Object visitResponder_prop(iAgreeParser.Responder_propContext ctx) {
+	public Object visitPartiesRoles_prop(PartiesRoles_propContext ctx) {
 		IAgreeResponder r = null;
-		if(ctx.PROVIDER() != null){
+
+		if (Actor.valueOf(ctx.responder.getText()) == Actor.Provider) {
 			r = new IAgreeResponder(ctx.id.getText(), Actor.Provider);
-		} else if(ctx.CONSUMER() != null)
+			visitConsumer_prop(ctx.consumer_prop());
+		} else if (Actor.valueOf(ctx.responder.getText()) == Actor.Consumer) {
+			visitProvider_prop(ctx.provider_prop());
 			r = new IAgreeResponder(ctx.id.getText(), Actor.Consumer);
-		
-		if(r != null)
+		}
+
+		if (r != null)
 			this.model.getContext().setResponder(r);
-		
+
 		return null;
 	}
-	
+
 	@Override
 	public Object visitProvider_prop(Provider_propContext ctx) {
 		this.model.getContext().setProvider(ctx.id.getText());
 		return null;
 	}
-	
+
 	@Override
 	public Object visitConsumer_prop(Consumer_propContext ctx) {
 		this.model.getContext().setConsumer(ctx.id.getText());

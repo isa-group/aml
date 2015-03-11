@@ -34,13 +34,14 @@ public class ParserTest {
 		IAgreeParser parser = new IAgreeParser();
 		AgreementModel model = parser.doParse(sla);
 
-		if (model != null)
-			System.out.println(model.toString()); /* LOG.info(model.toString()); */
-		else
+		if(parser.getErrorListener().hasErrors()){
 			LOG.severe(parser.getErrorListener().getErrors().toString());
+		} else {
+			System.out.println(model.toString()); /* LOG.info(model.toString()); */
+		}	
 
-		// Translator t = new Translator(new OPLBuilder());
-		// System.out.println(t.export(model));
+//		 Translator t = new Translator(new OPLBuilder());
+//		 System.out.println(t.export(model));
 	}
 
 	public static String getStringFromInputStream(InputStream in) {

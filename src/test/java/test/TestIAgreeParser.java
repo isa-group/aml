@@ -59,7 +59,7 @@ public class TestIAgreeParser {
      */
     @Test
     public void testParser() {
-        InputStream in = getClass().getResourceAsStream("/test-simple.at");
+        InputStream in = getClass().getResourceAsStream("/iagree-core.at");
         String content = getStringFromInputStream(in);
         AgreementFile sla = new AgreementFile(content, AgreementLanguage.IAGREE);
 
@@ -85,7 +85,7 @@ public class TestIAgreeParser {
     @Test
     public void testModel() {
 
-        InputStream in = getClass().getResourceAsStream("/test-simple.at");
+        InputStream in = getClass().getResourceAsStream("/iagree-core.at");
         String content = getStringFromInputStream(in);
         AgreementFile sla = new AgreementFile(content, AgreementLanguage.IAGREE);
 
@@ -93,11 +93,11 @@ public class TestIAgreeParser {
         AgreementModel model = parser.doParse(sla);
 
         // Asserts ID y Version
-        assertEquals(model.getID(), "TestTemplate");
+        assertEquals(model.getID(), "IAgreeCore");
         assertEquals(model.getVersion(), 1.0f, 0.0);
 
         // Asserts Responder
-        assertEquals(model.getContext().getResponder(), Actor.Provider);
+        assertEquals(model.getContext().getResponder().getRoleType(), Actor.Provider);
 
         // Metrics
         IAgreeMetric met1 = new IAgreeMetric("met1", "integer", new Range(0, 23));

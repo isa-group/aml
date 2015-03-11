@@ -18,9 +18,7 @@ template_def : temp_properties* agreementTerms creationConstraints?;
 ag_def : temp_properties*  agreementTerms;
 
 temp_properties : initiator_prop
-                | responder_prop
-                | provider_prop
-                | consumer_prop
+                | partiesRoles_prop
                 | serviceProvider_prop 
                 | expirationTime_prop
                 | dateFormat_prop
@@ -42,7 +40,9 @@ creationConstraint : (Identifier) ':' expression ';' qualifyingCondition?;
 
 initiator_prop : INITIATOR ':' id=String ';';
 
-responder_prop : responder=(PROVIDER | CONSUMER) id=(Identifier | String) AS RESPONDER ';';
+partiesRoles_prop : responder=PROVIDER id=(Identifier | String) AS RESPONDER ';' consumer_prop
+               | provider_prop responder=CONSUMER id=(Identifier | String) AS RESPONDER ';'
+               ;
 
 provider_prop : PROVIDER id=(Identifier | String) ';';
 

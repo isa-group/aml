@@ -98,6 +98,14 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitPartiesRoles_prop(@NotNull iAgreeParser.PartiesRoles_propContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitFeature(@NotNull iAgreeParser.FeatureContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -139,14 +147,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitCreationConstraints(@NotNull iAgreeParser.CreationConstraintsContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitResponder_prop(@NotNull iAgreeParser.Responder_propContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

@@ -163,6 +163,7 @@ BELONGS=84
 'global'=25
 'during'=33
 ')'=62
+'availableAt'=28
 'on'=54
 'AND'=65
 'MonitorableProperties'=26
@@ -170,7 +171,6 @@ BELONGS=84
 'float'=36
 '}'=64
 'boolean'=34
-'availableAt.'=28
 'reward'=53
 'upon'=85
 '<='=77
