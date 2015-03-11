@@ -51,7 +51,8 @@ public class OtherTests {
      System.out.println("\n\n");
      //LOG.log(Level.INFO, "PRINT: {0}", modelCopyO.getAgreementTerms().getGuaranteeTerms());
      }*/
-    @Test
+    
+   /* @Test
     public void testCloneB() {
         model1.setID("original");
         assertEquals(model1.getID(), "original");
@@ -60,7 +61,7 @@ public class OtherTests {
         modelCopy.setID("modificado");
         assertEquals(modelCopy.getID(), "modificado");
         assertEquals(model1.getID(), "original");
-    }
+    }*/
 
     @Test
     public void testModifyGT() {

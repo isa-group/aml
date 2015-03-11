@@ -6,7 +6,10 @@
 package es.us.isa.aml.operations.noCore;
 
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,19 +27,27 @@ public class ExistDeadTermsOp extends NoCoreOperation {
     public void analyze(AgreementModel model) {
         existsInconsistenciesOp.analyze(model);
         consistent = !(Boolean) existsInconsistenciesOp.getResult().getResponseObject(0);
-        AgreementModel modelCopy = model.clone();
-        modelCopy.getAgreementTerms();
-
-        while (consistent) {
-            System.out.println(modelCopy.getAgreementTerms().getGuaranteeTerms());
-            consistent = false;
+        List<GuaranteeTerm> gtOriginal = new ArrayList<>(model.getAgreementTerms().getGuaranteeTerms());
+        List<GuaranteeTerm> gtCopy = new ArrayList<>(gtOriginal);
+        while (consistent && gtCopy.size() > 0) {
+            System.err.println(model.getAgreementTerms());
+            if (gtCopy.get(0).getSlo() != null) {
+                gtCopy.get(0).setQc(null);
+            }
+            gtCopy.remove(0);
+            model.getAgreementTerms().setGuaranteeTerms(gtCopy);
+            existsInconsistenciesOp.analyze(model);
+            consistent = !(Boolean) existsInconsistenciesOp.getResult().getResponseObject(0);
+            if (!consistent) {
+                break;
+            }
         }
-
+        model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
     }
 
     @Override
     public Boolean getResult() {
-        return true;
+        return !consistent;
     }
 
 }

@@ -6,9 +6,8 @@ package test;
 import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.util.Util;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -20,24 +19,22 @@ public class TestLibLocal {
 
     private static final Logger LOG = Logger.getLogger(TestLibLocal.class.getName());
     private static AgreementManager serv;
-    private static AgreementModel model1;
+    private static AgreementModel model1, model2;
 
     @BeforeClass
     public static void init() {
         serv = new AgreementManager(Util.loadFile("src/test/resources/config.json"));
 
         model1 = serv.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core.at");
+        model2 = serv.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-dead.at");
     }
 
     @Test
     public void testIsValid() {
 
-        LOG.log(Level.INFO, "Showing model: \n{0}", model1);
-        LOG.log(Level.INFO, "model1a: {0}", serv.isValid(model1));
-        LOG.log(Level.INFO, "model1b: {0}", model1.isValid());
+        assertTrue(model1.isValid());
+        assertTrue(model2.isValid());
 
-        assertFalse(serv.isValid(model1));
-        assertFalse(model1.isValid());
     }
 
 }
