@@ -1,9 +1,10 @@
 package es.us.isa.aml.model;
 
-import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.Store;
 import es.us.isa.aml.util.AgreementLanguage;
+import es.us.isa.aml.util.DocType;
+import es.us.isa.aml.util.OperationResponse;
 
 /**
  * @author jdelafuente
@@ -85,14 +86,6 @@ public abstract class AgreementModel {
         this.docType = docType;
     }
 
-    @Override
-    public AgreementModel clone() {
-        if (this.getDocType().equals(DocType.OFFER)) {
-            return new AgreementOffer(this);
-        }
-        return new AgreementOffer(this);
-    }
-
     public void register() {
         store.register(this);
     }
@@ -106,6 +99,10 @@ public abstract class AgreementModel {
     // OPERATIONS -  This should be syncronized with AgreementManager methods
     public Boolean isValid() {
         return agreementManager.isValid(this);
+    }
+
+    public OperationResponse isValidFullResponse() {
+        return agreementManager.isValidFullResponse(this);
     }
 
 }

@@ -54,7 +54,7 @@ public class OPLConstraint implements Comparable<OPLConstraint> {
         StringBuilder sb = new StringBuilder();
 
         if (getQc() != null) {
-            sb.append(getQc().getCondition().toString() + " => ");
+            sb.append(getQc().getCondition().toString()).append(" => ");
         }
 
         String exp = this.getSlo().getExpression().toString();

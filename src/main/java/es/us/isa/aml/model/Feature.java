@@ -17,12 +17,12 @@ public class Feature {
 
     public Feature() {
         id = "";
-        parameters = new ArrayList<String>();
+        parameters = new ArrayList<>();
     }
 
     public Feature(String id) {
         this.id = id;
-        parameters = new ArrayList<String>();
+        parameters = new ArrayList<>();
     }
 
     public Feature(String id, List<String> parameters) {

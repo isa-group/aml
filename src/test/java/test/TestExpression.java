@@ -3,12 +3,6 @@
  */
 package test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
-
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
@@ -19,6 +13,10 @@ import es.us.isa.aml.model.expression.LogicalOperator;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * @author jdelafuente
@@ -36,7 +34,7 @@ public class TestExpression {
         Var b = new Var("b");
         Expression e = new AssignmentExpression(b, new Atomic(2));
         e.calculate();
-        assertEquals(2, b.getIntegerValue().intValue());
+        assertEquals(2, b.getIntegerValue().longValue());
 
         Var c = new Var("c", new Atomic(false));
         assertFalse(c.getBooleanValue());

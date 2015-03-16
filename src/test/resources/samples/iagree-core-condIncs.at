@@ -1,4 +1,4 @@
-Template IAgreeCoreDead version 1.0
+Template IAgreeCoreCondIncs version 1.0
 	Initiator: "Initiator1";
 	
 	Provider "Prov1" as Responder;
@@ -29,8 +29,8 @@ AgreementTerms
 			MonitProp2: met3;
             TransferredGb: met5;
             StorageSize: met5;
-            ReadRequests: met5;
-            WriteRequests: met5;
+            StorageSize: met5;
+            Region: met5;
             ResponseTime:met5;
             MUP: met5;
 		for testFeatures2:
@@ -39,10 +39,12 @@ AgreementTerms
 			MonitProp4: met5;
 				
 	GuaranteeTerms
-		G1: Provider guarantees (ReadRequests > WriteRequests) AND (TransferredGb < StorageSize * 100);
+		G1: Provider guarantees StorageSize >= 30;
 
-                G2: Provider guarantees ResponseTime <= 0.1;
-                    onlyIf(WriteRequests > ReadRequests);
+                G2: Provider guarantees StorageSize < 20;
+                    //onlyIf(Region != 5.0);
+                    //onlyIf(Region NOT 5.0);
+                    onlyIf(Region == 5.0);
 		
 		G3: Provider guarantees MUP >= 99.9;
 			

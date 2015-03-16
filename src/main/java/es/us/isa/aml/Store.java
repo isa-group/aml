@@ -24,11 +24,6 @@ import java.util.Map;
 public class Store {
 
     private static Store instance = null;
-    private final Map<String, AgreementModel> agreementModelMap;
-
-    protected Store() {
-        agreementModelMap = new HashMap<>();
-    }
 
     public static Store getInstance() {
         if (instance == null) {
@@ -42,6 +37,11 @@ public class Store {
             instance = new Store();
         }
         return instance;
+    }
+    private final Map<String, AgreementModel> agreementModelMap;
+
+    protected Store() {
+        agreementModelMap = new HashMap<>();
     }
 
     //main methods

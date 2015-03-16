@@ -3,17 +3,12 @@
  */
 package test;
 
-import static org.junit.Assert.*;
-
-import java.util.logging.Logger;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.operations.noCore.ValidOp;
 import es.us.isa.aml.util.Util;
+import java.util.logging.Logger;
+import org.junit.BeforeClass;
+import org.junit.Test;
 
 /**
  * @author jdelafuente
@@ -21,27 +16,27 @@ import es.us.isa.aml.util.Util;
  */
 public class TestLibLocal2 {
 
-	private static final Logger LOG = Logger.getLogger(TestLibLocal2.class
-			.getName());
-	private static AgreementManager serv;
-	private static AgreementModel model1, model2, model3;
+    private static final Logger LOG = Logger.getLogger(TestLibLocal2.class
+            .getName());
+    private static AgreementManager serv;
+    private static AgreementModel model1, model2, model3;
 
-	@BeforeClass
-	public static void init() {
-		serv = new AgreementManager(
-				Util.loadFile("src/test/resources/config.json"));
+    @BeforeClass
+    public static void init() {
+        serv = new AgreementManager(
+                Util.loadFile("src/test/resources/config.json"));
 
-		model1 = serv
-				.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core.at");
-		model2 = serv
-				.createAgreementTemplateFromFile("src/test/resources/samples/deadterms.at");
-		model3 = serv
-				.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-dead.at");
+        model1 = serv
+                .createAgreementTemplateFromFile("src/test/resources/samples/iagree-core.at");
+        model2 = serv
+                .createAgreementTemplateFromFile("src/test/resources/samples/deadterms.at");
+        model3 = serv
+                .createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-dead.at");
 
-	}
+    }
 
-	@Test
-	public void testIsValid() {
+    @Test
+    public void testIsValid() {
 
 //		LOG.info("\n----------------------- MODEL 1 -----------------------");
 //		
@@ -106,7 +101,6 @@ public class TestLibLocal2 {
 //		
 //		LOG.info("result:\n" + op.getResult().get("result"));
 //		LOG.info("conflicts:\n" + op.getResult().get("conflicts"));
-
-	}
+    }
 
 }

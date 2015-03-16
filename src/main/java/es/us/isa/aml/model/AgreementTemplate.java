@@ -54,6 +54,5 @@ public class AgreementTemplate extends AgreementModel {
         offer.getContext().setConsumer(consumerName);
         return offer;
     }
-    
 
 }

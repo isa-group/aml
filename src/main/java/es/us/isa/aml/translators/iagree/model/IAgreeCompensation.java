@@ -17,10 +17,9 @@ public class IAgreeCompensation extends Compensation {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("with " + getAssessmentInterval().toString().toLowerCase()
-                + " " + getCompensationType().toString().toLowerCase() + "\n");
+        sb.append("with ").append(getAssessmentInterval().toString().toLowerCase()).append(" ").append(getCompensationType().toString().toLowerCase()).append("\n");
         for (CompensationElement elem : getElements()) {
-            sb.append("\t\t\t" + "of " + elem.getExpression().toString() + " if " + elem.getCondition().toString() + ";" + "\n");
+            sb.append("\t\t\t" + "of ").append(elem.getExpression().toString()).append(" if ").append(elem.getCondition().toString()).append(";" + "\n");
         }
         sb.append("\t\t" + "end");
 

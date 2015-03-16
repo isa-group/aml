@@ -5,13 +5,12 @@
  */
 package es.us.isa.aml.operations.reasoners;
 
-import java.util.Random;
-
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.translators.Translator;
 import es.us.isa.aml.translators.csp.choco.ChocoBuilder;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerType;
+import java.util.Random;
 
 /**
  *
@@ -35,11 +34,11 @@ public class ChocoReasoner extends Reasoner {
     @Override
     public OperationResponse solve() {
         //todo: realizar lo que sea correcto aqui
-    	OperationResponse response = new OperationResponse();
+        OperationResponse response = new OperationResponse();
         if (this.chocoString != null) {
-        	response.put("consistent", new Random().nextBoolean());
+            response.put("consistent", new Random().nextBoolean());
         } else {
-        	response.put("consistent", false);
+            response.put("consistent", false);
         }
         return response;
     }

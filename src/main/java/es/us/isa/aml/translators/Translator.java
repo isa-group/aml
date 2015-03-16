@@ -2,6 +2,7 @@ package es.us.isa.aml.translators;
 
 import es.us.isa.aml.model.AgreementElement;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.CreationConstraint;
@@ -10,7 +11,6 @@ import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.Service;
-import es.us.isa.aml.model.AgreementTemplate;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;

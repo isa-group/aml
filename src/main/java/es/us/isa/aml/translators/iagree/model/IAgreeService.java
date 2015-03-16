@@ -1,10 +1,9 @@
 package es.us.isa.aml.translators.iagree.model;
 
-import java.util.List;
-
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.Scope;
 import es.us.isa.aml.model.Service;
+import java.util.List;
 
 /**
  * @author jdelafuente
@@ -16,10 +15,10 @@ public class IAgreeService extends Service {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Service " + this.getServiceName() + " availableAt " + "\"" + this.getServiceReference() + "\"").append("\n");
+        sb.append("Service ").append(this.getServiceName()).append(" availableAt " + "\"").append(this.getServiceReference()).append("\"").append("\n");
 
         if (getFeatures().size() > 0) {
-            sb.append("\t\t" + "Features: " + getFeatures().values().toString().replace("[", "").replace("]", "")).append("\n");
+            sb.append("\t\t" + "Features: ").append(getFeatures().values().toString().replace("[", "").replace("]", "")).append("\n");
         }
 
         List<ConfigurationProperty> cps = this.getConfigurationProperties();
@@ -33,7 +32,7 @@ public class IAgreeService extends Service {
 
         for (ConfigurationProperty cp : cps) {
             if (cp.getScope() == Scope.Local) {
-                sb.append("\t\t" + "Description for " + cp.getFeature().getId() + ":" + "\n");
+                sb.append("\t\t" + "Description for ").append(cp.getFeature().getId()).append(":" + "\n");
                 sb.append("\t\t\t").append(cp).append("\n");
             }
         }

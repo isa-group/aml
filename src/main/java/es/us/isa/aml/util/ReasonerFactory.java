@@ -24,7 +24,7 @@ public class ReasonerFactory {
             case CPLEX:
                 return new CplexReasoner();
             case CSPWebReasoner:
-            	return new CSPWebReasoner();
+                return new CSPWebReasoner();
             default:
                 throw new IllegalArgumentException("there is no reasoner for this type: " + type);
         }

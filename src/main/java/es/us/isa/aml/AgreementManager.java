@@ -5,18 +5,18 @@
  */
 package es.us.isa.aml;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.operations.noCore.ValidOp;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
+import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.Util;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -71,7 +71,7 @@ public class AgreementManager {
 
     public AgreementTemplate createAgreementTemplateFromFile(String path) {
         AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
-        String content = Util.loadFile(path);        
+        String content = Util.loadFile(path);
         return store.createAgreementTemplate(content, lang, this);
     }
 
@@ -109,6 +109,12 @@ public class AgreementManager {
         ValidOp op = new ValidOp();
         op.analyze(agreementModel);
         return (Boolean) op.getResult().get("valid");
+    }
+
+    public OperationResponse isValidFullResponse(AgreementModel agreementModel) {
+        ValidOp op = new ValidOp();
+        op.analyze(agreementModel);
+        return op.getResult();
     }
 
     //

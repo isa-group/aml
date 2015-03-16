@@ -3,19 +3,12 @@
  */
 package test;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.InputStream;
-import java.util.logging.Logger;
-
-import org.junit.Test;
-
 import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.Feature;
 import es.us.isa.aml.model.Range;
 import es.us.isa.aml.model.Scope;
-import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.Atomic;
@@ -33,6 +26,10 @@ import es.us.isa.aml.translators.iagree.model.IAgreeMonitorableProperty;
 import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
 import static es.us.isa.aml.util.Util.getStringFromInputStream;
+import java.io.InputStream;
+import java.util.logging.Logger;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * @author jdelafuente

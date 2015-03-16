@@ -4,13 +4,11 @@
 package test;
 
 import es.us.isa.aml.AgreementManager;
-import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.expression.CompoundExpression;
 import es.us.isa.aml.util.Util;
 import java.util.logging.Logger;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -51,18 +49,16 @@ public class OtherTests {
      System.out.println("\n\n");
      //LOG.log(Level.INFO, "PRINT: {0}", modelCopyO.getAgreementTerms().getGuaranteeTerms());
      }*/
-    
-   /* @Test
-    public void testCloneB() {
-        model1.setID("original");
-        assertEquals(model1.getID(), "original");
-        AgreementModel modelCopy = model1.clone();
-        assertEquals(modelCopy.getID(), "original");
-        modelCopy.setID("modificado");
-        assertEquals(modelCopy.getID(), "modificado");
-        assertEquals(model1.getID(), "original");
-    }*/
-
+    /* @Test
+     public void testCloneB() {
+     model1.setID("original");
+     assertEquals(model1.getID(), "original");
+     AgreementModel modelCopy = model1.clone();
+     assertEquals(modelCopy.getID(), "original");
+     modelCopy.setID("modificado");
+     assertEquals(modelCopy.getID(), "modificado");
+     assertEquals(model1.getID(), "original");
+     }*/
     @Test
     public void testModifyGT() {
         assertNotNull(model1.getContext());

@@ -1,5 +1,7 @@
-/**
- *
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package es.us.isa.aml.operations.noCore;
 
@@ -13,38 +15,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author jdelafuente
  *
+ * @author AntonioGamez
  */
-public class ExistDeadTermsOp extends NoCoreOperation {
+public class ExistCondInconsTermsOp extends NoCoreOperation {
 
     private final ExistInconsistenciesOp existsInconsistenciesOp;
 
-    public ExistDeadTermsOp() {
+    public ExistCondInconsTermsOp() {
         this.existsInconsistenciesOp = new ExistInconsistenciesOp();
     }
 
     public void analyze(AgreementModel model) {
-
         existsInconsistenciesOp.analyze(model);
         Boolean consistent = (Boolean) existsInconsistenciesOp.getResult().get("consistent");
-
         this.result = existsInconsistenciesOp.getResult();
-
         if (!consistent) {
-            result.put("existDeadTerms", false);
+            result.put("existCondInconsTerms", false);
             return;
         }
-
         List<GuaranteeTerm> gtOriginal = new ArrayList<>(model.getAgreementTerms().getGuaranteeTerms());
         List<GuaranteeTerm> gtCopy = new ArrayList<>(gtOriginal);
 
         for (int i = 0; i < gtCopy.size(); i++) {
-
-            GuaranteeTerm gt = gtCopy.get(i);
-            if (gt.getQc() != null) {
-                GuaranteeTerm newgt = new IAgreeGuaranteeTerm(gt.getId(), gt.getActor(), new IAgreeSLO(gt.getQc().getCondition()));
-                gtCopy.set(gtCopy.indexOf(gt), newgt);
+            GuaranteeTerm gti = gtCopy.get(i);
+            if (gti.getQc() != null && gti.getSlo() != null) {
+                GuaranteeTerm newGtQc = new IAgreeGuaranteeTerm(gti.getId() + "_QC", gti.getActor(), new IAgreeSLO(gti.getQc().getCondition()));
+                GuaranteeTerm newGtSlo = new IAgreeGuaranteeTerm(gti.getId() + "_SLO", gti.getActor(), new IAgreeSLO(gti.getSlo().getExpression()));
+                gtCopy.set(gtCopy.indexOf(gti), newGtQc);
+                gtCopy.add(gtCopy.indexOf(gti) + 1, newGtSlo);
 
                 model.getAgreementTerms().setGuaranteeTerms(gtCopy);
 
@@ -54,18 +53,20 @@ public class ExistDeadTermsOp extends NoCoreOperation {
 //                System.out.println(model.toString());
 //                System.out.println("############################# consistent: " + consistent);
                 if (!consistent) {
-                    result.put("existDeadTerms", true);
-                    result.put("conflicts_existDeadTerms", result.get("conflicts"));
+                    result.put("existCondInconsTerms", true);
+                    //cleaning suffix added above
+                    String conflicts = result.get("conflicts").toString().replaceAll("_QC", "").replaceAll("_SLO", "");
+                    result.put("conflicts_existCondInconsTerms", conflicts);
                     break;
                 } else {
                     gtCopy.clear();
                     gtCopy.addAll(gtOriginal);
 
                     model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
-                    result.put("existDeadTerms", false);
+                    result.put("existCondInconsTerms", false);
                 }
             } else {
-                result.put("existDeadTerms", false);
+                result.put("existCondInconsTerms", false);
             }
         }
         model.getAgreementTerms().setGuaranteeTerms(gtOriginal);

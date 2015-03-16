@@ -3,15 +3,14 @@
  */
 package test;
 
+import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.parsers.agreements.IAgreeParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.parsers.agreements.IAgreeParser;
 
 /**
  * @author jdelafuente

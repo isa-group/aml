@@ -3,20 +3,10 @@
  */
 package es.us.isa.aml.translators.iagree;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementOffer;
+import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.Compensation;
 import es.us.isa.aml.model.Compensation.AssessmentInterval;
 import es.us.isa.aml.model.Compensation.CompensationType;
@@ -28,7 +18,6 @@ import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.QualifyingCondition;
 import es.us.isa.aml.model.Scope;
-import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
@@ -57,6 +46,7 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.QualifyingConditionC
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ServiceProvider_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeVisitor;
 import es.us.isa.aml.translators.iagree.model.IAgreeAgreementOffer;
+import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTemplate;
 import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTerms;
 import es.us.isa.aml.translators.iagree.model.IAgreeCompensation;
 import es.us.isa.aml.translators.iagree.model.IAgreeConfigurationProperty;
@@ -70,9 +60,20 @@ import es.us.isa.aml.translators.iagree.model.IAgreeRange;
 import es.us.isa.aml.translators.iagree.model.IAgreeResponder;
 import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
-import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTemplate;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.RuleNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
  * @author jdelafuente
@@ -80,7 +81,9 @@ import es.us.isa.aml.util.Util;
  */
 public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
-    private iAgreeParser parser;
+    private static final Logger LOG = Logger.getLogger(IAgreeBuilder.class.getName());
+
+    private final iAgreeParser parser;
     public AgreementModel model;
     public Map<String, Metric> metrics;
     public long timeStamp;
@@ -94,7 +97,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
 
         try {
             this.timeStamp = Calendar.getInstance().getTimeInMillis();
-            this.metrics = new HashMap<String, Metric>();
+            this.metrics = new HashMap<>();
 
             IAgreeContext context = new IAgreeContext();
 
@@ -112,8 +115,8 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
             }
         } catch (Exception e) {
             this.model = null;
+            LOG.log(Level.WARNING, e.getLocalizedMessage());
         }
-
         return this.model;
     }
 
@@ -134,10 +137,8 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
         this.model.setID(ctx.id.getText());
         this.model.setVersion(new Float(ctx.version.getText()));
 
-        ((IAgreeAgreementOffer) this.model).setTemplateId(ctx.templateId
-                .getText());
-        ((IAgreeAgreementOffer) this.model).setTemplateVersion(new Float(
-                ctx.templateVersion.getText()));
+        ((AgreementOffer) this.model).setTemplateId(ctx.templateId.getText());
+        ((AgreementOffer) this.model).setTemplateVersion(new Float(ctx.templateVersion.getText()));
 
         this.visitAg_def(ctx.ag_def());
 
@@ -264,7 +265,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
     public Feature visitFeature_operation(Feature_operationContext ctx) {
         IAgreeFeature feature = new IAgreeFeature();
         feature.setId(ctx.id.getText());
-        List<String> parameters = new ArrayList<String>();
+        List<String> parameters = new ArrayList<>();
         for (TerminalNode param : ctx.Identifier()) {
             if (!param.getText().equals(ctx.id.getText())) {
                 parameters.add(param.getText());
@@ -525,7 +526,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
             gt.setQc(qc);
         }
 
-        List<Compensation> compensations = new ArrayList<Compensation>();
+        List<Compensation> compensations = new ArrayList<>();
         for (CompensationContext comp : ctx.compensation()) {
             IAgreeCompensation c = visitCompensation(comp);
             compensations.add(c);
@@ -545,7 +546,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
         c.setAssessmentInterval(interval);
         c.setCompensationType(compType);
 
-        List<CompensationElement> elements = new ArrayList<CompensationElement>();
+        List<CompensationElement> elements = new ArrayList<>();
         for (CompensationElementContext compElem : ctx.compensationElement()) {
             CompensationElement elem = visitCompensationElement(compElem);
             elements.add(elem);
@@ -806,7 +807,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
     @Override
     public Metric visitMetrics_prop(iAgreeParser.Metrics_propContext ctx) {
         Enumerated en = new Enumerated();
-        List<Object> ls = new ArrayList<Object>();
+        List<Object> ls = new ArrayList<>();
         ls.add(true);
         ls.add(false);
         IAgreeMetric m = new IAgreeMetric("boolean", "Boolean", en);
@@ -846,7 +847,7 @@ public class IAgreeBuilder implements iAgreeVisitor<Object> {
     @Override
     public Domain visitList(iAgreeParser.ListContext ctx) {
         Enumerated e = new Enumerated();
-        List<Object> ls = new ArrayList<Object>();
+        List<Object> ls = new ArrayList<>();
         for (iAgreeParser.ListArgContext lctx : ctx.listArg()) {
             ls.add(lctx.getText());
         }

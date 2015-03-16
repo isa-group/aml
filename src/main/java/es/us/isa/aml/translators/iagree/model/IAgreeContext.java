@@ -3,11 +3,10 @@
  */
 package es.us.isa.aml.translators.iagree.model;
 
-import java.util.List;
-
 import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.Metric;
+import java.util.List;
 
 /**
  * @author jdelafuente
@@ -20,17 +19,16 @@ public class IAgreeContext extends Context {
         StringBuilder sb = new StringBuilder();
 
         if (getInitiator() != null) {
-            sb.append("\t").append(
-                    "Initiator: " + "\"" + this.getInitiator() + "\";" + "\n");
+            sb.append("\t").append("Initiator: " + "\"").append(this.getInitiator()).append("\";" + "\n");
         }
 
         if (getResponder() != null) {
             if (getResponder().getRoleType() == Actor.Provider) {
                 sb.append("\t").append(this.getResponder()).append(";" + "\n");
-                sb.append("\t").append("Consumer " + getConsumer())
+                sb.append("\t").append("Consumer ").append(getConsumer())
                         .append(";" + "\n");
             } else {
-                sb.append("\t").append("Provider " + getProvider())
+                sb.append("\t").append("Provider ").append(getProvider())
                         .append(";" + "\n");
                 sb.append("\t").append(this.getResponder()).append(";" + "\n");
             }

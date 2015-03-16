@@ -9,10 +9,6 @@ import java.util.Set;
  */
 public abstract class Expression {
 
-    protected Object value;
-
-    public abstract Object calculate();
-
     public static Set<Atomic> getAtomics(Expression exp) {
         Set<Atomic> lst = new HashSet<>();
         if (exp.getClass() != Atomic.class) {
@@ -78,4 +74,9 @@ public abstract class Expression {
             System.out.println(tab + "[" + exp + "]");
         }
     }
+
+    protected Object value;
+
+    public abstract Object calculate();
+
 }
