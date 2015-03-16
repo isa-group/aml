@@ -16,22 +16,20 @@ import es.us.isa.aml.util.ReasonerFactory;
  */
 public class ExistInconsistenciesOp extends CoreOperation {
 
-    private Boolean existInconsistencies;
-
     public ExistInconsistenciesOp() {
         this.reasoner = ReasonerFactory.createCSPReasoner();
     }
 
     public void analyze(AgreementModel model) {
         this.reasoner.addProblem(model);
-        existInconsistencies = !(Boolean) this.reasoner.solve();
+        result = this.reasoner.solve();
+        result.put("existInconsistencies", !(Boolean) result.get("consistent"));
         // reasoner.solve() gives us "isConsistent" operation
         // but we want "existInconsistencies" one.
     }
 
     @Override
     public OperationResponse getResult() {
-        this.result.addResponseObject(existInconsistencies);
         return this.result;
     }
 }

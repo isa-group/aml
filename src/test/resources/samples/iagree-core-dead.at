@@ -1,4 +1,4 @@
-Template IAgreeCore version 1.0
+Template IAgreeCoreDead version 1.0
 	Initiator: "Initiator1";
 	
 	Provider "Prov1" as Responder;
@@ -27,21 +27,21 @@ AgreementTerms
 		global:
 			MonitProp1: met2;
 			MonitProp2: met3;
-                        TransferredGb: met5;
-                        StorageSize: met5;
-                        ReadRequests: met5;
-                        WriteRequests: met5;
-                        ResponseTime:met5;
-                        MUP: met5;
+            TransferredGb: met5;
+            StorageSize: met5;
+            ReadRequests: met5;
+            WriteRequests: met5;
+            ResponseTime:met5;
+            MUP: met5;
 		for testFeatures2:
 			MonitProp3: met4;
 		for testFeatures3:
 			MonitProp4: met5;
 				
 	GuaranteeTerms
-		G1: Provider guarantees (TransferredGb < StorageSize * 100) AND (ReadRequests > WriteRequests);
+		G1: Provider guarantees (ReadRequests > WriteRequests) AND (TransferredGb < StorageSize * 100);
 
-                G2: Provider guarantees ResponseTime <= 0.1;
+        G2: Provider guarantees ResponseTime <= 0.1;
 			onlyIf(WriteRequests > ReadRequests);
 		
 		G3: Provider guarantees MUP >= 99.9;
@@ -53,7 +53,7 @@ CreationConstraints
 	C2: MonitProp3 == 256;
 	    onlyIf(ConfProp3 > 0);
 
-        C3: (ConfProp1 > 9) AND ((MonitProp3 >= 128) OR (ConfProp3 > 0));
+	C3: (ConfProp1 > 9) AND ((MonitProp3 >= 128) OR (ConfProp3 > 0));
 	
 	
 	

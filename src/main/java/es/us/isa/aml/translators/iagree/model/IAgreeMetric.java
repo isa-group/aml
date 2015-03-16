@@ -19,7 +19,7 @@ public class IAgreeMetric extends Metric {
 
     @Override
     public String toString() {
-        return this.getId() + ": " + this.getType() + this.getDomain();
+        return this.getId() + ": " + this.getType() + this.getDomain() + ";";
     }
 
 }

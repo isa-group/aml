@@ -16,7 +16,7 @@ public class IAgreeService extends Service {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Service " + this.getServiceName() + " availableAt. " + "\"" + this.getServiceReference() + "\"").append("\n");
+        sb.append("Service " + this.getServiceName() + " availableAt " + "\"" + this.getServiceReference() + "\"").append("\n");
 
         if (getFeatures().size() > 0) {
             sb.append("\t\t" + "Features: " + getFeatures().values().toString().replace("[", "").replace("]", "")).append("\n");

@@ -12,7 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
- * @author jdelafuente
+ * @author AntonioGamez
  *
  */
 public class TestLibLocal {

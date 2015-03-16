@@ -1,0 +1,37 @@
+Template TranslationServiceOffer version 1.0
+	Provider "id1" as Responder;  //Invalid: Dead Term: G4 and Conditionally Inconsistent Term: G6
+	Consumer "id2";
+	
+	Metrics:
+		percent: float [0..100];
+		time: integer [0..100];
+		int: integer [0..500];
+		
+AgreementTerms
+	Service TranslationService availableAt "www.translator.com/translator.wsdl"
+		GlobalDescription
+			InputFileSize: int;
+			ImageTranslation: boolean;
+			Cost: int;
+
+	MonitorableProperties
+		global:
+			TranslationTime: time;
+			InputErrors: percent;
+				
+	GuaranteeTerms
+		G1: Provider guarantees TranslationTime <= 1;
+			onlyIf (ImageTranslation == false);
+			
+		G2: Provider guarantees TranslationTime <= 2;
+			onlyIf (ImageTranslation == true);
+		
+		G3: Consumer guarantees InputErrors <= 1;
+		
+		G4: Provider guarantees TranslationTime <= 1;  
+			onlyIf (InputErrors > 1);
+			
+CreationConstraints
+	C1: Cost == 0;
+		
+EndTemplate

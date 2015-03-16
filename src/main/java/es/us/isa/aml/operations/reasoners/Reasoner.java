@@ -7,6 +7,7 @@ package es.us.isa.aml.operations.reasoners;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.translators.Translator;
+import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerType;
 
 /**
@@ -28,11 +29,11 @@ public abstract class Reasoner {
 
     public abstract void addProblem(AgreementModel model);
 
-    public abstract Object solve();
+    public abstract OperationResponse solve();
 
-    public abstract Object explain();
+    public abstract OperationResponse explain();
 
-    public abstract Object implies();
+    public abstract OperationResponse implies();
 
-    public abstract Object whyNotImplies();
+    public abstract OperationResponse whyNotImplies();
 }

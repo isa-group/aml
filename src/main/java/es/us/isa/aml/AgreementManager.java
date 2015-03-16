@@ -71,7 +71,7 @@ public class AgreementManager {
 
     public AgreementTemplate createAgreementTemplateFromFile(String path) {
         AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
-        String content = Util.loadFile(path);
+        String content = Util.loadFile(path);        
         return store.createAgreementTemplate(content, lang, this);
     }
 
@@ -108,7 +108,7 @@ public class AgreementManager {
     public Boolean isValid(AgreementModel agreementModel) {
         ValidOp op = new ValidOp();
         op.analyze(agreementModel);
-        return op.getResult();
+        return (Boolean) op.getResult().get("valid");
     }
 
     //
