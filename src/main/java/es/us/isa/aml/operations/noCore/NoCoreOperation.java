@@ -15,6 +15,6 @@ public abstract class NoCoreOperation {
 
     protected OperationResponse result = new OperationResponse();
 
-    public abstract Object getResult();
+    public abstract OperationResponse getResult();
 
 }

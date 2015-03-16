@@ -17,6 +17,7 @@ import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.translators.Translator;
 import es.us.isa.aml.translators.csp.opl.OPLBuilder;
 import es.us.isa.aml.util.Config;
+import es.us.isa.aml.util.OperationResponse;
 
 /**
  * @author jdelafuente
@@ -32,7 +33,7 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	@Override
-	public Object solve() {
+	public OperationResponse solve() {
 		
 		String url = Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solve";
@@ -40,7 +41,7 @@ public class CSPWebReasoner extends Reasoner {
 		Translator translator = new Translator(new OPLBuilder());
 		String content = translator.export(model);
 		
-		CSPResponse res = null;
+		OperationResponse res = new OperationResponse();
 		try {
 			res = sendPost(url, content);
 		} catch (Exception e) {
@@ -51,25 +52,25 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	@Override
-	public Object explain() {
+	public OperationResponse explain() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object implies() {
+	public OperationResponse implies() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Object whyNotImplies() {
+	public OperationResponse whyNotImplies() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	// HTTP POST request
-	private CSPResponse sendPost(String url, String content) throws Exception {
+	private OperationResponse sendPost(String url, String content) throws Exception {
 
 		Gson gson = new Gson();
 
@@ -100,10 +101,7 @@ public class CSPWebReasoner extends Reasoner {
 		}
 		in.close();
 
-		// print result
-		System.out.println(response.toString());
-
-		return gson.fromJson(response.toString(), CSPResponse.class);
+		return gson.fromJson(response.toString(), OperationResponse.class);
 	}
 
 }

@@ -28,7 +28,6 @@ public class IAgreeGuaranteeTerm extends GuaranteeTerm {
         }
 
         if (getQc() != null) {
-            sb.append("\t\t" + getId() + ": " + getActor() + " guarantees " + getSlo() + ";" + "\n");
             sb.append("\t\t" + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])
                     + "(" + getQc().getCondition() + ")" + ";");
             sb.append("\n");

@@ -22,7 +22,7 @@ public class IAgreeConfigurationProperty extends ConfigurationProperty {
             return this.getId() + ": " + this.getMetric().getId() + " = "
                     + this.getExpression() + ";";
         } else {
-            return this.getId() + ": " + this.getMetric().getId();
+            return this.getId() + ": " + this.getMetric().getId() + ";";
         }
     }
 }

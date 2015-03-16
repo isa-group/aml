@@ -21,7 +21,7 @@ public class IAgreeMonitorableProperty extends MonitorableProperty {
         if (this.getExpression() != null) {
             return this.getId() + ": " + this.getMetric().getId() + " = " + this.getExpression() + ";";
         } else {
-            return this.getId() + ": " + this.getMetric().getId();
+            return this.getId() + ": " + this.getMetric().getId() + ";";
         }
     }
 }

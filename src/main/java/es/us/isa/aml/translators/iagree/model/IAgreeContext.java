@@ -19,7 +19,7 @@ public class IAgreeContext extends Context {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        if (!getInitiator().isEmpty()) {
+        if (getInitiator() != null) {
             sb.append("\t").append(
                     "Initiator: " + "\"" + this.getInitiator() + "\";" + "\n");
         }

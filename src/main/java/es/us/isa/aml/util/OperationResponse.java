@@ -5,27 +5,60 @@
  */
 package es.us.isa.aml.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
+ * @author jdelafuente
  *
- * @author AntonioGamez
  */
 public class OperationResponse {
 
-    private final List<Object> responseList;
+	private Map<String, Object> result;
 
-    public OperationResponse() {
-        responseList = new ArrayList<>();
-    }
+	
+	public OperationResponse() {
+		result = new HashMap<String, Object>();
+	}
+	
+	/**
+	 * @return the result
+	 */
+	public Map<String, Object> getResult() {
+		return result;
+	}
 
-    public void addResponseObject(Object o) {
-        responseList.add(o);
-    }
+	/**
+	 * @param result the result to set
+	 */
+	public void setResult(Map<String, Object> result) {
+		this.result = result;
+	}
 
-    public Object getResponseObject(int index) {
-        return responseList.get(index);
-    }
+	/**
+	 * @param string
+	 * @return
+	 */
+	public Object get(String string) {
+		return result.get(string);
+	}
+
+	/**
+	 * @param string
+	 * @param obj
+	 */
+	public void put(String string, Object obj) {
+		result.put(string, obj);		
+	}
+
+	/**
+	 * @param result
+	 */
+	public void putAll(OperationResponse result) {
+		for(String key : result.getResult().keySet()){
+			this.result.put(key, result.getResult().get(key));
+		}
+	}
 
 }
