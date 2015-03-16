@@ -68,16 +68,16 @@ public class Store {
     }
 
     public void register(String name, AgreementModel model) {
-        agreementModelMap.put(name, model);
+        instance.agreementModelMap.put(name, model);
     }
 
     // Retrieve
     public AgreementTemplate getAgreementTemplate(String name) {
-        return (AgreementTemplate) agreementModelMap.get(name);
+        return (AgreementTemplate) instance.agreementModelMap.get(name);
     }
 
     public AgreementOffer getAgreementOffer(String name) {
-        return (AgreementOffer) agreementModelMap.get(name);
+        return (AgreementOffer) instance.agreementModelMap.get(name);
     }
 
     // Parsing
@@ -94,11 +94,11 @@ public class Store {
 
     //other methods
     public Map<String, AgreementModel> getAgreementMap() {
-        return Collections.unmodifiableMap(this.agreementModelMap);
+        return Collections.unmodifiableMap(instance.agreementModelMap);
     }
 
     public void removeAgreement(String name) {
-        agreementModelMap.remove(name);
+        instance.agreementModelMap.remove(name);
     }
 
 }
