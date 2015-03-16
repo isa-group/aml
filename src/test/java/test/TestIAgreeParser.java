@@ -3,6 +3,7 @@
  */
 package test;
 
+import static es.us.isa.aml.util.Util.getStringFromInputStream;
 import static org.junit.Assert.assertEquals;
 
 import java.io.InputStream;
@@ -10,12 +11,12 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
-import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.Feature;
 import es.us.isa.aml.model.Range;
 import es.us.isa.aml.model.Scope;
-import es.us.isa.aml.model.AgreementTemplate;
+import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.Atomic;
@@ -32,7 +33,6 @@ import es.us.isa.aml.translators.iagree.model.IAgreeMetric;
 import es.us.isa.aml.translators.iagree.model.IAgreeMonitorableProperty;
 import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translators.iagree.model.IAgreeService;
-import static es.us.isa.aml.util.Util.getStringFromInputStream;
 
 /**
  * @author jdelafuente
@@ -90,7 +90,7 @@ public class TestIAgreeParser {
         assertEquals(model.getVersion(), 1.0f, 0.0);
 
         // Asserts Responder
-        assertEquals(model.getContext().getResponder().getRoleType(), Actor.Provider);
+        assertEquals(model.getContext().getResponder().getRoleType(), ServiceRole.Provider);
 
         // Metrics
         IAgreeMetric met1 = new IAgreeMetric("met1", "integer", new Range(0, 23));
@@ -129,11 +129,11 @@ public class TestIAgreeParser {
         // Guarantee terms
         Expression exp = new RelationalExpression(new Var(MonitProp1), new Atomic(64), RelationalOperator.lte);
         IAgreeSLO slo = new IAgreeSLO(exp);
-        IAgreeGuaranteeTerm g1 = new IAgreeGuaranteeTerm("G1", Actor.Provider, slo);
+        IAgreeGuaranteeTerm g1 = new IAgreeGuaranteeTerm("G1", ServiceRole.Provider, slo);
 
         Expression exp2 = new RelationalExpression(new Var(MonitProp2), new Atomic(256), RelationalOperator.lt);
         IAgreeSLO slo2 = new IAgreeSLO(exp2);
-        IAgreeGuaranteeTerm g2 = new IAgreeGuaranteeTerm("G2", Actor.Consumer, slo2);
+        IAgreeGuaranteeTerm g2 = new IAgreeGuaranteeTerm("G2", ServiceRole.Consumer, slo2);
 
         at.getGuaranteeTerms().add(g1);
         at.getGuaranteeTerms().add(g2);

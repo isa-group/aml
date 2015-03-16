@@ -1,5 +1,9 @@
 package es.us.isa.aml.translators.csp.opl;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.CreationConstraint;
@@ -8,15 +12,13 @@ import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.Range;
+import es.us.isa.aml.model.Responder;
 import es.us.isa.aml.model.Service;
 import es.us.isa.aml.translators.IBuilder;
 import es.us.isa.aml.translators.csp.opl.model.OPLConstraint;
 import es.us.isa.aml.translators.csp.opl.model.OPLModel;
 import es.us.isa.aml.translators.csp.opl.model.OPLRange;
 import es.us.isa.aml.translators.csp.opl.model.OPLVar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author jdelafuente
@@ -41,7 +43,7 @@ public class OPLBuilder implements IBuilder {
     }
 
     @Override
-    public Object addResponder(Object responder) {
+    public Object addResponder(Responder responder) {
         return responder;
     }
 

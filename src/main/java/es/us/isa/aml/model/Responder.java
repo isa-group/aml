@@ -10,14 +10,14 @@ package es.us.isa.aml.model;
 public class Responder {
 
     private String id;
-    private Actor roleType;
+    private ServiceRole roleType;
 
     public Responder() {
         id = "";
         roleType = null;
     }
 
-    public Responder(String id, Actor roleType) {
+    public Responder(String id, ServiceRole roleType) {
         this.id = id;
         this.roleType = roleType;
     }
@@ -39,14 +39,14 @@ public class Responder {
     /**
      * @return the roleType
      */
-    public Actor getRoleType() {
+    public ServiceRole getRoleType() {
         return roleType;
     }
 
     /**
      * @param roleType the roleType to set
      */
-    public void setRoleType(Actor roleType) {
+    public void setRoleType(ServiceRole roleType) {
         this.roleType = roleType;
     }
 

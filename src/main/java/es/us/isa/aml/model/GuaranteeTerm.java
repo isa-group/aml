@@ -10,13 +10,13 @@ import java.util.List;
 public class GuaranteeTerm extends AgreementElement implements
 		Comparable<GuaranteeTerm> {
 
-	private Actor actor;
+	private ServiceRole actor;
 	private SLO slo;
 	private String serviceScope;
 	private QualifyingCondition qc;
 	private List<Compensation> compensations;
 
-	public GuaranteeTerm(String id, Actor actor, SLO slo) {
+	public GuaranteeTerm(String id, ServiceRole actor, SLO slo) {
 		super(id);
 		this.actor = actor;
 		this.slo = slo;
@@ -25,11 +25,11 @@ public class GuaranteeTerm extends AgreementElement implements
 		compensations = new ArrayList<Compensation>();
 	}
 
-	public Actor getActor() {
+	public ServiceRole getServiceRole() {
 		return this.actor;
 	}
 
-	public void setActor(Actor actor) {
+	public void setServiceRole(ServiceRole actor) {
 		this.actor = actor;
 	}
 

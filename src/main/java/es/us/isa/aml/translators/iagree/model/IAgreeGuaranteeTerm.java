@@ -1,9 +1,9 @@
 package es.us.isa.aml.translators.iagree.model;
 
-import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.Compensation;
 import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.model.SLO;
+import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
 import es.us.isa.aml.util.Util;
 
@@ -13,7 +13,7 @@ import es.us.isa.aml.util.Util;
  */
 public class IAgreeGuaranteeTerm extends GuaranteeTerm {
 
-    public IAgreeGuaranteeTerm(String id, Actor actor, SLO slo) {
+    public IAgreeGuaranteeTerm(String id, ServiceRole actor, SLO slo) {
         super(id, actor, slo);
     }
 
@@ -21,7 +21,7 @@ public class IAgreeGuaranteeTerm extends GuaranteeTerm {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("\t\t" + getId() + ": " + getActor() + " guarantees " + getSlo() + ";" + "\n");
+        sb.append("\t\t" + getId() + ": " + getServiceRole() + " guarantees " + getSlo() + ";" + "\n");
 
         if (!getServiceScope().isEmpty()) {
             sb.append("\t\t" + "upon " + getServiceScope());

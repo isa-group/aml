@@ -78,14 +78,15 @@
 			<version>4.11</version>
 		</dependency>
 
-		<!-- Developing localhost <dependency> <groupId>isa.us.es.opl</groupId> 
-			<artifactId>oplall</artifactId> <version>1.0.0</version> </dependency> -->
-			
+		<!-- Developing localhost -->
 		<dependency>
-			<groupId>com.ibm.cplex</groupId>
-			<artifactId>OPL</artifactId>
-			<version>12.5.1</version>
+			<groupId>isa.us.es.opl</groupId>
+			<artifactId>oplall</artifactId>
+			<version>1.0.0</version>
 		</dependency>
+		
+		<!-- <dependency> <groupId>com.ibm.cplex</groupId> <artifactId>OPL</artifactId> 
+			<version>12.5.1</version> </dependency> -->
 
 		<dependency>
 			<groupId>com.google.code.gson</groupId>

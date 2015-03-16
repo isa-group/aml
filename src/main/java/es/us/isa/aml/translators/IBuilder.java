@@ -5,6 +5,7 @@ import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.Property;
+import es.us.isa.aml.model.Responder;
 import es.us.isa.aml.model.Service;
 
 /**
@@ -17,7 +18,7 @@ public interface IBuilder {
 
     Float addVersion(Float version);
 
-    Object addResponder(Object responder);
+    Object addResponder(Responder responder);
 
     String addMetric(Metric metric);
 

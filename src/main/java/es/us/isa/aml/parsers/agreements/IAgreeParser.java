@@ -10,22 +10,19 @@ import org.antlr.v4.runtime.CommonTokenStream;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.iagree.IAgreeErrorListener;
+import es.us.isa.aml.parsers.agreements.iagree.MiAgreeVisitor;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeLexer;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
-import es.us.isa.aml.translators.iagree.IAgreeBuilder;
 import es.us.isa.aml.util.AgreementLanguage;
 
 /**
+ * @author jdelafuente
  *
- * @author AntonioGamez
  */
 public class IAgreeParser implements AgreementParser {
 
     private IAgreeErrorListener errorListener;
-
-    public IAgreeParser() {
-    }
 
     @Override
     public AgreementModel doParse(String content) {
@@ -47,7 +44,7 @@ public class IAgreeParser implements AgreementParser {
         EntryContext context = parser.entry();
 
         // Walk it and attach our listener
-        IAgreeBuilder visitor = new IAgreeBuilder(parser);
+        MiAgreeVisitor visitor = new MiAgreeVisitor(parser);
         model = visitor.visitEntry(context);
 
         return model;

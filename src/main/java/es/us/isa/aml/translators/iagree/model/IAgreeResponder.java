@@ -3,8 +3,8 @@
  */
 package es.us.isa.aml.translators.iagree.model;
 
-import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.Responder;
+import es.us.isa.aml.model.ServiceRole;
 
 /**
  * @author jdelafuente
@@ -12,7 +12,7 @@ import es.us.isa.aml.model.Responder;
  */
 public class IAgreeResponder extends Responder {
 
-    public IAgreeResponder(String id, Actor roleType) {
+    public IAgreeResponder(String id, ServiceRole roleType) {
         super(id, roleType);
     }
 
