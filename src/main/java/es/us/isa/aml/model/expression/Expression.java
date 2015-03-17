@@ -11,13 +11,13 @@ public abstract class Expression {
 
     public static Set<Atomic> getAtomics(Expression exp) {
         Set<Atomic> lst = new HashSet<>();
-        if (exp.getClass() != Atomic.class) {
-            if (CompoundExpression.class.isAssignableFrom(exp.getClass())) {
+        if (!(exp instanceof Var)) {
+            if (exp instanceof CompoundExpression) {
                 CompoundExpression ce = (CompoundExpression) exp;
                 for (Expression ex : ce.getExpressions()) {
                     lst.addAll(Expression.getAtomics(ex));
                 }
-            } else if (UnitaryExpression.class.isAssignableFrom(exp.getClass())) {
+            } else if (exp instanceof UnitaryExpression) {
                 UnitaryExpression ue = (UnitaryExpression) exp;
                 lst.addAll(Expression.getAtomics(ue.getExpression()));
             }
@@ -29,13 +29,13 @@ public abstract class Expression {
 
     public static Set<Var> getVars(Expression exp) {
         Set<Var> lst = new HashSet<>();
-        if (exp.getClass() != Var.class) {
-            if (CompoundExpression.class.isAssignableFrom(exp.getClass())) {
+        if (!(exp instanceof Var)) {
+            if (exp instanceof CompoundExpression) {
                 CompoundExpression ce = (CompoundExpression) exp;
                 for (Expression ex : ce.getExpressions()) {
                     lst.addAll(Expression.getVars(ex));
                 }
-            } else if (UnitaryExpression.class.isAssignableFrom(exp.getClass())) {
+            } else if (exp instanceof UnitaryExpression) {
                 UnitaryExpression ue = (UnitaryExpression) exp;
                 lst.addAll(Expression.getVars(ue.getExpression()));
             }
@@ -47,14 +47,13 @@ public abstract class Expression {
 
     public static void printTree(Expression exp, Integer index) {
         if (index == 0) {
-            System.out
-                    .println("\n=============== Abstract Syntax Tree ==============="
-                            + "\n");
+            System.out.println("\n=============== Abstract Syntax Tree ===============" + "\n");
         }
         String tab = new String(new char[index]).replace("\0", "\t");
+        
         System.out.println(tab + exp.getClass().getSimpleName());
-        if (exp.getClass() != Atomic.class && exp.getClass() != Var.class) {
-            if (CompoundExpression.class.isAssignableFrom(exp.getClass())) {
+        if (!(exp instanceof Atomic) && !(exp instanceof Var)) {
+            if (exp instanceof CompoundExpression) {
                 CompoundExpression ce = (CompoundExpression) exp;
                 index++;
                 try {
@@ -63,9 +62,9 @@ public abstract class Expression {
                     System.out.println(tab + "[=]");
                 }
                 for (Expression ex : ce.getExpressions()) {
-                    Expression.printTree(ex, index);
+                	Expression.printTree(ex, index);
                 }
-            } else if (UnitaryExpression.class.isAssignableFrom(exp.getClass())) {
+            } else if (exp instanceof UnitaryExpression) {
                 UnitaryExpression ue = (UnitaryExpression) exp;
                 index++;
                 Expression.printTree(ue.getExpression(), index);
