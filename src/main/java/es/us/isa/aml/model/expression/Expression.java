@@ -3,11 +3,43 @@ package es.us.isa.aml.model.expression;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
+
+import es.us.isa.aml.parsers.expression.ExpressionLexer;
+import es.us.isa.aml.parsers.expression.ExpressionParser;
+import es.us.isa.aml.parsers.expression.ExpressionParser.ParseContext;
+import es.us.isa.aml.parsers.expression.MExpressionVisitor;
+
 /**
  * @author jdelafuente
  *
  */
 public abstract class Expression {
+	
+	protected Object value;
+	
+    public abstract Object calculate();
+    
+    public static Expression parse(String content){
+
+        ExpressionLexer lexer = new ExpressionLexer(new ANTLRInputStream(content));
+
+        // Get a list of matched tokens
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+
+        // Pass the tokens to the parser
+        ExpressionParser parser = new ExpressionParser(tokens);
+
+        // Specify our entry point
+        ParseContext context = parser.parse();
+
+        // Walk it and attach our listener
+        MExpressionVisitor visitor = new MExpressionVisitor();
+        Expression res = visitor.visitParse(context);
+
+        return res;
+    }
 
     public static Set<Atomic> getAtomics(Expression exp) {
         Set<Atomic> lst = new HashSet<>();
@@ -73,9 +105,4 @@ public abstract class Expression {
             System.out.println(tab + "[" + exp + "]");
         }
     }
-
-    protected Object value;
-
-    public abstract Object calculate();
-
 }

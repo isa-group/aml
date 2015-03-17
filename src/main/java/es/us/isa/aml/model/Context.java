@@ -3,8 +3,9 @@
  */
 package es.us.isa.aml.model;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author jdelafuente
@@ -17,13 +18,13 @@ public class Context {
     private String provider;
     private String consumer;
     private Object serviceProvider;
-    private List<Metric> metrics;
+    private Map<String, Metric> metrics;
 
     /**
      *
      */
     public Context() {
-        metrics = new ArrayList<>();
+        metrics = new HashMap<String, Metric>();
     }
 
     public String getInitiator() {
@@ -66,11 +67,11 @@ public class Context {
         this.serviceProvider = serviceProvider;
     }
 
-    public List<Metric> getMetrics() {
+    public Map<String, Metric> getMetrics() {
         return this.metrics;
     }
 
-    public void setMetrics(List<Metric> metrics) {
+    public void setMetrics(Map<String, Metric> metrics) {
         this.metrics = metrics;
     }
 

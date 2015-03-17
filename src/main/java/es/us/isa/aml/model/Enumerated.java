@@ -17,6 +17,10 @@ public class Enumerated extends Domain {
     public Enumerated() {
         this.values = new ArrayList<>();
     }
+    
+    public Enumerated(List<Object> values) {
+        this.values = values;
+    }
 
     /**
      * @return the values
@@ -31,10 +35,4 @@ public class Enumerated extends Domain {
     public void setValues(List<Object> values) {
         this.values = values;
     }
-
-    @Override
-    public String toString() {
-        return this.getValues().toString().replace("[", "{").replace("]", "}");
-    }
-
 }

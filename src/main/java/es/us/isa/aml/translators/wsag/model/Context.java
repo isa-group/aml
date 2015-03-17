@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import es.us.isa.aml.model.Enumerated;
+import es.us.isa.aml.model.Range;
+
 /**
  * An agreement is scoped by its associated context that SHOULD include parties
  * to an agreement. Additionally, the agreement context contains various
@@ -169,41 +172,62 @@ public class Context {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\t" + "<wsag:Context>").append("\n");
 		if (getAgreementInitiator() != null)
-			sb.append("\t\t" + "<wsag:AgreementInitiator>"
-					+ getAgreementInitiator().toString()
-					+ "</wsag:AgreementInitiator>").append("\n");
+			sb.append(
+					"\t\t" + "<wsag:AgreementInitiator>"
+							+ getAgreementInitiator().toString()
+							+ "</wsag:AgreementInitiator>").append("\n");
 
 		if (getAgreementResponder() != null)
-			sb.append("\t\t" + "<wsag:AgreementResponder>"
-					+ getAgreementResponder().toString()
-					+ "</wsag:AgreementResponder>").append("\n");
+			sb.append(
+					"\t\t" + "<wsag:AgreementResponder>"
+							+ getAgreementResponder().toString()
+							+ "</wsag:AgreementResponder>").append("\n");
 
 		if (getServiceProvider() != null)
-			sb.append("\t\t" + "<wsag:ServiceProvider>"
-					+ getServiceProvider().toString()
-					+ "</wsag:ServiceProvider>").append("\n");
+			sb.append(
+					"\t\t" + "<wsag:ServiceProvider>"
+							+ getServiceProvider().toString()
+							+ "</wsag:ServiceProvider>").append("\n");
 
 		if (getExpirationTime() != null)
-			sb.append("\t\t" + "<wsag:ExpirationTime>"
-					+ getExpirationTime().toString() + "</wsag:ExpirationTime>").append("\n");
+			sb.append(
+					"\t\t" + "<wsag:ExpirationTime>"
+							+ getExpirationTime().toString()
+							+ "</wsag:ExpirationTime>").append("\n");
 
 		if (getTemplateId() != null)
-			sb.append("\t\t" + "<wsag:TemplateId>" + getTemplateId()
-					+ "</wsag:TemplateId>").append("\n");
+			sb.append(
+					"\t\t" + "<wsag:TemplateId>" + getTemplateId()
+							+ "</wsag:TemplateId>").append("\n");
 
 		if (getTemplateName() != null)
-			sb.append("\t\t" + "<wsag:TemplateName>" + getTemplateName()
-					+ "</wsag:TemplateName>").append("\n");
+			sb.append(
+					"\t\t" + "<wsag:TemplateName>" + getTemplateName()
+							+ "</wsag:TemplateName>").append("\n");
 
 		if (getMetrics().size() > 0) {
-			sb.append("\t\t" + "<wsag:Metrics>").append("\n");
+			sb.append("\t\t" + "<iag:Metrics>").append("\n");
 			for (Metric m : getMetrics()) {
-				sb.append(
-						"\t\t\t" + "<wsag:Metric>" + m.getId() + ":"
-								+ m.getType() + m.getDomain()
-								+ "</wsag:Metric>").append("\n");
+				if (m.getDomain() instanceof Range) {
+					Range r = (Range) m.getDomain();
+					String range_str = "[" + r.getMin() + ".." + r.getMax() + "]";;
+					sb.append(
+							"\t\t\t" + "<iag:Metric id=\"" + m.getId() + "\" "
+									+ "type=\"" + m.getType() + "\" "
+									+ "domain=\"" + range_str
+									+ "\">" + "</iag:Metric>").append("\n");
+				} else {
+					Enumerated e = (Enumerated) m.getDomain();
+					String enum_str = e.getValues().toString().replace("[", "{").replace("]", "}");
+					sb.append(
+							"\t\t\t" + "<iag:Metric id=\"" + m.getId() + "\" "
+									+ "type=\"" + m.getType() + "\" "
+									+ "domain=\"" + enum_str
+									+ "\">" + "</iag:Metric>").append("\n");
+				}
+
 			}
-			sb.append("\t\t" + "</wsag:Metrics>").append("\n");
+			sb.append("\t\t" + "</iag:Metrics>").append("\n");
 		}
 
 		sb.append("\t" + "</wsag:Context>").append("\n");

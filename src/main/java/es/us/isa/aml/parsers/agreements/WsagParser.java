@@ -28,7 +28,7 @@ public class WsagParser implements AgreementParser {
 
     @Override
     public AgreementModel doParse(String content) {
-    	
+    	AgreementModel model = null;
     	DocumentBuilderFactory dbFactory = DocumentBuilderFactory
 				.newInstance();
 		try {
@@ -37,10 +37,7 @@ public class WsagParser implements AgreementParser {
 					content)));
 			doc.getDocumentElement().normalize();
 			WsagParserHelper helper = new WsagParserHelper(doc);
-			
-			System.out.println(helper.getContext());
-			
-			
+			model = helper.getModel();
 			
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
@@ -53,7 +50,7 @@ public class WsagParser implements AgreementParser {
 			e.printStackTrace();
 		}
 		
-		return null;
+		return model;
     }
 
     @Override

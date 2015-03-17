@@ -10,12 +10,14 @@ import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.LogicalExpression;
 import es.us.isa.aml.model.expression.LogicalOperator;
+import es.us.isa.aml.model.expression.ParenthesisExpression;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 /**
@@ -24,86 +26,95 @@ import org.junit.Test;
  */
 public class TestExpression {
 
-    // Check assignment expressions
-    @Test
-    public void testAssignmentExpression() {
+	// Check assignment expressions
+	@Test
+	public void testAssignmentExpression() {
 
-        Var a = new Var("a", new Atomic(2.0));
-        assertEquals(2.0, a.getDoubleValue(), 0.0);
+		Var a = new Var("a", new Atomic(2.0));
+		assertEquals(2.0, a.getDoubleValue(), 0.0);
 
-        Var b = new Var("b");
-        Expression e = new AssignmentExpression(b, new Atomic(2));
-        e.calculate();
-        assertEquals(2, b.getIntegerValue().longValue());
+		Var b = new Var("b");
+		Expression e = new AssignmentExpression(b, new Atomic(2));
+		e.calculate();
+		assertEquals(2, b.getIntegerValue().longValue());
 
-        Var c = new Var("c", new Atomic(false));
-        assertFalse(c.getBooleanValue());
-    }
+		Var c = new Var("c", new Atomic(false));
+		assertFalse(c.getBooleanValue());
+	}
 
-    // Check arithmetic expressions
-    @Test
-    public void testArithmeticExpression() {
-        Var a = new Var("a", new Atomic(2));
-        assertEquals(2.0, a.getDoubleValue(), 0.0);
+	// Check arithmetic expressions
+	@Test
+	public void testArithmeticExpression() {
+		Var a = new Var("a", new Atomic(2));
+		assertEquals(2.0, a.getDoubleValue(), 0.0);
 
-        Var b = new Var("b", new ArithmeticExpression(a, new Atomic(1),
-                ArithmeticOperator.add));
-        assertEquals(3.0, b.getDoubleValue(), 0.0);
+		Var b = new Var("b", new ArithmeticExpression(a, new Atomic(1),
+				ArithmeticOperator.add));
+		assertEquals(3.0, b.getDoubleValue(), 0.0);
 
-        Var c = new Var("c", new ArithmeticExpression(a, b,
-                ArithmeticOperator.add));
-        assertEquals(5.0, c.getDoubleValue(), 0.0);
+		Var c = new Var("c", new ArithmeticExpression(a, b,
+				ArithmeticOperator.add));
+		assertEquals(5.0, c.getDoubleValue(), 0.0);
 
-        Expression e = new ArithmeticExpression(a, c, ArithmeticOperator.add);
-        assertEquals(7.0, (Double) e.calculate(), 0.0);
-    }
+		Expression e = new ArithmeticExpression(a, c, ArithmeticOperator.add);
+		assertEquals(7.0, (Double) e.calculate(), 0.0);
+	}
 
-    // Check relational expressions
-    @Test
-    public void testRelationalExpression() {
-        Var a = new Var("a", new Atomic(2));
-        assertEquals(2.0, a.getDoubleValue(), 0.0);
+	// Check relational expressions
+	@Test
+	public void testRelationalExpression() {
+		Var a = new Var("a", new Atomic(2));
+		assertEquals(2.0, a.getDoubleValue(), 0.0);
 
-        Var b = new Var("b", new ArithmeticExpression(a, new Atomic(1),
-                ArithmeticOperator.add));
-        assertEquals(3.0, b.getDoubleValue(), 0.0);
+		Var b = new Var("b", new ArithmeticExpression(a, new Atomic(1),
+				ArithmeticOperator.add));
+		assertEquals(3.0, b.getDoubleValue(), 0.0);
 
-        Var c = new Var("c", new ArithmeticExpression(a, b,
-                ArithmeticOperator.add));
-        assertEquals(5.0, c.getDoubleValue(), 0.0);
+		Var c = new Var("c", new ArithmeticExpression(a, b,
+				ArithmeticOperator.add));
+		assertEquals(5.0, c.getDoubleValue(), 0.0);
 
-        Expression exp = new ArithmeticExpression(a, b, ArithmeticOperator.add);
-        assertEquals(5.0, (double) exp.calculate(), 0.0);
+		Expression exp = new ArithmeticExpression(a, b, ArithmeticOperator.add);
+		assertEquals(5.0, (double) exp.calculate(), 0.0);
 
-        Expression e = new RelationalExpression(exp, c, RelationalOperator.eq);
-        assertTrue((boolean) e.calculate());
-    }
+		Expression e = new RelationalExpression(exp, c, RelationalOperator.eq);
+		assertTrue((boolean) e.calculate());
+	}
 
-    // Check logical expressions
-    @Test
-    public void testLogicalExpression() {
-        Var a = new Var("a", new Atomic(3));
-        assertEquals(3.0, a.getDoubleValue(), 0.0);
+	// Check logical expressions
+	@Test
+	public void testLogicalExpression() {
+		Var a = new Var("a", new Atomic(3));
+		assertEquals(3.0, a.getDoubleValue(), 0.0);
 
-        Var b = new Var("b", new Atomic(2));
-        assertEquals(2.0, b.getDoubleValue(), 0.0);
+		Var b = new Var("b", new Atomic(2));
+		assertEquals(2.0, b.getDoubleValue(), 0.0);
 
-        Var c = new Var("c", new Atomic(true));
-        assertTrue(c.getBooleanValue());
+		Var c = new Var("c", new Atomic(true));
+		assertTrue(c.getBooleanValue());
 
-        Expression exp = new RelationalExpression(a, b, RelationalOperator.gt);
-        assertTrue((boolean) exp.calculate());
+		Expression exp = new RelationalExpression(a, b, RelationalOperator.gt);
+		assertTrue((boolean) exp.calculate());
 
-        Expression e = new LogicalExpression(exp, c, LogicalOperator.and);
-        assertTrue((boolean) e.calculate());
-    }
+		Expression e = new LogicalExpression(exp, c, LogicalOperator.and);
+		assertTrue((boolean) e.calculate());
+		
+		
+		// NEGACION DE EXPRESIONES
+		
+		System.out.println(e);
+		Expression neg = new LogicalExpression(new ParenthesisExpression(e), LogicalOperator.not);
+		System.out.println(neg);
+		Expression.printTree(neg, 0);
+	}
 
-    // Check uninitialized variables
-    @Test(expected = NullPointerException.class)
-    public void testNoInitializedVariable() {
-        Var a = new Var("a");
-        Expression exp = new ArithmeticExpression(a, new Atomic(2), ArithmeticOperator.add);
-        exp.calculate();
-    }
+	// Check uninitialized variables
+	@Test(expected = NullPointerException.class)
+	public void testNoInitializedVariable() {
+		Var a = new Var("a");
+		Expression exp = new ArithmeticExpression(a, new Atomic(2),
+				ArithmeticOperator.add);
+		exp.calculate();
+	}
 
 }

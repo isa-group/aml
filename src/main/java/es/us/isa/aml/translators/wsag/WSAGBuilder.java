@@ -124,7 +124,7 @@ public class WSAGBuilder implements IBuilder {
 	public String addMonitorableProperty(Property mp) {
 		Variable v = new Variable();
 		v.setName(mp.getId());
-		try {
+		try {	
 			v.setMetric(new URI(mp.getMetric().getId()));
 		} catch (URISyntaxException e) {
 			e.printStackTrace();

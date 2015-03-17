@@ -3,7 +3,7 @@
  */
 package es.us.isa.aml.translators.iagree.model;
 
-import java.util.List;
+import java.util.Collection;
 
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.Metric;
@@ -37,7 +37,7 @@ public class IAgreeContext extends Context {
         }
 
         sb.append("\t" + "Metrics:" + "\n");
-        List<Metric> metrics = this.getMetrics();
+        Collection<Metric> metrics = this.getMetrics().values();
         for (Metric metric : metrics) {
             sb.append("\t\t").append(metric).append("\n");
         }

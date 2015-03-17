@@ -9,8 +9,8 @@ import es.us.isa.aml.model.Range;
 public class IAgreeRange extends Range {
 
     /**
-     * @param valueOf
-     * @param valueOf2
+     * @param min
+     * @param max
      */
     public IAgreeRange(Integer min, Integer max) {
         super(min, max);

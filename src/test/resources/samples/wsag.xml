@@ -3,39 +3,41 @@
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xmlns:wsag="http://schemas.ggf.org/graap/2007/03/ws-agreement"
 xmlns:xs="http://www.w3.org/2001/XMLSchema"
+xmlns:iag="http://www.isa.us.es/schemas/iagree"
 xsi:schemaLocation="http://schemas.ggf.org/graap/2007/03/wsagreement"
 agreement_types.xsd="http://www.w3.org/2001/XMLSchema XMLSchema.xsd">
 	<wsag:Name>IAgreeCore</wsag:Name>
 	<wsag:Context>
 		<wsag:AgreementResponder>Provider</wsag:AgreementResponder>
-		<wsag:Metrics>
-			<wsag:Metric>met1:integer[0..23]</wsag:Metric>
-			<wsag:Metric>met2:integer[0..512]</wsag:Metric>
-			<wsag:Metric>met3:float[0..128]</wsag:Metric>
-			<wsag:Metric>met4:integer[0..512]</wsag:Metric>
-			<wsag:Metric>met5:float[0..100]</wsag:Metric>
-			<wsag:Metric>met6:integer[-50..50]</wsag:Metric>
-		</wsag:Metrics>
+		<iag:Metrics>
+			<iag:Metric id="boolean" type="Boolean" domain="{true, false}"></iag:Metric>
+			<iag:Metric id="met3" type="float" domain="[0..128]"></iag:Metric>
+			<iag:Metric id="met2" type="integer" domain="[0..512]"></iag:Metric>
+			<iag:Metric id="met1" type="integer" domain="[0..23]"></iag:Metric>
+			<iag:Metric id="met6" type="integer" domain="[-50..50]"></iag:Metric>
+			<iag:Metric id="met5" type="float" domain="[0..100]"></iag:Metric>
+			<iag:Metric id="met4" type="integer" domain="[0..512]"></iag:Metric>
+		</iag:Metrics>
 	</wsag:Context>
 	<wsag:Terms>
 		<wsag:All>
 			<wsag:ServiceDescriptionTerm wsag:Name="SDT_IAg-Core" wsag:ServiceName="IAg-Core">
-				<OfferItem name="ConfProp1" wsag:Metric="met1"></OfferItem>
-				<OfferItem name="ConfProp2" wsag:Metric="met2">18</OfferItem>
-				<OfferItem name="ConfProp3" wsag:Metric="met6"></OfferItem>
+				<OfferItem name="ConfProp1" iag:Metric="met1"></OfferItem>
+				<OfferItem name="ConfProp2" iag:Metric="met2">18</OfferItem>
+				<OfferItem name="ConfProp3" iag:Metric="met6"></OfferItem>
 			</wsag:ServiceDescriptionTerm>
 			<wsag:ServiceProperties wsag:Name="SP_IAg-Core" wsag:ServiceName="IAg-Core">
 				<wsag:VariableSet>
-					<wsag:Variable wsag:Name="MonitProp1" wsag:Metric="met2">
-						<wsag:Location>/MonitProp1</wsag:Location>
-					</wsag:Variable>
-					<wsag:Variable wsag:Name="MonitProp3" wsag:Metric="met4">
+					<wsag:Variable wsag:Name="MonitProp3" iag:Metric="met4">
 						<wsag:Location>/MonitProp3</wsag:Location>
 					</wsag:Variable>
-					<wsag:Variable wsag:Name="MonitProp4" wsag:Metric="met5">
+					<wsag:Variable wsag:Name="MonitProp4" iag:Metric="met5">
 						<wsag:Location>/MonitProp4</wsag:Location>
 					</wsag:Variable>
-					<wsag:Variable wsag:Name="MonitProp2" wsag:Metric="met3">
+					<wsag:Variable wsag:Name="MonitProp1" iag:Metric="met2">
+						<wsag:Location>/MonitProp1</wsag:Location>
+					</wsag:Variable>
+					<wsag:Variable wsag:Name="MonitProp2" iag:Metric="met3">
 						<wsag:Location>/MonitProp2</wsag:Location>
 					</wsag:Variable>
 				</wsag:VariableSet>

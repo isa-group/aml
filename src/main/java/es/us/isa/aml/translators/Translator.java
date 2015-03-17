@@ -1,5 +1,9 @@
 package es.us.isa.aml.translators;
 
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import es.us.isa.aml.model.AgreementElement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
@@ -11,9 +15,6 @@ import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.Service;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * @author jdelafuente
@@ -38,7 +39,7 @@ public class Translator {
         builder.addVersion(model.getVersion());
         builder.addResponder(model.getContext().getResponder());
 
-        export(model.getContext().getMetrics(), builder);
+        export(model.getContext().getMetrics().values(), builder);
         export(model.getAgreementTerms(), builder);
 
         if (model instanceof AgreementTemplate) {
@@ -47,8 +48,7 @@ public class Translator {
 
         return builder.generate();
     }
-
-    // TODO especificar excepciones
+    
     public String export(Metric metric) {
         try {
             return export(metric, builder.getClass().newInstance());
@@ -133,7 +133,7 @@ public class Translator {
         return builder.addCreationConstraint(cc);
     }
 
-    public String export(List<? extends AgreementElement> objects) {
+    public String export(Collection<? extends AgreementElement> objects) {
         try {
             return export(objects, builder.getClass().newInstance());
         } catch (InstantiationException | IllegalAccessException e) {
@@ -142,7 +142,7 @@ public class Translator {
         return null;
     }
 
-    public String export(List<? extends AgreementElement> objects, IBuilder builder) {
+    public String export(Collection<? extends AgreementElement> objects, IBuilder builder) {
         StringBuilder sb = new StringBuilder();
         for (AgreementElement object : objects) {
             if (object instanceof Metric) {

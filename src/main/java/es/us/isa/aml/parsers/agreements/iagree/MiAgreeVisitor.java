@@ -5,7 +5,6 @@ package es.us.isa.aml.parsers.agreements.iagree;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +60,7 @@ import es.us.isa.aml.translators.iagree.model.IAgreeCompensation;
 import es.us.isa.aml.translators.iagree.model.IAgreeConfigurationProperty;
 import es.us.isa.aml.translators.iagree.model.IAgreeContext;
 import es.us.isa.aml.translators.iagree.model.IAgreeCreationConstraint;
+import es.us.isa.aml.translators.iagree.model.IAgreeEnumerated;
 import es.us.isa.aml.translators.iagree.model.IAgreeFeature;
 import es.us.isa.aml.translators.iagree.model.IAgreeGuaranteeTerm;
 import es.us.isa.aml.translators.iagree.model.IAgreeMetric;
@@ -80,7 +80,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     private iAgreeParser parser;
     public AgreementModel model;
-    public Map<String, Metric> metrics;
     public long timeStamp;
 
     public MiAgreeVisitor(iAgreeParser parser) {
@@ -92,7 +91,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
         try {
             this.timeStamp = Calendar.getInstance().getTimeInMillis();
-            this.metrics = new HashMap<String, Metric>();
 
             IAgreeContext context = new IAgreeContext();
 
@@ -585,7 +583,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
         String id = ctx.id.getText();
         String metric_id = ctx.met.getText();
-        Metric m = this.metrics.get(metric_id);
+        Metric m = model.getContext().getMetrics().get(metric_id);
 
         if (m != null) {
 
@@ -803,12 +801,14 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Metric visitMetrics_prop(iAgreeParser.Metrics_propContext ctx) {
-        Enumerated en = new Enumerated();
+    	IAgreeEnumerated en = new IAgreeEnumerated();
         List<Object> ls = new ArrayList<Object>();
         ls.add(true);
         ls.add(false);
+        en.setValues(ls);
         IAgreeMetric m = new IAgreeMetric("boolean", "Boolean", en);
-        this.metrics.put(m.getId(), m);
+        
+        model.getContext().getMetrics().put(m.getId(), m);
 
         for (iAgreeParser.MetricContext met : ctx.metric()) {
             this.visitMetric(met);
@@ -828,8 +828,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
             domain = this.visitList(ctx.list());
         }
         m = new IAgreeMetric(id, type, domain);
-        this.metrics.put(id, m);
-        this.model.getContext().getMetrics().add(m);
+        this.model.getContext().getMetrics().put(id, m);
         return m;
     }
 

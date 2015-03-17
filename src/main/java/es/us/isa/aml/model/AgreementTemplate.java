@@ -15,6 +15,7 @@ public class AgreementTemplate extends AgreementModel {
     private List<CreationConstraint> creationConstraints;
 
     public AgreementTemplate() {
+    	this.docType = DocType.TEMPLATE;
         this.creationConstraints = new ArrayList<>();
     }
 

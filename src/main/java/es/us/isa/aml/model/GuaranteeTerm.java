@@ -14,7 +14,11 @@ public class GuaranteeTerm extends AgreementElement implements
 	private SLO slo;
 	private String serviceScope;
 	private QualifyingCondition qc;
-	private List<Compensation> compensations;
+	private List<Compensation> compensations = new ArrayList<Compensation>();
+	
+	public GuaranteeTerm(String id) {
+		super(id);
+	}
 
 	public GuaranteeTerm(String id, ServiceRole actor, SLO slo) {
 		super(id);

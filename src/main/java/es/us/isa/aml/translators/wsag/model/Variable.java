@@ -87,7 +87,7 @@ public class Variable {
 
 	@Override
 	public String toString() {
-		return "<wsag:Variable wsag:Name=\"" + getName() + "\" wsag:Metric=\""
+		return "<wsag:Variable wsag:Name=\"" + getName() + "\" iag:Metric=\""
 				+ getMetric().toString() + "\">" + "\n" + "\t\t\t\t\t\t" + "<wsag:Location>" +
 				getLocation() + "</wsag:Location>" + "\n" + "\t\t\t\t\t" + "</wsag:Variable>";
 	}
