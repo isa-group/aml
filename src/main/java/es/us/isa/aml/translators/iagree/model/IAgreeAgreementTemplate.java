@@ -1,7 +1,7 @@
 package es.us.isa.aml.translators.iagree.model;
 
-import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.AgreementTemplate;
+import es.us.isa.aml.model.CreationConstraint;
 
 /**
  * @author jdelafuente

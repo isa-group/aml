@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.parsers.agreements.IAgreeParser;
 import es.us.isa.aml.parsers.agreements.WsagParser;
 
 /**

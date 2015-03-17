@@ -8,11 +8,6 @@ public class IAgreeError extends Error {
     protected int charEnd;
     protected TYPE type;
 
-    public enum TYPE {
-
-        SYNTAX, SEMANTIC
-    }
-
     public IAgreeError(int lineNo, int charStart, int charEnd, ERROR_SEVERITY severity, String message) {
         super(lineNo, severity, message);
         this.charStart = charStart;
@@ -46,6 +41,11 @@ public class IAgreeError extends Error {
     @Override
     public String toString() {
         return severity + ": " + message;
+    }
+
+    public enum TYPE {
+
+        SYNTAX, SEMANTIC
     }
 
 }

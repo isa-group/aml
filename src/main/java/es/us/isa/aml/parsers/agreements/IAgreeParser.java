@@ -5,9 +5,6 @@
  */
 package es.us.isa.aml.parsers.agreements;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.iagree.IAgreeErrorListener;
 import es.us.isa.aml.parsers.agreements.iagree.MiAgreeVisitor;
@@ -15,6 +12,8 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeLexer;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
 import es.us.isa.aml.util.AgreementLanguage;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 /**
  * @author jdelafuente

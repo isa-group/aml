@@ -18,9 +18,6 @@ public class ParserFactory {
     private static final IAgreeParser iAgreeParser = new IAgreeParser();
     private static final WsagParser wsagParser = new WsagParser();
 
-    private ParserFactory() {
-    }
-
     public static AgreementParser createParser(AgreementLanguage lang) {
         switch (lang) {
             case IAGREE:
@@ -30,6 +27,9 @@ public class ParserFactory {
             default:
                 throw new IllegalArgumentException("there is no parser for this language: " + lang);
         }
+    }
+
+    private ParserFactory() {
     }
 
 }

@@ -48,9 +48,11 @@ public class AgreementTemplate extends AgreementModel {
         this.version = newT.version;
     }
 
-    public AgreementOffer generateAgreement() {
+    public AgreementOffer generateAgreement(String consumerName) {
         //todo: por ahora es una copia de la template
-        return new AgreementOffer(this);
+        AgreementOffer offer = new AgreementOffer(this);
+        offer.getContext().setConsumer(consumerName);
+        return offer;
     }
 
 }

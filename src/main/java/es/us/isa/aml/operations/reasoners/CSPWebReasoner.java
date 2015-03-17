@@ -1,23 +1,22 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.operations.reasoners;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLEncoder;
-
-import javax.net.ssl.HttpsURLConnection;
-
 import com.google.gson.Gson;
-
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.translators.Translator;
 import es.us.isa.aml.translators.csp.opl.OPLBuilder;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.OperationResponse;
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * @author jdelafuente
@@ -25,83 +24,83 @@ import es.us.isa.aml.util.OperationResponse;
  */
 public class CSPWebReasoner extends Reasoner {
 
-	private AgreementModel model;
+    private static final Logger LOG = Logger.getLogger(CSPWebReasoner.class.getName());
+    private AgreementModel model;
 
-	@Override
-	public void addProblem(AgreementModel model) {
-		this.model = model;
-	}
+    @Override
+    public void addProblem(AgreementModel model) {
+        this.model = model;
+    }
 
-	@Override
-	public OperationResponse solve() {
-		
-		String url = Config.getProperty("CSPWebReasonerEndpoint");
-		url += "/solve";
+    @Override
+    public OperationResponse solve() {
 
-		Translator translator = new Translator(new OPLBuilder());
-		String content = translator.export(model);
-		
-		OperationResponse res = new OperationResponse();
-		try {
-			res = sendPost(url, content);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+        String url = Config.getProperty("CSPWebReasonerEndpoint");
+        url += "/solve";
 
-		return res;
-	}
+        Translator translator = new Translator(new OPLBuilder());
+        String content = translator.export(model);
 
-	@Override
-	public OperationResponse explain() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        OperationResponse res = new OperationResponse();
+        try {
+            res = sendPost(url, content);
+        } catch (Exception e) {
+            LOG.log(Level.WARNING, null, e);
+        }
 
-	@Override
-	public OperationResponse implies() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        return res;
+    }
 
-	@Override
-	public OperationResponse whyNotImplies() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public OperationResponse explain() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	// HTTP POST request
-	private OperationResponse sendPost(String url, String content) throws Exception {
+    @Override
+    public OperationResponse implies() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-		Gson gson = new Gson();
+    @Override
+    public OperationResponse whyNotImplies() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-		URL obj = new URL(url);
-		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+    // HTTP POST request
+    private OperationResponse sendPost(String url, String content) throws Exception {
 
-		// add reuqest header
-		con.setRequestMethod("POST");
-		
-		String param = "opl=" + URLEncoder.encode(content, "UTF-8");
+        Gson gson = new Gson();
 
-		// Send post request
-		con.setDoOutput(true);
-		DataOutputStream wr = new DataOutputStream(con.getOutputStream());
-		wr.writeBytes(param);
-		wr.flush();
-		wr.close();
+        URL obj = new URL(url);
+        HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
-//		int responseCode = con.getResponseCode();
+        // add reuqest header
+        con.setRequestMethod("POST");
 
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				con.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
+        String param = "opl=" + URLEncoder.encode(content, "UTF-8");
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
-		}
-		in.close();
+        // Send post request
+        con.setDoOutput(true);
+        try (DataOutputStream wr = new DataOutputStream(con.getOutputStream())) {
+            wr.writeBytes(param);
+            wr.flush();
+        }
 
-		return gson.fromJson(response.toString(), OperationResponse.class);
-	}
+        StringBuilder response;
+        try (//		int responseCode = con.getResponseCode();
+                BufferedReader in = new BufferedReader(new InputStreamReader(
+                                con.getInputStream()))) {
+                            String inputLine;
+                            response = new StringBuilder();
+                            while ((inputLine = in.readLine()) != null) {
+                                response.append(inputLine);
+                            }
+                        }
+
+                        return gson.fromJson(response.toString(), OperationResponse.class);
+    }
 
 }

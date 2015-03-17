@@ -19,15 +19,15 @@ public class Service {
     public Service() {
         serviceName = "";
         serviceReference = "";
-        features = new HashMap<String, Feature>();
-        cps = new ArrayList<ConfigurationProperty>();
+        features = new HashMap<>();
+        cps = new ArrayList<>();
     }
 
     public Service(String serviceName, String serviceReference) {
         this.serviceName = serviceName;
         this.serviceReference = serviceReference;
-        features = new HashMap<String, Feature>();
-        cps = new ArrayList<ConfigurationProperty>();
+        features = new HashMap<>();
+        cps = new ArrayList<>();
     }
 
     public String getServiceName() {

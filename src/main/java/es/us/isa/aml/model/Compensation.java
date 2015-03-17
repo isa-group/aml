@@ -11,16 +11,6 @@ import java.util.List;
  */
 public class Compensation {
 
-    public enum AssessmentInterval {
-
-        YEARLY, MONTHLY, WEEKLY, DAILY, HOURLY, MINUTELY
-    }
-
-    public enum CompensationType {
-
-        PENALTY, REWARD
-    }
-
     private AssessmentInterval assessmentInterval;
     private CompensationType compensationType;
     private List<CompensationElement> elements;
@@ -65,5 +55,15 @@ public class Compensation {
      */
     public void setElements(List<CompensationElement> elements) {
         this.elements = elements;
+    }
+
+    public enum AssessmentInterval {
+
+        YEARLY, MONTHLY, WEEKLY, DAILY, HOURLY, MINUTELY
+    }
+
+    public enum CompensationType {
+
+        PENALTY, REWARD
     }
 }

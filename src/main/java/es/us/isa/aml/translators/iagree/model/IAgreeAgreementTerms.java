@@ -1,11 +1,10 @@
 package es.us.isa.aml.translators.iagree.model;
 
-import java.util.List;
-
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Scope;
+import java.util.List;
 
 /**
  * @author jdelafuente
@@ -32,7 +31,7 @@ public class IAgreeAgreementTerms extends AgreementTerms {
 
         for (MonitorableProperty mp : mps) {
             if (mp.getScope() == Scope.Local) {
-                sb.append("\t\t" + "for " + mp.getFeature().getId() + ":" + "\n");
+                sb.append("\t\t" + "for ").append(mp.getFeature().getId()).append(":" + "\n");
                 sb.append("\t\t\t").append(mp).append("\n");
             }
         }

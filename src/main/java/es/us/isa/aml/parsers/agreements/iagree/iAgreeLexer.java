@@ -1,14 +1,13 @@
-// Generated from C:\Users\ISA Group\Desktop\iAgree\iAgree.g4 by ANTLR 4.1
 package es.us.isa.aml.parsers.agreements.iagree;
 
-import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.atn.*;
+import org.antlr.v4.runtime.Lexer;
+import org.antlr.v4.runtime.RuleContext;
+import org.antlr.v4.runtime.atn.ATN;
+import org.antlr.v4.runtime.atn.ATNSimulator;
+import org.antlr.v4.runtime.atn.LexerATNSimulator;
+import org.antlr.v4.runtime.atn.PredictionContextCache;
 import org.antlr.v4.runtime.dfa.DFA;
-import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class iAgreeLexer extends Lexer {
@@ -71,80 +70,7 @@ public class iAgreeLexer extends Lexer {
         "Url", "Version", "Date", "Hour", "Access", "Unit", "Digit", "NonZeroDigit",
         "String", "WS", "COMMENT", "LINE_COMMENT"
     };
-
-    public iAgreeLexer(CharStream input) {
-        super(input);
-        _interp = new LexerATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
-    }
-
-    @Override
-    public String getGrammarFileName() {
-        return "iAgree.g4";
-    }
-
-    @Override
-    public String[] getTokenNames() {
-        return tokenNames;
-    }
-
-    @Override
-    public String[] getRuleNames() {
-        return ruleNames;
-    }
-
-    @Override
-    public String[] getModeNames() {
-        return modeNames;
-    }
-
-    @Override
-    public ATN getATN() {
-        return _ATN;
-    }
-
-    @Override
-    public void action(RuleContext _localctx, int ruleIndex, int actionIndex) {
-        switch (ruleIndex) {
-            case 102:
-                WS_action((RuleContext) _localctx, actionIndex);
-                break;
-
-            case 103:
-                COMMENT_action((RuleContext) _localctx, actionIndex);
-                break;
-
-            case 104:
-                LINE_COMMENT_action((RuleContext) _localctx, actionIndex);
-                break;
-        }
-    }
-
-    private void WS_action(RuleContext _localctx, int actionIndex) {
-        switch (actionIndex) {
-            case 0:
-                skip();
-                break;
-        }
-    }
-
-    private void LINE_COMMENT_action(RuleContext _localctx, int actionIndex) {
-        switch (actionIndex) {
-            case 2:
-                skip();
-                break;
-        }
-    }
-
-    private void COMMENT_action(RuleContext _localctx, int actionIndex) {
-        switch (actionIndex) {
-            case 1:
-                skip();
-                break;
-        }
-    }
-
-    public static final String _serializedATN
-            = "\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\2g\u03d2\b\1\4\2\t"
+    public static final String _serializedATN = "\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\2g\u03d2\b\1\4\2\t"
             + "\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"
             + "\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22"
             + "\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31"
@@ -473,8 +399,7 @@ public class iAgreeLexer extends Lexer {
             + "\2\2\u03d0\u03d1\bj\4\2\u03d1\u00d4\3\2\2\2\24\2\u0338\u033a\u0344\u0359"
             + "\u036b\u0373\u037d\u0386\u0392\u0398\u039c\u03a4\u03ac\u03b0\u03b5\u03bf"
             + "\u03cd";
-    public static final ATN _ATN
-            = ATNSimulator.deserialize(_serializedATN.toCharArray());
+    public static final ATN _ATN = ATNSimulator.deserialize(_serializedATN.toCharArray());
 
     static {
         _decisionToDFA = new DFA[_ATN.getNumberOfDecisions()];
@@ -482,4 +407,76 @@ public class iAgreeLexer extends Lexer {
             _decisionToDFA[i] = new DFA(_ATN.getDecisionState(i), i);
         }
     }
+
+    public iAgreeLexer(CharStream input) {
+        super(input);
+        _interp = new LexerATNSimulator(this, _ATN, _decisionToDFA, _sharedContextCache);
+    }
+
+    @Override
+    public String getGrammarFileName() {
+        return "iAgree.g4";
+    }
+
+    @Override
+    public String[] getTokenNames() {
+        return tokenNames;
+    }
+
+    @Override
+    public String[] getRuleNames() {
+        return ruleNames;
+    }
+
+    @Override
+    public String[] getModeNames() {
+        return modeNames;
+    }
+
+    @Override
+    public ATN getATN() {
+        return _ATN;
+    }
+
+    @Override
+    public void action(RuleContext _localctx, int ruleIndex, int actionIndex) {
+        switch (ruleIndex) {
+            case 102:
+                WS_action((RuleContext) _localctx, actionIndex);
+                break;
+
+            case 103:
+                COMMENT_action((RuleContext) _localctx, actionIndex);
+                break;
+
+            case 104:
+                LINE_COMMENT_action((RuleContext) _localctx, actionIndex);
+                break;
+        }
+    }
+
+    private void WS_action(RuleContext _localctx, int actionIndex) {
+        switch (actionIndex) {
+            case 0:
+                skip();
+                break;
+        }
+    }
+
+    private void LINE_COMMENT_action(RuleContext _localctx, int actionIndex) {
+        switch (actionIndex) {
+            case 2:
+                skip();
+                break;
+        }
+    }
+
+    private void COMMENT_action(RuleContext _localctx, int actionIndex) {
+        switch (actionIndex) {
+            case 1:
+                skip();
+                break;
+        }
+    }
+
 }
