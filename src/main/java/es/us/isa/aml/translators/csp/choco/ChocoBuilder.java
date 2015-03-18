@@ -24,7 +24,7 @@ public class ChocoBuilder implements IBuilder {
     }
 
     @Override
-    public Float addVersion(Float version) {
+    public Double addVersion(Double version) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

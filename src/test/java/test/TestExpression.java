@@ -102,10 +102,10 @@ public class TestExpression {
 		
 		// NEGACION DE EXPRESIONES
 		
-		System.out.println(e);
-		Expression neg = new LogicalExpression(new ParenthesisExpression(e), LogicalOperator.not);
-		System.out.println(neg);
-		Expression.printTree(neg, 0);
+//		System.out.println(e);
+//		Expression neg = new LogicalExpression(new ParenthesisExpression(e), LogicalOperator.not);
+//		System.out.println(neg);
+//		Expression.printTree(neg, 0);
 	}
 
 	// Check uninitialized variables

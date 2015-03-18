@@ -16,6 +16,7 @@ import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.Context;
+import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Domain;
 import es.us.isa.aml.model.Enumerated;
 import es.us.isa.aml.model.GuaranteeTerm;
@@ -50,27 +51,30 @@ public class WsagParserHelper {
 
 	public void createModel() {
 		Node template = doc.getElementsByTagName("wsag:Template").item(0);
+		Node offer = doc.getElementsByTagName("wsag:AgreementOffer").item(0);
+		Double version = null;
+
 		if (template != null) {
 			model = new AgreementTemplate();
+			Element temp = (Element) template;
+			version = Double.valueOf(temp.getAttribute("wsag:TemplateId"));
+			model.setVersion(version);
 		} else {
 			model = new AgreementOffer();
+			Element agoffer = (Element) offer;
+			version = Double.valueOf(agoffer.getAttribute("wsag:AgreementOfferId"));
+			model.setVersion(version);
 		}
 
 		Node name = doc.getElementsByTagName("wsag:Name").item(0);
 		if (name != null) {
 			model.setID(name.getTextContent());
-		}
-		Node version = null;
-		if (model.getDocType() == DocType.TEMPLATE)
-			version = doc.getElementsByTagName("wsag:TemplateId").item(0);
-		else
-			version = doc.getElementsByTagName("wsag:AgreementOfferId").item(0);
-
-		if (version != null)
-			model.setVersion(Float.valueOf(version.getTextContent()));
+		}			
 
 		setContext();
 		setAgreementTerms();
+		if (model.getDocType() == DocType.TEMPLATE)
+			setCreationConstraints();
 	}
 
 	public void setContext() {
@@ -78,8 +82,10 @@ public class WsagParserHelper {
 
 		Node responder = doc.getElementsByTagName("wsag:AgreementResponder")
 				.item(0);
-		if (responder != null) {
+		if (responder != null && responder instanceof Element) {
+			Element resp = (Element) responder;
 			Responder r = new Responder();
+			r.setId(resp.getAttribute("id"));
 			r.setRoleType(ServiceRole.valueOf(responder.getTextContent()));
 			context.setResponder(r);
 		}
@@ -139,6 +145,13 @@ public class WsagParserHelper {
 				Element term = (Element) node_term;
 
 				if (term.getTagName().equals("wsag:ServiceDescriptionTerm")) {
+					
+					String serviceName = term.getAttribute("wsag:ServiceName");					
+					model.getAgreementTerms().getService().setServiceName(serviceName);
+					
+					String serviceReference = term.getAttribute("iag:ServiceReference");
+					model.getAgreementTerms().getService().setServiceReference(serviceReference);
+					
 					NodeList offer_items = term.getChildNodes();
 					for (int j = 0; j < offer_items.getLength(); j++) {
 						Node node_oi = (Node) (offer_items.item(j));
@@ -167,14 +180,15 @@ public class WsagParserHelper {
 						}
 					}
 				} else if (term.getTagName().equals("wsag:ServiceProperties")) {
-					
-					NodeList variables = term.getElementsByTagName("wsag:Variable");
+
+					NodeList variables = term
+							.getElementsByTagName("wsag:Variable");
 					for (int j = 0; j < variables.getLength(); j++) {
 						Node node_v = (Node) (variables.item(j));
 						if (node_v instanceof Element) {
 							Element variable = (Element) node_v;
 							String id = variable.getAttribute("wsag:Name");
-							
+
 							String metric_id = variable
 									.getAttribute("iag:Metric");
 							Metric m = model.getContext().getMetrics()
@@ -187,13 +201,15 @@ public class WsagParserHelper {
 									.getMonitorableProperties().add(p);
 						}
 					}
-					
+
 				} else if (term.getTagName().equals("wsag:GuaranteeTerm")) {
 					if (term instanceof Element) {
 						Element gt_element = (Element) term;
 						String id = gt_element.getAttribute("wsag:Name");
-
+						String ob = gt_element.getAttribute("wsag:Obligated");
 						GuaranteeTerm gt = new GuaranteeTerm(id);
+						gt.setServiceRole(ServiceRole.valueOf(ob));						
+						
 						NodeList nList2 = gt_element.getChildNodes();
 						for (int j = 0; j < nList2.getLength(); j++) {
 							Node node_prop = (Node) (nList2.item(j));
@@ -225,202 +241,49 @@ public class WsagParserHelper {
 		}
 	}
 
-	// public String getAgreementTerms() {
-	// Element service = (Element) doc.getElementsByTagName("wsag:Terms")
-	// .item(0);
-	// String result = Util
-	// .withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.AGREEMENT_TERMS])
-	// + "\n\t"
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.SERVICE])
-	// + " " + service.getAttribute("wsag:Name") + " ";
-	//
-	// Node serviceReference = doc.getElementsByTagName(
-	// "wsag:ServiceReference").item(0);
-	// if (serviceReference != null) {
-	// result += Util
-	// .withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.AVAL_AT])
-	// + " \"" + serviceReference.getTextContent() + "\"";
-	// }
-	//
-	// Node globalDescription = doc.getElementsByTagName(
-	// "wsag:ServiceDescriptionTerm").item(0);
-	// if (globalDescription != null) {
-	// result += "\n\t\t"
-	// +
-	// Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.GLOBALDESCRIPTION]);
-	//
-	// NodeList nList = doc.getElementsByTagName("OfferItem");
-	//
-	// for (int i = 0; i < nList.getLength(); i++) {
-	// Element node = (Element) nList.item(i);
-	//
-	// result += "\n\t\t\t" + node.getAttribute("name") + ':';
-	//
-	// String type = node.getAttribute("wsag:Metric");
-	// String[] aux = type.split(":");
-	// result += " " + aux[1];
-	//
-	// String value = node.getTextContent();
-	//
-	// if (aux[1].equals("boolean"))
-	// value = value.toLowerCase();
-	//
-	// if (!node.getTextContent().isEmpty()) {
-	// result += " "
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.EQ])
-	// + " " + value + ';';
-	// }
-	// }
-	// }
-	//
-	// Node monitorableProps = doc.getElementsByTagName(
-	// "wsag:ServiceProperties").item(0);
-	// if (monitorableProps != null) {
-	// result += "\n\n\t"
-	// +
-	// Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.MONITORABLEPROPERTIES])
-	// + "\n\t\t";
-	//
-	// NodeList nList = doc.getElementsByTagName("wsag:Variable");
-	// if (nList != null) {
-	//
-	// result += Util
-	// .withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.GLOBAL]) + ':';
-	//
-	// for (int i = 0; i < nList.getLength(); i++) {
-	// Element node = (Element) nList.item(i);
-	//
-	// result += "\n\t\t\t" + node.getAttribute("wsag:Name") + ':';
-	//
-	// String type = node.getAttribute("wsag:Metric");
-	// String[] aux = type.split(":");
-	// result += " " + aux[1];
-	// }
-	// }
-	//
-	// NodeList guaranteeTerms = doc
-	// .getElementsByTagName("wsag:GuaranteeTerm");
-	// if (guaranteeTerms != null) {
-	// result += "\n\n\t\t"
-	// +
-	// Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.GUARANTEE_TERMS]);
-	// for (int i = 0; i < guaranteeTerms.getLength(); i++) {
-	//
-	// Element node = (Element) guaranteeTerms.item(i);
-	//
-	// if (!node.getParentNode().getNodeName().equals("wsag:All")) {
-	//
-	// String gName = node.getAttribute("wsag:Name");
-	// String name = gName.substring(0, gName.indexOf("."));
-	//
-	// if (!result.contains(name)) {
-	// result += "\n\t\t\t"
-	// + name
-	// + ':'
-	// + "\t"
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONE_OR_MORE])
-	// + " "
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.OF]);
-	// }
-	//
-	// result += "\n\t\t\t\t" + node.getAttribute("wsag:Name")
-	// + ':';
-	// } else {
-	// result += "\n\t\t\t" + node.getAttribute("wsag:Name")
-	// + ':';
-	// }
-	//
-	// String csl = node
-	// .getElementsByTagName("wsag:CustomServiceLevel")
-	// .item(0).getTextContent();
-	// if (csl.contains("True") || csl.contains("False")) {
-	// csl = csl.replace("\"", "");
-	// csl = csl.replace("True", "true").replace("False",
-	// "false");
-	// }
-	//
-	// Node qualifCond = node.getElementsByTagName(
-	// "wsag:QualifyingCondition").item(0);
-	//
-	// if (qualifCond != null) {
-	// String qc = qualifCond.getTextContent();
-	// if (qc.contains("True") || qc.contains("False")) {
-	// qc = qc.replace("\"", "");
-	// qc = qc.replace("True", "true").replace("False",
-	// "false");
-	// }
-	// qc = qc.trim().replace("(", "").replace(")", "");
-	//
-	// if (qc.contains("OR")) {
-	// //qc = getBelongsExp(qc);
-	// }
-	//
-	// result += "\t"
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.PROVIDER])
-	// + " "
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.GUARANTEES])
-	// + " "
-	// + Util.decodeEntities(csl)
-	// + ";\n"
-	// + "\t\t\t\t"
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])
-	// + " (" + qc + ");\n";
-	// } else {
-	// result += "\t"
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.PROVIDER])
-	// + " "
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.GUARANTEES])
-	// + " " + Util.decodeEntities(csl) + ";\n";
-	// }
-	//
-	// NodeList compensation = node
-	// .getElementsByTagName("wsag:BusinessValueList");
-	//
-	// for (int j = 0; j < compensation.getLength(); j++) {
-	//
-	// Element comp = (Element) compensation.item(j);
-	//
-	// String compType = "";
-	//
-	// Node nCompTypePenalty = comp.getElementsByTagName(
-	// "wsag:Penalty").item(0);
-	// Node nCompTypeReward = node.getElementsByTagName(
-	// "wsag:Reward").item(0);
-	//
-	// if (nCompTypePenalty != null) {
-	// compType = "penalty";
-	// } else if (nCompTypeReward != null) {
-	// compType = "reward";
-	// }
-	//
-	// Node nTimeInterval = comp.getElementsByTagName(
-	// "wsag:TimeInterval").item(0);
-	// String interval = nTimeInterval.getTextContent();
-	//
-	// result += "\t\t\t\t"
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.WITH])
-	// + " " + interval + " " + compType + "\n";
-	//
-	// NodeList valueExprs = comp
-	// .getElementsByTagName("wsag:ValueExpr");
-	//
-	// for (int k = 0; k < valueExprs.getLength(); k++) {
-	// Element valueExpr = (Element) valueExprs.item(k);
-	// result += "\t\t\t\t\t"
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.OF])
-	// + " "
-	// + Util.decodeEntities(valueExpr
-	// .getTextContent()) + ';' + "\n";
-	// }
-	//
-	// result += "\t\t\t\tend\n";
-	// }
-	// }
-	// }
-	// }
-	//
-	// return result;
-	// }
+	public void setCreationConstraints() {
+		Node ccs = doc.getElementsByTagName("wsag:CreationConstraints").item(0);
+		NodeList nList = ccs.getChildNodes();
+		for (int i = 0; i < nList.getLength(); i++) {
+			Node node = (Node) (nList.item(i));
+			if (node instanceof Element) {
+				Element constraint = (Element) node;
+				Node node_id = constraint.getElementsByTagName("Name").item(0);
+				String id = node_id.getTextContent();
+
+				Node node_expr = constraint.getElementsByTagName("Content")
+						.item(0);
+				String str_expr = node_expr.getTextContent();
+
+				CreationConstraint cc = null;
+
+				if (str_expr.contains("IMPLIES")) {
+					String[] args = str_expr.split(" IMPLIES ");
+					String str_qc = args[0];
+					String str_slo = args[1];
+
+					Expression qc_cond = Expression.parse(str_qc);
+					QualifyingCondition qc = new QualifyingCondition(qc_cond);
+
+					Expression slo_expr = Expression.parse(str_slo);
+					SLO slo = new SLO(slo_expr);
+					cc = new CreationConstraint(id, slo);
+					cc.setQc(qc);
+
+				} else {
+					Expression slo_expr = Expression.parse(str_expr);
+					SLO slo = new SLO(slo_expr);
+					cc = new CreationConstraint(id, slo);
+				}
+
+				if (cc != null)
+					((AgreementTemplate) model).getCreationConstraints()
+							.add(cc);
+			}
+		}
+
+	}
+
 	//
 	// public String getCreationConstraints() {
 	//

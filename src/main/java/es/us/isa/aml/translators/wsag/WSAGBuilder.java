@@ -47,14 +47,14 @@ public class WSAGBuilder implements IBuilder {
 		return id;
 	}
 
-	public Float addVersion(Float version) {
+	public Double addVersion(Double version) {
 		wsagDoc.setId(version.toString());
 		return version;
 	}
 
 	@Override
 	public Object addResponder(Responder responder) {
-		wsagDoc.getContext().setAgreementResponder(responder.getRoleType());
+		wsagDoc.getContext().setAgreementResponder(responder);
 		return responder;
 	}
 
@@ -87,8 +87,12 @@ public class WSAGBuilder implements IBuilder {
 	public String addService(Service service) {
 		wsagDoc.getTerms().getServiceDescriptionTerm()
 				.setName("SDT_" + service.getServiceName());
+
 		wsagDoc.getTerms().getServiceDescriptionTerm()
 				.setServiceName(service.getServiceName());
+
+		wsagDoc.getTerms().getServiceDescriptionTerm()
+				.setServiceReference(service.getServiceReference());
 
 		wsagDoc.getTerms().getServiceProperties()
 				.setName("SP_" + service.getServiceName());
@@ -124,7 +128,7 @@ public class WSAGBuilder implements IBuilder {
 	public String addMonitorableProperty(Property mp) {
 		Variable v = new Variable();
 		v.setName(mp.getId());
-		try {	
+		try {
 			v.setMetric(new URI(mp.getMetric().getId()));
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
@@ -143,7 +147,8 @@ public class WSAGBuilder implements IBuilder {
 		gt.setName(gt2.getId());
 		gt.setObligated(gt2.getServiceRole());
 		ServiceLevelObjective slo = new ServiceLevelObjective();
-		slo.setCustomServiceLevel(new CustomServiceLevel(gt2.getSlo().getExpression()));
+		slo.setCustomServiceLevel(new CustomServiceLevel(gt2.getSlo()
+				.getExpression()));
 		gt.setSlo(slo);
 		if (gt2.getQc() != null) {
 			QualifyingCondition qc = new QualifyingCondition(gt2.getQc()
@@ -155,17 +160,17 @@ public class WSAGBuilder implements IBuilder {
 	}
 
 	@Override
-	public String addCreationConstraint(CreationConstraint cc) {		
+	public String addCreationConstraint(CreationConstraint cc) {
 		Constraint c = new Constraint(cc.getId(), cc.getSlo());
-		
+
 		if (cc.getQc() != null) {
 			QualifyingCondition qc = new QualifyingCondition(cc.getQc()
 					.getCondition());
 			c.setQc(qc);
 		}
-		
+
 		((Template) wsagDoc).getCreationConstraints().getConstraints().add(c);
-		
+
 		return c.toString();
 	}
 

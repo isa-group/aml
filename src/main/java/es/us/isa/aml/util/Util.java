@@ -150,30 +150,6 @@ public class Util {
         return result;
     }
 
-    /*public static String getStringFromInputStream(InputStream is) {
-     BufferedReader br = null;
-     StringBuilder sb = new StringBuilder();
-     String line;
-     try {
-     br = new BufferedReader(new InputStreamReader(is));
-     while ((line = br.readLine()) != null) {
-     sb.append(line);
-     }
-     } catch (IOException e) {
-     Util.LOG.log(Level.WARNING, "getStringFromInputStream error", e);
-     } finally {
-     if (br != null) {
-     try {
-     br.close();
-     } catch (IOException e) {
-     Util.LOG.log(Level.WARNING,
-     "getStringFromInputStream error", e);
-     }
-     }
-     }
-     return sb.toString();
-
-     }*/
     public static String getStringFromInputStream(InputStream in) {
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(in));
@@ -187,8 +163,5 @@ public class Util {
             LOG.log(Level.WARNING, null, e);
         }
         return sb.toString();
-    }
-
-    private Util() {
     }
 }

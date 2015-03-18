@@ -12,7 +12,10 @@ import java.util.List;
  */
 public class IAgreeAgreementTerms extends AgreementTerms {
 
-    @Override
+	public IAgreeAgreementTerms() {
+	}
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 

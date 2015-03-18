@@ -16,9 +16,13 @@ public class IAgreeResponder extends Responder {
         super(id, roleType);
     }
 
-    @Override
+	public IAgreeResponder(Responder r) {
+		super(r.getId(), r.getRoleType());
+	}
+
+	@Override
     public String toString() {
-        return getRoleType() + " " + getId() + " as Responder";
+        return getRoleType() + " \"" + getId() + "\" as Responder";
     }
 ;
 

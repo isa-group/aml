@@ -6,6 +6,7 @@ import java.util.List;
 
 import es.us.isa.aml.model.Enumerated;
 import es.us.isa.aml.model.Range;
+import es.us.isa.aml.model.Responder;
 
 /**
  * An agreement is scoped by its associated context that SHOULD include parties
@@ -28,7 +29,7 @@ public class Context {
 	 * This optional element identifies the agreement responder, i.e. the entity
 	 * that responds to the agreement creation request.
 	 */
-	private Object agreementResponder;
+	private Responder agreementResponder;
 
 	/**
 	 * This element identifies the service provider and is either
@@ -80,7 +81,7 @@ public class Context {
 	/**
 	 * @return the agreementResponder
 	 */
-	public Object getAgreementResponder() {
+	public Responder getAgreementResponder() {
 		return agreementResponder;
 	}
 
@@ -88,7 +89,7 @@ public class Context {
 	 * @param agreementResponder
 	 *            the agreementResponder to set
 	 */
-	public void setAgreementResponder(Object agreementResponder) {
+	public void setAgreementResponder(Responder agreementResponder) {
 		this.agreementResponder = agreementResponder;
 	}
 
@@ -179,8 +180,8 @@ public class Context {
 
 		if (getAgreementResponder() != null)
 			sb.append(
-					"\t\t" + "<wsag:AgreementResponder>"
-							+ getAgreementResponder().toString()
+					"\t\t" + "<wsag:AgreementResponder id=" + getAgreementResponder().getId() + ">"
+							+ getAgreementResponder().getRoleType().toString()
 							+ "</wsag:AgreementResponder>").append("\n");
 
 		if (getServiceProvider() != null)

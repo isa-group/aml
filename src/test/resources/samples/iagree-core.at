@@ -1,10 +1,20 @@
 Template IAgreeCore version 1.0
 	Initiator: "Initiator1";
 	
+	// 1)
 	Provider "Prov1" as Responder;
 	Consumer "Cons1";
+
+	// 2)
 	//Provider "Prov1";
 	//Consumer "Cons1" as Responder;
+
+	// 3)
+	//Consumer "Cons1" as Responder;
+
+	// 4)
+	//Provider "Prov1" as Responder;
+
 	
 	Metrics:
 		met1: integer [0..23];

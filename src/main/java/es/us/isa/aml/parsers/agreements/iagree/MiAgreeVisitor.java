@@ -15,18 +15,29 @@ import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
+import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Compensation;
 import es.us.isa.aml.model.Compensation.AssessmentInterval;
 import es.us.isa.aml.model.Compensation.CompensationType;
 import es.us.isa.aml.model.CompensationElement;
+import es.us.isa.aml.model.ConfigurationProperty;
+import es.us.isa.aml.model.Context;
+import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Domain;
 import es.us.isa.aml.model.Enumerated;
 import es.us.isa.aml.model.Feature;
+import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.model.Metric;
+import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.QualifyingCondition;
+import es.us.isa.aml.model.Range;
+import es.us.isa.aml.model.Responder;
+import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.Scope;
+import es.us.isa.aml.model.Service;
 import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
@@ -53,22 +64,6 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.PartiesRoles_propCon
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Provider_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.QualifyingConditionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ServiceProvider_propContext;
-import es.us.isa.aml.translators.iagree.model.IAgreeAgreementOffer;
-import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTemplate;
-import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTerms;
-import es.us.isa.aml.translators.iagree.model.IAgreeCompensation;
-import es.us.isa.aml.translators.iagree.model.IAgreeConfigurationProperty;
-import es.us.isa.aml.translators.iagree.model.IAgreeContext;
-import es.us.isa.aml.translators.iagree.model.IAgreeCreationConstraint;
-import es.us.isa.aml.translators.iagree.model.IAgreeEnumerated;
-import es.us.isa.aml.translators.iagree.model.IAgreeFeature;
-import es.us.isa.aml.translators.iagree.model.IAgreeGuaranteeTerm;
-import es.us.isa.aml.translators.iagree.model.IAgreeMetric;
-import es.us.isa.aml.translators.iagree.model.IAgreeMonitorableProperty;
-import es.us.isa.aml.translators.iagree.model.IAgreeRange;
-import es.us.isa.aml.translators.iagree.model.IAgreeResponder;
-import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
-import es.us.isa.aml.translators.iagree.model.IAgreeService;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
 
@@ -92,16 +87,16 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         try {
             this.timeStamp = Calendar.getInstance().getTimeInMillis();
 
-            IAgreeContext context = new IAgreeContext();
+            Context context = new Context();
 
             if (ctx.template() != null) {
-                this.model = new IAgreeAgreementTemplate();
+                this.model = new AgreementTemplate();
                 model.setDocType(DocType.TEMPLATE);
                 model.setContext(context);
                 this.visitTemplate(ctx.template());
 
             } else if (ctx.agOffer() != null) {
-                this.model = new IAgreeAgreementOffer();
+                this.model = new AgreementOffer();
                 model.setDocType(DocType.OFFER);
                 model.setContext(context);
                 this.visitAgOffer(ctx.agOffer());
@@ -117,7 +112,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     public Object visitTemplate(iAgreeParser.TemplateContext ctx) {
 
         this.model.setID(ctx.id.getText());
-        this.model.setVersion(new Float(ctx.version.getText()));
+        this.model.setVersion(Double.valueOf(ctx.version.getText()));
 
         this.visitTemplate_def(ctx.template_def());
 
@@ -128,11 +123,11 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     public Object visitAgOffer(iAgreeParser.AgOfferContext ctx) {
 
         this.model.setID(ctx.id.getText());
-        this.model.setVersion(new Float(ctx.version.getText()));
+        this.model.setVersion(Double.valueOf(ctx.version.getText()));
 
-        ((IAgreeAgreementOffer) this.model).setTemplateId(ctx.templateId
+        ((AgreementOffer) this.model).setTemplateId(ctx.templateId
                 .getText());
-        ((IAgreeAgreementOffer) this.model).setTemplateVersion(new Float(
+        ((AgreementOffer) this.model).setTemplateVersion(new Float(
                 ctx.templateVersion.getText()));
 
         this.visitAg_def(ctx.ag_def());
@@ -170,7 +165,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     @Override
     public Object visitAgreementTerms(iAgreeParser.AgreementTermsContext ctx) {
 
-        IAgreeAgreementTerms at = new IAgreeAgreementTerms();
+        AgreementTerms at = new AgreementTerms();
         this.model.setAgreementTerms(at);
 
         this.visitService(ctx.service());
@@ -199,8 +194,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
             iAgreeParser.CreationConstraintContext ctx) {
 
         Expression exp = this.visitExpression(ctx.expression());
-        IAgreeSLO slo = new IAgreeSLO(exp);
-        IAgreeCreationConstraint cc = new IAgreeCreationConstraint(ctx
+        SLO slo = new SLO(exp);
+        CreationConstraint cc = new CreationConstraint(ctx
                 .Identifier().getText(), slo);
 
         if (ctx.qualifyingCondition() != null) {
@@ -217,7 +212,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     @Override
     public Object visitService(iAgreeParser.ServiceContext ctx) {
 
-        IAgreeService service = new IAgreeService();
+        Service service = new Service();
         model.getAgreementTerms().setService(service);
         model.getAgreementTerms().getService()
                 .setServiceName(ctx.Identifier().getText());
@@ -258,7 +253,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Feature visitFeature_operation(Feature_operationContext ctx) {
-        IAgreeFeature feature = new IAgreeFeature();
+        Feature feature = new Feature();
         feature.setId(ctx.id.getText());
         List<String> parameters = new ArrayList<String>();
         for (TerminalNode param : ctx.Identifier()) {
@@ -322,14 +317,14 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Object visitPartiesRoles_prop(PartiesRoles_propContext ctx) {
-        IAgreeResponder r = null;
+        Responder r = null;
 
         if (ServiceRole.valueOf(ctx.responder.getText()) == ServiceRole.Provider) {
-            r = new IAgreeResponder(ctx.id.getText(), ServiceRole.Provider);
+            r = new Responder(ctx.id.getText(), ServiceRole.Provider);
             visitConsumer_prop(ctx.consumer_prop());
         } else if (ServiceRole.valueOf(ctx.responder.getText()) == ServiceRole.Consumer) {
             visitProvider_prop(ctx.provider_prop());
-            r = new IAgreeResponder(ctx.id.getText(), ServiceRole.Consumer);
+            r = new Responder(ctx.id.getText(), ServiceRole.Consumer);
         }
 
         if (r != null) {
@@ -394,7 +389,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         for (iAgreeParser.PropertyContext prop : ctx.property()) {
             Property p = this.visitProperty(prop);
             if (p != null) {
-                IAgreeConfigurationProperty cp = new IAgreeConfigurationProperty(
+                ConfigurationProperty cp = new ConfigurationProperty(
                         p.getId(), p.getMetric());
                 cp.setExpression(p.getExpression());
                 cp.setScope(Scope.Global);
@@ -411,7 +406,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         for (iAgreeParser.PropertyContext prop : ctx.property()) {
             Property p = this.visitProperty(prop);
             if (p != null) {
-                IAgreeConfigurationProperty cp = new IAgreeConfigurationProperty(
+                ConfigurationProperty cp = new ConfigurationProperty(
                         p.getId(), p.getMetric());
                 cp.setExpression(p.getExpression());
                 cp.setScope(Scope.Local);
@@ -440,7 +435,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         for (iAgreeParser.PropertyContext prop : ctx.property()) {
             Property p = this.visitProperty(prop);
             if (p != null) {
-                IAgreeMonitorableProperty mp = new IAgreeMonitorableProperty(
+                MonitorableProperty mp = new MonitorableProperty(
                         p.getId(), p.getMetric());
                 mp.setExpression(p.getExpression());
                 mp.setScope(Scope.Global);
@@ -459,7 +454,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         for (iAgreeParser.PropertyContext prop : ctx.property()) {
             Property p = this.visitProperty(prop);
             if (p != null) {
-                IAgreeMonitorableProperty mp = new IAgreeMonitorableProperty(
+                MonitorableProperty mp = new MonitorableProperty(
                         p.getId(), p.getMetric());
                 mp.setExpression(p.getExpression());
                 mp.setScope(Scope.Local);
@@ -486,7 +481,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
         if (ctx.guarantee_def() != null) {
 
-            IAgreeGuaranteeTerm gt = this.visitGuarantee_def(ctx
+            GuaranteeTerm gt = this.visitGuarantee_def(ctx
                     .guarantee_def());
             gt.setId(ctx.Identifier().getText());
 
@@ -500,15 +495,15 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     }
 
     @Override
-    public IAgreeGuaranteeTerm visitGuarantee_def(
+    public GuaranteeTerm visitGuarantee_def(
             iAgreeParser.Guarantee_defContext ctx) {
 
         Expression exp = this.visitSlo(ctx.slo());
 
-        IAgreeSLO slo = new IAgreeSLO(exp);
+        SLO slo = new SLO(exp);
         ServiceRole actor = ServiceRole.valueOf(ctx.ob.getText());
 
-        IAgreeGuaranteeTerm gt = new IAgreeGuaranteeTerm("", actor, slo);
+        GuaranteeTerm gt = new GuaranteeTerm("", actor, slo);
 
         if (ctx.serviceScope() != null) {
             String serviceScope = visitServiceScope(ctx.serviceScope());
@@ -523,7 +518,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
         List<Compensation> compensations = new ArrayList<Compensation>();
         for (CompensationContext comp : ctx.compensation()) {
-            IAgreeCompensation c = visitCompensation(comp);
+            Compensation c = visitCompensation(comp);
             compensations.add(c);
         }
         gt.setCompensations(compensations);
@@ -532,8 +527,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     }
 
     @Override
-    public IAgreeCompensation visitCompensation(CompensationContext ctx) {
-        IAgreeCompensation c = new IAgreeCompensation();
+    public Compensation visitCompensation(CompensationContext ctx) {
+        Compensation c = new Compensation();
 
         AssessmentInterval interval = visitCompensationsInterval(ctx.interv);
         CompensationType compType = CompensationType.valueOf(ctx.compType
@@ -801,12 +796,12 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Metric visitMetrics_prop(iAgreeParser.Metrics_propContext ctx) {
-    	IAgreeEnumerated en = new IAgreeEnumerated();
+    	Enumerated en = new Enumerated();
         List<Object> ls = new ArrayList<Object>();
         ls.add(true);
         ls.add(false);
         en.setValues(ls);
-        IAgreeMetric m = new IAgreeMetric("boolean", "Boolean", en);
+        Metric m = new Metric("boolean", "Boolean", en);
         
         model.getContext().getMetrics().put(m.getId(), m);
 
@@ -818,7 +813,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Object visitMetric(iAgreeParser.MetricContext ctx) {
-        IAgreeMetric m = null;
+        Metric m = null;
         String id = ctx.id.getText();
         String type = ctx.type.getText();
         Domain domain = null;
@@ -827,15 +822,15 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         } else if (ctx.list() != null) {
             domain = this.visitList(ctx.list());
         }
-        m = new IAgreeMetric(id, type, domain);
+        m = new Metric(id, type, domain);
         this.model.getContext().getMetrics().put(id, m);
         return m;
     }
 
     @Override
     public Domain visitRange(iAgreeParser.RangeContext ctx) {
-        IAgreeRange r = null;
-        r = new IAgreeRange(Integer.valueOf(ctx.min.getText()),
+        Range r = null;
+        r = new Range(Integer.valueOf(ctx.min.getText()),
                 Integer.valueOf(ctx.max.getText()));
         return r;
     }

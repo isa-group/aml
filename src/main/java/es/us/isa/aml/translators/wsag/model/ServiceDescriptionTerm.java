@@ -33,7 +33,8 @@ public class ServiceDescriptionTerm {
 	 */
 	private String serviceName;
 	
-	
+	private String serviceReference;
+
 	private List<OfferItem> offerItems;
 
 	
@@ -71,6 +72,20 @@ public class ServiceDescriptionTerm {
 		this.serviceName = serviceName;
 	}
 	
+	/**
+	 * @return the serviceReference
+	 */
+	public String getServiceReference() {
+		return serviceReference;
+	}
+
+
+	/**
+	 * @param serviceReference the serviceReference to set
+	 */
+	public void setServiceReference(String serviceReference) {
+		this.serviceReference = serviceReference;
+	}
 	
 	/**
 	 * @return the offerItems
@@ -91,7 +106,7 @@ public class ServiceDescriptionTerm {
 		StringBuilder sb = new StringBuilder();
 		
 		sb.append("\t\t\t" + "<wsag:ServiceDescriptionTerm wsag:Name=\"" + getName() + 
-				"\" wsag:ServiceName=\""+ getServiceName() + "\">").append("\n");
+				"\" wsag:ServiceName=\""+ getServiceName() + "\" \n\t\t\tiag:ServiceReference=\""+ getServiceReference() + "\">").append("\n");
 		
 		for(OfferItem oi : getOfferItems())
 			sb.append("\t\t\t\t" + oi.toString());

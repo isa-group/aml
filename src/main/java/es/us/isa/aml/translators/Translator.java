@@ -59,7 +59,7 @@ public class Translator {
     }
 
     public String export(Metric metric, IBuilder builder) {
-        return builder.addMetric(metric);
+        return (String) builder.addMetric(metric);
     }
 
     public String export(AgreementTerms at) {
@@ -72,7 +72,7 @@ public class Translator {
     }
 
     public String export(AgreementTerms at, IBuilder builder) {
-        return builder.addAgreementTerms(at);
+        return (String) builder.addAgreementTerms(at);
     }
 
     public String export(Service service) {
@@ -85,7 +85,7 @@ public class Translator {
     }
 
     public String export(Service service, IBuilder builder) {
-        return builder.addService(service);
+        return (String) builder.addService(service);
     }
 
     public String export(Property p) {
@@ -99,9 +99,9 @@ public class Translator {
 
     public String export(Property p, IBuilder builder) {
         if (p instanceof ConfigurationProperty) {
-            return builder.addConfigurationProperty(p);
+            return (String) builder.addConfigurationProperty(p);
         } else if (p instanceof MonitorableProperty) {
-            return builder.addMonitorableProperty(p);
+            return (String) builder.addMonitorableProperty(p);
         } else {
             throw new RuntimeException("unknown property type: " + p);
         }
@@ -117,7 +117,7 @@ public class Translator {
     }
 
     public String export(GuaranteeTerm gt, IBuilder builder) {
-        return builder.addGuaranteeTerm(gt);
+        return (String) builder.addGuaranteeTerm(gt);
     }
 
     public String export(CreationConstraint cc) {
@@ -130,7 +130,7 @@ public class Translator {
     }
 
     public String export(CreationConstraint cc, IBuilder builder) {
-        return builder.addCreationConstraint(cc);
+        return (String) builder.addCreationConstraint(cc);
     }
 
     public String export(Collection<? extends AgreementElement> objects) {

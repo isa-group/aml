@@ -8,7 +8,7 @@ xsi:schemaLocation="http://schemas.ggf.org/graap/2007/03/wsagreement"
 agreement_types.xsd="http://www.w3.org/2001/XMLSchema XMLSchema.xsd">
 	<wsag:Name>IAgreeCore</wsag:Name>
 	<wsag:Context>
-		<wsag:AgreementResponder>Provider</wsag:AgreementResponder>
+		<wsag:AgreementResponder id="Prov1">Provider</wsag:AgreementResponder>
 		<iag:Metrics>
 			<iag:Metric id="boolean" type="Boolean" domain="{true, false}"></iag:Metric>
 			<iag:Metric id="met3" type="float" domain="[0..128]"></iag:Metric>
@@ -21,7 +21,8 @@ agreement_types.xsd="http://www.w3.org/2001/XMLSchema XMLSchema.xsd">
 	</wsag:Context>
 	<wsag:Terms>
 		<wsag:All>
-			<wsag:ServiceDescriptionTerm wsag:Name="SDT_IAg-Core" wsag:ServiceName="IAg-Core">
+			<wsag:ServiceDescriptionTerm wsag:Name="SDT_IAg-Core" wsag:ServiceName="IAg-Core" 
+			iag:ServiceReference="iagree.core.com/service">
 				<OfferItem name="ConfProp1" iag:Metric="met1"></OfferItem>
 				<OfferItem name="ConfProp2" iag:Metric="met2">18</OfferItem>
 				<OfferItem name="ConfProp3" iag:Metric="met6"></OfferItem>
@@ -42,7 +43,7 @@ agreement_types.xsd="http://www.w3.org/2001/XMLSchema XMLSchema.xsd">
 					</wsag:Variable>
 				</wsag:VariableSet>
 			</wsag:ServiceProperties>
-			<wsag:GuaranteeTerm wsag:Obligated="ServiceProvider" wsag:Name="G1">
+			<wsag:GuaranteeTerm wsag:Obligated="Provider" wsag:Name="G1">
 				<wsag:QualifyingCondition>
 					MonitProp3 >= 128
 				</wsag:QualifyingCondition>
@@ -50,7 +51,7 @@ agreement_types.xsd="http://www.w3.org/2001/XMLSchema XMLSchema.xsd">
 					<wsag:CustomServiceLevel>MonitProp1 >= 64</wsag:CustomServiceLevel>
 				</wsag:ServiceLevelObjective>
 			</wsag:GuaranteeTerm>
-			<wsag:GuaranteeTerm wsag:Obligated="ServiceConsumer" wsag:Name="G2">
+			<wsag:GuaranteeTerm wsag:Obligated="Consumer" wsag:Name="G2">
 				<wsag:ServiceLevelObjective>
 					<wsag:CustomServiceLevel>MonitProp2 >= 95.5</wsag:CustomServiceLevel>
 				</wsag:ServiceLevelObjective>

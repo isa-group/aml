@@ -24,9 +24,18 @@ public class GuaranteeTerm extends AgreementElement implements
 		super(id);
 		this.actor = actor;
 		this.slo = slo;
-		serviceScope = "";
-		qc = null;
-		compensations = new ArrayList<Compensation>();
+	}
+
+
+	public GuaranteeTerm(String id, ServiceRole actor, SLO slo,
+			QualifyingCondition qc, List<Compensation> compensations,
+			String serviceScope) {
+		super(id);
+		this.actor = actor;
+		this.slo = slo;
+		this.serviceScope = serviceScope;
+		this.qc = qc;
+		this.compensations = compensations;
 	}
 
 	public ServiceRole getServiceRole() {

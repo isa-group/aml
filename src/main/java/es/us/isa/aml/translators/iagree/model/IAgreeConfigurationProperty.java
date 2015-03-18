@@ -5,6 +5,7 @@ package es.us.isa.aml.translators.iagree.model;
 
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.Metric;
+import es.us.isa.aml.model.Property;
 
 /**
  * @author jdelafuente
@@ -16,7 +17,11 @@ public class IAgreeConfigurationProperty extends ConfigurationProperty {
         super(id, metric);
     }
 
-    @Override
+	public IAgreeConfigurationProperty(Property cp) {
+		super(cp.getId(), cp.getMetric(), cp.getExpression(), cp.getScope(), cp.getFeature());
+	}
+
+	@Override
     public String toString() {
         if (this.getExpression() != null) {
             return this.getId() + ": " + this.getMetric().getId() + " = "

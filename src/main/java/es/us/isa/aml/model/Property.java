@@ -22,7 +22,16 @@ public class Property extends AgreementElement {
         scope = Scope.Global;
     }
 
-    public Metric getMetric() {
+	public Property(String id, Metric metric, Expression expression,
+			Scope scope, Feature feature) {
+		super(id);
+        this.metric = metric;
+        this.expr = expression;
+        this.scope = scope;
+        this.feature = feature;
+	}
+
+	public Metric getMetric() {
         return this.metric;
     }
 

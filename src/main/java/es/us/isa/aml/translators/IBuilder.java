@@ -14,25 +14,25 @@ import es.us.isa.aml.model.Service;
  */
 public interface IBuilder {
 
-    String addId(String id);
+	Object addId(String id);
 
-    Float addVersion(Float version);
+	Object addVersion(Double version);
 
     Object addResponder(Responder responder);
 
-    String addMetric(Metric metric);
+    Object addMetric(Metric metric);
 
-    String addAgreementTerms(AgreementTerms at);
+    Object addAgreementTerms(AgreementTerms at);
 
-    String addService(Service service);
+    Object addService(Service service);
 
-    String addConfigurationProperty(Property cp);
+    Object addConfigurationProperty(Property cp);
 
-    String addMonitorableProperty(Property mp);
+    Object addMonitorableProperty(Property mp);
 
-    String addGuaranteeTerm(GuaranteeTerm gt);
+    Object addGuaranteeTerm(GuaranteeTerm gt);
 
-    String addCreationConstraint(CreationConstraint cc);
+    Object addCreationConstraint(CreationConstraint cc);
 
     String generate();
 

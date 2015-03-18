@@ -152,7 +152,7 @@ public class GuaranteeTerm {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append(
-				"\t\t\t" + "<wsag:GuaranteeTerm wsag:Obligated=\"" + "Service"
+				"\t\t\t" + "<wsag:GuaranteeTerm wsag:Obligated=\""
 						+ getObligated() + "\" wsag:Name=\"" + getName()
 						+ "\">").append("\n");
 

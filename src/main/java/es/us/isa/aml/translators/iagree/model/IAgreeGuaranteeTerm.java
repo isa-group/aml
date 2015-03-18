@@ -13,17 +13,21 @@ import es.us.isa.aml.util.Util;
  */
 public class IAgreeGuaranteeTerm extends GuaranteeTerm {
 
+	public IAgreeGuaranteeTerm(String id) {
+		super(id);
+	}
+	
     public IAgreeGuaranteeTerm(String id, ServiceRole actor, SLO slo) {
         super(id, actor, slo);
-    }
+    }	
 
-    @Override
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
         sb.append("\t\t" + getId() + ": " + getServiceRole() + " guarantees " + getSlo() + ";" + "\n");
 
-        if (!getServiceScope().isEmpty()) {
+        if (getServiceScope() != null && !getServiceScope().isEmpty()) {
             sb.append("\t\t" + "upon " + getServiceScope());
         }
 

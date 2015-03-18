@@ -13,7 +13,7 @@ import es.us.isa.aml.util.OperationResponse;
 public abstract class AgreementModel {
 
     protected String id;
-    protected Float version;
+    protected Double version;
     protected Context context;
     protected AgreementTerms agreementTerms;
     protected AgreementManager agreementManager;
@@ -22,7 +22,7 @@ public abstract class AgreementModel {
 
     public AgreementModel() {
         this.id = "";
-        this.version = 0.0f;
+        this.version = 0.0;
         this.context = new Context();
         this.agreementTerms = new AgreementTerms();
         this.docType = DocType.TEMPLATE;
@@ -50,11 +50,11 @@ public abstract class AgreementModel {
         this.id = id;
     }
 
-    public Float getVersion() {
+    public Double getVersion() {
         return this.version;
     }
 
-    public void setVersion(Float version) {
+    public void setVersion(Double version) {
         this.version = version;
     }
 

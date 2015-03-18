@@ -11,7 +11,14 @@ import java.util.List;
  */
 public class IAgreeService extends Service {
 
-    @Override
+	public IAgreeService() {
+	}
+	
+	public IAgreeService(Service s) {
+		super(s.getServiceName(), s.getServiceReference(), s.getFeatures(), s.getConfigurationProperties());
+	}	
+
+	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 

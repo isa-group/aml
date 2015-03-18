@@ -13,9 +13,17 @@ import org.junit.Test;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
+import es.us.isa.aml.model.AgreementTerms;
+import es.us.isa.aml.model.ConfigurationProperty;
+import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Feature;
+import es.us.isa.aml.model.GuaranteeTerm;
+import es.us.isa.aml.model.Metric;
+import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Range;
+import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.Scope;
+import es.us.isa.aml.model.Service;
 import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
@@ -25,14 +33,6 @@ import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.agreements.IAgreeParser;
-import es.us.isa.aml.translators.iagree.model.IAgreeAgreementTerms;
-import es.us.isa.aml.translators.iagree.model.IAgreeConfigurationProperty;
-import es.us.isa.aml.translators.iagree.model.IAgreeCreationConstraint;
-import es.us.isa.aml.translators.iagree.model.IAgreeGuaranteeTerm;
-import es.us.isa.aml.translators.iagree.model.IAgreeMetric;
-import es.us.isa.aml.translators.iagree.model.IAgreeMonitorableProperty;
-import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
-import es.us.isa.aml.translators.iagree.model.IAgreeService;
 
 /**
  * @author jdelafuente
@@ -93,47 +93,47 @@ public class TestIAgreeParser {
         assertEquals(model.getContext().getResponder().getRoleType(), ServiceRole.Provider);
 
         // Metrics
-        IAgreeMetric met1 = new IAgreeMetric("met1", "integer", new Range(0, 23));
-        IAgreeMetric met2 = new IAgreeMetric("met2", "integer", new Range(0, 23));
-        IAgreeMetric met3 = new IAgreeMetric("met3", "float", new Range(0, 128));
-
+        Metric met1 = new Metric("met1", "integer", new Range(0, 23));
+        Metric met2 = new Metric("met2", "integer", new Range(0, 512));
+        Metric met3 = new Metric("met3", "float", new Range(0, 128));
+        
         // Asserts metrics
-        assertEquals(model.getContext().getMetrics().get(0), met1);
-        assertEquals(model.getContext().getMetrics().get(1), met2);
-        assertEquals(model.getContext().getMetrics().get(2), met3);
+        assertEquals(model.getContext().getMetrics().get(met1.getId()), met1);
+        assertEquals(model.getContext().getMetrics().get(met2.getId()), met2);
+        assertEquals(model.getContext().getMetrics().get(met3.getId()), met3);
 
         // Agreement Terms
-        IAgreeAgreementTerms at = new IAgreeAgreementTerms();
+        AgreementTerms at = new AgreementTerms();
 
         // Service reference
-        IAgreeService service = new IAgreeService();
+        Service service = new Service();
         service.setServiceName("TTS");
         service.setServiceReference("test.template.com/service");
         at.setService(service);
 
         // Configuration properties
-        IAgreeConfigurationProperty ConfProp1 = new IAgreeConfigurationProperty("ConfProp1", met1);
+        ConfigurationProperty ConfProp1 = new ConfigurationProperty("ConfProp1", met1);
         ConfProp1.setScope(Scope.Global);
         at.getService().getConfigurationProperties().add(ConfProp1);
 
         // Monitorable properties
-        IAgreeMonitorableProperty MonitProp1 = new IAgreeMonitorableProperty("MonitProp1", met2);
+        MonitorableProperty MonitProp1 = new MonitorableProperty("MonitProp1", met2);
         MonitProp1.setScope(Scope.Global);
         at.getMonitorableProperties().add(MonitProp1);
 
-        IAgreeMonitorableProperty MonitProp2 = new IAgreeMonitorableProperty("MonitProp2", met3);
+        MonitorableProperty MonitProp2 = new MonitorableProperty("MonitProp2", met3);
         MonitProp2.setScope(Scope.Local);
         MonitProp2.setFeature(new Feature("testFeature1"));
         at.getMonitorableProperties().add(MonitProp2);
 
         // Guarantee terms
         Expression exp = new RelationalExpression(new Var(MonitProp1), new Atomic(64), RelationalOperator.lte);
-        IAgreeSLO slo = new IAgreeSLO(exp);
-        IAgreeGuaranteeTerm g1 = new IAgreeGuaranteeTerm("G1", ServiceRole.Provider, slo);
+        SLO slo = new SLO(exp);
+        GuaranteeTerm g1 = new GuaranteeTerm("G1", ServiceRole.Provider, slo);
 
         Expression exp2 = new RelationalExpression(new Var(MonitProp2), new Atomic(256), RelationalOperator.lt);
-        IAgreeSLO slo2 = new IAgreeSLO(exp2);
-        IAgreeGuaranteeTerm g2 = new IAgreeGuaranteeTerm("G2", ServiceRole.Consumer, slo2);
+        SLO slo2 = new SLO(exp2);
+        GuaranteeTerm g2 = new GuaranteeTerm("G2", ServiceRole.Consumer, slo2);
 
         at.getGuaranteeTerms().add(g1);
         at.getGuaranteeTerms().add(g2);
@@ -146,9 +146,9 @@ public class TestIAgreeParser {
         // Creation constraints
         Expression e = new ArithmeticExpression(new Var(MonitProp1), new Atomic(2), ArithmeticOperator.multiply);
         Expression exp3 = new RelationalExpression(new Var(ConfProp1), e, RelationalOperator.eq);
-        IAgreeSLO slo3 = new IAgreeSLO(exp3);
+        SLO slo3 = new SLO(exp3);
 
-        IAgreeCreationConstraint cc = new IAgreeCreationConstraint("C1", slo3);
+        CreationConstraint cc = new CreationConstraint("C1", slo3);
 
         // Assert Creation Constraint
         assertEquals(((AgreementTemplate) model).getCreationConstraints().get(0), cc);

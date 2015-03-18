@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.WsagParser;
 import es.us.isa.aml.translators.Translator;
-import es.us.isa.aml.translators.wsag.WSAGBuilder;
+import es.us.isa.aml.translators.iagree.IAgreeBuilder;
 
 /**
  * @author jdelafuente
@@ -48,8 +48,11 @@ public class ParserTest {
 		
 		WsagParser parser = new WsagParser();
 		AgreementModel model = parser.doParse(content);
+		
+//		Translator t = new Translator(new WSAGBuilder());
+//		System.out.println(t.export(model));
 //		
-		Translator t = new Translator(new WSAGBuilder());
+		Translator t = new Translator(new IAgreeBuilder());
 		System.out.println(t.export(model));
 	}
 

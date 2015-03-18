@@ -15,7 +15,20 @@ public class Compensation {
     private CompensationType compensationType;
     private List<CompensationElement> elements;
 
-    /**
+    public Compensation() {
+    	
+	}
+    
+	public Compensation(AssessmentInterval assessmentInterval,
+			CompensationType compensationType,
+			List<CompensationElement> elements) {
+		super();
+		this.assessmentInterval = assessmentInterval;
+		this.compensationType = compensationType;
+		this.elements = elements;
+	}	
+
+	/**
      * @return the assessmentInterval
      */
     public AssessmentInterval getAssessmentInterval() {
