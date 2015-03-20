@@ -40,9 +40,11 @@ creationConstraint : (Identifier) ':' expression ';' qualifyingCondition?;
 
 initiator_prop : INITIATOR ':' id=String ';';
 
-partiesRoles_prop : responder=PROVIDER id=(Identifier | String) AS RESPONDER ';' consumer_prop
-               | provider_prop responder=CONSUMER id=(Identifier | String) AS RESPONDER ';'
-               ;
+partiesRoles_prop : responder=PROVIDER id=(Identifier | String) AS RESPONDER ';' 
+                  | consumer_prop
+                  | provider_prop 
+                  | responder=CONSUMER id=(Identifier | String) AS RESPONDER ';'
+                  ;
 
 provider_prop : PROVIDER id=(Identifier | String) ';';
 
@@ -62,7 +64,7 @@ definedPeriod_prop : DEFINEDPERIOD ':' period+;
 
 metrics_prop : METRICS ':' (metric)+;
 
-metric: id=Identifier ':' (type=SET list | type=ENUM list | type=(INTEGER | FLOAT | NATURAL | NUMBER | BOOLEAN) (range)? (list)?) ; 
+metric: id=Identifier ':' (type=SET list | type=ENUM list | type=(INTEGER | FLOAT | NATURAL | NUMBER | BOOLEAN) (range)? (list)?) ';' ; 
 
 
 //---------------------------------------
@@ -85,14 +87,14 @@ period_def : FROM Hour '..' Hour (ON Identifier)? datePeriod_def
 // Agreement Terms definitions
 //---------------------------------------
 			
-service : SERVICE Identifier (AVAL_AT url)? 
+service : SERVICE Identifier (AVAL_AT url)?
           (features)? 
           globalDescription 
           localDescription*
         ;
 
 features : FEATURES ':' feature*;
-feature : feature_operation (',' feature_operation)*;
+feature : feature_operation (',' feature_operation)* ';';
 feature_operation : id=Identifier ('(' Identifier (',' Identifier )* ')')?;
 
 globalDescription : GLOBALDESCRIPTION
@@ -157,7 +159,7 @@ url : Url
     | String
     ;
 
-property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN) (ASSIG value=expression ';')? ;
+property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN) (ASSIG value=expression)? ';';
 
 
 expression: Identifier ASSIG expression                     #assigExpr
@@ -227,7 +229,7 @@ GLOBAL : 'global';
 MONITORABLEPROPERTIES : 'MonitorableProperties';
 GUARANTEES : 'guarantees';
 
-AVAL_AT : 'availableAt.';
+AVAL_AT : 'availableAt';
 
 PROVIDER : 'Provider';
 CONSUMER : 'Consumer';
@@ -282,17 +284,6 @@ LLC : '}';
 
 
 //---------------------------------------
-// Logical connective
-//---------------------------------------
-
-AND : 'AND';
-OR : 'OR';
-NOT : 'NOT';
-IMPLIES : 'IMPLIES';
-ONLY_IF : 'onlyIf';
-
-
-//---------------------------------------
 // Quantity
 //---------------------------------------
 
@@ -305,12 +296,12 @@ ALL : 'all';
 // Logical operators
 //---------------------------------------
 
-LT : '<';
-GT : '>';
-EQ : '==';
-NEQ : '!=';
-LTE : '<=';
-GTE : '>=';
+AND : 'AND';
+OR : 'OR';
+NOT : 'NOT';
+IMPLIES : 'IMPLIES';
+ONLY_IF : 'onlyIf';
+
 
 //---------------------------------------
 // Arithmetical operators
@@ -325,9 +316,16 @@ DIVIDE: '/';
 // Relational tokens
 //---------------------------------------
 
+LT : '<';
+GT : '>';
+EQ : '==';
+NEQ : '!=';
+LTE : '<=';
+GTE : '>=';
 ASSIG: '=';
 BELONGS : 'belongs';
 UPON : 'upon';
+
 
 
 //---------------------------------------

@@ -5,11 +5,12 @@ import java.net.URISyntaxException;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTerms;
+import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Property;
-import es.us.isa.aml.model.Responder;
 import es.us.isa.aml.model.Service;
 import es.us.isa.aml.translators.IBuilder;
+import es.us.isa.aml.translators.wsag.model.Agreement;
 import es.us.isa.aml.translators.wsag.model.Constraint;
 import es.us.isa.aml.translators.wsag.model.CustomServiceLevel;
 import es.us.isa.aml.translators.wsag.model.Document;
@@ -30,9 +31,20 @@ import es.us.isa.aml.util.DocType;
 public class WSAGBuilder implements IBuilder {
 
 	private Document wsagDoc;
-
-	public WSAGBuilder() {
-		wsagDoc = new Template();
+	
+	@Override
+	public void setDocType(DocType docType) {
+		switch(docType){
+		case TEMPLATE:
+			wsagDoc = new Template();
+			break;
+		case OFFER:
+			wsagDoc = new Offer();
+			break;
+		case AGREEMENT:
+			wsagDoc = new Agreement();
+			break;
+		}
 	}
 
 	public WSAGBuilder(AgreementModel model) {
@@ -51,11 +63,12 @@ public class WSAGBuilder implements IBuilder {
 		wsagDoc.setId(version.toString());
 		return version;
 	}
-
+	
 	@Override
-	public Object addResponder(Responder responder) {
-		wsagDoc.getContext().setAgreementResponder(responder);
-		return responder;
+	public Object addContext(Context context) {
+		wsagDoc.getContext().setAgreementInitiator(context.getInitiator());
+		wsagDoc.getContext().setAgreementResponder(context.getResponder());
+		return null;
 	}
 
 	@Override
@@ -178,5 +191,4 @@ public class WSAGBuilder implements IBuilder {
 	public String generate() {
 		return wsagDoc.toString();
 	}
-
 }

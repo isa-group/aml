@@ -2,8 +2,8 @@ Template IAgreeCore version 1.0
 	Initiator: "Initiator1";
 	
 	// 1)
-	Provider "Prov1" as Responder;
-	Consumer "Cons1";
+	//Provider "Prov1" as Responder;
+	//Consumer "Cons1";
 
 	// 2)
 	//Provider "Prov1";
@@ -13,14 +13,14 @@ Template IAgreeCore version 1.0
 	//Consumer "Cons1" as Responder;
 
 	// 4)
-	//Provider "Prov1" as Responder;
+	Provider "Prov1" as Responder;
 
 	
 	Metrics:
 		met1: integer [0..23];
 		met2: integer [0..512];
 		met3: float [0..128];
-		met4: integer [0..512];
+		met4: integer [0..256];
 		met5: float [0..100];
 		met6: integer [-50..50];
 		

@@ -6,19 +6,20 @@ import java.util.Map;
 
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.ConfigurationProperty;
+import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.Range;
-import es.us.isa.aml.model.Responder;
 import es.us.isa.aml.model.Service;
 import es.us.isa.aml.translators.IBuilder;
 import es.us.isa.aml.translators.csp.opl.model.OPLConstraint;
 import es.us.isa.aml.translators.csp.opl.model.OPLModel;
 import es.us.isa.aml.translators.csp.opl.model.OPLRange;
 import es.us.isa.aml.translators.csp.opl.model.OPLVar;
+import es.us.isa.aml.util.DocType;
 
 /**
  * @author jdelafuente
@@ -31,6 +32,10 @@ public class OPLBuilder implements IBuilder {
     public OPLModel getModel() {
         return this.model;
     }
+    
+    @Override
+	public void setDocType(DocType docType) {
+	}
 
     @Override
     public String addId(String id) {
@@ -41,11 +46,12 @@ public class OPLBuilder implements IBuilder {
     public Double addVersion(Double version) {
         return version;
     }
-
+    
     @Override
-    public Object addResponder(Responder responder) {
-        return responder;
-    }
+	public Object addContext(Context context) {
+		return context;
+	}
+
 
     @Override
     public String addMetric(Metric metric) {
