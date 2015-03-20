@@ -20,7 +20,7 @@ public class IAgreeAgreementOffer extends AgreementOffer {
 
         sb.append(getAgreementTerms());
 
-        sb.append("\n" + "EndAgreement");
+        sb.append("\n" + "EndAgreementOffer");
 
         return sb.toString();
     }

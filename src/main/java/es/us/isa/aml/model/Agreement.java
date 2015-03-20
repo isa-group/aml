@@ -2,6 +2,7 @@ package es.us.isa.aml.model;
 
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
+import es.us.isa.aml.util.DocType;
 
 /**
  * @author jdelafuente
@@ -13,9 +14,11 @@ public class Agreement extends AgreementOffer {
     //todo: por ahora es una copia de la oferta. En el futuro se modelará de otra forma.
     public Agreement() {
         super();
+        this.docType = DocType.AGREEMENT;
     }
     public Agreement(AgreementModel model) {
         super(model);
+        this.docType = DocType.AGREEMENT;
     }
     
 
