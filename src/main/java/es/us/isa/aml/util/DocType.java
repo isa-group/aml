@@ -11,6 +11,6 @@ package es.us.isa.aml.util;
  */
 public enum DocType {
 
-    TEMPLATE, OFFER
+    TEMPLATE, OFFER, AGREEMENT
 
 }

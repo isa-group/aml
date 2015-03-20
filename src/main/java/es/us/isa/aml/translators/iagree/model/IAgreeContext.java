@@ -8,6 +8,7 @@ import java.util.Collection;
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.ServiceRole;
+import es.us.isa.aml.util.Util;
 
 /**
  * @author jdelafuente
@@ -25,18 +26,16 @@ public class IAgreeContext extends Context {
 		}
 
 		if (getResponder() != null) {
-			if (getResponder().getRoleType() == ServiceRole.Provider) {
-				sb.append("\t").append(this.getResponder()).append(";" + "\n");
-				if (getConsumer() != null)
-					sb.append("\t").append("Consumer " + getConsumer())
-							.append(";" + "\n");
-			} else {
-				if (getProvider() != null)
-					sb.append("\t").append("Provider " + getProvider())
-							.append(";" + "\n");
-				sb.append("\t").append(this.getResponder()).append(";" + "\n");
-			}
+			sb.append("\t").append(this.getResponder()).append(";" + "\n");
 		}
+		
+		if (getProvider() != null)
+			sb.append("\t").append("Provider " + "\"" + Util.withoutDoubleQuotes(getProvider()) + "\"")
+					.append(";" + "\n");
+		
+		if (getConsumer() != null)
+			sb.append("\t").append("Consumer " + "\"" + Util.withoutDoubleQuotes(getConsumer()) + "\"")
+					.append(";" + "\n");		
 
 		sb.append("\t" + "Metrics:" + "\n");
 		Collection<Metric> metrics = this.getMetrics().values();
@@ -47,5 +46,4 @@ public class IAgreeContext extends Context {
 		return sb.toString();
 
 	}
-
 }

@@ -63,6 +63,16 @@ public class Property extends AgreementElement {
 		this.feature = feature;
 	}
 
+	public Object getValue() {
+		if (expr == null) {
+			System.out.println("Property " + this.id
+					+ " has not been initialized");
+			return null;
+		} else {
+			return expr.calculate();
+		}
+	}
+
 	public Integer intValue() {
 		if (expr != null) {
 			Object value = expr.calculate();
@@ -72,7 +82,33 @@ public class Property extends AgreementElement {
 				return ((Number) value).intValue();
 			}
 		}
-		
+
+		return null;
+	}
+
+	public Double doubleValue() {
+		if (expr != null) {
+			Object value = expr.calculate();
+			if (value instanceof String) {
+				return Double.valueOf((String) value);
+			} else if (value instanceof Number) {
+				return ((Number) value).doubleValue();
+			}
+		}
+
+		return null;
+	}
+
+	public Boolean booleanValue() {
+		if (expr != null) {
+			Object value = expr.calculate();
+			if (value instanceof String) {
+				return Boolean.valueOf((String) value);
+			} else if (value instanceof Boolean) {
+				return (Boolean) value;
+			}
+		}
+
 		return null;
 	}
 }

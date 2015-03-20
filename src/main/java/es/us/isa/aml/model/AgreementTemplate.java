@@ -12,19 +12,14 @@ import java.util.List;
  */
 public class AgreementTemplate extends AgreementModel {
 
-    protected List<CreationConstraint> creationConstraints;
+    protected List<CreationConstraint> creationConstraints = new ArrayList<CreationConstraint>();
 
     public AgreementTemplate() {
-        this.docType = DocType.TEMPLATE;
-        this.creationConstraints = new ArrayList<>();
+    	this.docType = DocType.TEMPLATE;
     }
 
     public AgreementTemplate(AgreementModel agreementModel) {
         super(agreementModel);
-        if (agreementModel instanceof AgreementTemplate) {
-            AgreementTemplate at = (AgreementTemplate) agreementModel;
-            this.creationConstraints = at.creationConstraints;
-        }
         this.docType = DocType.TEMPLATE;
     }
 

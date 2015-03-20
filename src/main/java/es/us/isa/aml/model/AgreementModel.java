@@ -128,15 +128,58 @@ public abstract class AgreementModel {
 
 	public void setProperty(String propName, Object value) {
 		Property p = getProperty(propName);
-		p.setExpression(new Atomic(value));
+		if (value instanceof String) {
+			Expression expr = Expression.parse((String) value);
+			for (Var v : Expression.getVars(expr)) {
+				Property prop = getProperty(v.getId().toString());
+				if (prop != null) {
+					if (prop.getExpression() != null) {
+						v.setValue(prop.getExpression().calculate());
+					}
+				}
+			}
+			p.setExpression(expr);
+		} else if (value instanceof Integer || value instanceof Double) {
+			if (p.getMetric().getType().equals("integer")
+					|| p.getMetric().getType().equals("float"))
+				p.setExpression(new Atomic(value));
+			else
+				throw new IllegalArgumentException("Property " + propName
+						+ " is a property of type " + p.getMetric().getType() 
+						+ " but " + value.getClass().getSimpleName()
+						+ " was found.");
+		} else if (value instanceof Boolean) {
+			if (p.getMetric().getType().equals("boolean"))
+				p.setExpression(new Atomic(value));
+			else
+				throw new IllegalArgumentException("Property " + propName
+						+ " is a property of type " + p.getMetric().getType() 
+						+ " but " + value.getClass().getSimpleName()
+						+ " was found.");
+		} else if (value instanceof Expression) {
+			for (Var v : Expression.getVars((Expression) value)) {
+				Property prop = getProperty(v.getId().toString());
+				if (prop != null) {
+					if (prop.getExpression() != null) {
+						v.setValue(prop.getExpression().calculate());
+					}
+				}
+			}
+			p.setExpression((Expression) value);
+		}
 	}
-
-	public Boolean evaluateGT(String gtName) {
+	
+	public GuaranteeTerm getGuaranteeTerm(String gtName){
 		GuaranteeTerm gt = null;
 		for (GuaranteeTerm g : this.getAgreementTerms().getGuaranteeTerms()) {
 			if (g.getId().equals(gtName))
 				gt = g;
 		}
+		return gt;
+	}
+
+	public Boolean evaluateGT(String gtName) {
+		GuaranteeTerm gt = getGuaranteeTerm(gtName);
 		if (gt != null) {
 			Expression expr = gt.getSlo().getExpression();
 			for (Var v : Expression.getVars(expr)) {
@@ -147,8 +190,8 @@ public abstract class AgreementModel {
 			}
 			return (Boolean) expr.calculate();
 		} else {
-			throw new NullPointerException("Guarantee term " + gtName + " not found. "
-					+ "Are you sure you have declared it?");
+			throw new NullPointerException("Guarantee term " + gtName
+					+ " not found. " + "Are you sure you have declared it?");
 		}
 	}
 
