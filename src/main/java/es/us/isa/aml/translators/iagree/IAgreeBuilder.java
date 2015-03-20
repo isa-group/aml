@@ -49,26 +49,23 @@ public class IAgreeBuilder implements IBuilder {
 	 * 
 	 */
 	public IAgreeBuilder() {
-		if (docType != null) {
-			switch (docType) {
-			case TEMPLATE:
-				model = new IAgreeAgreementTemplate();
-				break;
-			case OFFER:
-				model = new IAgreeAgreementOffer();
-				break;
-			case AGREEMENT:
-				model = new IAgreeAgreement();
-				break;
-			}
-		} else {
-			model = new IAgreeAgreementTemplate();
-		}
+		model = new IAgreeAgreementTemplate();
 	}
 
 	@Override
 	public void setDocType(DocType docType) {
 		this.docType = docType;
+		switch (docType) {
+		case TEMPLATE:
+			model = new IAgreeAgreementTemplate();
+			break;
+		case OFFER:
+			model = new IAgreeAgreementOffer();
+			break;
+		case AGREEMENT:
+			model = new IAgreeAgreement();
+			break;
+		}
 	}
 
 	@Override
