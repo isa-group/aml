@@ -9,7 +9,9 @@ import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.expression.CompoundExpression;
 import es.us.isa.aml.util.Util;
 import java.util.logging.Logger;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -73,5 +75,12 @@ public class OtherTests {
             assertNotNull(ce.getOperator());
 
         }
+    }
+
+    @Test
+    public void testRegisterFromFolder() {
+        assertTrue(serv.getStoreManager().getAgreementMap().keySet().isEmpty());
+        serv.getStoreManager().registerFromFolder("src/test/resources/samples", false);
+        assertFalse(serv.getStoreManager().getAgreementMap().keySet().isEmpty());
     }
 }
