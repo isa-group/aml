@@ -17,7 +17,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import jdk.nashorn.internal.runtime.regexp.RegExpMatcher;
+import java.util.logging.Logger;
 
 /**
  *
@@ -74,11 +74,13 @@ public class Store {
     }
 
     public void registerFromFolder(File folder, Boolean recursive) {
-        for (File fileEntry : folder.listFiles()) {
-            if (recursive && fileEntry.isDirectory()) {
-                registerFromFolder(folder, true);
-            } else if (fileEntry.getName().contains(".at") || fileEntry.getName().contains(".ag")) {
-                register(parseAgreementFile(Util.loadFile(fileEntry.getPath())));
+        if (folder.isDirectory()) {
+            for (File fileEntry : folder.listFiles()) {
+                if (recursive && fileEntry.isDirectory()) {
+                    registerFromFolder(folder, true);
+                } else if (fileEntry.getName().contains(".at") || fileEntry.getName().contains(".ag")) {
+                    register(parseAgreementFile(Util.loadFile(fileEntry.getPath())));
+                }
             }
         }
     }

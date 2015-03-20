@@ -12,7 +12,12 @@ public class Agreement extends AgreementOffer {
     
     //todo: por ahora es una copia de la oferta. En el futuro se modelará de otra forma.
     public Agreement() {
+        super();
     }
+    public Agreement(AgreementOffer offer) {
+        super(offer);
+    }
+    
 
     @Override
     public void loadFromFile(String path) {
