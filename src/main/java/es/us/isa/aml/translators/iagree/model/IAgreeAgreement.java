@@ -1,12 +1,12 @@
 package es.us.isa.aml.translators.iagree.model;
 
-import es.us.isa.aml.model.Agreement;
+import es.us.isa.aml.model.AgreementOffer;
 
 /**
  * @author jdelafuente
  *
  */
-public class IAgreeAgreement extends Agreement {
+public class IAgreeAgreement extends AgreementOffer {
 
     public IAgreeAgreement() {
     }

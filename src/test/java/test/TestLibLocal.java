@@ -9,6 +9,7 @@ import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.translators.Translator;
 import es.us.isa.aml.translators.iagree.IAgreeBuilder;
+import es.us.isa.aml.util.DocType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static org.junit.Assert.assertFalse;
@@ -67,27 +68,32 @@ public class TestLibLocal {
 
         AgreementTemplate at = new AgreementTemplate(model1);
         AgreementOffer ao = model1.generateAgreement("clienteFurioso");
+        ao.setDocType(DocType.OFFER);
         Agreement ag = new Agreement(ao);
 
         assertTrue(at instanceof AgreementTemplate);
         assertTrue(ao instanceof AgreementOffer);
         assertTrue(ag instanceof Agreement);
 
+        assertTrue(at.getDocType().equals(DocType.TEMPLATE));
+        assertTrue(ao.getDocType().equals(DocType.OFFER));
+        assertTrue(ag.getDocType().equals(DocType.AGREEMENT));
+
         String expAt = t.export(at);
-        //expAt = t.export(at);
+        expAt = t.export(at);
         String expAo = t.export(ao);
         String expAg = t.export(ag);
-        
+
         assertTrue(expAt.contains("Template"));
-        //assertTrue(expAo.contains("Offer"));
-        //assertTrue(expAg.contains("Agreement"));
+        assertTrue(expAo.contains("Offer"));
+        assertTrue(expAg.contains("Agreement"));
 
         assertTrue(expAt.contains("CreationConstraints"));
-        //assertFalse(expAo.contains("CreationConstraints"));
-        //assertFalse(expAg.contains("CreationConstraints"));
+        assertFalse(expAo.contains("CreationConstraints"));
+        assertFalse(expAg.contains("CreationConstraints"));
 
         LOG.log(Level.INFO, "\n{0}", expAt);
-        //LOG.log(Level.INFO, "\n-------------------\n{0}", expAo);
-        //LOG.log(Level.INFO, "\n-------------------\n{0}", expAg);
+        LOG.log(Level.INFO, "\n-------------------\n{0}", expAo);
+        LOG.log(Level.INFO, "\n-------------------\n{0}", expAg);
     }
 }
