@@ -13,9 +13,11 @@ import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.ParserFactory;
 import es.us.isa.aml.util.Util;
+import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import jdk.nashorn.internal.runtime.regexp.RegExpMatcher;
 
 /**
  *
@@ -61,6 +63,24 @@ public class Store {
     // Registration
     public void registerFromFile(String path) {
         register(parseAgreementFile(Util.loadFile(path)));
+    }
+
+    public void registerFromFile(File file) {
+        registerFromFile(file.getPath());
+    }
+
+    public void registerFromFolder(String folderPath, Boolean recursive) {
+        registerFromFolder(new File(folderPath), recursive);
+    }
+
+    public void registerFromFolder(File folder, Boolean recursive) {
+        for (File fileEntry : folder.listFiles()) {
+            if (recursive && fileEntry.isDirectory()) {
+                registerFromFolder(folder, true);
+            } else if (fileEntry.getName().contains(".at") || fileEntry.getName().contains(".ag")) {
+                register(parseAgreementFile(Util.loadFile(fileEntry.getPath())));
+            }
+        }
     }
 
     public void register(AgreementModel model) {

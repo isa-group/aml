@@ -10,8 +10,8 @@ import es.us.isa.aml.util.DocType;
  */
 public class AgreementOffer extends AgreementModel {
 
-    private String templateId;
-    private Float templateVersion;
+    protected String templateId;
+    protected Float templateVersion;
 
     public AgreementOffer() {
     	this.docType = DocType.OFFER;

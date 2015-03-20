@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class AgreementTemplate extends AgreementModel {
 
-    private List<CreationConstraint> creationConstraints;
+    protected List<CreationConstraint> creationConstraints;
 
     public AgreementTemplate() {
     	this.docType = DocType.TEMPLATE;
