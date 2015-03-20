@@ -14,8 +14,8 @@ public class Agreement extends AgreementOffer {
     public Agreement() {
         super();
     }
-    public Agreement(AgreementOffer offer) {
-        super(offer);
+    public Agreement(AgreementModel model) {
+        super(model);
     }
     
 
