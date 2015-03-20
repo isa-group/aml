@@ -54,6 +54,15 @@ public class ParserTest {
 //		
 		Translator t = new Translator(new IAgreeBuilder());
 		System.out.println(t.export(model));
+		
+		
+		System.out.println(model.getProperty("MonitProp1"));
+		model.setProperty("MonitProp1", 62);
+		System.out.println(model.getProperty("MonitProp1").intValue());
+		System.out.println("Evaluate: " + model.evaluateGT("G1"));
+		model.setProperty("MonitProp1", 64);
+		System.out.println("Evaluate: " + model.evaluateGT("G1"));
+		
 	}
 
 	public static String getStringFromInputStream(InputStream in) {

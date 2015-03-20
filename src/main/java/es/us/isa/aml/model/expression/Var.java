@@ -80,4 +80,12 @@ public class Var extends Expression {
     public void setValue(Object o) {
         this.value = o;
     }
+
+	public Object getId() {
+		return id;
+	}
+
+	public void setId(Object id) {
+		this.id = id;
+	}
 }
