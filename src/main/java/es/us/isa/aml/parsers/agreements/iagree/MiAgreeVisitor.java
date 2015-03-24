@@ -14,6 +14,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
@@ -37,7 +38,7 @@ import es.us.isa.aml.model.Range;
 import es.us.isa.aml.model.Responder;
 import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.Scope;
-import es.us.isa.aml.model.Service;
+import es.us.isa.aml.model.ServiceConfiguration;
 import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
@@ -50,10 +51,12 @@ import es.us.isa.aml.model.expression.ParenthesisExpression;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AgreementContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationElementContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationsIntervalContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Consumer_propContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Context_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CuantifContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeatureContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Feature_operationContext;
@@ -100,6 +103,11 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				model.setDocType(DocType.OFFER);
 				model.setContext(context);
 				this.visitAgOffer(ctx.agOffer());
+			} else if(ctx.agreement() != null){
+				this.model = new Agreement();
+				model.setDocType(DocType.AGREEMENT);
+				model.setContext(context);
+				this.visitAgreement(ctx.agreement());
 			}
 		} catch (Exception e) {
 			this.model = null;
@@ -131,6 +139,15 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		this.visitAg_def(ctx.ag_def());
 
+		return null;
+	}
+	
+	@Override
+	public Object visitAgreement(AgreementContext ctx) {
+		this.model.setID(ctx.id.getText());
+		this.model.setVersion(Double.valueOf(ctx.version.getText()));
+
+		this.visitAg_def(ctx.ag_def());
 		return null;
 	}
 
@@ -211,7 +228,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	@Override
 	public Object visitService(iAgreeParser.ServiceContext ctx) {
 
-		Service service = new Service();
+		ServiceConfiguration service = new ServiceConfiguration();
 		model.getAgreementTerms().setService(service);
 		model.getAgreementTerms().getService()
 				.setServiceName(ctx.Identifier().getText());
@@ -266,7 +283,9 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	@Override
 	public Object visitTemp_properties(iAgreeParser.Temp_propertiesContext ctx) {
 
-		if (ctx.initiator_prop() != null) {
+		if(ctx.context_prop() != null){
+			visitContext_prop(ctx.context_prop());
+		} else if (ctx.initiator_prop() != null) {
 			visitInitiator_prop(ctx.initiator_prop());
 		} else if (ctx.partiesRoles_prop() != null) {
 			visitPartiesRoles_prop(ctx.partiesRoles_prop());
@@ -303,6 +322,12 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		}
 
+		return null;
+	}
+	
+	@Override
+	public Object visitContext_prop(Context_propContext ctx) {
+		((Agreement) this.model).setTemplateId(ctx.id.getText());		
 		return null;
 	}
 

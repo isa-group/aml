@@ -8,9 +8,10 @@ package es.us.isa.aml.operations.noCore;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
-import es.us.isa.aml.translators.iagree.model.IAgreeGuaranteeTerm;
-import es.us.isa.aml.translators.iagree.model.IAgreeSLO;
+import es.us.isa.aml.translator.builders.iagree.model.IAgreeGuaranteeTerm;
+import es.us.isa.aml.translator.builders.iagree.model.IAgreeSLO;
 import es.us.isa.aml.util.OperationResponse;
+
 import java.util.ArrayList;
 import java.util.List;
 

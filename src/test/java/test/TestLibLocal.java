@@ -7,13 +7,16 @@ import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
-import es.us.isa.aml.translators.Translator;
-import es.us.isa.aml.translators.iagree.IAgreeBuilder;
+import es.us.isa.aml.translator.Translator;
+import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
 import es.us.isa.aml.util.DocType;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 

@@ -3,6 +3,12 @@
  */
 package test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import org.junit.Test;
+
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
@@ -10,14 +16,10 @@ import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.LogicalExpression;
 import es.us.isa.aml.model.expression.LogicalOperator;
+import es.us.isa.aml.model.expression.ParenthesisExpression;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
 
 /**
  * @author jdelafuente
@@ -101,10 +103,10 @@ public class TestExpression {
 		
 		// NEGACION DE EXPRESIONES
 		
-//		System.out.println(e);
-//		Expression neg = new LogicalExpression(new ParenthesisExpression(e), LogicalOperator.not);
-//		System.out.println(neg);
-//		Expression.printTree(neg, 0);
+		System.out.println(e);
+		Expression neg = new LogicalExpression(new ParenthesisExpression(e), LogicalOperator.not);
+		System.out.println(neg);
+		Expression.printTree(neg, 0);
 	}
 
 	// Check uninitialized variables

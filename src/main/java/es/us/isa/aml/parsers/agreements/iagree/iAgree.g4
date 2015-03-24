@@ -7,17 +7,21 @@ grammar iAgree;
 
 entry : template END_TEMPLATE
       | agOffer END_AG_OFFER
+      | agreement END_AGREEMENT
       ;
  
 template : TEMPLATE id=Identifier VERSION version=versionNumber template_def ;
 
 agOffer : AG_OFFER id=Identifier VERSION version=versionNumber FOR (TEMPLATE)? templateId=Identifier VERSION templateVersion=versionNumber ag_def;
 
+agreement : AGREEMENT id=Identifier VERSION version=versionNumber ag_def;
+
 template_def : temp_properties* agreementTerms creationConstraints?;
 
 ag_def : temp_properties*  agreementTerms;
 
-temp_properties : initiator_prop
+temp_properties : context_prop
+                | initiator_prop
                 | partiesRoles_prop
                 | serviceProvider_prop 
                 | expirationTime_prop
@@ -37,6 +41,10 @@ creationConstraint : (Identifier) ':' expression ';' qualifyingCondition?;
 //---------------------------------------
 // Template properties
 //---------------------------------------
+
+context_prop : CREATED FROM id=(Identifier | String) (AVAL_AT url)? ';'
+             | CREATED ON Date Hour ';'
+             ;
 
 initiator_prop : INITIATOR ':' id=String ';';
 
@@ -207,6 +215,9 @@ END_TEMPLATE : 'EndTemplate';
 AG_OFFER : 'AgreementOffer';
 END_AG_OFFER : 'EndAgreementOffer';
 
+AGREEMENT : 'Agreement';
+END_AGREEMENT : 'EndAgreement';
+
 INITIATOR : 'Initiator';
 RESPONDER : 'Responder';
 SERVICEPROVIDER : 'ServiceProvider';
@@ -264,6 +275,7 @@ MINUTELY : 'minutely';
 PENALTY : 'penalty';
 REWARD : 'reward';
 
+CREATED : 'Created';
 ON : 'on';
 FROM : 'from';
 OF : 'of';
@@ -353,7 +365,7 @@ Url : ('http'|'https'|'ftp'|'file')':''/''/'[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-
 
 Version : Integer ('.' Integer)+;
 Date : Integer [-/] Integer [-/] Integer;
-Hour : Digit? Digit ':' Digit Digit;
+Hour : Digit? Digit ':' Digit Digit (':' Digit Digit)?;
 Access : Identifier ('.' Identifier)+;
 Unit : '%' | 'min';
 fragment Digit : '0' | NonZeroDigit;

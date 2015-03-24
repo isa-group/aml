@@ -5,6 +5,12 @@
  */
 package es.us.isa.aml;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
@@ -13,10 +19,6 @@ import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.Util;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -53,6 +55,23 @@ public class AgreementManager {
 
     //   Start agreement files and model management
     // Creation
+    
+    public Agreement createAgreementFromFile(String path) {
+        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        String content = Util.loadFile(path);
+        return store.createAgreement(content, lang, this);
+    }
+
+    public Agreement createAgreementFromFile(String path, AgreementLanguage lang) {
+        String content = Util.loadFile(path);
+        return store.createAgreement(content, lang, this);
+    }
+
+    public Agreement createAgreement(String content) {
+        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        return store.createAgreement(content, lang, this);
+    }
+    
     public AgreementOffer createAgreementOfferFromFile(String path) {
         AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
         String content = Util.loadFile(path);

@@ -11,16 +11,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.agreements.IAgreeParser;
-import es.us.isa.aml.translators.Translator;
-import es.us.isa.aml.translators.csp.opl.OPLBuilder;
-import es.us.isa.aml.translators.iagree.IAgreeBuilder;
+import es.us.isa.aml.translator.Translator;
+import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
+import es.us.isa.aml.translator.builders.opl.OPLBuilder;
 
 /**
  * @author jdelafuente

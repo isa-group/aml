@@ -9,29 +9,40 @@ import java.util.List;
  */
 public class AgreementTerms {
 
-    private Service service;
+    private ServiceConfiguration service;
     private List<MonitorableProperty> mps;
     private List<GuaranteeTerm> gts;
 
     public AgreementTerms() {
-        this.service = new Service();
+        this.service = new ServiceConfiguration();
         this.mps = new ArrayList<>();
         this.gts = new ArrayList<>();
     }
 
-	public AgreementTerms(Service service,
+	public AgreementTerms(ServiceConfiguration service,
 			List<MonitorableProperty> monitorableProperties,
 			List<GuaranteeTerm> guaranteeTerms) {
-		this.service = service;
+		this.service = service; // ServiceReference
+		/*
+		 * 
+		 * ServiceConfiguration
+		 *  service name
+		 *  service reference
+		 *  features
+		 * 	N x Confuragion properties 
+		 * 
+		 * 
+		 */
+		// cps = configurationProperties
         this.mps = monitorableProperties;
         this.gts = guaranteeTerms;
 	}
 
-	public Service getService() {
+	public ServiceConfiguration getService() {
         return this.service;
     }
 
-    public void setService(Service service) {
+    public void setService(ServiceConfiguration service) {
         this.service = service;
     }
 

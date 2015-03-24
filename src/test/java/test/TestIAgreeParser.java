@@ -23,7 +23,7 @@ import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Range;
 import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.Scope;
-import es.us.isa.aml.model.Service;
+import es.us.isa.aml.model.ServiceConfiguration;
 import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
@@ -106,7 +106,7 @@ public class TestIAgreeParser {
         AgreementTerms at = new AgreementTerms();
 
         // Service reference
-        Service service = new Service();
+        ServiceConfiguration service = new ServiceConfiguration();
         service.setServiceName("TTS");
         service.setServiceReference("test.template.com/service");
         at.setService(service);

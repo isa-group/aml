@@ -26,6 +26,15 @@ public class ExistInconsistenciesOp extends CoreOperation {
         result.put("existInconsistencies", !(Boolean) result.get("consistent"));
         // reasoner.solve() gives us "isConsistent" operation
         // but we want "existInconsistencies" one.
+        // CSPBuilder  builder = ...
+        // CSPModel model = builder.map(agModel);
+        // ... negar todas las expresiones del CSPModel ...
+        // foreach(i) { 
+        //	model.getConstraint(i).expression.negate()
+        //  }
+        // ... mode.add(agModel2)
+        // ... 
+        // reasoner.solve(model);
     }
 
     @Override

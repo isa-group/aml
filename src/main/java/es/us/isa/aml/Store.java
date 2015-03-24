@@ -5,6 +5,12 @@
  */
 package es.us.isa.aml;
 
+import java.io.File;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
@@ -13,10 +19,6 @@ import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.ParserFactory;
 import es.us.isa.aml.util.Util;
-import java.io.File;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -47,6 +49,13 @@ public class Store {
 
     //main methods
     //creation
+    
+    public Agreement createAgreement(String content, AgreementLanguage lang, AgreementManager manager) {
+        Agreement agreement = (Agreement) parseAgreementFile(content, lang);
+        agreement.setAgreementManager(manager);
+        return agreement;
+    }
+    
     public AgreementOffer createAgreementOffer(String content, AgreementLanguage lang, AgreementManager manager) {
         AgreementOffer offer = (AgreementOffer) parseAgreementFile(content, lang);
         offer.setAgreementManager(manager);

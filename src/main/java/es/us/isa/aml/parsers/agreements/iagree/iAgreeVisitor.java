@@ -47,18 +47,18 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitParExpr(@NotNull iAgreeParser.ParExprContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#local_MonitorableProperties}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLocal_MonitorableProperties(@NotNull iAgreeParser.Local_MonitorablePropertiesContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#assigExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAssigExpr(@NotNull iAgreeParser.AssigExprContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#local_MonitorableProperties}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLocal_MonitorableProperties(@NotNull iAgreeParser.Local_MonitorablePropertiesContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#temporality}.
@@ -292,6 +292,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitConsumer_prop(@NotNull iAgreeParser.Consumer_propContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#context_prop}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitContext_prop(@NotNull iAgreeParser.Context_propContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#period_def}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -353,6 +360,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGlobalPeriod_prop(@NotNull iAgreeParser.GlobalPeriod_propContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#agreement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAgreement(@NotNull iAgreeParser.AgreementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#guaranteeTerm}.

@@ -6,8 +6,8 @@
 package es.us.isa.aml.operations.reasoners;
 
 import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.translators.Translator;
-import es.us.isa.aml.translators.csp.opl.OPLBuilder;
+import es.us.isa.aml.translator.Translator;
+import es.us.isa.aml.translator.builders.opl.OPLBuilder;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerType;
 import ilog.concert.IloConstraint;
@@ -22,6 +22,7 @@ import ilog.opl.IloOplModel;
 import ilog.opl.IloOplModelDefinition;
 import ilog.opl.IloOplModelSource;
 import ilog.opl.IloOplSettings;
+
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;

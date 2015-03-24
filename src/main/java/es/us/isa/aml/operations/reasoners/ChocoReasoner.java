@@ -6,10 +6,11 @@
 package es.us.isa.aml.operations.reasoners;
 
 import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.translators.Translator;
-import es.us.isa.aml.translators.csp.choco.ChocoBuilder;
+import es.us.isa.aml.translator.Translator;
+import es.us.isa.aml.translator.builders.choco.ChocoBuilder;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerType;
+
 import java.util.Random;
 
 /**
