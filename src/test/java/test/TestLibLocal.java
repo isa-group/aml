@@ -34,6 +34,7 @@ public class TestLibLocal {
     public static void init() {
         //serv = new AgreementManager(Util.loadFile("src/test/resources/config.json"));
         serv = new AgreementManager();
+        model1 = serv.createAgreementTemplateFromFile("src/test/resources/samples/papamoscas.at");
 
         model1 = serv.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core.at");
         model2 = serv.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-dead.at");

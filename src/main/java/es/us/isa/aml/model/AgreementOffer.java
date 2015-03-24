@@ -69,16 +69,19 @@ public class AgreementOffer extends AgreementModel {
         this.id = newT.id;
         this.version = newT.version;
     }
-    
+
     public Agreement generateAgreement(String consumerName) {
-        //todo: por ahora es una copia de la template
+        //todo: por ahora es una copia de la offer
         Agreement ag = new Agreement();
         ag.setDocType(DocType.AGREEMENT);
         ag.setID(this.id + "_" + consumerName);
-        ag.setVersion(getVersion());
-        ag.setContext(getContext());
+        ag.setVersion(version);
+        ag.setContext(context);
         ag.getContext().setConsumer(consumerName);
-        ag.setAgreementTerms(getAgreementTerms());
+        ag.setAgreementTerms(agreementTerms);
+        ag.setAgreementManager(agreementManager);
+        ag.templateId = id;
+        ag.templateVersion = new Float(version);
         return ag;
     }
 }
