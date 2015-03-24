@@ -1,5 +1,7 @@
 package es.us.isa.aml.model;
 
+import java.util.Objects;
+
 /**
  * @author jdelafuente
  *
@@ -32,5 +34,12 @@ public class AgreementElement {
             return id.equals(elem.id);
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.id);
+        return hash;
     }
 }

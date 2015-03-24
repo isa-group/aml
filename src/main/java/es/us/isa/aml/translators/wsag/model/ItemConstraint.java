@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.translators.wsag.model;
 
@@ -8,7 +8,5 @@ package es.us.isa.aml.translators.wsag.model;
  *
  */
 public class ItemConstraint {
-	
-	
 
 }

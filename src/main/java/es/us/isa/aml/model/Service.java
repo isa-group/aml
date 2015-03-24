@@ -30,16 +30,16 @@ public class Service {
         cps = new ArrayList<>();
     }
 
-	public Service(String serviceName, String serviceReference,
-			Map<String, Feature> features,
-			List<ConfigurationProperty> configurationProperties) {
-		this.serviceName = serviceName;
+    public Service(String serviceName, String serviceReference,
+            Map<String, Feature> features,
+            List<ConfigurationProperty> configurationProperties) {
+        this.serviceName = serviceName;
         this.serviceReference = serviceReference;
         this.features = features;
         cps = configurationProperties;
-	}
+    }
 
-	public String getServiceName() {
+    public String getServiceName() {
         return this.serviceName;
     }
 

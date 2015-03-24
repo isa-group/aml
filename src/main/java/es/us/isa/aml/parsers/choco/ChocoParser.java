@@ -22,7 +22,7 @@ package es.us.isa.aml.parsers.choco;
 //    public ParsingResult parseConstraint(String c) {
 //        ParsingResult res = null;
 //        if (c == null) {
-//            System.err.println("Atencion, se esta intentando parsear un string null a constraint!");
+//            LOG.log(Level.INFO,"Atencion, se esta intentando parsear un string null a constraint!");
 //            return null;
 //        }
 //        ByteArrayInputStream fis = new ByteArrayInputStream(c.getBytes());
@@ -38,9 +38,9 @@ package es.us.isa.aml.parsers.choco;
 ////			anasem.setVars(vars);
 //            res = anasem.entrada(arbol, vars);
 //        } catch (RecognitionException e) {
-//            e.printStackTrace();
+//            LOG.log(Level.INFO,null,e);
 //        } catch (TokenStreamException e) {
-//            e.printStackTrace();
+//          LOG.log(Level.INFO,null,e);
 //        }
 //        return res;
 //    }

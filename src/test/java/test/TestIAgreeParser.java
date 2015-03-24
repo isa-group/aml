@@ -3,14 +3,6 @@
  */
 package test;
 
-import static es.us.isa.aml.util.Util.getStringFromInputStream;
-import static org.junit.Assert.assertEquals;
-
-import java.io.InputStream;
-import java.util.logging.Logger;
-
-import org.junit.Test;
-
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.AgreementTerms;
@@ -33,6 +25,11 @@ import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.agreements.IAgreeParser;
+import static es.us.isa.aml.util.Util.getStringFromInputStream;
+import java.io.InputStream;
+import java.util.logging.Logger;
+import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * @author jdelafuente
@@ -96,7 +93,7 @@ public class TestIAgreeParser {
         Metric met1 = new Metric("met1", "integer", new Range(0, 23));
         Metric met2 = new Metric("met2", "integer", new Range(0, 512));
         Metric met3 = new Metric("met3", "float", new Range(0, 128));
-        
+
         // Asserts metrics
         assertEquals(model.getContext().getMetrics().get(met1.getId()), met1);
         assertEquals(model.getContext().getMetrics().get(met2.getId()), met2);

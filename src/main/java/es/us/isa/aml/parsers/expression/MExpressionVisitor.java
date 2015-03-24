@@ -3,12 +3,6 @@
  */
 package es.us.isa.aml.parsers.expression;
 
-import org.antlr.v4.runtime.misc.NotNull;
-import org.antlr.v4.runtime.tree.ErrorNode;
-import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.RuleNode;
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
@@ -21,6 +15,11 @@ import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.expression.ExpressionParser.ParseContext;
+import org.antlr.v4.runtime.misc.NotNull;
+import org.antlr.v4.runtime.tree.ErrorNode;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.RuleNode;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
  * @author jdelafuente
@@ -28,12 +27,12 @@ import es.us.isa.aml.parsers.expression.ExpressionParser.ParseContext;
  */
 public class MExpressionVisitor implements ExpressionVisitor<Object> {
 
-	@Override
-	public Expression visitParse(ParseContext ctx) {
-		Expression e = visitExpression(ctx.expression());
-		return e;
-	}
-	
+    @Override
+    public Expression visitParse(ParseContext ctx) {
+        Expression e = visitExpression(ctx.expression());
+        return e;
+    }
+
     // expr overrides
     public Expression visitExpression(ExpressionParser.ExpressionContext ctx) {
         Expression res = null;
@@ -232,27 +231,27 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
         return new Atomic(ctx.getText());
     }
 
-	@Override
-	public Object visit(ParseTree tree) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Object visit(ParseTree tree) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Object visitChildren(RuleNode node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Object visitChildren(RuleNode node) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Object visitTerminal(TerminalNode node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Object visitTerminal(TerminalNode node) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Object visitErrorNode(ErrorNode node) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Object visitErrorNode(ErrorNode node) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

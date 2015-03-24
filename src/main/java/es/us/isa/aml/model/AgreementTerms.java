@@ -19,15 +19,15 @@ public class AgreementTerms {
         this.gts = new ArrayList<>();
     }
 
-	public AgreementTerms(Service service,
-			List<MonitorableProperty> monitorableProperties,
-			List<GuaranteeTerm> guaranteeTerms) {
-		this.service = service;
+    public AgreementTerms(Service service,
+            List<MonitorableProperty> monitorableProperties,
+            List<GuaranteeTerm> guaranteeTerms) {
+        this.service = service;
         this.mps = monitorableProperties;
         this.gts = guaranteeTerms;
-	}
+    }
 
-	public Service getService() {
+    public Service getService() {
         return this.service;
     }
 

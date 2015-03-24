@@ -17,11 +17,11 @@ public class IAgreeConfigurationProperty extends ConfigurationProperty {
         super(id, metric);
     }
 
-	public IAgreeConfigurationProperty(Property cp) {
-		super(cp.getId(), cp.getMetric(), cp.getExpression(), cp.getScope(), cp.getFeature());
-	}
+    public IAgreeConfigurationProperty(Property cp) {
+        super(cp.getId(), cp.getMetric(), cp.getExpression(), cp.getScope(), cp.getFeature());
+    }
 
-	@Override
+    @Override
     public String toString() {
         if (this.getExpression() != null) {
             return this.getId() + ": " + this.getMetric().getId() + " = "

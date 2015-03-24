@@ -15,10 +15,12 @@ public abstract class CompoundExpression extends Expression {
 
     public List<Expression> getExpressions() {
         List<Expression> res = new ArrayList<>();
-        if(exp1 != null)
-        	res.add(this.exp1);
-        if(exp2 != null)
-        	res.add(this.exp2);
+        if (exp1 != null) {
+            res.add(this.exp1);
+        }
+        if (exp2 != null) {
+            res.add(this.exp2);
+        }
         return res;
     }
 

@@ -15,9 +15,9 @@ public class MonitorableProperty extends Property {
         super(id, metric);
     }
 
-	public MonitorableProperty(String id, Metric metric, Expression expression,
-			Scope scope, Feature feature) {
-		super(id, metric, expression, scope, feature);
-	}
+    public MonitorableProperty(String id, Metric metric, Expression expression,
+            Scope scope, Feature feature) {
+        super(id, metric, expression, scope, feature);
+    }
 
 }

@@ -13,34 +13,33 @@ import es.us.isa.aml.util.Util;
  */
 public class IAgreeGuaranteeTerm extends GuaranteeTerm {
 
-	public IAgreeGuaranteeTerm(String id) {
-		super(id);
-	}
-	
+    public IAgreeGuaranteeTerm(String id) {
+        super(id);
+    }
+
     public IAgreeGuaranteeTerm(String id, ServiceRole actor, SLO slo) {
         super(id, actor, slo);
-    }	
+    }
 
-	@Override
+    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("\t\t" + getId() + ": " + getServiceRole() + " guarantees " + getSlo() + ";" + "\n");
+        sb.append("\t\t").append(getId()).append(": ").append(getServiceRole()).append(" guarantees ").append(getSlo()).append(";" + "\n");
 
         if (getServiceScope() != null && !getServiceScope().isEmpty()) {
-            sb.append("\t\t" + "upon " + getServiceScope());
+            sb.append("\t\t" + "upon ").append(getServiceScope());
         }
 
         if (getQc() != null) {
-            sb.append("\t\t" + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])
-                    + "(" + getQc().getCondition() + ")" + ";");
+            sb.append("\t\t").append(Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])).append("(").append(getQc().getCondition()).append(")" + ";");
             sb.append("\n");
         }
 
         if (getCompensations().size() > 0) {
             for (Compensation comp : getCompensations()) {
                 IAgreeCompensation compensation = (IAgreeCompensation) comp;
-                sb.append("\t\t" + compensation.toString());
+                sb.append("\t\t").append(compensation.toString());
             }
         }
 

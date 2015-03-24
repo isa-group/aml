@@ -50,8 +50,7 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
                 existsInconsistenciesOp.analyze(model);
                 result = existsInconsistenciesOp.getResult();
                 consistent = (Boolean) result.get("consistent");
-//                System.out.println(model.toString());
-//                System.out.println("############################# consistent: " + consistent);
+
                 if (!consistent) {
                     result.put("existCondInconsTerms", true);
                     //cleaning suffix added above

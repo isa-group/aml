@@ -69,16 +69,16 @@ public class ChocoBuilder implements IBuilder {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-	@Override
-	public void setDocType(DocType docType) {
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    public void setDocType(DocType docType) {
+        // TODO Auto-generated method stub
 
-	@Override
-	public Object addContext(Context context) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    }
+
+    @Override
+    public Object addContext(Context context) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 }

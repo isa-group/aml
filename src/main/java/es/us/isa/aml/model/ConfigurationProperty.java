@@ -15,9 +15,9 @@ public class ConfigurationProperty extends Property {
         super(id, metric);
     }
 
-	public ConfigurationProperty(String id, Metric metric,
-			Expression expression, Scope scope, Feature feature) {
-		super(id, metric, expression, scope, feature);
-	}
+    public ConfigurationProperty(String id, Metric metric,
+            Expression expression, Scope scope, Feature feature) {
+        super(id, metric, expression, scope, feature);
+    }
 
 }

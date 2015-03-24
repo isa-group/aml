@@ -1,8 +1,5 @@
 package es.us.isa.aml.translators.wsag;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Context;
@@ -23,6 +20,10 @@ import es.us.isa.aml.translators.wsag.model.ServiceLevelObjective;
 import es.us.isa.aml.translators.wsag.model.Template;
 import es.us.isa.aml.translators.wsag.model.Variable;
 import es.us.isa.aml.util.DocType;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author jdelafuente
@@ -30,165 +31,170 @@ import es.us.isa.aml.util.DocType;
  */
 public class WSAGBuilder implements IBuilder {
 
-	private Document wsagDoc;
-	
-	@Override
-	public void setDocType(DocType docType) {
-		switch(docType){
-		case TEMPLATE:
-			wsagDoc = new Template();
-			break;
-		case OFFER:
-			wsagDoc = new Offer();
-			break;
-		case AGREEMENT:
-			wsagDoc = new Agreement();
-			break;
-		}
-	}
+    private static final Logger LOG = Logger.getLogger(WSAGBuilder.class.getName());
+    private Document wsagDoc;
 
-	public WSAGBuilder(AgreementModel model) {
-		if (model.getDocType() == DocType.TEMPLATE)
-			wsagDoc = new Template();
-		else
-			wsagDoc = new Offer();
-	}
+    public WSAGBuilder(AgreementModel model) {
+        if (model.getDocType() == DocType.TEMPLATE) {
+            wsagDoc = new Template();
+        } else {
+            wsagDoc = new Offer();
+        }
+    }
 
-	public String addId(String id) {
-		wsagDoc.setName(id);
-		return id;
-	}
+    @Override
+    public void setDocType(DocType docType) {
+        switch (docType) {
+            case TEMPLATE:
+                wsagDoc = new Template();
+                break;
+            case OFFER:
+                wsagDoc = new Offer();
+                break;
+            case AGREEMENT:
+                wsagDoc = new Agreement();
+                break;
+        }
+    }
 
-	public Double addVersion(Double version) {
-		wsagDoc.setId(version.toString());
-		return version;
-	}
-	
-	@Override
-	public Object addContext(Context context) {
-		wsagDoc.getContext().setAgreementInitiator(context.getInitiator());
-		wsagDoc.getContext().setAgreementResponder(context.getResponder());
-		return null;
-	}
+    @Override
+    public String addId(String id) {
+        wsagDoc.setName(id);
+        return id;
+    }
 
-	@Override
-	public String addMetric(es.us.isa.aml.model.Metric metric) {
+    @Override
+    public Double addVersion(Double version) {
+        wsagDoc.setId(version.toString());
+        return version;
+    }
 
-		Metric m = new Metric(metric.getId());
-		m.setType(metric.getType());
-		m.setDomain(metric.getDomain());
+    @Override
+    public Object addContext(Context context) {
+        wsagDoc.getContext().setAgreementInitiator(context.getInitiator());
+        wsagDoc.getContext().setAgreementResponder(context.getResponder());
+        return null;
+    }
 
-		wsagDoc.getContext().getMetrics().add(m);
-		return m.toString();
-	}
+    @Override
+    public String addMetric(es.us.isa.aml.model.Metric metric) {
 
-	@Override
-	public String addAgreementTerms(AgreementTerms at) {
-		addService(at.getService());
+        Metric m = new Metric(metric.getId());
+        m.setType(metric.getType());
+        m.setDomain(metric.getDomain());
 
-		for (Property p : at.getMonitorableProperties()) {
-			addMonitorableProperty(p);
-		}
+        wsagDoc.getContext().getMetrics().add(m);
+        return m.toString();
+    }
 
-		for (es.us.isa.aml.model.GuaranteeTerm gt : at.getGuaranteeTerms())
-			addGuaranteeTerm(gt);
+    @Override
+    public String addAgreementTerms(AgreementTerms at) {
+        addService(at.getService());
 
-		return null;
-	}
+        for (Property p : at.getMonitorableProperties()) {
+            addMonitorableProperty(p);
+        }
 
-	@Override
-	public String addService(Service service) {
-		wsagDoc.getTerms().getServiceDescriptionTerm()
-				.setName("SDT_" + service.getServiceName());
+        for (es.us.isa.aml.model.GuaranteeTerm gt : at.getGuaranteeTerms()) {
+            addGuaranteeTerm(gt);
+        }
 
-		wsagDoc.getTerms().getServiceDescriptionTerm()
-				.setServiceName(service.getServiceName());
+        return null;
+    }
 
-		wsagDoc.getTerms().getServiceDescriptionTerm()
-				.setServiceReference(service.getServiceReference());
+    @Override
+    public String addService(Service service) {
+        wsagDoc.getTerms().getServiceDescriptionTerm()
+                .setName("SDT_" + service.getServiceName());
 
-		wsagDoc.getTerms().getServiceProperties()
-				.setName("SP_" + service.getServiceName());
-		wsagDoc.getTerms().getServiceProperties()
-				.setServiceName(service.getServiceName());
+        wsagDoc.getTerms().getServiceDescriptionTerm()
+                .setServiceName(service.getServiceName());
 
-		for (Property p : service.getConfigurationProperties()) {
-			addConfigurationProperty(p);
-		}
+        wsagDoc.getTerms().getServiceDescriptionTerm()
+                .setServiceReference(service.getServiceReference());
 
-		return wsagDoc.getTerms().getServiceDescriptionTerm().toString();
-	}
+        wsagDoc.getTerms().getServiceProperties()
+                .setName("SP_" + service.getServiceName());
+        wsagDoc.getTerms().getServiceProperties()
+                .setServiceName(service.getServiceName());
 
-	@Override
-	public String addConfigurationProperty(Property cp) {
-		OfferItem oi = new OfferItem();
-		oi.setName(cp.getId());
-		try {
-			oi.setMetric(new URI(cp.getMetric().getId()));
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+        for (Property p : service.getConfigurationProperties()) {
+            addConfigurationProperty(p);
+        }
 
-		if (cp.getExpression() != null) {
-			oi.setLocation(cp.getExpression().toString());
-		}
+        return wsagDoc.getTerms().getServiceDescriptionTerm().toString();
+    }
 
-		wsagDoc.getTerms().getServiceDescriptionTerm().getOfferItems().add(oi);
-		return oi.toString();
-	}
+    @Override
+    public String addConfigurationProperty(Property cp) {
+        OfferItem oi = new OfferItem();
+        oi.setName(cp.getId());
+        try {
+            oi.setMetric(new URI(cp.getMetric().getId()));
+        } catch (URISyntaxException e) {
+            LOG.log(Level.WARNING, null, e);
+        }
 
-	@Override
-	public String addMonitorableProperty(Property mp) {
-		Variable v = new Variable();
-		v.setName(mp.getId());
-		try {
-			v.setMetric(new URI(mp.getMetric().getId()));
-		} catch (URISyntaxException e) {
-			e.printStackTrace();
-		}
+        if (cp.getExpression() != null) {
+            oi.setLocation(cp.getExpression().toString());
+        }
 
-		v.setLocation("/" + mp.getId());
+        wsagDoc.getTerms().getServiceDescriptionTerm().getOfferItems().add(oi);
+        return oi.toString();
+    }
 
-		wsagDoc.getTerms().getServiceProperties().getVariableSet().add(v);
-		return v.toString();
-	}
+    @Override
+    public String addMonitorableProperty(Property mp) {
+        Variable v = new Variable();
+        v.setName(mp.getId());
+        try {
+            v.setMetric(new URI(mp.getMetric().getId()));
+        } catch (URISyntaxException e) {
+            LOG.log(Level.WARNING, null, e);
+        }
 
-	@Override
-	public String addGuaranteeTerm(es.us.isa.aml.model.GuaranteeTerm gt2) {
+        v.setLocation("/" + mp.getId());
 
-		GuaranteeTerm gt = new GuaranteeTerm();
-		gt.setName(gt2.getId());
-		gt.setObligated(gt2.getServiceRole());
-		ServiceLevelObjective slo = new ServiceLevelObjective();
-		slo.setCustomServiceLevel(new CustomServiceLevel(gt2.getSlo()
-				.getExpression()));
-		gt.setSlo(slo);
-		if (gt2.getQc() != null) {
-			QualifyingCondition qc = new QualifyingCondition(gt2.getQc()
-					.getCondition());
-			gt.setQualifyingCondition(qc);
-		}
-		wsagDoc.getTerms().getGuaranteeTerms().add(gt);
-		return gt.toString();
-	}
+        wsagDoc.getTerms().getServiceProperties().getVariableSet().add(v);
+        return v.toString();
+    }
 
-	@Override
-	public String addCreationConstraint(CreationConstraint cc) {
-		Constraint c = new Constraint(cc.getId(), cc.getSlo());
+    @Override
+    public String addGuaranteeTerm(es.us.isa.aml.model.GuaranteeTerm gt2) {
 
-		if (cc.getQc() != null) {
-			QualifyingCondition qc = new QualifyingCondition(cc.getQc()
-					.getCondition());
-			c.setQc(qc);
-		}
+        GuaranteeTerm gt = new GuaranteeTerm();
+        gt.setName(gt2.getId());
+        gt.setObligated(gt2.getServiceRole());
+        ServiceLevelObjective slo = new ServiceLevelObjective();
+        slo.setCustomServiceLevel(new CustomServiceLevel(gt2.getSlo()
+                .getExpression()));
+        gt.setSlo(slo);
+        if (gt2.getQc() != null) {
+            QualifyingCondition qc = new QualifyingCondition(gt2.getQc()
+                    .getCondition());
+            gt.setQualifyingCondition(qc);
+        }
+        wsagDoc.getTerms().getGuaranteeTerms().add(gt);
+        return gt.toString();
+    }
 
-		((Template) wsagDoc).getCreationConstraints().getConstraints().add(c);
+    @Override
+    public String addCreationConstraint(CreationConstraint cc) {
+        Constraint c = new Constraint(cc.getId(), cc.getSlo());
 
-		return c.toString();
-	}
+        if (cc.getQc() != null) {
+            QualifyingCondition qc = new QualifyingCondition(cc.getQc()
+                    .getCondition());
+            c.setQc(qc);
+        }
 
-	@Override
-	public String generate() {
-		return wsagDoc.toString();
-	}
+        ((Template) wsagDoc).getCreationConstraints().getConstraints().add(c);
+
+        return c.toString();
+    }
+
+    @Override
+    public String generate() {
+        return wsagDoc.toString();
+    }
 }

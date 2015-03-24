@@ -14,14 +14,14 @@ import es.us.isa.aml.util.DocType;
  *
  */
 public interface IBuilder {
-	
-	void setDocType(DocType docType);
 
-	Object addId(String id);
+    void setDocType(DocType docType);
 
-	Object addVersion(Double version);
+    Object addId(String id);
 
-	Object addContext(Context context);
+    Object addVersion(Double version);
+
+    Object addContext(Context context);
 
     Object addMetric(Metric metric);
 
