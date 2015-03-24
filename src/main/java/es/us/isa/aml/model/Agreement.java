@@ -16,11 +16,6 @@ public class Agreement extends AgreementOffer {
         this.docType = DocType.AGREEMENT;
     }
 
-    public Agreement(AgreementModel model) {
-        super(model);
-        this.docType = DocType.AGREEMENT;
-    }
-
     @Override
     public void loadFromFile(String path) {
         AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));

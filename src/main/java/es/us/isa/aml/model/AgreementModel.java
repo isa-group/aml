@@ -36,15 +36,6 @@ public abstract class AgreementModel {
         this.agreementManager = agreementManager;
     }
 
-    public AgreementModel(AgreementModel agreementModel) {
-        super();
-        this.id = agreementModel.getID();
-        this.version = agreementModel.getVersion();
-        this.agreementManager = agreementModel.agreementManager;
-        this.context = agreementModel.getContext();
-        this.agreementTerms = agreementModel.getAgreementTerms();
-    }
-
     public String getID() {
         return this.id;
     }

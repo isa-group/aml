@@ -18,11 +18,6 @@ public class AgreementTemplate extends AgreementModel {
         this.docType = DocType.TEMPLATE;
     }
 
-    public AgreementTemplate(AgreementModel agreementModel) {
-        super(agreementModel);
-        this.docType = DocType.TEMPLATE;
-    }
-
     public List<CreationConstraint> getCreationConstraints() {
         return this.creationConstraints;
     }
@@ -48,11 +43,15 @@ public class AgreementTemplate extends AgreementModel {
         this.version = newT.version;
     }
 
-    public Agreement generateAgreement(String consumerName) {
+    public Agreement generateAgreementOffer(String consumerName) {
         //todo: por ahora es una copia de la template
-        Agreement ag = new Agreement(this);
-        ag.getContext().setConsumer(consumerName);
+        Agreement ag = new Agreement();
+        ag.setDocType(DocType.OFFER);
         ag.setID(this.id + "_" + consumerName);
+        ag.setVersion(getVersion());
+        ag.setContext(getContext());
+        ag.getContext().setConsumer(consumerName);
+        ag.setAgreementTerms(getAgreementTerms());
         return ag;
     }
 

@@ -77,8 +77,10 @@ public class IAgreeBuilder implements IBuilder {
 	@Override
 	public Object addContext(Context ctx) {
 		IAgreeContext context = new IAgreeContext();
-		IAgreeResponder responder = new IAgreeResponder(ctx.getResponder());
-		context.setResponder(responder);
+		if (ctx.getResponder() != null) {
+			IAgreeResponder responder = new IAgreeResponder(ctx.getResponder());
+			context.setResponder(responder);
+		}
 		context.setInitiator(ctx.getInitiator());
 		context.setProvider(ctx.getProvider());
 		context.setConsumer(ctx.getConsumer());

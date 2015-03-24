@@ -24,11 +24,6 @@ public class AgreementOffer extends AgreementModel {
 
     }
 
-    public AgreementOffer(AgreementModel agreementModel) {
-        super(agreementModel);
-        this.docType = DocType.OFFER;
-    }
-
     /**
      * @return the templateId
      */
@@ -74,5 +69,16 @@ public class AgreementOffer extends AgreementModel {
         this.id = newT.id;
         this.version = newT.version;
     }
-
+    
+    public Agreement generateAgreement(String consumerName) {
+        //todo: por ahora es una copia de la template
+        Agreement ag = new Agreement();
+        ag.setDocType(DocType.AGREEMENT);
+        ag.setID(this.id + "_" + consumerName);
+        ag.setVersion(getVersion());
+        ag.setContext(getContext());
+        ag.getContext().setConsumer(consumerName);
+        ag.setAgreementTerms(getAgreementTerms());
+        return ag;
+    }
 }

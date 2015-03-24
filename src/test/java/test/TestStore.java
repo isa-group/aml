@@ -112,7 +112,7 @@ public class TestStore {
 
         template.register("plantilla");
 
-        s.getAgreementTemplate("plantilla").generateAgreement("cliente").register("oferta");
+        s.getAgreementTemplate("plantilla").generateAgreementOffer("cliente").register("oferta");
 
         AgreementOffer offer = s.getAgreementOffer("oferta");
 

@@ -69,10 +69,9 @@ public class TestLibLocal {
     public void testAgreementToString() {
         Translator t = new Translator(new IAgreeBuilder());
 
-        AgreementTemplate at = new AgreementTemplate(model1);
-        AgreementOffer ao = model1.generateAgreement("clienteFurioso");
-        ao.setDocType(DocType.OFFER);
-        Agreement ag = new Agreement(ao);
+        AgreementTemplate at = model1;
+        AgreementOffer ao = model1.generateAgreementOffer("clienteFurioso");
+        Agreement ag = ao.generateAgreement("agreement");
 
         assertTrue(at instanceof AgreementTemplate);
         assertTrue(ao instanceof AgreementOffer);
