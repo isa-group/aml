@@ -33,34 +33,6 @@ public class OtherTests {
 
     }
 
-    /* @Test
-     public void testCloneA() {
-     model1.setID("original");
-     assertEquals(model1.getID(), "original");
-     AgreementOffer modelCopyO = new AgreementOffer(model1);
-     AgreementTemplate modelCopyT = new AgreementTemplate(model1);
-     assertEquals(modelCopyT.getID(), "original");
-     assertEquals(modelCopyO.getID(), "original");
-     modelCopyT.setID("modificado");
-     modelCopyO.setID("modificado");
-     assertEquals(modelCopyT.getID(), "modificado");
-     assertEquals(modelCopyO.getID(), "modificado");
-     assertEquals(model1.getID(), "original");
-
-     //LOG.log(Level.INFO, "PRINT: {0}", modelCopyT.getAgreementTerms().getGuaranteeTerms());
-     System.out.println("\n\n");
-     //LOG.log(Level.INFO, "PRINT: {0}", modelCopyO.getAgreementTerms().getGuaranteeTerms());
-     }*/
-    /* @Test
-     public void testCloneB() {
-     model1.setID("original");
-     assertEquals(model1.getID(), "original");
-     AgreementModel modelCopy = model1.clone();
-     assertEquals(modelCopy.getID(), "original");
-     modelCopy.setID("modificado");
-     assertEquals(modelCopy.getID(), "modificado");
-     assertEquals(model1.getID(), "original");
-     }*/
     @Test
     public void testModifyGT() {
         assertNotNull(model1.getContext());

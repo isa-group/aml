@@ -14,14 +14,14 @@ public class AgreementOffer extends AgreementModel {
     protected Float templateVersion;
 
     public AgreementOffer() {
-    	this.docType = DocType.OFFER;
+        this.docType = DocType.OFFER;
     }
 
     public AgreementOffer(String templateId, Float templateVersion) {
-    	this.docType = DocType.OFFER;
+        this.docType = DocType.OFFER;
         this.templateId = templateId;
         this.templateVersion = templateVersion;
-        
+
     }
 
     public AgreementOffer(AgreementModel agreementModel) {

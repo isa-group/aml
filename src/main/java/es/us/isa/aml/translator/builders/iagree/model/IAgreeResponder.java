@@ -17,11 +17,11 @@ public class IAgreeResponder extends Responder {
         super(id, roleType);
     }
 
-	public IAgreeResponder(Responder r) {
-		super(r.getId(), r.getRoleType());
-	}
+    public IAgreeResponder(Responder r) {
+        super(r.getId(), r.getRoleType());
+    }
 
-	@Override
+    @Override
     public String toString() {
         return getRoleType() + " \"" + Util.withoutDoubleQuotes(getId()) + "\" as Responder";
     }

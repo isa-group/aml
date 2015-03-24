@@ -1,15 +1,7 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.parsers.agreements.wsag;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
@@ -29,6 +21,15 @@ import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.util.DocType;
+import es.us.isa.aml.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * @author jdelafuente
@@ -36,7 +37,7 @@ import es.us.isa.aml.util.DocType;
  */
 public class WsagParserHelper {
 
-	private Document doc;
+	private final Document doc;
 	private AgreementModel model;
 
 	public WsagParserHelper(Document doc) {
@@ -62,19 +63,21 @@ public class WsagParserHelper {
 		} else {
 			model = new AgreementOffer();
 			Element agoffer = (Element) offer;
-			version = Double.valueOf(agoffer.getAttribute("wsag:AgreementOfferId"));
+			version = Double.valueOf(agoffer
+					.getAttribute("wsag:AgreementOfferId"));
 			model.setVersion(version);
 		}
 
 		Node name = doc.getElementsByTagName("wsag:Name").item(0);
 		if (name != null) {
 			model.setID(name.getTextContent());
-		}			
+		}
 
 		setContext();
 		setAgreementTerms();
-		if (model.getDocType() == DocType.TEMPLATE)
+		if (model.getDocType() == DocType.TEMPLATE) {
 			setCreationConstraints();
+		}
 	}
 
 	public void setContext() {
@@ -113,9 +116,10 @@ public class WsagParserHelper {
 				} else {
 					String[] args = domain.replace("{", "").replace("}", "")
 							.split(", ");
-					List<Object> values = new ArrayList<Object>();
-					for (String s : args)
+					List<Object> values = new ArrayList<>();
+					for (String s : args) {
 						values.add(s);
+					}
 					d = new Enumerated(values);
 				}
 				m.setDomain(d);
@@ -145,13 +149,16 @@ public class WsagParserHelper {
 				Element term = (Element) node_term;
 
 				if (term.getTagName().equals("wsag:ServiceDescriptionTerm")) {
-					
-					String serviceName = term.getAttribute("wsag:ServiceName");					
-					model.getAgreementTerms().getService().setServiceName(serviceName);
-					
-					String serviceReference = term.getAttribute("iag:ServiceReference");
-					model.getAgreementTerms().getService().setServiceReference(serviceReference);
-					
+
+					String serviceName = term.getAttribute("wsag:ServiceName");
+					model.getAgreementTerms().getService()
+							.setServiceName(serviceName);
+
+					String serviceReference = term
+							.getAttribute("iag:ServiceReference");
+					model.getAgreementTerms().getService()
+							.setServiceReference(serviceReference);
+
 					NodeList offer_items = term.getChildNodes();
 					for (int j = 0; j < offer_items.getLength(); j++) {
 						Node node_oi = (Node) (offer_items.item(j));
@@ -159,8 +166,9 @@ public class WsagParserHelper {
 							Element offer_item = (Element) node_oi;
 							String id = offer_item.getAttribute("name");
 							String value = null;
-							if (!offer_item.getTextContent().isEmpty())
+							if (!offer_item.getTextContent().isEmpty()) {
 								value = offer_item.getTextContent();
+							}
 
 							String metric_id = offer_item
 									.getAttribute("iag:Metric");
@@ -208,8 +216,8 @@ public class WsagParserHelper {
 						String id = gt_element.getAttribute("wsag:Name");
 						String ob = gt_element.getAttribute("wsag:Obligated");
 						GuaranteeTerm gt = new GuaranteeTerm(id);
-						gt.setServiceRole(ServiceRole.valueOf(ob));						
-						
+						gt.setServiceRole(ServiceRole.valueOf(ob));
+
 						NodeList nList2 = gt_element.getChildNodes();
 						for (int j = 0; j < nList2.getLength(); j++) {
 							Node node_prop = (Node) (nList2.item(j));
@@ -217,15 +225,17 @@ public class WsagParserHelper {
 								Element prop = (Element) node_prop;
 								if (prop.getTagName().equals(
 										"wsag:QualifyingCondition")) {
-									Expression cond = Expression.parse(prop
-											.getTextContent());
+									String aux = prop.getTextContent();
+									Expression cond = Expression.parse(Util
+											.decodeEntities(aux));
 									QualifyingCondition qc = new QualifyingCondition(
 											cond);
 									gt.setQc(qc);
 								} else if (prop.getTagName().equals(
 										"wsag:ServiceLevelObjective")) {
-									Expression exp = Expression.parse(prop
-											.getTextContent());
+									String aux = prop.getTextContent();
+									Expression exp = Expression.parse(Util
+											.decodeEntities(aux));
 									SLO slo = new SLO(exp);
 									gt.setSlo(slo);
 								}
@@ -242,43 +252,50 @@ public class WsagParserHelper {
 	}
 
 	public void setCreationConstraints() {
-		Node ccs = doc.getElementsByTagName("wsag:CreationConstraints").item(0);
-		NodeList nList = ccs.getChildNodes();
-		for (int i = 0; i < nList.getLength(); i++) {
-			Node node = (Node) (nList.item(i));
-			if (node instanceof Element) {
-				Element constraint = (Element) node;
-				Node node_id = constraint.getElementsByTagName("Name").item(0);
-				String id = node_id.getTextContent();
+		NodeList nodeList = doc
+				.getElementsByTagName("wsag:CreationConstraints");
+		if (nodeList.getLength() > 0) {
+			Node ccs = nodeList.item(0);
+			NodeList nList = ccs.getChildNodes();
+			for (int i = 0; i < nList.getLength(); i++) {
+				Node node = (Node) (nList.item(i));
+				if (node instanceof Element) {
+					Element constraint = (Element) node;
+					Node node_id = constraint.getElementsByTagName("Name")
+							.item(0);
+					String id = node_id.getTextContent();
 
-				Node node_expr = constraint.getElementsByTagName("Content")
-						.item(0);
-				String str_expr = node_expr.getTextContent();
+					Node node_expr = constraint.getElementsByTagName("Content")
+							.item(0);
+					String str_expr = node_expr.getTextContent();
 
-				CreationConstraint cc = null;
+					CreationConstraint cc = null;
 
-				if (str_expr.contains("IMPLIES")) {
-					String[] args = str_expr.split(" IMPLIES ");
-					String str_qc = args[0];
-					String str_slo = args[1];
+					if (str_expr.contains("IMPLIES")) {
+						String[] args = str_expr.split(" IMPLIES ");
+						String str_qc = args[0];
+						String str_slo = args[1];
 
-					Expression qc_cond = Expression.parse(str_qc);
-					QualifyingCondition qc = new QualifyingCondition(qc_cond);
+						Expression qc_cond = Expression.parse(str_qc);
+						QualifyingCondition qc = new QualifyingCondition(
+								qc_cond);
 
-					Expression slo_expr = Expression.parse(str_slo);
-					SLO slo = new SLO(slo_expr);
-					cc = new CreationConstraint(id, slo);
-					cc.setQc(qc);
+						Expression slo_expr = Expression.parse(str_slo);
+						SLO slo = new SLO(slo_expr);
+						cc = new CreationConstraint(id, slo);
+						cc.setQc(qc);
 
-				} else {
-					Expression slo_expr = Expression.parse(str_expr);
-					SLO slo = new SLO(slo_expr);
-					cc = new CreationConstraint(id, slo);
+					} else {
+						Expression slo_expr = Expression.parse(str_expr);
+						SLO slo = new SLO(slo_expr);
+						cc = new CreationConstraint(id, slo);
+					}
+
+					if (cc != null) {
+						((AgreementTemplate) model).getCreationConstraints()
+								.add(cc);
+					}
 				}
-
-				if (cc != null)
-					((AgreementTemplate) model).getCreationConstraints()
-							.add(cc);
 			}
 		}
 

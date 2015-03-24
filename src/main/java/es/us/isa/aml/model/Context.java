@@ -23,7 +23,7 @@ public class Context {
      *
      */
     public Context() {
-        metrics = new HashMap<String, Metric>();
+        metrics = new HashMap<>();
     }
 
     public String getInitiator() {

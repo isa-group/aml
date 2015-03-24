@@ -17,7 +17,7 @@ public class Enumerated extends Domain {
     public Enumerated() {
         this.values = new ArrayList<>();
     }
-    
+
     public Enumerated(List<Object> values) {
         this.values = values;
     }

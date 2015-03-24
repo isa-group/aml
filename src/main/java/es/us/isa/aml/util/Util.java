@@ -164,4 +164,7 @@ public class Util {
         }
         return sb.toString();
     }
+
+    private Util() {
+    }
 }

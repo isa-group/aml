@@ -161,7 +161,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		this.visitAgreementTerms(ctx.agreementTerms());
 
-		this.visitCreationConstraints(ctx.creationConstraints());
+		if(ctx.creationConstraints() != null)
+			this.visitCreationConstraints(ctx.creationConstraints());
 
 		return null;
 	}

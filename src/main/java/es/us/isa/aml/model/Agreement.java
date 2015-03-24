@@ -10,17 +10,16 @@ import es.us.isa.aml.util.DocType;
  */
 public class Agreement extends AgreementOffer {
 
-    
     //todo: por ahora es una copia de la oferta. En el futuro se modelará de otra forma.
     public Agreement() {
         super();
         this.docType = DocType.AGREEMENT;
     }
+
     public Agreement(AgreementModel model) {
         super(model);
         this.docType = DocType.AGREEMENT;
     }
-    
 
     @Override
     public void loadFromFile(String path) {

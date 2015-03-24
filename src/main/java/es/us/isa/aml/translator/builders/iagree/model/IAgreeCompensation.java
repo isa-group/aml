@@ -12,12 +12,11 @@ import es.us.isa.aml.model.CompensationElement;
  */
 public class IAgreeCompensation extends Compensation {
 
-    
-	public IAgreeCompensation(Compensation c) {
-		super(c.getAssessmentInterval(), c.getCompensationType(), c.getElements());
-	}
+    public IAgreeCompensation(Compensation c) {
+        super(c.getAssessmentInterval(), c.getCompensationType(), c.getElements());
+    }
 
-	@Override
+    @Override
     public String toString() {
 
         StringBuilder sb = new StringBuilder();

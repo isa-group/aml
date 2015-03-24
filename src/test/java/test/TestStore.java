@@ -37,17 +37,6 @@ public class TestStore {
         Assert.assertNotNull(template2);
     }
 
-//    @Test
-//    public void testCreation3() {
-//        AgreementManager m = new AgreementManager();
-//        Store s = m.getStoreManager();
-//
-//        //MODO_3
-//        String path3 = "src/test/resources/samples/iagree-core.at";
-//        AgreementTemplate template3 = new AgreementTemplate();
-//        template3.loadFromFile(path3);
-//        Assert.assertNotNull(template3);
-//    }
     @Test
     public void testRegistration1() {
         AgreementManager m = new AgreementManager();
@@ -130,7 +119,6 @@ public class TestStore {
         Assert.assertNotNull(template);
         Assert.assertNotNull(offer);
 
-        //System.err.println(offer.getAgreementTerms());
     }
 
 }

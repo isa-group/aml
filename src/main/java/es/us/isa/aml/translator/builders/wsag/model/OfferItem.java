@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.translator.builders.wsag.model;
 
@@ -9,16 +9,17 @@ package es.us.isa.aml.translator.builders.wsag.model;
  */
 public class OfferItem extends Variable {
 
-	@Override
-	public String toString() {
+    @Override
+    public String toString() {
 
-		if (getLocation() == null)
-			return "<OfferItem name=\"" + getName() + "\" iag:Metric=\""
-					+ getMetric().toString() + "\">" + "</OfferItem>" + "\n";
-		else
-			return "<OfferItem name=\"" + getName() + "\" iag:Metric=\""
-					+ getMetric().toString() + "\">" + getLocation()
-					+ "</OfferItem>" + "\n";
-	}
+        if (getLocation() == null) {
+            return "<OfferItem name=\"" + getName() + "\" iag:Metric=\""
+                    + getMetric().toString() + "\">" + "</OfferItem>" + "\n";
+        } else {
+            return "<OfferItem name=\"" + getName() + "\" iag:Metric=\""
+                    + getMetric().toString() + "\">" + getLocation()
+                    + "</OfferItem>" + "\n";
+        }
+    }
 
 }

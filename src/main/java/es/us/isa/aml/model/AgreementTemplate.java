@@ -12,10 +12,10 @@ import java.util.List;
  */
 public class AgreementTemplate extends AgreementModel {
 
-    protected List<CreationConstraint> creationConstraints = new ArrayList<CreationConstraint>();
+    protected List<CreationConstraint> creationConstraints = new ArrayList<>();
 
     public AgreementTemplate() {
-    	this.docType = DocType.TEMPLATE;
+        this.docType = DocType.TEMPLATE;
     }
 
     public AgreementTemplate(AgreementModel agreementModel) {
@@ -52,7 +52,7 @@ public class AgreementTemplate extends AgreementModel {
         //todo: por ahora es una copia de la template
         Agreement ag = new Agreement(this);
         ag.getContext().setConsumer(consumerName);
-        ag.setID(this.id+"_"+consumerName);
+        ag.setID(this.id + "_" + consumerName);
         return ag;
     }
 

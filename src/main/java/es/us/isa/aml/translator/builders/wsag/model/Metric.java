@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package es.us.isa.aml.translator.builders.wsag.model;
 
@@ -11,32 +11,32 @@ import es.us.isa.aml.model.Range;
  *
  */
 public class Metric {
-	
-	private String id;
-	private String type;
+
+    private String id;
+    private String type;
     private Domain domain;
 
     public Metric(String id) {
-    	this.id = id;
+        this.id = id;
         type = "int";
         domain = new Range(0, 100);
     }
 
     public Metric(String id, String type, Domain domain) {
-    	this.id = id;
+        this.id = id;
         this.type = type;
         this.domain = domain;
     }
 
     public String getId() {
-		return id;
-	}
+        return id;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public String getType() {
+    public String getType() {
         return this.type;
     }
 
