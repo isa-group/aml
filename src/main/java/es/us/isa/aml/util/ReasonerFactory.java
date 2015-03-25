@@ -1,9 +1,9 @@
 package es.us.isa.aml.util;
 
-import es.us.isa.aml.operations.reasoners.CSPWebReasoner;
-import es.us.isa.aml.operations.reasoners.ChocoReasoner;
-import es.us.isa.aml.operations.reasoners.CplexReasoner;
-import es.us.isa.aml.operations.reasoners.Reasoner;
+import es.us.isa.aml.reasoners.CSPWebReasoner;
+import es.us.isa.aml.reasoners.ChocoReasoner;
+import es.us.isa.aml.reasoners.CplexReasoner;
+import es.us.isa.aml.reasoners.Reasoner;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
