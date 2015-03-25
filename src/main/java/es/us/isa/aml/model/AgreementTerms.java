@@ -3,6 +3,8 @@ package es.us.isa.aml.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.rits.cloning.Cloner;
+
 /**
  * @author jdelafuente
  *
@@ -59,6 +61,7 @@ public class AgreementTerms {
     }
 
     public void setGuaranteeTerms(List<GuaranteeTerm> gts) {
-        this.gts = gts;
+    	Cloner cloner = new Cloner();
+    	this.gts = cloner.deepClone(gts);
     }
 }

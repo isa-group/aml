@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class Context {
 
+	private String templateId;
+	private Float templateVersion;
     private String initiator;
     private Responder responder;
     private String provider;
@@ -24,6 +26,34 @@ public class Context {
      */
     public Context() {
         metrics = new HashMap<>();
+    }
+    
+    /**
+     * @return the templateId
+     */
+    public String getTemplateId() {
+        return this.templateId;
+    }
+
+    /**
+     * @param templateId the templateId to set
+     */
+    public void setTemplateId(String templateId) {
+        this.templateId = templateId;
+    }
+
+    /**
+     * @return the templateVersion
+     */
+    public Float getTemplateVersion() {
+        return this.templateVersion;
+    }
+
+    /**
+     * @param templateVersion the templateVersion to set
+     */
+    public void setTemplateVersion(Float templateVersion) {
+        this.templateVersion = templateVersion;
     }
 
     public String getInitiator() {

@@ -81,6 +81,8 @@ public class IAgreeBuilder implements IBuilder {
 			IAgreeResponder responder = new IAgreeResponder(ctx.getResponder());
 			context.setResponder(responder);
 		}
+		context.setTemplateId(ctx.getTemplateId());
+		context.setTemplateVersion(ctx.getTemplateVersion());
 		context.setInitiator(ctx.getInitiator());
 		context.setProvider(ctx.getProvider());
 		context.setConsumer(ctx.getConsumer());
