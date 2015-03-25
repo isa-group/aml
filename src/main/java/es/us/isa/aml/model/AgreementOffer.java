@@ -1,5 +1,7 @@
 package es.us.isa.aml.model;
 
+import com.rits.cloning.Cloner;
+
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.DocType;
@@ -10,46 +12,8 @@ import es.us.isa.aml.util.DocType;
  */
 public class AgreementOffer extends AgreementModel {
 
-    protected String templateId;
-    protected Float templateVersion;
-
     public AgreementOffer() {
         this.docType = DocType.OFFER;
-    }
-
-    public AgreementOffer(String templateId, Float templateVersion) {
-        this.docType = DocType.OFFER;
-        this.templateId = templateId;
-        this.templateVersion = templateVersion;
-
-    }
-
-    /**
-     * @return the templateId
-     */
-    public String getTemplateId() {
-        return this.templateId;
-    }
-
-    /**
-     * @param templateId the templateId to set
-     */
-    public void setTemplateId(String templateId) {
-        this.templateId = templateId;
-    }
-
-    /**
-     * @return the templateVersion
-     */
-    public Float getTemplateVersion() {
-        return this.templateVersion;
-    }
-
-    /**
-     * @param templateVersion the templateVersion to set
-     */
-    public void setTemplateVersion(Float templateVersion) {
-        this.templateVersion = templateVersion;
     }
 
     public void loadFromFile(String path) {
@@ -63,8 +27,6 @@ public class AgreementOffer extends AgreementModel {
         this.agreementManager = newT.agreementManager;
         this.agreementTerms = newT.agreementTerms;
         this.context = newT.context;
-        this.templateId = newT.templateId;
-        this.templateVersion = newT.templateVersion;
         this.docType = newT.docType;
         this.id = newT.id;
         this.version = newT.version;
@@ -72,16 +34,18 @@ public class AgreementOffer extends AgreementModel {
 
     public Agreement generateAgreement(String consumerName) {
         //todo: por ahora es una copia de la offer
+    	
+    	Cloner cloner = new Cloner();
+    	
         Agreement ag = new Agreement();
         ag.setDocType(DocType.AGREEMENT);
         ag.setID(this.id + "_" + consumerName);
         ag.setVersion(version);
-        ag.setContext(context);
+        Context ctx = cloner.deepClone(context);
+        ag.setContext(ctx);
         ag.getContext().setConsumer(consumerName);
-        ag.setAgreementTerms(agreementTerms);
-        ag.setAgreementManager(agreementManager);
-        ag.templateId = id;
-        ag.templateVersion = new Float(version);
+        AgreementTerms at = cloner.deepClone(agreementTerms);
+        ag.setAgreementTerms(at);
         return ag;
     }
 }

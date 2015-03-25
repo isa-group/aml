@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
@@ -26,6 +27,8 @@ import es.us.isa.aml.util.Util;
  */
 public class Store {
 
+	private static final Logger LOG = Logger.getLogger(Store.class.getName());
+	
     private static Store instance = null;
 
     public static Store getInstance() {
@@ -52,19 +55,22 @@ public class Store {
     
     public Agreement createAgreement(String content, AgreementLanguage lang, AgreementManager manager) {
         Agreement agreement = (Agreement) parseAgreementFile(content, lang);
-        agreement.setAgreementManager(manager);
+        if(agreement != null)
+        	agreement.setAgreementManager(manager);
         return agreement;
     }
     
     public AgreementOffer createAgreementOffer(String content, AgreementLanguage lang, AgreementManager manager) {
         AgreementOffer offer = (AgreementOffer) parseAgreementFile(content, lang);
-        offer.setAgreementManager(manager);
+        if(offer != null)
+        	offer.setAgreementManager(manager);
         return offer;
     }
 
     public AgreementTemplate createAgreementTemplate(String content, AgreementLanguage lang, AgreementManager manager) {
         AgreementTemplate template = (AgreementTemplate) parseAgreementFile(content, lang);
-        template.setAgreementManager(manager);
+        if(template != null)
+        	template.setAgreementManager(manager);
         return template;
     }
 
@@ -119,7 +125,8 @@ public class Store {
 
     public AgreementModel parseAgreementFile(String content, AgreementLanguage lang) {
         AgreementParser parser = ParserFactory.createParser(lang);
-        return parser.doParse(content);
+        AgreementModel model = parser.doParse(content);
+        return model;
     }
 
     //other methods

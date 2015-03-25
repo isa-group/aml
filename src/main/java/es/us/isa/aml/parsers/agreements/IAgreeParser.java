@@ -12,6 +12,7 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeLexer;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
 import es.us.isa.aml.util.AgreementLanguage;
+
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
@@ -45,6 +46,10 @@ public class IAgreeParser implements AgreementParser {
         // Walk it and attach our listener
         MiAgreeVisitor visitor = new MiAgreeVisitor(parser);
         model = visitor.visitEntry(context);
+        
+        if(errorListener.getErrors().size() > 0){
+        	throw new IllegalArgumentException("There was an error parsing the file. Please, check the syntax of the document.");
+		}
 
         return model;
     }

@@ -28,8 +28,6 @@ public class Agreement extends AgreementOffer {
         this.agreementManager = newT.agreementManager;
         this.agreementTerms = newT.agreementTerms;
         this.context = newT.context;
-        this.templateId = newT.templateId;
-        this.templateVersion = newT.templateVersion;
         this.docType = newT.docType;
         this.id = newT.id;
         this.version = newT.version;

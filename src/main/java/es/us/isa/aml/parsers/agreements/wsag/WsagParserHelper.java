@@ -3,6 +3,7 @@
  */
 package es.us.isa.aml.parsers.agreements.wsag;
 
+import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
@@ -53,6 +54,7 @@ public class WsagParserHelper {
 	public void createModel() {
 		Node template = doc.getElementsByTagName("wsag:Template").item(0);
 		Node offer = doc.getElementsByTagName("wsag:AgreementOffer").item(0);
+		Node agreement = doc.getElementsByTagName("wsag:Agreement").item(0);
 		Double version = null;
 
 		if (template != null) {
@@ -60,11 +62,17 @@ public class WsagParserHelper {
 			Element temp = (Element) template;
 			version = Double.valueOf(temp.getAttribute("wsag:TemplateId"));
 			model.setVersion(version);
-		} else {
+		} else if(offer != null) {
 			model = new AgreementOffer();
 			Element agoffer = (Element) offer;
 			version = Double.valueOf(agoffer
 					.getAttribute("wsag:AgreementOfferId"));
+			model.setVersion(version);
+		} else if(agreement != null){
+			model = new Agreement();
+			Element ag = (Element) agreement;
+			version = Double.valueOf(ag
+					.getAttribute("wsag:AgreementId"));
 			model.setVersion(version);
 		}
 
@@ -82,6 +90,18 @@ public class WsagParserHelper {
 
 	public void setContext() {
 		Context context = new Context();
+		
+		Node temp_id = doc.getElementsByTagName("wsag:TemplateId").item(0);
+		if(temp_id != null && temp_id instanceof Element){
+			Element templateId = (Element) temp_id;
+			context.setTemplateVersion(Float.valueOf(templateId.getTextContent()));
+		}
+		
+		Node temp_name = doc.getElementsByTagName("wsag:TemplateName").item(0);
+		if(temp_name != null && temp_name instanceof Element){
+			Element tempName = (Element) temp_name;
+			context.setTemplateId(tempName.getTextContent());
+		}
 
 		Node responder = doc.getElementsByTagName("wsag:AgreementResponder")
 				.item(0);

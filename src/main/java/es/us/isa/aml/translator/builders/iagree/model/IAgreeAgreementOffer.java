@@ -11,18 +11,28 @@ import es.us.isa.aml.model.AgreementOffer;
  */
 public class IAgreeAgreementOffer extends AgreementOffer {
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Offer ").append(this.getID()).append(" version ").append(this.getVersion()).append("\n");
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
 
-        sb.append(getContext()).append("\n");
+		if (getContext().getTemplateId() != null
+				&& getContext().getTemplateVersion() != null) {
+			sb.append("AgreementOffer ").append(this.getID())
+					.append(" version ").append(this.getVersion())
+					.append(" for Template ")
+					.append(getContext().getTemplateId()).append(" version ")
+					.append(getContext().getTemplateVersion()).append("\n");
+		} else
+			sb.append("AgreementOffer ").append(this.getID())
+					.append(" version ").append(this.getVersion()).append("\n");
 
-        sb.append(getAgreementTerms());
+		sb.append(getContext()).append("\n");
 
-        sb.append("\n" + "EndAgreementOffer");
+		sb.append(getAgreementTerms());
 
-        return sb.toString();
-    }
+		sb.append("\n" + "EndAgreementOffer");
+
+		return sb.toString();
+	}
 
 }

@@ -34,7 +34,7 @@ public class Config {
         return instance;
     }
 
-    public static String getProperty(String prop) {
+    public static String getProperty(String prop) {    	
         if (instance.propertiesyMap.containsKey(prop)) {
             return instance.propertiesyMap.get(prop);
         }

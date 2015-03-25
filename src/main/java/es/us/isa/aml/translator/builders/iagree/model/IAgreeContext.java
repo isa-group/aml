@@ -3,10 +3,11 @@
  */
 package es.us.isa.aml.translator.builders.iagree.model;
 
+import java.util.Collection;
+
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.util.Util;
-import java.util.Collection;
 
 /**
  * @author jdelafuente
@@ -17,7 +18,7 @@ public class IAgreeContext extends Context {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-
+        
         if (getInitiator() != null) {
             sb.append("\t").append("Initiator: " + "\"").append(this.getInitiator()).append("\";" + "\n");
         }
@@ -27,7 +28,7 @@ public class IAgreeContext extends Context {
         }
 
         if (getProvider() != null) {
-            StringBuilder append = sb.append("\t").append("Provider " + "\"").append(Util.withoutDoubleQuotes(getProvider())).append("\"")
+            sb.append("\t").append("Provider " + "\"").append(Util.withoutDoubleQuotes(getProvider())).append("\"")
                     .append(";" + "\n");
         }
 

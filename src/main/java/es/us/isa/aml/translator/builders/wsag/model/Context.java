@@ -164,6 +164,12 @@ public class Context {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("\t" + "<wsag:Context>").append("\n");
+        
+        if (getTemplateName() != null && getTemplateId() != null) {
+            sb.append("\t\t" + "<wsag:TemplateId>").append(getTemplateId()).append("</wsag:TemplateId>").append("\n");
+            sb.append("\t\t" + "<wsag:TemplateName>").append(getTemplateName()).append("</wsag:TemplateName>").append("\n");
+        }
+        
         if (getAgreementInitiator() != null) {
             sb.append("\t\t" + "<wsag:AgreementInitiator>").append(getAgreementInitiator().toString()).append("</wsag:AgreementInitiator>").append("\n");
         }

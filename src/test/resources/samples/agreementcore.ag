@@ -1,0 +1,41 @@
+Agreement TranslationService version 1.1
+	Created from "template" availableAt "http://www.";
+	Created on 24/03/2015 12:17:33;
+	//Añadir sintaxis de monitorización que proporcionara Pablo
+	Provider "ident" as Responder;
+	Metrics:
+		percent: float [0..100];
+		time: integer [0..100];
+		translations: set {ES_to_EN-UK, ES_to_EN-US, ES_to_FR, EN-UK_to_ES, EN-US_to_ES, FR_to_ES, Auto};
+		int: integer [0..500];
+		
+AgreementTerms
+	Service TranslationService availableAt "www.translator.com/translator.wsdl"
+		GlobalDescription 
+			TranslationLangs: translations;
+			InputFileSize: int;
+			ImageTranslation: boolean;
+			Cost: int;
+
+	MonitorableProperties
+		global:
+			TranslationTime: time;
+			InputErrors: percent;
+			OutputErrors: percent;
+				
+	GuaranteeTerms
+		G1: Provider guarantees TranslationTime <= 1;
+			onlyIf (ImageTranslation=false);
+			
+		G2: Provider guarantees TranslationTime <= 2;
+			onlyIf (ImageTranslation=true);
+		
+		G4: Provider guarantees TranslationTime <= 1;  
+			onlyIf (InputErrors > 1);
+		
+		G6: Consumer guarantees InputFileSize >= 30;
+			onlyIf (TranslationLangs = "ES_to_EN-UK");
+	
+		G7: Consumer guarantees InputFileSize < 30;
+		
+EndAgreement

@@ -97,13 +97,12 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				model.setDocType(DocType.TEMPLATE);
 				model.setContext(context);
 				this.visitTemplate(ctx.template());
-
 			} else if (ctx.agOffer() != null) {
 				this.model = new AgreementOffer();
 				model.setDocType(DocType.OFFER);
 				model.setContext(context);
 				this.visitAgOffer(ctx.agOffer());
-			} else if(ctx.agreement() != null){
+			} else if (ctx.agreement() != null) {
 				this.model = new Agreement();
 				model.setDocType(DocType.AGREEMENT);
 				model.setContext(context);
@@ -111,6 +110,9 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			}
 		} catch (Exception e) {
 			this.model = null;
+			throw new IllegalArgumentException(
+					"There was an error parsing the file. "
+							+ "Please, check the syntax of the document.");
 		}
 
 		return this.model;
@@ -133,15 +135,15 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		this.model.setID(ctx.id.getText());
 		this.model.setVersion(Double.valueOf(ctx.version.getText()));
 
-		((AgreementOffer) this.model).setTemplateId(ctx.templateId.getText());
-		((AgreementOffer) this.model).setTemplateVersion(new Float(
+		this.model.getContext().setTemplateId(ctx.templateId.getText());
+		this.model.getContext().setTemplateVersion(new Float(
 				ctx.templateVersion.getText()));
 
 		this.visitAg_def(ctx.ag_def());
 
 		return null;
 	}
-	
+
 	@Override
 	public Object visitAgreement(AgreementContext ctx) {
 		this.model.setID(ctx.id.getText());
@@ -161,7 +163,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		this.visitAgreementTerms(ctx.agreementTerms());
 
-		if(ctx.creationConstraints() != null)
+		if (ctx.creationConstraints() != null)
 			this.visitCreationConstraints(ctx.creationConstraints());
 
 		return null;
@@ -262,7 +264,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	public Object visitFeature(FeatureContext ctx) {
 		for (Feature_operationContext _ctx : ctx.feature_operation()) {
 			Feature feature = visitFeature_operation(_ctx);
-			model.getAgreementTerms().getService().getFeatures().put(feature.getId(), feature);
+			model.getAgreementTerms().getService().getFeatures()
+					.put(feature.getId(), feature);
 		}
 		return null;
 	}
@@ -284,7 +287,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	@Override
 	public Object visitTemp_properties(iAgreeParser.Temp_propertiesContext ctx) {
 
-		if(ctx.context_prop() != null){
+		if (ctx.context_prop() != null) {
 			visitContext_prop(ctx.context_prop());
 		} else if (ctx.initiator_prop() != null) {
 			visitInitiator_prop(ctx.initiator_prop());
@@ -325,10 +328,13 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		return null;
 	}
-	
+
 	@Override
 	public Object visitContext_prop(Context_propContext ctx) {
-		((Agreement) this.model).setTemplateId(ctx.id.getText());		
+		if(ctx.FROM() != null)
+			this.model.getContext().setTemplateId(ctx.id.getText());
+		//if(ctx.ON() != null)
+			// TODO Agregar propiedad 'fecha de creación' al agreement
 		return null;
 	}
 

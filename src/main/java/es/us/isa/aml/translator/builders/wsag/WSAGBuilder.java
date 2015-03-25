@@ -63,6 +63,12 @@ public class WSAGBuilder implements IBuilder {
 	public Object addContext(Context context) {
 		wsagDoc.getContext().setAgreementInitiator(context.getInitiator());
 		wsagDoc.getContext().setAgreementResponder(context.getResponder());
+		if (context.getTemplateId() != null
+				&& context.getTemplateVersion() != null) {
+			wsagDoc.getContext().setTemplateId(
+					context.getTemplateVersion().toString());
+			wsagDoc.getContext().setTemplateName(context.getTemplateId());
+		}
 		return null;
 	}
 
