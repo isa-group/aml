@@ -21,4 +21,11 @@ public class SLO {
     public void setExpression(Expression expression) {
         this.expression = expression;
     }
+    
+    @Override
+    public SLO clone() {
+    	Expression e = Expression.parse(expression.toString());
+    	SLO slo = new SLO(e);
+    	return slo;
+    }
 }

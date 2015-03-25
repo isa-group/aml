@@ -4,6 +4,7 @@
 package es.us.isa.aml.model;
 
 import es.us.isa.aml.model.expression.Expression;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -113,5 +114,16 @@ public class Property extends AgreementElement {
         }
 
         return null;
+    }
+    
+    @Override
+    public Property clone() {
+    	Property p = new Property(id, metric.clone());
+    	if(expr != null)
+    		p.setExpression(Expression.parse(expr.toString()));
+    	if(feature != null)
+    		p.setFeature(feature.clone());
+    	p.setScope(scope);
+    	return p;
     }
 }

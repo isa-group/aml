@@ -36,4 +36,12 @@ public class Metric extends AgreementElement {
     public void setDomain(Domain domain) {
         this.domain = domain;
     }
+    
+    @Override
+    public Metric clone() {
+    	Metric m = new Metric(id);
+    	m.setType(type);
+    	m.setDomain(domain);
+    	return m;
+    }
 }

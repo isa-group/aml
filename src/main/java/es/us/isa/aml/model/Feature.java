@@ -58,5 +58,13 @@ public class Feature {
     public void setParameters(List<String> parameters) {
         this.parameters = parameters;
     }
+    
+    @Override
+    public Feature clone() {
+    	Feature f = new Feature(id);
+    	for(String param : parameters)
+    		f.getParameters().add(param);
+    	return f;
+    }
 
 }

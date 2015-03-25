@@ -103,5 +103,21 @@ public class Context {
     public void setMetrics(Map<String, Metric> metrics) {
         this.metrics = metrics;
     }
+    
+    @Override
+    public Context clone() {
+    	Context ctx = new Context();
+    	ctx.setInitiator(initiator);
+    	ctx.setProvider(provider);
+    	ctx.setConsumer(consumer);
+    	ctx.setServiceProvider(serviceProvider);
+    	ctx.setTemplateId(templateId);
+    	ctx.setTemplateVersion(templateVersion);
+    	for(Metric metric : metrics.values()){
+    		Metric m = metric.clone();
+    		ctx.getMetrics().put(m.getId(), m);
+    	}
+    	return ctx;
+    }
 
 }

@@ -19,5 +19,15 @@ public class MonitorableProperty extends Property {
             Scope scope, Feature feature) {
         super(id, metric, expression, scope, feature);
     }
+    
+    @Override
+    public MonitorableProperty clone() {
+    	MonitorableProperty mp = new MonitorableProperty(getId(), getMetric().clone());
+    	mp.setExpression(getExpression());
+    	if(getFeature() != null)
+    		mp.setFeature(getFeature().clone());
+    	mp.setScope(getScope());
+    	return mp;
+    }
 
 }

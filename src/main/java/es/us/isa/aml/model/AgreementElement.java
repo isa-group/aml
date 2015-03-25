@@ -42,4 +42,9 @@ public class AgreementElement {
         hash = 29 * hash + Objects.hashCode(this.id);
         return hash;
     }
+    
+    @Override
+	public AgreementElement clone() {
+    	return new AgreementElement(id);
+    }
 }

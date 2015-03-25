@@ -1,13 +1,11 @@
 package es.us.isa.aml.model;
 
-import es.us.isa.aml.util.AgreementLanguage;
-import es.us.isa.aml.util.Config;
-import es.us.isa.aml.util.DocType;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rits.cloning.Cloner;
+import es.us.isa.aml.util.AgreementLanguage;
+import es.us.isa.aml.util.Config;
+import es.us.isa.aml.util.DocType;
 
 /**
  * @author jdelafuente
@@ -48,18 +46,14 @@ public class AgreementTemplate extends AgreementModel {
 
     public AgreementOffer generateAgreementOffer(String consumerName) {
         //todo: por ahora es una copia de la template
-    	
-    	Cloner cloner = new Cloner();
-    	
+    	    	
         AgreementOffer ao = new AgreementOffer();        
         ao.setDocType(DocType.OFFER);
         ao.setID(this.id + "_" + consumerName);
         ao.setVersion(version);
-        Context ctx = cloner.deepClone(context);
-        ao.setContext(ctx);
+        ao.setContext(context.clone());
         ao.getContext().setConsumer(consumerName);
-        AgreementTerms at = cloner.deepClone(agreementTerms);
-        ao.setAgreementTerms(at);
+        ao.setAgreementTerms(agreementTerms.clone());
         ao.setAgreementManager(agreementManager);
         return ao;
     }

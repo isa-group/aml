@@ -70,4 +70,19 @@ public class ServiceConfiguration {
     public void setConfigurationProperties(List<ConfigurationProperty> cps) {
         this.cps = cps;
     }
+    
+    @Override
+    public ServiceConfiguration clone(){
+    	ServiceConfiguration sc = new ServiceConfiguration();
+    	sc.setServiceName(serviceName);
+    	sc.setServiceReference(serviceReference);
+    	for(Feature feature : features.values()){
+    		Feature f = feature.clone();
+    		sc.getFeatures().put(f.getId(), f);
+    	}
+    	for(ConfigurationProperty cp : getConfigurationProperties())
+    		sc.getConfigurationProperties().add(cp.clone());
+    	
+    	return sc;
+    }
 }

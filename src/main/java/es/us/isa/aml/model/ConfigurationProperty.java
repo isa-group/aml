@@ -19,5 +19,14 @@ public class ConfigurationProperty extends Property {
             Expression expression, Scope scope, Feature feature) {
         super(id, metric, expression, scope, feature);
     }
-
+    
+    @Override
+    public ConfigurationProperty clone() {
+    	ConfigurationProperty cp = new ConfigurationProperty(getId(), getMetric().clone());
+    	cp.setExpression(getExpression());
+    	if(getFeature() != null)
+    		cp.setFeature(getFeature().clone());
+    	cp.setScope(getScope());
+    	return cp;
+    }
 }

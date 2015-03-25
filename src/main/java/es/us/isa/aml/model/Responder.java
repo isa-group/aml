@@ -49,5 +49,13 @@ public class Responder {
     public void setRoleType(ServiceRole roleType) {
         this.roleType = roleType;
     }
+    
+    @Override
+    public Responder clone() {
+    	Responder r = new Responder();
+    	r.setId(id);
+    	r.setRoleType(roleType);
+    	return r;
+    }
 
 }

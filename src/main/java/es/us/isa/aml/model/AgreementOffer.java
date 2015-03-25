@@ -1,7 +1,5 @@
 package es.us.isa.aml.model;
 
-import com.rits.cloning.Cloner;
-
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.DocType;
@@ -35,17 +33,13 @@ public class AgreementOffer extends AgreementModel {
     public Agreement generateAgreement(String consumerName) {
         //todo: por ahora es una copia de la offer
     	
-    	Cloner cloner = new Cloner();
-    	
         Agreement ag = new Agreement();
         ag.setDocType(DocType.AGREEMENT);
         ag.setID(this.id + "_" + consumerName);
         ag.setVersion(version);
-        Context ctx = cloner.deepClone(context);
-        ag.setContext(ctx);
+        ag.setContext(context.clone());
         ag.getContext().setConsumer(consumerName);
-        AgreementTerms at = cloner.deepClone(agreementTerms);
-        ag.setAgreementTerms(at);
+        ag.setAgreementTerms(agreementTerms.clone());
         return ag;
     }
 }

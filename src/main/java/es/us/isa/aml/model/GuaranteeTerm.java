@@ -81,4 +81,15 @@ public class GuaranteeTerm extends AgreementElement implements
     public int compareTo(GuaranteeTerm o) {
         return getId().compareTo(o.getId());
     }
+    
+    @Override
+    public GuaranteeTerm clone() {
+    	GuaranteeTerm gt = new GuaranteeTerm(id);
+    	gt.setServiceRole(actor);
+    	gt.setServiceScope(serviceScope);
+    	gt.setSlo(slo.clone());
+    	if(qc != null)
+    		gt.setQc(qc.clone());
+    	return gt;
+    }
 }
