@@ -7,7 +7,7 @@ import es.us.isa.aml.util.DocType;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rits.cloning.Cloner;
+import es.us.isa.aml.model.expression.Expression;
 
 /**
  * @author jdelafuente
@@ -48,19 +48,36 @@ public class AgreementTemplate extends AgreementModel {
 
     public AgreementOffer generateAgreementOffer(String consumerName) {
         //todo: por ahora es una copia de la template
-    	
-    	Cloner cloner = new Cloner();
-    	
-        AgreementOffer ao = new AgreementOffer();        
+        AgreementOffer ao = new AgreementOffer();
         ao.setDocType(DocType.OFFER);
         ao.setID(this.id + "_" + consumerName);
         ao.setVersion(version);
-        Context ctx = cloner.deepClone(context);
-        ao.setContext(ctx);
+        ao.setContext(new Context());
         ao.getContext().setConsumer(consumerName);
-        AgreementTerms at = cloner.deepClone(agreementTerms);
-        ao.setAgreementTerms(at);
+        ao.getContext().setInitiator(context.getInitiator());
+        ao.getContext().setMetrics(context.getMetrics());
+        ao.getContext().setProvider(context.getProvider());
+        ao.getContext().setResponder(context.getResponder());
+        ao.getContext().setServiceProvider(context.getServiceProvider());
+        ao.getContext().setTemplateId(context.getTemplateId());
+        ao.getContext().setTemplateVersion(context.getTemplateVersion());
+
         ao.setAgreementManager(agreementManager);
+
+        AgreementTerms at = new AgreementTerms();
+        at.setService(agreementTerms.getService());
+        at.setGuaranteeTerms(agreementTerms.getGuaranteeTerms());
+
+        for (int i = 0; i < agreementTerms.getMonitorableProperties().size(); i++) {
+            MonitorableProperty mt = agreementTerms.getMonitorableProperties().get(i);
+            MonitorableProperty mtCopy = new MonitorableProperty(mt.id, mt.getMetric(), mt.getExpression(), mt.getScope(), mt.getFeature());
+            if (mtCopy.getExpression() != null) {
+                Expression ex = Expression.parse(mtCopy.getExpression().toString());
+                mtCopy.setExpression(ex);
+            }
+            at.getMonitorableProperties().add(mtCopy);
+        }
+        ao.setAgreementTerms(at);
         return ao;
     }
 

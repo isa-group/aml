@@ -3,8 +3,6 @@ package es.us.isa.aml.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.rits.cloning.Cloner;
-
 /**
  * @author jdelafuente
  *
@@ -21,26 +19,26 @@ public class AgreementTerms {
         this.gts = new ArrayList<>();
     }
 
-	public AgreementTerms(ServiceConfiguration service,
-			List<MonitorableProperty> monitorableProperties,
-			List<GuaranteeTerm> guaranteeTerms) {
-		this.service = service; // ServiceReference
+    public AgreementTerms(ServiceConfiguration service,
+            List<MonitorableProperty> monitorableProperties,
+            List<GuaranteeTerm> guaranteeTerms) {
+        this.service = service; // ServiceReference
 		/*
-		 * 
-		 * ServiceConfiguration
-		 *  service name
-		 *  service reference
-		 *  features
-		 * 	N x Confuragion properties 
-		 * 
-		 * 
-		 */
-		// cps = configurationProperties
+         * 
+         * ServiceConfiguration
+         *  service name
+         *  service reference
+         *  features
+         * 	N x Confuragion properties 
+         * 
+         * 
+         */
+        // cps = configurationProperties
         this.mps = monitorableProperties;
         this.gts = guaranteeTerms;
-	}
+    }
 
-	public ServiceConfiguration getService() {
+    public ServiceConfiguration getService() {
         return this.service;
     }
 
@@ -61,7 +59,6 @@ public class AgreementTerms {
     }
 
     public void setGuaranteeTerms(List<GuaranteeTerm> gts) {
-    	Cloner cloner = new Cloner();
-    	this.gts = cloner.deepClone(gts);
+        this.gts = gts;
     }
 }
