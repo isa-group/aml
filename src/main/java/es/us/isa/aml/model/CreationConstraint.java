@@ -29,4 +29,12 @@ public class CreationConstraint extends AgreementElement {
     public void setQc(QualifyingCondition qc) {
         this.qc = qc;
     }
+    
+    @Override
+    public CreationConstraint clone() {
+    	CreationConstraint cc = new CreationConstraint(id, slo.clone());
+    	if(qc != null)
+    		cc.setQc(qc.clone());
+    	return cc;
+    }
 }

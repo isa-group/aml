@@ -5,7 +5,7 @@
  */
 package es.us.isa.aml.operations.core;
 
-import es.us.isa.aml.operations.reasoners.Reasoner;
+import es.us.isa.aml.reasoners.Reasoner;
 import es.us.isa.aml.util.OperationResponse;
 
 /**

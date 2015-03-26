@@ -1,5 +1,6 @@
 package es.us.isa.aml.translator.builders.opl.model;
 
+import es.us.isa.aml.translator.CSPModel;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import java.util.Set;
  * @author jdelafuente
  *
  */
-public class OPLModel {
+public class OPLModel extends CSPModel{
 
     private Set<OPLRange> ranges;
     private Set<OPLVar> variables;

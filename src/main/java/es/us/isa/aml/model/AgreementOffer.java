@@ -35,7 +35,7 @@ public class AgreementOffer extends AgreementModel {
     	
         Agreement ag = new Agreement();
         ag.setDocType(DocType.AGREEMENT);
-        ag.setID(this.id + "_" + consumerName);
+        ag.setID(this.id + "_ag");
         ag.setVersion(version);
         ag.setContext(context.clone());
         ag.getContext().setConsumer(consumerName);

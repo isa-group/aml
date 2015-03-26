@@ -1,7 +1,7 @@
 /**
  *
  */
-package es.us.isa.aml.operations.reasoners;
+package es.us.isa.aml.reasoners;
 
 import com.google.gson.Gson;
 

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.us.isa.aml.operations.reasoners;
+package es.us.isa.aml.reasoners;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.translator.Translator;
