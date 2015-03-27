@@ -27,8 +27,8 @@ import es.us.isa.aml.util.Util;
  */
 public class Store {
 
-	private static final Logger LOG = Logger.getLogger(Store.class.getName());
-	
+    private static final Logger LOG = Logger.getLogger(Store.class.getName());
+
     private static Store instance = null;
 
     public static Store getInstance() {
@@ -52,25 +52,27 @@ public class Store {
 
     //main methods
     //creation
-    
     public Agreement createAgreement(String content, AgreementLanguage lang, AgreementManager manager) {
         Agreement agreement = (Agreement) parseAgreementFile(content, lang);
-        if(agreement != null)
-        	agreement.setAgreementManager(manager);
+        if (agreement != null) {
+            agreement.setAgreementManager(manager);
+        }
         return agreement;
     }
-    
+
     public AgreementOffer createAgreementOffer(String content, AgreementLanguage lang, AgreementManager manager) {
         AgreementOffer offer = (AgreementOffer) parseAgreementFile(content, lang);
-        if(offer != null)
-        	offer.setAgreementManager(manager);
+        if (offer != null) {
+            offer.setAgreementManager(manager);
+        }
         return offer;
     }
 
     public AgreementTemplate createAgreementTemplate(String content, AgreementLanguage lang, AgreementManager manager) {
         AgreementTemplate template = (AgreementTemplate) parseAgreementFile(content, lang);
-        if(template != null)
-        	template.setAgreementManager(manager);
+        if (template != null) {
+            template.setAgreementManager(manager);
+        }
         return template;
     }
 
@@ -109,11 +111,27 @@ public class Store {
 
     // Retrieve
     public AgreementTemplate getAgreementTemplate(String name) {
-        return (AgreementTemplate) instance.agreementModelMap.get(name);
+        try {
+            return (AgreementTemplate) instance.agreementModelMap.get(name);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     public AgreementOffer getAgreementOffer(String name) {
-        return (AgreementOffer) instance.agreementModelMap.get(name);
+        try {
+            return (AgreementOffer) instance.agreementModelMap.get(name);
+        } catch (ClassCastException e) {
+            return null;
+        }
+    }
+
+    public Agreement getAgreement(String name) {
+        try {
+            return (Agreement) instance.agreementModelMap.get(name);
+        } catch (ClassCastException e) {
+            return null;
+        }
     }
 
     // Parsing
