@@ -38,6 +38,9 @@ public class TestLibLocal2 {
 				.createAgreementTemplateFromFile("src/test/resources/samples/deadterms.at");
 		model3 = serv
 				.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-dead.at");
+		
+		model3 = serv
+				.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-condIncs.at");
 
 		// Translator t = new Translator(new CSPBuilder());
 		// // CSPModel m = (CSPModel) t.translate(model1);
@@ -101,7 +104,7 @@ public class TestLibLocal2 {
 		assertFalse((Boolean) op.getResult().get("existCondInconsTerms"));
 
 		LOG.log(Level.INFO, "result:\n{0}", op.getResult().get("result"));
-		LOG.log(Level.INFO, "conflicts:\n{0}", op.getResult().get("conflicts"));
+		LOG.log(Level.INFO, "conflicts:\n{0}", op.getResult().get("conflicts_deadterms"));
 
 		LOG.info("\n----------------------- MODEL 3 -----------------------");
 
@@ -116,13 +119,13 @@ public class TestLibLocal2 {
 
 		LOG.log(Level.INFO, "existDeadTerms: {0}",
 				op.getResult().get("existDeadTerms"));
-		assertTrue((Boolean) op.getResult().get("existDeadTerms"));
+		assertFalse((Boolean) op.getResult().get("existDeadTerms"));
 
 		LOG.log(Level.INFO, "existCondInconsTerms: {0}",
 				op.getResult().get("existCondInconsTerms"));
-		assertFalse((Boolean) op.getResult().get("existCondInconsTerms"));
+		assertTrue((Boolean) op.getResult().get("existCondInconsTerms"));
 
 		LOG.log(Level.INFO, "result:\n{0}", op.getResult().get("result"));
-		LOG.log(Level.INFO, "conflicts:\n{0}", op.getResult().get("conflicts"));
+		LOG.log(Level.INFO, "conflicts:\n{0}", op.getResult().get("conflicts_condIncons"));
 	}
 }

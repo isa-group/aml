@@ -54,14 +54,14 @@ public class TestLibLocal {
 //        LOG.log(Level.INFO, "\n-----------------TEST_2-----------------");
 //        LOG.log(Level.INFO, "\n{0}", model2.isValidFullResponse().toString());
         assertFalse(model2.isValid());
-        assertTrue((Boolean) model2.isValidFullResponse().get("existInconsistencies"));
+        assertFalse((Boolean) model2.isValidFullResponse().get("existInconsistencies"));
         assertTrue((Boolean) model2.isValidFullResponse().get("existDeadTerms"));
-        assertTrue((Boolean) model2.isValidFullResponse().get("existCondInconsTerms"));
+        assertFalse((Boolean) model2.isValidFullResponse().get("existCondInconsTerms"));
 
 //        LOG.log(Level.INFO, "\n-----------------TEST_3-----------------");
 //        LOG.log(Level.INFO, "\n{0}", model3.isValidFullResponse().toString());
         assertFalse(model3.isValid());
-        assertTrue((Boolean) model3.isValidFullResponse().get("existInconsistencies"));
+        assertFalse((Boolean) model3.isValidFullResponse().get("existInconsistencies"));
         assertFalse((Boolean) model3.isValidFullResponse().get("existDeadTerms"));
         assertTrue((Boolean) model3.isValidFullResponse().get("existCondInconsTerms"));
     }

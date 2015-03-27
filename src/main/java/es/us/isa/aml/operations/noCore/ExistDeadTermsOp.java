@@ -55,7 +55,7 @@ public class ExistDeadTermsOp extends NoCoreOperation {
 
                 if (existInconsistencies) {
                 	result.put("result", existInconsistenciesOp.getResult().get("result"));
-                    result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
+                    result.put("conflicts_deadterms", existInconsistenciesOp.getResult().get("conflicts"));
                     result.put("existDeadTerms", true);
                     break;
                 } else {

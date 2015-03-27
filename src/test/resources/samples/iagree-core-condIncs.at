@@ -41,10 +41,10 @@ AgreementTerms
 	GuaranteeTerms
 		G1: Provider guarantees StorageSize >= 30;
 
-                G2: Provider guarantees StorageSize < 20;
-                    //onlyIf(Region != 5.0);
-                    //onlyIf(Region NOT 5.0);
-                    onlyIf(Region == 5.0);
+        G2: Provider guarantees StorageSize < 20;
+            //onlyIf(Region != 5.0);
+            //onlyIf(Region NOT 5.0);
+            onlyIf(Region == 5.0);
 		
 		G3: Provider guarantees MUP >= 99.9;
 			

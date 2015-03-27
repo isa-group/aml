@@ -41,8 +41,8 @@ AgreementTerms
 	GuaranteeTerms
 		G1: Provider guarantees (ReadRequests > WriteRequests) AND (TransferredGb < StorageSize * 100);
 
-                G2: Provider guarantees ResponseTime <= 0.1;
-                    onlyIf(WriteRequests > ReadRequests);
+        G2: Provider guarantees ResponseTime <= 0.1;
+            onlyIf(WriteRequests > ReadRequests);
 		
 		G3: Provider guarantees MUP >= 99.9;
 			

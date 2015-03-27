@@ -52,7 +52,7 @@ public class ValidOp extends NoCoreOperation {
 				existCondInconsTermsOp.analyze(model);
 				existCondInconsTerms = (Boolean) existCondInconsTermsOp
 						.getResult().get("existCondInconsTerms");
-				result.putAll(existCondInconsTermsOp.getResult());
+				result.putAll(existCondInconsTermsOp.getResult());				
 			}
 		}
 

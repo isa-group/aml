@@ -33,7 +33,7 @@ public class ExistInconsistenciesOp extends CoreOperation {
         result.put("existInconsistencies", !solve);
         
         OperationResponse res = reasoner.explain(model);
-        result.putAll(res);  
+        result.putAll(res);
         
         // ... negar todas las expresiones del CSPModel ...
         // foreach(i) { 
