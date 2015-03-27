@@ -63,19 +63,17 @@ public class IAgreeBuilder implements IBuilder {
 	}
 
 	@Override
-	public String addId(String id) {
+	public void setId(String id) {
 		model.setID(id);
-		return id;
 	}
 
 	@Override
-	public Double addVersion(Double version) {
+	public void setVersion(Double version) {
 		model.setVersion(version);
-		return version;
 	}
 
 	@Override
-	public Object addContext(Context ctx) {
+	public void setContext(Context ctx) {
 		IAgreeContext context = new IAgreeContext();
 		if (ctx.getResponder() != null) {
 			IAgreeResponder responder = new IAgreeResponder(ctx.getResponder());
@@ -87,36 +85,33 @@ public class IAgreeBuilder implements IBuilder {
 		context.setProvider(ctx.getProvider());
 		context.setConsumer(ctx.getConsumer());
 		model.setContext(context);
-
-		return context;
+		
+		for(Metric m : ctx.getMetrics().values())
+			setMetric(m);
 	}
 
 	@Override
-	public String addMetric(Metric m) {
+	public void setMetric(Metric m) {
 		if (!m.getId().equals("boolean")) {
 			IAgreeMetric metric = new IAgreeMetric(m);
 			model.getContext().getMetrics().put(metric.getId(), metric);
-			return metric.toString();
 		}
-		return null;
 	}
 
 	@Override
-	public String addAgreementTerms(AgreementTerms at) {
+	public void setAgreementTerms(AgreementTerms at) {
 		IAgreeAgreementTerms agTerms = new IAgreeAgreementTerms();
 		model.setAgreementTerms(agTerms);
 
-		addService(at.getService());
+		setService(at.getService());
 		for (MonitorableProperty mp : at.getMonitorableProperties())
-			addMonitorableProperty(mp);
+			setMonitorableProperty(mp);
 		for (GuaranteeTerm gt : at.getGuaranteeTerms())
-			addGuaranteeTerm(gt);
-
-		return agTerms.toString();
+			setGuaranteeTerm(gt);
 	}
 
 	@Override
-	public String addService(ServiceConfiguration s) {
+	public void setService(ServiceConfiguration s) {
 		IAgreeService service = new IAgreeService();
 		service.setServiceName(s.getServiceName());
 		service.setServiceReference(s.getServiceReference());
@@ -131,28 +126,24 @@ public class IAgreeBuilder implements IBuilder {
 		model.getAgreementTerms().setService(service);
 
 		for (ConfigurationProperty cp : s.getConfigurationProperties())
-			addConfigurationProperty(cp);
-
-		return service.toString();
+			setConfigurationProperty(cp);
 	}
 
 	@Override
-	public String addConfigurationProperty(Property cp) {
+	public void setConfigurationProperty(Property cp) {
 		IAgreeConfigurationProperty icp = new IAgreeConfigurationProperty(cp);
 		model.getAgreementTerms().getService().getConfigurationProperties()
 				.add(icp);
-		return icp.toString();
 	}
 
 	@Override
-	public String addMonitorableProperty(Property mp) {
+	public void setMonitorableProperty(Property mp) {
 		IAgreeMonitorableProperty imp = new IAgreeMonitorableProperty(mp);
 		model.getAgreementTerms().getMonitorableProperties().add(imp);
-		return null;
 	}
 
 	@Override
-	public String addGuaranteeTerm(GuaranteeTerm gt) {
+	public void setGuaranteeTerm(GuaranteeTerm gt) {
 		IAgreeGuaranteeTerm igt = new IAgreeGuaranteeTerm(gt.getId());
 		igt.setServiceRole(gt.getServiceRole());
 
@@ -171,11 +162,10 @@ public class IAgreeBuilder implements IBuilder {
 		}
 
 		model.getAgreementTerms().getGuaranteeTerms().add(igt);
-		return igt.toString();
 	}
 
 	@Override
-	public String addCreationConstraint(CreationConstraint cc) {
+	public void setCreationConstraint(CreationConstraint cc) {
 
 		IAgreeSLO slo = new IAgreeSLO(cc.getSlo().getExpression());
 		IAgreeCreationConstraint icc = new IAgreeCreationConstraint(cc.getId(),
@@ -185,8 +175,6 @@ public class IAgreeBuilder implements IBuilder {
 		}
 
 		((IAgreeAgreementTemplate) model).getCreationConstraints().add(icc);
-
-		return icc.toString();
 	}
 
 	@Override
@@ -194,6 +182,7 @@ public class IAgreeBuilder implements IBuilder {
 		return model.toString();
 	}
 
+	@Override
 	public AgreementModel getModel() {
 		return model;
 	}

@@ -5,6 +5,7 @@ import es.us.isa.aml.Store;
 import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.Var;
+import es.us.isa.aml.translator.AbstractModel;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.OperationResponse;
@@ -13,7 +14,7 @@ import es.us.isa.aml.util.OperationResponse;
  * @author jdelafuente
  *
  */
-public abstract class AgreementModel {
+public abstract class AgreementModel extends AbstractModel {
 
     protected String id;
     protected Double version;

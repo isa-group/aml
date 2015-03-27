@@ -17,26 +17,27 @@ public interface IBuilder {
 	
 	void setDocType(DocType type);
 
-	Object addId(String id);
+	void setId(String id);
 
-	Object addVersion(Double version);
+	void setVersion(Double version);
 
-	Object addContext(Context context);
+	void setContext(Context context);
 
-    Object addMetric(Metric metric);
+	void setMetric(Metric metric);
 
-    Object addAgreementTerms(AgreementTerms at);
+	void setAgreementTerms(AgreementTerms at);
 
-    Object addService(ServiceConfiguration service);
+	void setService(ServiceConfiguration service);
 
-    Object addConfigurationProperty(Property cp);
+	void setConfigurationProperty(Property cp);
 
-    Object addMonitorableProperty(Property mp);
+	void setMonitorableProperty(Property mp);
 
-    Object addGuaranteeTerm(GuaranteeTerm gt);
+	void setGuaranteeTerm(GuaranteeTerm gt);
 
-    Object addCreationConstraint(CreationConstraint cc);
+	void setCreationConstraint(CreationConstraint cc);
 
     String generate();
-
+    
+    AbstractModel getModel();
 }

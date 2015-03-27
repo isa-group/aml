@@ -5,7 +5,7 @@
  */
 package es.us.isa.aml.reasoners;
 
-import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.csp.CSPModel;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerType;
@@ -27,11 +27,9 @@ public abstract class Reasoner {
         return this.translator;
     }
 
-    public abstract void addProblem(AgreementModel model);
+    public abstract Boolean solve(CSPModel model);
 
-    public abstract OperationResponse solve();
-
-    public abstract OperationResponse explain();
+    public abstract OperationResponse explain(CSPModel model);
 
     public abstract OperationResponse implies();
 

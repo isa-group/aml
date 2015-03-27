@@ -1,4 +1,4 @@
-package es.us.isa.aml.translator.builders.opl;
+package es.us.isa.aml.translator.builders.csp;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,7 +27,7 @@ import es.us.isa.aml.util.DocType;
  * @author jdelafuente
  *
  */
-public class OPLBuilder implements IBuilder {
+public class CSPBuilder implements IBuilder {
 
 	private AgreementModel agModel;
     private CSPModel model;
@@ -36,7 +36,7 @@ public class OPLBuilder implements IBuilder {
     	return this.agModel;
     }
     
-	public OPLBuilder() {
+	public CSPBuilder() {
 		this.model = new CSPModel();
 	}
 	

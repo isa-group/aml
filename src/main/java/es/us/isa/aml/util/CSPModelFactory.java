@@ -1,6 +1,6 @@
 package es.us.isa.aml.util;
 
-import es.us.isa.aml.translator.CSPModel;
+import es.us.isa.aml.model.csp.CSPModel;
 import es.us.isa.aml.translator.builders.choco.model.ChocoModel;
 import es.us.isa.aml.translator.builders.opl.model.OPLModel;
 

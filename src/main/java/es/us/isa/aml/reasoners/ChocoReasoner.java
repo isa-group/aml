@@ -5,13 +5,13 @@
  */
 package es.us.isa.aml.reasoners;
 
-import es.us.isa.aml.model.AgreementModel;
+import java.util.Random;
+
+import es.us.isa.aml.model.csp.CSPModel;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.translator.builders.choco.ChocoBuilder;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerType;
-
-import java.util.Random;
 
 /**
  *
@@ -27,25 +27,17 @@ public class ChocoReasoner extends Reasoner {
     }
 
     @Override
-    public void addProblem(AgreementModel model) {
-        this.chocoString = this.translator.export(model);
-
-    }
-
-    @Override
-    public OperationResponse solve() {
+    public Boolean solve(CSPModel model) {
         //todo: realizar lo que sea correcto aqui
-        OperationResponse response = new OperationResponse();
+    	Boolean res = false;
         if (this.chocoString != null) {
-            response.put("consistent", new Random().nextBoolean());
-        } else {
-            response.put("consistent", false);
+            res = new Random().nextBoolean();
         }
-        return response;
+        return res;
     }
 
     @Override
-    public OperationResponse explain() {
+    public OperationResponse explain(CSPModel model) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

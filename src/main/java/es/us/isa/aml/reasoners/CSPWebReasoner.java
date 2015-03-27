@@ -3,14 +3,6 @@
  */
 package es.us.isa.aml.reasoners;
 
-import com.google.gson.Gson;
-
-import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.translator.Translator;
-import es.us.isa.aml.translator.builders.opl.OPLBuilder;
-import es.us.isa.aml.util.Config;
-import es.us.isa.aml.util.OperationResponse;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -21,6 +13,12 @@ import java.util.logging.Logger;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import com.google.gson.Gson;
+
+import es.us.isa.aml.model.csp.CSPModel;
+import es.us.isa.aml.util.Config;
+import es.us.isa.aml.util.OperationResponse;
+
 /**
  * @author jdelafuente
  *
@@ -29,25 +27,19 @@ public class CSPWebReasoner extends Reasoner {
 
 	private static final Logger LOG = Logger.getLogger(CSPWebReasoner.class
 			.getName());
-	private AgreementModel model;
 
 	@Override
-	public void addProblem(AgreementModel model) {
-		this.model = model;
-	}
-
-	@Override
-	public OperationResponse solve() {
+	public Boolean solve(CSPModel model) {
 
 		String url = Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/solve";
 
-		Translator translator = new Translator(new OPLBuilder());
-		String content = translator.export(model);
-
-		OperationResponse res = new OperationResponse();
+		String content = model.toString();
+		Boolean res = null;
+		
 		try {
-			res = sendPost(url, content);
+			String response = sendPost(url, content);
+			res = new Gson().fromJson(response.toString(), Boolean.class);
 		} catch (Exception e) {
 			LOG.log(Level.WARNING, null, e);
 		}
@@ -56,9 +48,20 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	@Override
-	public OperationResponse explain() {
-		// TODO Auto-generated method stub
-		return null;
+	public OperationResponse explain(CSPModel model) {
+		String url = Config.getProperty("CSPWebReasonerEndpoint");
+		url += "/solver/explain";
+
+		String content = model.toString();
+		OperationResponse res = null;
+		
+		try {
+			String response = sendPost(url, content);
+			res = new Gson().fromJson(response.toString(), OperationResponse.class);
+		} catch (Exception e) {
+			LOG.log(Level.WARNING, null, e);
+		}
+		return res;
 	}
 
 	@Override
@@ -74,7 +77,7 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	// HTTP POST request
-	private OperationResponse sendPost(String url, String content)
+	private String sendPost(String url, String content)
 			throws Exception {
 
 		URL obj = new URL(url);
@@ -83,7 +86,7 @@ public class CSPWebReasoner extends Reasoner {
 		// add reuqest header
 		con.setRequestMethod("POST");
 
-		String param = "opl=" + URLEncoder.encode(content, "UTF-8");
+		String param = "content=" + URLEncoder.encode(content, "UTF-8");
 
 		// Send post request
 		con.setDoOutput(true);
@@ -103,8 +106,7 @@ public class CSPWebReasoner extends Reasoner {
 			}
 		}
 
-		return new Gson()
-				.fromJson(response.toString(), OperationResponse.class);
+		return response.toString();
 	}
 
 }

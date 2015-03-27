@@ -24,7 +24,7 @@ public class Translator {
 
 	private static final Logger LOG = Logger.getLogger(Translator.class
 			.getName());
-	private final IBuilder builder;
+	private IBuilder builder;
 
 	public Translator(IBuilder builder) {
 		this.builder = builder;
@@ -33,147 +33,140 @@ public class Translator {
 	public IBuilder getBuilder() {
 		return builder;
 	}
-
-	public String export(AgreementModel model) {
+	
+	public AbstractModel translate(AgreementModel model) {
 		try {
-			IBuilder build = builder.getClass().newInstance();
-			build.setDocType(model.getDocType());
-			return export(model, build);
+			IBuilder _builder = builder.getClass().newInstance();
+			_builder.setDocType(model.getDocType());
+			builder = _builder;
+			translate(model, builder);
+			return builder.getModel();
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.log(Level.WARNING, "export_Metric exception", e);
+			LOG.log(Level.WARNING, "translate_AgreementModel exception", e);
 		}
 		return null;
-
 	}
 
-	public String export(AgreementModel model, IBuilder builder) {
-		builder.addId(model.getID());
-		builder.addVersion(model.getVersion());
-		builder.addContext(model.getContext());
-
-		export(model.getContext().getMetrics().values(), builder);
+	public void translate(AgreementModel model, IBuilder builder) {
+		builder.setId(model.getID());
+		builder.setVersion(model.getVersion());
+		builder.setContext(model.getContext());
 		
-		export(model.getAgreementTerms(), builder);
+		translate(model.getAgreementTerms(), builder);
 
 		if (model instanceof AgreementTemplate) {
-			export(((AgreementTemplate) model).getCreationConstraints(),
+			translate(((AgreementTemplate) model).getCreationConstraints(),
 					builder);
 		}
-
-		return builder.generate();
 	}
 
-	public String export(Metric metric) {
+	public void translate(Metric metric) {
 		try {
-			return export(metric, builder.getClass().newInstance());
+			translate(metric, builder.getClass().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.log(Level.WARNING, "export_Metric exception", e);
+			LOG.log(Level.WARNING, "translate_Metric exception", e);
 		}
-		return null;
 	}
 
-	public String export(Metric metric, IBuilder builder) {
-		return (String) builder.addMetric(metric);
+	public void translate(Metric metric, IBuilder builder) {
+		builder.setMetric(metric);
 	}
 
-	public String export(AgreementTerms at) {
+	public void translate(AgreementTerms at) {
 		try {
-			return export(at, builder.getClass().newInstance());
+			translate(at, builder.getClass().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.log(Level.WARNING, "export_AgreementTerms exception", e);
+			LOG.log(Level.WARNING, "translate_AgreementTerms exception", e);
 		}
-		return null;
 	}
 
-	public String export(AgreementTerms at, IBuilder builder) {
-		return (String) builder.addAgreementTerms(at);
+	public void translate(AgreementTerms at, IBuilder builder) {
+		builder.setAgreementTerms(at);
 	}
 
-	public String export(ServiceConfiguration service) {
+	public void translate(ServiceConfiguration service) {
 		try {
-			return export(service, builder.getClass().newInstance());
+			translate(service, builder.getClass().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.log(Level.WARNING, "export_Service exception", e);
+			LOG.log(Level.WARNING, "translate_Service exception", e);
 		}
-		return null;
 	}
 
-	public String export(ServiceConfiguration service, IBuilder builder) {
-		return (String) builder.addService(service);
+	public void translate(ServiceConfiguration service, IBuilder builder) {
+		builder.setService(service);
 	}
 
-	public String export(Property p) {
+	public void translate(Property p) {
 		try {
-			return export(p, builder.getClass().newInstance());
+			translate(p, builder.getClass().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.log(Level.WARNING, "export_Property exception", e);
+			LOG.log(Level.WARNING, "translate_Property exception", e);
 		}
-		return null;
 	}
 
-	public String export(Property p, IBuilder builder) {
+	public void translate(Property p, IBuilder builder) {
 		if (p instanceof ConfigurationProperty) {
-			return (String) builder.addConfigurationProperty(p);
+			builder.setConfigurationProperty(p);
 		} else if (p instanceof MonitorableProperty) {
-			return (String) builder.addMonitorableProperty(p);
+			builder.setMonitorableProperty(p);
 		} else {
 			throw new RuntimeException("unknown property type: " + p);
 		}
 	}
 
-	public String export(GuaranteeTerm gt) {
+	public void translate(GuaranteeTerm gt) {
 		try {
-			return export(gt, builder.getClass().newInstance());
+			translate(gt, builder.getClass().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.log(Level.WARNING, "export_GuaranteeTerm exception", e);
+			LOG.log(Level.WARNING, "translate_GuaranteeTerm exception", e);
 		}
-		return null;
 	}
 
-	public String export(GuaranteeTerm gt, IBuilder builder) {
-		return (String) builder.addGuaranteeTerm(gt);
+	public void translate(GuaranteeTerm gt, IBuilder builder) {
+		builder.setGuaranteeTerm(gt);
 	}
 
-	public String export(CreationConstraint cc) {
+	public void translate(CreationConstraint cc) {
 		try {
-			return export(cc, builder.getClass().newInstance());
+			translate(cc, builder.getClass().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.log(Level.WARNING, "export_CreationConstraint exception", e);
+			LOG.log(Level.WARNING, "translate_CreationConstraint exception", e);
 		}
-		return null;
 	}
 
-	public String export(CreationConstraint cc, IBuilder builder) {
-		return (String) builder.addCreationConstraint(cc);
+	public void translate(CreationConstraint cc, IBuilder builder) {
+		builder.setCreationConstraint(cc);
 	}
 
-	public String export(Collection<? extends AgreementElement> objects) {
+	public void translate(Collection<? extends AgreementElement> objects) {
 		try {
-			return export(objects, builder.getClass().newInstance());
+			translate(objects, builder.getClass().newInstance());
 		} catch (InstantiationException | IllegalAccessException e) {
-			LOG.log(Level.WARNING, "export_AgreementElement exception", e);
+			LOG.log(Level.WARNING, "translate_AgreementElement exception", e);
 		}
-		return null;
 	}
 
-	public String export(Collection<? extends AgreementElement> objects,
+	public void translate(Collection<? extends AgreementElement> objects,
 			IBuilder builder) {
-		StringBuilder sb = new StringBuilder();
 		for (AgreementElement object : objects) {
 			if (object instanceof Metric) {
-				sb.append(export((Metric) object, builder)).append("\n");
+				translate((Metric) object, builder);
 			}
 			if (object instanceof Property) {
-				sb.append(export((Property) object, builder)).append("\n");
+				translate((Property) object, builder);
 			}
 			if (object instanceof GuaranteeTerm) {
-				sb.append(export((GuaranteeTerm) object, builder)).append("\n");
+				translate((GuaranteeTerm) object, builder);
 			}
 			if (object instanceof CreationConstraint) {
-				sb.append(export((CreationConstraint) object, builder)).append(
-						"\n");
+				translate((CreationConstraint) object, builder);
 			}
 		}
-		return sb.toString();
 	}
+
+	public String print(AgreementModel model) {
+		translate(model);
+		return builder.generate();
+	}
+
 }

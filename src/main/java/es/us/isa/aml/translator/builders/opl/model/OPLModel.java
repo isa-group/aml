@@ -1,92 +1,46 @@
 package es.us.isa.aml.translator.builders.opl.model;
 
-import es.us.isa.aml.translator.CSPModel;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
+import es.us.isa.aml.model.csp.CSPConstraint;
+import es.us.isa.aml.model.csp.CSPModel;
+import es.us.isa.aml.model.csp.CSPRange;
+import es.us.isa.aml.model.csp.CSPVar;
 
 /**
  * @author jdelafuente
  *
  */
-public class OPLModel extends CSPModel{
+public class OPLModel extends CSPModel {
 
-    private Set<OPLRange> ranges;
-    private Set<OPLVar> variables;
-    private Set<OPLConstraint> constraints;
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
 
-    public OPLModel() {
-        ranges = new HashSet<>();
-        variables = new HashSet<>();
-        constraints = new HashSet<>();
-    }
+		sb.append("using CP;" + "\n\n");
 
-    public void addRange(OPLRange range) {
-        if (!ranges.contains(range)) {
-            ranges.add(range);
-        }
-    }
+		for (CSPRange range : getRanges()) {
+			sb.append(range.toString()).append("\n");
+		}
+		sb.append("\n");
 
-    public void addVar(OPLVar var) {
-        variables.add(var);
-    }
+		for (CSPVar var : getVariables()) {
+			sb.append(var.toString()).append("\n");
+		}
+		sb.append("\n");
 
-    public void addConstraint(OPLConstraint constraint) {
-        constraints.add(constraint);
-    }
+		sb.append("subject to {" + "\n");
 
-    public Set<OPLRange> getRanges() {
-        return ranges;
-    }
+		List<CSPConstraint> ordered = new ArrayList<>(getConstraints());
+		Collections.sort(ordered);
+		for (CSPConstraint cons : ordered) {
+			sb.append("\t").append(cons.toString()).append("\n");
+		}
+		sb.append("}");
 
-    public void setRanges(Set<OPLRange> ranges) {
-        this.ranges = ranges;
-    }
-
-    public Set<OPLVar> getVariables() {
-        return variables;
-    }
-
-    public void setVariables(Set<OPLVar> variables) {
-        this.variables = variables;
-    }
-
-    public Set<OPLConstraint> getConstraints() {
-        return constraints;
-    }
-
-    public void setConstraints(Set<OPLConstraint> constraints) {
-        this.constraints = constraints;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("using CP;" + "\n\n");
-
-        for (OPLRange range : getRanges()) {
-            sb.append(range.toString()).append("\n");
-        }
-        sb.append("\n");
-
-        for (OPLVar var : getVariables()) {
-            sb.append(var.toString()).append("\n");
-        }
-        sb.append("\n");
-
-        sb.append("subject to {" + "\n");
-
-        List<OPLConstraint> ordered = new ArrayList<>(getConstraints());
-        Collections.sort(ordered);
-        for (OPLConstraint cons : ordered) {
-            sb.append("\t").append(cons.toString()).append("\n");
-        }
-        sb.append("}");
-
-        return sb.toString();
-    }
+		return sb.toString();
+	}
 
 }

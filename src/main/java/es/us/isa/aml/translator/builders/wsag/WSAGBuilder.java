@@ -8,6 +8,7 @@ import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.ServiceConfiguration;
+import es.us.isa.aml.translator.AbstractModel;
 import es.us.isa.aml.translator.IBuilder;
 import es.us.isa.aml.translator.builders.wsag.model.Agreement;
 import es.us.isa.aml.translator.builders.wsag.model.Constraint;
@@ -49,18 +50,16 @@ public class WSAGBuilder implements IBuilder {
 		}
 	}
 
-	public String addId(String id) {
+	public void setId(String id) {
 		wsagDoc.setName(id);
-		return id;
 	}
 
-	public Double addVersion(Double version) {
+	public void setVersion(Double version) {
 		wsagDoc.setId(version.toString());
-		return version;
 	}
 
 	@Override
-	public Object addContext(Context context) {
+	public void setContext(Context context) {
 		wsagDoc.getContext().setAgreementInitiator(context.getInitiator());
 		wsagDoc.getContext().setAgreementResponder(context.getResponder());
 		if (context.getTemplateId() != null
@@ -69,36 +68,35 @@ public class WSAGBuilder implements IBuilder {
 					context.getTemplateVersion().toString());
 			wsagDoc.getContext().setTemplateName(context.getTemplateId());
 		}
-		return null;
+
+		for (es.us.isa.aml.model.Metric m : context.getMetrics().values())
+			setMetric(m);
 	}
 
 	@Override
-	public String addMetric(es.us.isa.aml.model.Metric metric) {
+	public void setMetric(es.us.isa.aml.model.Metric metric) {
 
 		Metric m = new Metric(metric.getId());
 		m.setType(metric.getType());
 		m.setDomain(metric.getDomain());
 
 		wsagDoc.getContext().getMetrics().add(m);
-		return m.toString();
 	}
 
 	@Override
-	public String addAgreementTerms(AgreementTerms at) {
-		addService(at.getService());
+	public void setAgreementTerms(AgreementTerms at) {
+		setService(at.getService());
 
 		for (Property p : at.getMonitorableProperties()) {
-			addMonitorableProperty(p);
+			setMonitorableProperty(p);
 		}
 
 		for (es.us.isa.aml.model.GuaranteeTerm gt : at.getGuaranteeTerms())
-			addGuaranteeTerm(gt);
-
-		return null;
+			setGuaranteeTerm(gt);
 	}
 
 	@Override
-	public String addService(ServiceConfiguration service) {
+	public void setService(ServiceConfiguration service) {
 		wsagDoc.getTerms().getServiceDescriptionTerm()
 				.setName("SDT_" + service.getServiceName());
 
@@ -114,14 +112,12 @@ public class WSAGBuilder implements IBuilder {
 				.setServiceName(service.getServiceName());
 
 		for (Property p : service.getConfigurationProperties()) {
-			addConfigurationProperty(p);
+			setConfigurationProperty(p);
 		}
-
-		return wsagDoc.getTerms().getServiceDescriptionTerm().toString();
 	}
 
 	@Override
-	public String addConfigurationProperty(Property cp) {
+	public void setConfigurationProperty(Property cp) {
 		OfferItem oi = new OfferItem();
 		oi.setName(cp.getId());
 		try {
@@ -135,11 +131,10 @@ public class WSAGBuilder implements IBuilder {
 		}
 
 		wsagDoc.getTerms().getServiceDescriptionTerm().getOfferItems().add(oi);
-		return oi.toString();
 	}
 
 	@Override
-	public String addMonitorableProperty(Property mp) {
+	public void setMonitorableProperty(Property mp) {
 		Variable v = new Variable();
 		v.setName(mp.getId());
 		try {
@@ -151,11 +146,10 @@ public class WSAGBuilder implements IBuilder {
 		v.setLocation("/" + mp.getId());
 
 		wsagDoc.getTerms().getServiceProperties().getVariableSet().add(v);
-		return v.toString();
 	}
 
 	@Override
-	public String addGuaranteeTerm(es.us.isa.aml.model.GuaranteeTerm gt2) {
+	public void setGuaranteeTerm(es.us.isa.aml.model.GuaranteeTerm gt2) {
 
 		GuaranteeTerm gt = new GuaranteeTerm();
 		gt.setName(gt2.getId());
@@ -170,11 +164,10 @@ public class WSAGBuilder implements IBuilder {
 			gt.setQualifyingCondition(qc);
 		}
 		wsagDoc.getTerms().getGuaranteeTerms().add(gt);
-		return gt.toString();
 	}
 
 	@Override
-	public String addCreationConstraint(CreationConstraint cc) {
+	public void setCreationConstraint(CreationConstraint cc) {
 		Constraint c = new Constraint(cc.getId(), cc.getSlo());
 
 		if (cc.getQc() != null) {
@@ -184,12 +177,15 @@ public class WSAGBuilder implements IBuilder {
 		}
 
 		((Template) wsagDoc).getCreationConstraints().getConstraints().add(c);
-
-		return c.toString();
 	}
 
 	@Override
 	public String generate() {
 		return wsagDoc.toString();
+	}
+
+	@Override
+	public AbstractModel getModel() {
+		return wsagDoc;
 	}
 }

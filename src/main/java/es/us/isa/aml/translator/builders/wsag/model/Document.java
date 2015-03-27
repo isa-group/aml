@@ -3,11 +3,13 @@
  */
 package es.us.isa.aml.translator.builders.wsag.model;
 
+import es.us.isa.aml.translator.AbstractModel;
+
 /**
  * @author jdelafuente
  *
  */
-public class Document {
+public class Document extends AbstractModel {
 
     /**
      * This is a mandatory identifier of this particular version of the

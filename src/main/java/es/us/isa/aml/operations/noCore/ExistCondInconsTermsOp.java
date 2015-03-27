@@ -21,17 +21,22 @@ import java.util.List;
  */
 public class ExistCondInconsTermsOp extends NoCoreOperation {
 
-    private final ExistInconsistenciesOp existsInconsistenciesOp;
+    private final ExistInconsistenciesOp existInconsistenciesOp;
 
     public ExistCondInconsTermsOp() {
-        this.existsInconsistenciesOp = new ExistInconsistenciesOp();
+        this.existInconsistenciesOp = new ExistInconsistenciesOp();
+        result = new OperationResponse();
     }
 
     public void analyze(AgreementModel model) {
-        existsInconsistenciesOp.analyze(model);
-        Boolean consistent = (Boolean) existsInconsistenciesOp.getResult().get("consistent");
-        this.result = existsInconsistenciesOp.getResult();
+        
+    	existInconsistenciesOp.analyze(model);
+        
+        Boolean consistent = (Boolean) existInconsistenciesOp.getResult().get("existInconsistencies");
+        
         if (!consistent) {
+        	result.put("result", existInconsistenciesOp.getResult().get("result"));
+            result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
             result.put("existCondInconsTerms", false);
             return;
         }
@@ -48,8 +53,8 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 
                 model.getAgreementTerms().setGuaranteeTerms(gtCopy);
 
-                existsInconsistenciesOp.analyze(model);
-                result = existsInconsistenciesOp.getResult();
+                existInconsistenciesOp.analyze(model);
+                result = existInconsistenciesOp.getResult();
                 consistent = (Boolean) result.get("consistent");
 
                 if (!consistent) {

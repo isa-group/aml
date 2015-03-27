@@ -3,6 +3,15 @@
  */
 package test;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementOffer;
@@ -10,15 +19,6 @@ import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
 import es.us.isa.aml.util.DocType;
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
  * @author AntonioGamez
@@ -68,7 +68,7 @@ public class TestLibLocal {
 
     @Test
     public void testAgreementToString() {
-        Translator t = new Translator(new IAgreeBuilder());
+    	Translator t = new Translator(new IAgreeBuilder());
 
         AgreementTemplate at = model1;
         AgreementOffer ao = model1.generateAgreementOffer("clienteFurioso");
@@ -82,10 +82,9 @@ public class TestLibLocal {
         assertTrue(ao.getDocType().equals(DocType.OFFER));
         assertTrue(ag.getDocType().equals(DocType.AGREEMENT));
 
-        String expAt = t.export(at);
-        expAt = t.export(at);
-        String expAo = t.export(ao);
-        String expAg = t.export(ag);
+        String expAt = t.print(at);
+        String expAo = t.print(ao);
+        String expAg = t.print(ag);
 
         assertTrue(expAt.contains("Template"));
         assertTrue(expAo.contains("Offer"));

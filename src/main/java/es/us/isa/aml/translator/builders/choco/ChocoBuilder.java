@@ -7,6 +7,7 @@ import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.ServiceConfiguration;
+import es.us.isa.aml.translator.AbstractModel;
 import es.us.isa.aml.translator.IBuilder;
 import es.us.isa.aml.translator.builders.choco.model.ChocoModel;
 import es.us.isa.aml.util.DocType;
@@ -20,47 +21,47 @@ public class ChocoBuilder implements IBuilder {
     private ChocoModel model;
 
     @Override
-    public String addId(String id) {
+    public void setId(String id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Double addVersion(Double version) {
+    public void setVersion(Double version) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String addMetric(Metric metric) {
+    public void setMetric(Metric metric) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String addAgreementTerms(AgreementTerms at) {
+    public void setAgreementTerms(AgreementTerms at) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String addService(ServiceConfiguration service) {
+    public void setService(ServiceConfiguration service) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String addConfigurationProperty(Property cp) {
+    public void setConfigurationProperty(Property cp) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String addMonitorableProperty(Property mp) {
+    public void setMonitorableProperty(Property mp) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String addGuaranteeTerm(GuaranteeTerm gt) {
+    public void setGuaranteeTerm(GuaranteeTerm gt) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public String addCreationConstraint(CreationConstraint cc) {
+    public void setCreationConstraint(CreationConstraint cc) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -70,15 +71,18 @@ public class ChocoBuilder implements IBuilder {
     }
 
 	@Override
-	public Object addContext(Context context) {
-		// TODO Auto-generated method stub
-		return null;
+	public void setContext(Context context) {
+		throw new UnsupportedOperationException("Not supported yet.");
 	}
 
 	@Override
 	public void setDocType(DocType type) {
-		// TODO Auto-generated method stub
-		
+		throw new UnsupportedOperationException("Not supported yet.");
+	}
+
+	@Override
+	public AbstractModel getModel() {
+		return model;
 	}
 
 }

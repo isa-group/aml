@@ -61,10 +61,10 @@ public class ParserTest {
 		}
 
 		Translator t2 = new Translator(new IAgreeBuilder());
-		LOG.log(Level.INFO, t2.export(model));
+		LOG.log(Level.INFO, t2.print(model));
 
 		Translator t3 = new Translator(new OPLBuilder());
-		LOG.log(Level.INFO, t3.export(model));
+		LOG.log(Level.INFO, t3.print(model));
 
 		Property monitProp1 = model.getProperty("MonitProp1");
 

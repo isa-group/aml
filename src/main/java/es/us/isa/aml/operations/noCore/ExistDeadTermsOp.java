@@ -18,20 +18,21 @@ import java.util.List;
  */
 public class ExistDeadTermsOp extends NoCoreOperation {
 
-    private final ExistInconsistenciesOp existsInconsistenciesOp;
+    private final ExistInconsistenciesOp existInconsistenciesOp;
 
     public ExistDeadTermsOp() {
-        this.existsInconsistenciesOp = new ExistInconsistenciesOp();
+        this.existInconsistenciesOp = new ExistInconsistenciesOp();
+        result = new OperationResponse();
     }
 
     public void analyze(AgreementModel model) {
 
-        existsInconsistenciesOp.analyze(model);
-        Boolean consistent = (Boolean) existsInconsistenciesOp.getResult().get("consistent");
-
-        result = existsInconsistenciesOp.getResult();
-
-        if (!consistent) {
+    	existInconsistenciesOp.analyze(model);
+        Boolean existInconsistencies = (Boolean) existInconsistenciesOp.getResult().get("existInconsistencies");
+        
+        if (existInconsistencies) {
+        	result.put("result", existInconsistenciesOp.getResult().get("result"));
+            result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
             result.put("existDeadTerms", false);
             return;
         }
@@ -49,22 +50,26 @@ public class ExistDeadTermsOp extends NoCoreOperation {
 
                 model.getAgreementTerms().setGuaranteeTerms(gtCopy);
 
-                existsInconsistenciesOp.analyze(model);
-                result = existsInconsistenciesOp.getResult();
-                consistent = (Boolean) result.get("consistent");
+                existInconsistenciesOp.analyze(model);
+                existInconsistencies = (Boolean) existInconsistenciesOp.getResult().get("existInconsistencies");
 
-                if (!consistent) {
+                if (existInconsistencies) {
+                	result.put("result", existInconsistenciesOp.getResult().get("result"));
+                    result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
                     result.put("existDeadTerms", true);
-                    result.put("conflicts", "Dead terms:\n" + result.get("conflicts"));
                     break;
                 } else {
                     gtCopy.clear();
                     gtCopy.addAll(gtOriginal);
 
                     model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
+                    result.put("result", existInconsistenciesOp.getResult().get("result"));
+                    result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
                     result.put("existDeadTerms", false);
                 }
             } else {
+            	result.put("result", existInconsistenciesOp.getResult().get("result"));
+                result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
                 result.put("existDeadTerms", false);
             }
         }

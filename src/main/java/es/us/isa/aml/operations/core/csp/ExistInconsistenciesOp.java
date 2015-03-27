@@ -6,7 +6,10 @@
 package es.us.isa.aml.operations.core.csp;
 
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.csp.CSPModel;
 import es.us.isa.aml.operations.core.CoreOperation;
+import es.us.isa.aml.translator.Translator;
+import es.us.isa.aml.translator.builders.csp.CSPBuilder;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerFactory;
 
@@ -20,14 +23,18 @@ public class ExistInconsistenciesOp extends CoreOperation {
         this.reasoner = ReasonerFactory.createCSPReasoner();
     }
 
-    public void analyze(AgreementModel model) {
-        this.reasoner.addProblem(model);
-        result = this.reasoner.solve();
-        result.put("existInconsistencies", !(Boolean) result.get("consistent"));
-        // reasoner.solve() gives us "isConsistent" operation
-        // but we want "existInconsistencies" one.
-        // CSPBuilder  builder = ...
-        // CSPModel model = builder.map(agModel);
+    public void analyze(AgreementModel agModel) {
+        
+    	// AgreementModel conversion a CSPModel
+        
+    	Translator t = new Translator(new CSPBuilder());
+    	CSPModel model = (CSPModel) t.translate(agModel);
+        Boolean solve = this.reasoner.solve(model);
+        result.put("existInconsistencies", !solve);
+        
+        OperationResponse res = reasoner.explain(model);
+        result.putAll(res);  
+        
         // ... negar todas las expresiones del CSPModel ...
         // foreach(i) { 
         //	model.getConstraint(i).expression.negate()

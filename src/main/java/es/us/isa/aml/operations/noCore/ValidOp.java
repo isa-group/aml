@@ -6,9 +6,8 @@
 package es.us.isa.aml.operations.noCore;
 
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
 import es.us.isa.aml.util.OperationResponse;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -16,47 +15,56 @@ import java.util.Map;
  */
 public class ValidOp extends NoCoreOperation {
 
-//    private final ExistInconsistenciesOp existsInconsistenciesOp;
-    private final ExistDeadTermsOp existDeadTermsOp;
-    private final ExistCondInconsTermsOp existCondInconsTermsOp;
+	private final ExistInconsistenciesOp existsInconsistenciesOp;
+	private final ExistDeadTermsOp existDeadTermsOp;
+	private final ExistCondInconsTermsOp existCondInconsTermsOp;
 
-    public ValidOp() {
-//        this.existsInconsistenciesOp = new ExistInconsistenciesOp();
-        this.existDeadTermsOp = new ExistDeadTermsOp();
-        this.existCondInconsTermsOp = new ExistCondInconsTermsOp();
-        this.result = new OperationResponse();
-    }
+	public ValidOp() {
+		this.existsInconsistenciesOp = new ExistInconsistenciesOp();
+		this.existDeadTermsOp = new ExistDeadTermsOp();
+		this.existCondInconsTermsOp = new ExistCondInconsTermsOp();
+		this.result = new OperationResponse();
+	}
 
-    public void analyze(AgreementModel model) {
+	public void analyze(AgreementModel model) {
 
-        //existDeadTermsOp ya comprueba que no existan inconsistencias
-        existDeadTermsOp.analyze(model);
-        existCondInconsTermsOp.analyze(model);
+		// existDeadTermsOp ya comprueba que no existan inconsistencias
 
-        Boolean consistent = (Boolean) existDeadTermsOp.getResult().get("consistent");
-        Boolean existDeadTerms = (Boolean) existDeadTermsOp.getResult().get("existDeadTerms");
-        Boolean existCondInconsTerms = (Boolean) existCondInconsTermsOp.getResult().get("existCondInconsTerms");
+		Boolean existInconsistencies = false, existDeadTerms = false, existCondInconsTerms = false;
 
-        result.put("valid", consistent && !existDeadTerms && !existCondInconsTerms);
-    }
+		existsInconsistenciesOp.analyze(model);
+		existInconsistencies = (Boolean) existsInconsistenciesOp.getResult()
+				.get("existInconsistencies");
+		result.put("existInconsistencies", existInconsistencies);
 
-    @Override
-    public OperationResponse getResult() {
-        Map<String, Object> conflicts = new HashMap<>();
-        conflicts.put("existDeadTerms", existDeadTermsOp.getResult().get("conflicts_existDeadTerms"));
-        conflicts.put("existCondInconsTerms", existCondInconsTermsOp.getResult().get("conflicts_existCondInconsTerms"));
+		if (existInconsistencies) {
+			result.put("existDeadTerms", false);
+			result.put("existCondInconsTerms", false);
+		} else {
+			existDeadTermsOp.analyze(model);
+			existDeadTerms = (Boolean) existDeadTermsOp.getResult().get(
+					"existDeadTerms");
+			result.putAll(existDeadTermsOp.getResult());
 
-        result.putAll(existDeadTermsOp.getResult());
-        result.putAll(existCondInconsTermsOp.getResult());
+			if (existDeadTerms) {
+				result.put("existCondInconsTerms", false);
+			} else {
+				existCondInconsTermsOp.analyze(model);
+				existCondInconsTerms = (Boolean) existCondInconsTermsOp
+						.getResult().get("existCondInconsTerms");
+				result.putAll(existCondInconsTermsOp.getResult());
+			}
+		}
 
-        //remove temp results
-        result.remove("conflicts_existCondInconsTerms");
-        result.remove("conflicts_existDeadTerms");
-        result.remove("consistent");
+		Boolean valid = !existInconsistencies && !existDeadTerms
+				&& !existCondInconsTerms;
 
-        result.put("conflicts", conflicts);
+		result.put("valid", valid);
+	}
 
-        return result;
-    }
+	@Override
+	public OperationResponse getResult() {
+		return result;
+	}
 
 }
