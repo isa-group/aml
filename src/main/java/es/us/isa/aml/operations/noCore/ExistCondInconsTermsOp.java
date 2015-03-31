@@ -35,11 +35,12 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 		Boolean existInconsistencies = (Boolean) existInconsistenciesOp
 				.getResult().get("existInconsistencies");
 
+		result.put("result",
+				existInconsistenciesOp.getResult().get("result"));
+		result.put("conflicts",
+				existInconsistenciesOp.getResult().get("conflicts"));
+		
 		if (existInconsistencies) {
-			result.put("result",
-					existInconsistenciesOp.getResult().get("result"));
-			result.put("conflicts",
-					existInconsistenciesOp.getResult().get("conflicts"));
 			result.put("existCondInconsTerms", false);
 			return;
 		}
@@ -69,8 +70,7 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 					String conflicts = existInconsistenciesOp.getResult()
 							.get("conflicts").toString().replaceAll("_QC", "")
 							.replaceAll("_SLO", "");
-					result.put("result", existInconsistenciesOp.getResult()
-							.get("result"));
+					result.put("result", "The document has conditionally inconsistent terms");
 					result.put("conflicts_condIncons", conflicts);
 					result.put("existCondInconsTerms", true);
 					break;
@@ -79,17 +79,9 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 					gtCopy.addAll(gtOriginal);
 
 					model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
-					result.put("result", existInconsistenciesOp.getResult()
-							.get("result"));
-					result.put("conflicts", existInconsistenciesOp.getResult()
-							.get("conflicts"));
 					result.put("existCondInconsTerms", false);
 				}
 			} else {
-				result.put("result",
-						existInconsistenciesOp.getResult().get("result"));
-				result.put("conflicts",
-						existInconsistenciesOp.getResult().get("conflicts"));
 				result.put("existCondInconsTerms", false);
 			}
 		}

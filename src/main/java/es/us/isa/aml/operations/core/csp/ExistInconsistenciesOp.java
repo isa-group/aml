@@ -27,8 +27,8 @@ public class ExistInconsistenciesOp extends CoreOperation {
         
     	// AgreementModel conversion a CSPModel
         
-    	Translator t = new Translator(new CSPBuilder());
-    	CSPModel model = (CSPModel) t.translate(agModel);
+    	Translator translator = new Translator(new CSPBuilder());
+    	CSPModel model = (CSPModel) translator.translate(agModel);
         Boolean solve = this.reasoner.solve(model);
         result.put("existInconsistencies", !solve);
         

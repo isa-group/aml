@@ -2,10 +2,12 @@ package es.us.isa.aml.model.csp;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.LogicalExpression;
+import es.us.isa.aml.model.expression.LogicalOperator;
+import es.us.isa.aml.model.expression.ParenthesisExpression;
 import es.us.isa.aml.translator.AbstractModel;
 
 /**
@@ -14,14 +16,14 @@ import es.us.isa.aml.translator.AbstractModel;
  */
 public class CSPModel extends AbstractModel {
 
-	protected Set<CSPRange> ranges;
-	protected Set<CSPVar> variables;
-	protected Set<CSPConstraint> constraints;
+	protected List<CSPRange> ranges;
+	protected List<CSPVar> variables;
+	protected List<CSPConstraint> constraints;
 
 	public CSPModel() {
-		ranges = new HashSet<>();
-		variables = new HashSet<>();
-		constraints = new HashSet<>();
+		ranges = new ArrayList<>();
+		variables = new ArrayList<>();
+		constraints = new ArrayList<>();
 	}
 
 	public void addRange(CSPRange range) {
@@ -38,28 +40,91 @@ public class CSPModel extends AbstractModel {
 		constraints.add(constraint);
 	}
 
-	public Set<CSPRange> getRanges() {
+	public List<CSPRange> getRanges() {
 		return ranges;
 	}
 
-	public void setRanges(Set<CSPRange> ranges) {
+	public void setRanges(List<CSPRange> ranges) {
 		this.ranges = ranges;
 	}
 
-	public Set<CSPVar> getVariables() {
+	public List<CSPVar> getVariables() {
 		return variables;
 	}
 
-	public void setVariables(Set<CSPVar> variables) {
+	public void setVariables(List<CSPVar> variables) {
 		this.variables = variables;
 	}
 
-	public Set<CSPConstraint> getConstraints() {
+	public List<CSPConstraint> getConstraints() {
 		return constraints;
 	}
 
-	public void setConstraints(Set<CSPConstraint> constraints) {
+	public void setConstraints(List<CSPConstraint> constraints) {
 		this.constraints = constraints;
+	}
+
+	public CSPModel add(CSPModel model) {
+		CSPModel newModel = this.clone();
+
+		for (CSPRange range : model.getRanges()) {
+			if (!newModel.getRanges().contains(range))
+				newModel.addRange(range.clone());
+		}
+
+		for (CSPVar var : model.getVariables()) {
+			if (!newModel.getVariables().contains(var))
+				newModel.addVar(var.clone());
+		}
+
+		for (CSPConstraint cons : model.getConstraints()) {
+			if (!newModel.getConstraints().contains(cons)) {
+				Integer index = 0;
+				for (CSPConstraint cons2 : newModel.getConstraints()) {
+					if (cons2.getId().equals(cons.getId())) {
+						index++;
+					}
+				}
+				if (index > 0)
+					cons.setId(cons.getId() + "_" + 2);
+				newModel.getConstraints().add(cons);
+			}
+		}
+
+		return newModel;
+	}
+
+	public CSPModel negate() {
+
+		CSPModel model = this.clone();
+
+		for (CSPConstraint constraint : model.getConstraints()) {
+			Expression e = constraint.getExpr();
+			Expression neg = new LogicalExpression(
+					new ParenthesisExpression(e), LogicalOperator.not);
+			constraint.setExpr(neg);
+		}
+
+		return model;
+	}
+
+	@Override
+	public CSPModel clone() {
+		CSPModel newModel = new CSPModel();
+
+		for (CSPRange range : this.getRanges()) {
+			newModel.addRange(range.clone());
+		}
+
+		for (CSPVar var : this.getVariables()) {
+			newModel.addVar(var.clone());
+		}
+
+		for (CSPConstraint cons : this.getConstraints()) {
+			newModel.addConstraint(cons.clone());
+		}
+
+		return newModel;
 	}
 
 	@Override

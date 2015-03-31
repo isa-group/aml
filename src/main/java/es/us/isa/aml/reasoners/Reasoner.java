@@ -31,7 +31,7 @@ public abstract class Reasoner {
 
     public abstract OperationResponse explain(CSPModel model);
 
-    public abstract OperationResponse implies();
+    public abstract Boolean implies(CSPModel antecedent, CSPModel consequent);
 
     public abstract OperationResponse whyNotImplies();
 }

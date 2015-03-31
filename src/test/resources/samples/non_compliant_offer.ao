@@ -1,0 +1,35 @@
+AgreementOffer IAgreeCoreOffer version 1.0 for Template IAgreeCoreTemplate version 1.0
+	Initiator: "Initiator1";
+	Provider "Prov1" as Responder;
+	
+	Metrics:
+		met3: float[0..128];
+		met2: integer[0..512];
+		met1: integer[0..23];
+		met6: integer[-50..50];
+		met5: float[0..100];
+		met4: integer[0..512];
+
+
+AgreementTerms
+	Service IAg-Core availableAt "iagree.core.com/service"
+		GlobalDescription
+			ConfProp1: met1;
+			ConfProp2: met2 = 18;
+			ConfProp3: met6;
+
+	MonitorableProperties
+		global:
+			MonitProp2: met3;
+			MonitProp4: met5;
+			MonitProp3: met4;
+			MonitProp1: met2;
+
+	GuaranteeTerms
+		G1: Provider guarantees MonitProp3 >= 256;
+
+		G2: Consumer guarantees MonitProp2 >= 64;
+	    	onlyIf(MonitProp1 >= 32);
+
+
+EndAgreementOffer

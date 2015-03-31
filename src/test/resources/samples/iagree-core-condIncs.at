@@ -29,7 +29,6 @@ AgreementTerms
 			MonitProp2: met3;
             TransferredGb: met5;
             StorageSize: met5;
-            StorageSize: met5;
             Region: met5;
             ResponseTime:met5;
             MUP: met5;

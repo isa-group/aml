@@ -28,8 +28,6 @@ public class ValidOp extends NoCoreOperation {
 
 	public void analyze(AgreementModel model) {
 
-		// existDeadTermsOp ya comprueba que no existan inconsistencias
-
 		Boolean existInconsistencies = false, existDeadTerms = false, existCondInconsTerms = false;
 
 		existsInconsistenciesOp.analyze(model);

@@ -35,6 +35,10 @@ public class CSPRange {
     public String getDomain() {
         return this.domain;
     }
+    
+    public void setDomain(String domain) {
+    	this.domain = domain;
+    }
 
     public void setDomain(Domain domain) {
         Range range = null;
@@ -51,6 +55,13 @@ public class CSPRange {
     }
     
     @Override
+    public CSPRange clone() {
+    	CSPRange range = new CSPRange(getId());
+    	range.setDomain(getDomain());
+    	return range;
+    }
+    
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof CSPRange) {
         	CSPRange elem = (CSPRange) obj;
@@ -61,7 +72,7 @@ public class CSPRange {
 
     @Override
     public int hashCode() {
-        return this.id.hashCode();
+        return this.id.hashCode() * 31;
     }
     
     @Override

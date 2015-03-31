@@ -57,5 +57,13 @@ public class AgreementTemplate extends AgreementModel {
         ao.setAgreementManager(agreementManager);
         return ao;
     }
-
+    
+    @Override
+    public AgreementModel clone() {
+    	AgreementTemplate model = (AgreementTemplate) super.clone();
+    	List<CreationConstraint> ccs = this.getCreationConstraints();
+    	for(CreationConstraint cc : ccs)
+    		((AgreementTemplate) model).getCreationConstraints().add(cc.clone());
+    	return model;
+    }
 }

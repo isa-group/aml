@@ -1,10 +1,5 @@
 package es.us.isa.aml.model.expression;
 
-import es.us.isa.aml.parsers.expression.ExpressionLexer;
-import es.us.isa.aml.parsers.expression.ExpressionParser;
-import es.us.isa.aml.parsers.expression.ExpressionParser.ParseContext;
-import es.us.isa.aml.parsers.expression.MExpressionVisitor;
-
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -12,6 +7,11 @@ import java.util.logging.Logger;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+
+import es.us.isa.aml.parsers.expression.ExpressionLexer;
+import es.us.isa.aml.parsers.expression.ExpressionParser;
+import es.us.isa.aml.parsers.expression.ExpressionParser.ParseContext;
+import es.us.isa.aml.parsers.expression.MExpressionVisitor;
 
 /**
  * @author jdelafuente
@@ -108,4 +108,18 @@ public abstract class Expression {
     protected Object value;
 
     public abstract Object calculate();
+    
+    @Override
+    public int hashCode() {
+    	return this.toString().hashCode() * 31;
+    }
+    
+    @Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Expression) {
+			Expression expr = (Expression) obj;
+			return this.toString().equals(expr.toString());
+		}
+		return false;
+	}
 }

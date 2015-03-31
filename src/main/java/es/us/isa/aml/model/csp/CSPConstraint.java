@@ -2,6 +2,10 @@ package es.us.isa.aml.model.csp;
 
 import es.us.isa.aml.model.QualifyingCondition;
 import es.us.isa.aml.model.SLO;
+import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.LogicalExpression;
+import es.us.isa.aml.model.expression.LogicalOperator;
+import es.us.isa.aml.model.expression.ParenthesisExpression;
 
 /**
  * @author jdelafuente
@@ -10,65 +14,78 @@ import es.us.isa.aml.model.SLO;
 public class CSPConstraint implements Comparable<CSPConstraint> {
 
 	protected String id;
-	protected SLO slo;
-	protected QualifyingCondition qc;
+	protected Expression expr;
 
-    public CSPConstraint(String id, SLO slo) {
-        this.id = id;
-        this.slo = slo;
-        qc = null;
-    }
+	public CSPConstraint(String id, SLO slo) {
+		this.id = id;
+		this.expr = slo.getExpression();
+	}
 
-    public CSPConstraint(String id, SLO slo, QualifyingCondition qc) {
-        this.id = id;
-        this.slo = slo;
-        this.qc = qc;
-    }
+	public CSPConstraint(String id, SLO slo, QualifyingCondition qc) {
+		this.id = id;
+		this.expr = new LogicalExpression(new ParenthesisExpression(qc.getCondition()),
+				new ParenthesisExpression(slo.getExpression()), LogicalOperator.implies);
+	}
 
-    public String getId() {
-        return this.id;
-    }
+	public CSPConstraint(String id, Expression expr) {
+		this.id = id;
+		this.expr = expr;
+	}
 
-    public void setId(String id) {
-        this.id = id;
-    }
+	public String getId() {
+		return this.id;
+	}
 
-    public SLO getSlo() {
-        return this.slo;
-    }
+	public void setId(String id) {
+		this.id = id;
+	}
 
-    public void setSlo(SLO slo) {
-        this.slo = slo;
-    }
+	public Expression getExpr() {
+		return expr;
+	}
 
-    public QualifyingCondition getQc() {
-        return qc;
-    }
+	public void setExpr(Expression expr) {
+		this.expr = expr;
+	}
 
-    public void setQc(QualifyingCondition qc) {
-        this.qc = qc;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof CSPConstraint) {
+			CSPConstraint cons = (CSPConstraint) obj;
+			return this.expr.equals(cons.getExpr());
+		}
+		return false;
+	}
 
-    @Override
-    public int compareTo(CSPConstraint o) {
-        return getId().compareTo(o.getId());
-    }
-    
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
+	@Override
+	public CSPConstraint clone() {
+		CSPConstraint cons = new CSPConstraint(getId(), getExpr());
+		return cons;
+	}
 
-        if (getQc() != null) {
-            sb.append(getQc().getCondition().toString()).append(" => ");
-        }
+	@Override
+	public int compareTo(CSPConstraint o) {
+		return getId().compareTo(o.getId());
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.getExpr().hashCode() * 31;
+	}
 
-        String exp = this.getSlo().getExpression().toString();
-        exp = exp.replace("AND", "&&");
-        exp = exp.replace("OR", "||");
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
 
-        sb.append(exp);
+		String exp = getExpr().toString();
+		exp = exp.replace("AND", "&&");
+		exp = exp.replace("OR", "||");
+		exp = exp.replace("NOT ", "!");
+		exp = exp.replace("IMPLIES", "=>");
 
-        return this.getId() + ": " + sb.toString() + ";";
-    }
+		sb.append(exp);
+
+		return this.getId() + ": " + sb.toString() + ";";
+	}
 
 }

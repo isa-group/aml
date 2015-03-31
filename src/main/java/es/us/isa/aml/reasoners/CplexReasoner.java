@@ -15,13 +15,14 @@ import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerType;
 
 /**
+ * @author jdelafuente
  *
- * @author AntonioGamez
  */
 public class CplexReasoner extends Reasoner { // CSPReasoner
 
 	private static final Logger LOG = Logger.getLogger(CplexReasoner.class
 			.getName());
+
 	@Override
 	public Boolean solve(CSPModel model) {
 		Boolean solve = false;
@@ -47,13 +48,14 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 	@Override
 	public OperationResponse explain(CSPModel model) {
 		OperationResponse response = null;
-		
+
 		if (model != null) {
 			try {
 				String content = model.toString();
 				CplexHandler ch = new CplexHandler();
 				ch.init();
-				response = new Gson().fromJson(ch.explain(content), OperationResponse.class);
+				response = new Gson().fromJson(ch.explain(content),
+						OperationResponse.class);
 			} catch (Exception e) {
 				response = null;
 				LOG.log(Level.SEVERE, "There was an error processing the file",
@@ -67,8 +69,30 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 	}
 
 	@Override
-	public OperationResponse implies() {
-		throw new UnsupportedOperationException("Not supported yet."); // Todo
+	public Boolean implies(CSPModel antecedent, CSPModel consequent) {
+		Boolean compliant = false;
+
+		if (antecedent != null && consequent != null) {
+			try {
+				CSPModel model = antecedent.add(consequent.negate());
+
+				CplexHandler ch = new CplexHandler();
+				ch.init();
+				compliant = !(new Gson().fromJson(ch.solve(model.toString()),
+						Boolean.class));
+
+				// OperationResponse response = new
+				// Gson().fromJson(ch.explain(model.toString()),
+				// OperationResponse.class);
+
+			} catch (Exception e) {
+				LOG.log(Level.SEVERE, "There was an error processing the file",
+						e);
+			}
+		} else {
+			LOG.log(Level.SEVERE, "There was an error processing the file");
+		}
+		return compliant;
 	}
 
 	@Override

@@ -21,8 +21,18 @@ public class CSPVar {
         this.range = range;
         this.dvar = dvar;
     }
+    
+    
+	public CSPVar(String id, String type, CSPRange range, Boolean dvar) {
+		super();
+		this.id = id;
+		this.type = type;
+		this.range = range;
+		this.dvar = dvar;
+	}
 
-    public String getId() {
+
+	public String getId() {
         return this.id;
     }
 
@@ -61,6 +71,14 @@ public class CSPVar {
     public void setDvar(Boolean dvar) {
         this.dvar = dvar;
     }
+    
+    @Override
+    public CSPVar clone() {
+    	CSPVar var = new CSPVar(getId(), getType(), getRange().clone(), getDvar());
+    	if(getExpression() != null)
+    		var.setExpression(Expression.parse(getExpression().toString()));
+    	return var;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -73,7 +91,7 @@ public class CSPVar {
 
     @Override
     public int hashCode() {
-        return this.id.hashCode();
+        return this.id.hashCode() * 31;
     }
     
     @Override

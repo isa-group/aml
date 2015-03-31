@@ -65,11 +65,10 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	@Override
-	public OperationResponse implies() {
+	public Boolean implies(CSPModel antecedent, CSPModel consequent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 	@Override
 	public OperationResponse whyNotImplies() {
 		// TODO Auto-generated method stub
@@ -107,6 +106,6 @@ public class CSPWebReasoner extends Reasoner {
 		}
 
 		return response.toString();
-	}
+	}	
 
 }

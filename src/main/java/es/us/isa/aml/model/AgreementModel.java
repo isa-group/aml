@@ -190,5 +190,27 @@ public abstract class AgreementModel extends AbstractModel {
                     + " not found. " + "Are you sure you have declared it?");
         }
     }
+    
+    @Override
+    public AgreementModel clone() {
+    	AgreementModel model = null;
+    	
+        if(docType == DocType.TEMPLATE){
+        	model = new AgreementTemplate();
+        } else if(docType == DocType.OFFER){
+        	model = new AgreementOffer();
+        } else if(docType == DocType.AGREEMENT){
+        	model = new Agreement();
+        }
+        
+        model.setID(id);
+    	model.setVersion(version);
+    	model.setContext(context.clone());
+    	model.setAgreementTerms(agreementTerms.clone());
+    	model.setAgreementManager(agreementManager);
+    	model.setDocType(docType);
+        
+        return model;
+    }
 
 }

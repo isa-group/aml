@@ -30,9 +30,10 @@ public class ExistDeadTermsOp extends NoCoreOperation {
     	existInconsistenciesOp.analyze(model);
         Boolean existInconsistencies = (Boolean) existInconsistenciesOp.getResult().get("existInconsistencies");
         
+        result.put("result", existInconsistenciesOp.getResult().get("result"));
+        result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
+        
         if (existInconsistencies) {
-        	result.put("result", existInconsistenciesOp.getResult().get("result"));
-            result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
             result.put("existDeadTerms", false);
             return;
         }
@@ -54,7 +55,7 @@ public class ExistDeadTermsOp extends NoCoreOperation {
                 existInconsistencies = (Boolean) existInconsistenciesOp.getResult().get("existInconsistencies");
 
                 if (existInconsistencies) {
-                	result.put("result", existInconsistenciesOp.getResult().get("result"));
+                	result.put("result", "The document has dead terms");
                     result.put("conflicts_deadterms", existInconsistenciesOp.getResult().get("conflicts"));
                     result.put("existDeadTerms", true);
                     break;
@@ -63,13 +64,9 @@ public class ExistDeadTermsOp extends NoCoreOperation {
                     gtCopy.addAll(gtOriginal);
 
                     model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
-                    result.put("result", existInconsistenciesOp.getResult().get("result"));
-                    result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
                     result.put("existDeadTerms", false);
                 }
             } else {
-            	result.put("result", existInconsistenciesOp.getResult().get("result"));
-                result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
                 result.put("existDeadTerms", false);
             }
         }

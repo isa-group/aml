@@ -31,13 +31,11 @@ public class OPLConstraint extends CSPConstraint {
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        if (getQc() != null) {
-            sb.append(getQc().getCondition().toString()).append(" => ");
-        }
-
-        String exp = this.getSlo().getExpression().toString();
+        String exp = this.getExpr().toString();
         exp = exp.replace("AND", "&&");
         exp = exp.replace("OR", "||");
+		exp = exp.replace("NOT", "!");
+		exp = exp.replace("IMPLIES", "=>");
 
         sb.append(exp);
 
