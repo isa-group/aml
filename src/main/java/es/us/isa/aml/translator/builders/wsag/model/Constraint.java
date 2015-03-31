@@ -5,6 +5,7 @@ package es.us.isa.aml.translator.builders.wsag.model;
 
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.SLO;
+import es.us.isa.aml.util.Util;
 
 /**
  * @author jdelafuente
@@ -27,9 +28,9 @@ public class Constraint extends CreationConstraint {
         sb.append("\t\t\t" + "<Name>").append(getId()).append("</Name>").append("\n");
 
         if (getQc() != null) {
-            sb.append("\t\t\t" + "<Content>").append(getQc().getCondition()).append(" IMPLIES ").append(getSlo().getExpression()).append("</Content>").append("\n");
+            sb.append("\t\t\t" + "<Content>").append(Util.encodeEntities(getQc().getCondition().toString())).append(" IMPLIES ").append(Util.encodeEntities(getSlo().getExpression().toString())).append("</Content>").append("\n");
         } else {
-            sb.append("\t\t\t" + "<Content>").append(getSlo().getExpression()).append("</Content>").append("\n");
+            sb.append("\t\t\t" + "<Content>").append(Util.encodeEntities(getSlo().getExpression().toString())).append("</Content>").append("\n");
         }
 
         sb.append("\t\t" + "</wsag:Constraint>").append("\n");
