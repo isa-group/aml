@@ -66,8 +66,20 @@ public class CSPWebReasoner extends Reasoner {
 
 	@Override
 	public Boolean implies(CSPModel antecedent, CSPModel consequent) {
-		// TODO Auto-generated method stub
-		return null;
+		String url = Config.getProperty("CSPWebReasonerEndpoint");
+		url += "/solver/implies";
+		
+		CSPModel model = antecedent.add(consequent.negate());
+		String content = model.toString();
+		Boolean res = false;
+		
+		try {
+			String response = sendPost(url, content);
+			res = new Gson().fromJson(response.toString(), Boolean.class);
+		} catch (Exception e) {
+			LOG.log(Level.WARNING, null, e);
+		}
+		return res;
 	}
 	@Override
 	public OperationResponse whyNotImplies() {
