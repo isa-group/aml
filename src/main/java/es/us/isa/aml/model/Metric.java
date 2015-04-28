@@ -1,5 +1,7 @@
 package es.us.isa.aml.model;
 
+import es.us.isa.aml.translator.builders.iagree.model.IAgreeUtils;
+
 /**
  * @author jdelafuente
  *
@@ -26,7 +28,10 @@ public class Metric extends AgreementElement {
     }
 
     public void setType(String type) {
-        this.type = type;
+    	if (IAgreeUtils.DATATYPES.containsKey(type))
+			this.type = IAgreeUtils.DATATYPES.get(type);
+		else
+			this.type = type;
     }
 
     public Domain getDomain() {

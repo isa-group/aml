@@ -45,28 +45,49 @@ import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
 import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.ListExpression;
 import es.us.isa.aml.model.expression.LogicalExpression;
 import es.us.isa.aml.model.expression.LogicalOperator;
 import es.us.isa.aml.model.expression.ParenthesisExpression;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AdditiveExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AgreementContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AndExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ArgsContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ArrayAtomContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ArrayContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ArrayExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AssigExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AtomExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.BooleanAtomContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationElementContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationsIntervalContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Consumer_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Context_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CuantifContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EqualityExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeatureContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Feature_operationContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeaturesContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.IdAtomContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ImpliesExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ListExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.LocalDescriptionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Local_MonitorablePropertiesContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.MultiplicationExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.NotExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.NumberAtomContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.OrExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ParExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.PartiesRoles_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Provider_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.QualifyingConditionContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.RelationalExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ServiceProvider_propContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.StringAtomContext;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
 
@@ -113,6 +134,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			throw new IllegalArgumentException(
 					"There was an error parsing the file. "
 							+ "Please, check the syntax of the document.");
+			
 		}
 
 		return this.model;
@@ -136,8 +158,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		this.model.setVersion(Double.valueOf(ctx.version.getText()));
 
 		this.model.getContext().setTemplateId(ctx.templateId.getText());
-		this.model.getContext().setTemplateVersion(new Float(
-				ctx.templateVersion.getText()));
+		this.model.getContext().setTemplateVersion(
+				new Float(ctx.templateVersion.getText()));
 
 		this.visitAg_def(ctx.ag_def());
 
@@ -189,9 +211,11 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		this.visitService(ctx.service());
 
-		this.visitMonitorableProperties(ctx.monitorableProperties());
+		if(ctx.monitorableProperties() != null)
+			this.visitMonitorableProperties(ctx.monitorableProperties());
 
-		this.visitGuaranteeTerms(ctx.guaranteeTerms());
+		if(ctx.guaranteeTerms() != null)
+			this.visitGuaranteeTerms(ctx.guaranteeTerms());
 
 		return null;
 	}
@@ -331,10 +355,10 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 	@Override
 	public Object visitContext_prop(Context_propContext ctx) {
-		if(ctx.FROM() != null)
+		if (ctx.FROM() != null)
 			this.model.getContext().setTemplateId(ctx.id.getText());
-		//if(ctx.ON() != null)
-			// TODO Agregar propiedad 'fecha de creación' al agreement
+		// if(ctx.ON() != null)
+		// TODO Agregar propiedad 'fecha de creación' al agreement
 		return null;
 	}
 
@@ -638,38 +662,43 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		switch (ctx.getClass().getSimpleName()) {
 		case "AssigExprContext":
-			res = this.visitAssigExpr((iAgreeParser.AssigExprContext) ctx);
+			res = this.visitAssigExpr((AssigExprContext) ctx);
 			break;
 		case "NotExprContext":
-			res = this.visitNotExpr((iAgreeParser.NotExprContext) ctx);
+			res = this.visitNotExpr((NotExprContext) ctx);
 			break;
 		case "MultiplicationExprContext":
-			res = this
-					.visitMultiplicationExpr((iAgreeParser.MultiplicationExprContext) ctx);
+			res = this.visitMultiplicationExpr((MultiplicationExprContext) ctx);
 			break;
 		case "AdditiveExprContext":
-			res = this
-					.visitAdditiveExpr((iAgreeParser.AdditiveExprContext) ctx);
+			res = this.visitAdditiveExpr((AdditiveExprContext) ctx);
 			break;
 		case "RelationalExprContext":
-			res = this
-					.visitRelationalExpr((iAgreeParser.RelationalExprContext) ctx);
+			res = this.visitRelationalExpr((RelationalExprContext) ctx);
 			break;
 		case "EqualityExprContext":
-			res = this
-					.visitEqualityExpr((iAgreeParser.EqualityExprContext) ctx);
+			res = this.visitEqualityExpr((EqualityExprContext) ctx);
 			break;
 		case "AndExprContext":
-			res = this.visitAndExpr((iAgreeParser.AndExprContext) ctx);
+			res = this.visitAndExpr((AndExprContext) ctx);
 			break;
 		case "OrExprContext":
-			res = this.visitOrExpr((iAgreeParser.OrExprContext) ctx);
+			res = this.visitOrExpr((OrExprContext) ctx);
+			break;
+		case "ImpliesExprContext":
+			res = this.visitImpliesExpr((ImpliesExprContext) ctx);
 			break;
 		case "ParExprContext":
-			res = this.visitParExpr((iAgreeParser.ParExprContext) ctx);
+			res = this.visitParExpr((ParExprContext) ctx);
+			break;
+		case "ListExprContext":
+			res = this.visitListExpr((ListExprContext) ctx);
+			break;
+		case "ArrayExprContext":
+			res = this.visitArrayExpr((ArrayExprContext) ctx);
 			break;
 		case "AtomExprContext":
-			res = this.visitAtomExpr((iAgreeParser.AtomExprContext) ctx);
+			res = this.visitAtomExpr((AtomExprContext) ctx);
 			break;
 		}
 
@@ -677,7 +706,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Expression visitAssigExpr(iAgreeParser.AssigExprContext ctx) {
+	public Expression visitAssigExpr(AssigExprContext ctx) {
 		Var v = new Var(ctx.Identifier().getText());
 		Expression e2 = this.visitExpression(ctx.expression());
 		Expression res = new AssignmentExpression(v, e2);
@@ -685,7 +714,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Expression visitNotExpr(iAgreeParser.NotExprContext ctx) {
+	public Expression visitNotExpr(NotExprContext ctx) {
 		Expression e1 = this.visitExpression(ctx.expression());
 		Expression res = new LogicalExpression(e1, LogicalOperator.not);
 		return res;
@@ -693,7 +722,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 	@Override
 	public Expression visitMultiplicationExpr(
-			@NotNull iAgreeParser.MultiplicationExprContext ctx) {
+			@NotNull MultiplicationExprContext ctx) {
 
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
@@ -710,8 +739,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Expression visitAdditiveExpr(
-			@NotNull iAgreeParser.AdditiveExprContext ctx) {
+	public Expression visitAdditiveExpr(@NotNull AdditiveExprContext ctx) {
 
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
@@ -728,8 +756,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Expression visitRelationalExpr(
-			@NotNull iAgreeParser.RelationalExprContext ctx) {
+	public Expression visitRelationalExpr(@NotNull RelationalExprContext ctx) {
 
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
@@ -750,8 +777,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Expression visitEqualityExpr(
-			@NotNull iAgreeParser.EqualityExprContext ctx) {
+	public Expression visitEqualityExpr(@NotNull EqualityExprContext ctx) {
 
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
@@ -766,39 +792,73 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Expression visitAndExpr(iAgreeParser.AndExprContext ctx) {
+	public Expression visitAndExpr(AndExprContext ctx) {
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
 		return new LogicalExpression(e1, e2, LogicalOperator.and);
 	}
 
 	@Override
-	public Expression visitOrExpr(iAgreeParser.OrExprContext ctx) {
+	public Expression visitOrExpr(OrExprContext ctx) {
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
 		return new LogicalExpression(e1, e2, LogicalOperator.or);
 	}
-
-	// atom overrides
+	
 	@Override
-	public Expression visitAtomExpr(iAgreeParser.AtomExprContext ctx) {
+    public Expression visitImpliesExpr(ImpliesExprContext ctx) {
+    	Expression e1 = this.visitExpression(ctx.expression(0));
+        Expression e2 = this.visitExpression(ctx.expression(1));
+        return new LogicalExpression(e1, e2, LogicalOperator.implies);
+    }
+
+	@Override
+	public Expression visitListExpr(ListExprContext ctx) {
+		return visitList(ctx.list());
+	}
+
+	@Override
+	public Expression visitList(iAgreeParser.ListContext ctx) {
+		List<Object> ls = new ArrayList<Object>();
+		for (ArgsContext actx : ctx.args()) {
+			ls.add(actx.getText());
+		}
+		return new ListExpression(ls);
+	}
+
+	@Override
+	public Expression visitArrayExpr(ArrayExprContext ctx) {
+		return visitArray(ctx.array());
+	}
+
+	@Override
+	public Expression visitArray(ArrayContext ctx) {
+		Object[] ls = new Object[ctx.args().size()];
+		for (int i = 0; i < ctx.args().size(); i++) {
+			ls[i] = ctx.args(i);
+		}
+		return new ListExpression(ls);
+	}
+
+	@Override
+	public Expression visitAtomExpr(AtomExprContext ctx) {
 		Expression res = null;
 
 		switch (ctx.atom().getClass().getSimpleName()) {
 		case "NumberAtomContext":
-			res = this.visitNumberAtom((iAgreeParser.NumberAtomContext) ctx
-					.atom());
+			res = this.visitNumberAtom((NumberAtomContext) ctx.atom());
 			break;
 		case "BooleanAtomContext":
-			res = this.visitBooleanAtom((iAgreeParser.BooleanAtomContext) ctx
-					.atom());
+			res = this.visitBooleanAtom((BooleanAtomContext) ctx.atom());
+			break;
+		case "ArrayAtomContext":
+			res = this.visitArrayAtom((ArrayAtomContext) ctx.atom());
 			break;
 		case "IdAtomContext":
-			res = this.visitIdAtom((iAgreeParser.IdAtomContext) ctx.atom());
+			res = this.visitIdAtom((IdAtomContext) ctx.atom());
 			break;
 		case "StringAtomContext":
-			res = this.visitStringAtom((iAgreeParser.StringAtomContext) ctx
-					.atom());
+			res = this.visitStringAtom((StringAtomContext) ctx.atom());
 			break;
 		}
 
@@ -806,36 +866,39 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Expression visitParExpr(iAgreeParser.ParExprContext ctx) {
+	public Expression visitParExpr(ParExprContext ctx) {
 		return new ParenthesisExpression(this.visitExpression(ctx.expression()));
 	}
 
 	@Override
-	public Expression visitNumberAtom(iAgreeParser.NumberAtomContext ctx) {
+	public Expression visitNumberAtom(NumberAtomContext ctx) {
 		return new Atomic(ctx.getText());
 	}
 
 	@Override
-	public Expression visitBooleanAtom(iAgreeParser.BooleanAtomContext ctx) {
+	public Expression visitBooleanAtom(BooleanAtomContext ctx) {
 		return new Atomic(ctx.getText());
 	}
 
 	@Override
-	public Expression visitIdAtom(iAgreeParser.IdAtomContext ctx) {
+	public Expression visitArrayAtom(ArrayAtomContext ctx) {
+		return new Atomic(ctx.getText());
+	}
+
+	@Override
+	public Expression visitIdAtom(IdAtomContext ctx) {
 		return new Var(ctx.getText());
 	}
 
 	@Override
-	public Expression visitStringAtom(iAgreeParser.StringAtomContext ctx) {
+	public Expression visitStringAtom(StringAtomContext ctx) {
 		return new Atomic(ctx.getText());
 	}
 
 	@Override
 	public Metric visitMetrics_prop(iAgreeParser.Metrics_propContext ctx) {
 		Enumerated en = new Enumerated();
-		List<Object> ls = new ArrayList<Object>();
-		ls.add(true);
-		ls.add(false);
+		Object[] ls = new Object[] { true, false };
 		en.setValues(ls);
 		Metric m = new Metric("boolean", "Boolean", en);
 
@@ -856,7 +919,19 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		if (ctx.range() != null) {
 			domain = this.visitRange(ctx.range());
 		} else if (ctx.list() != null) {
-			domain = this.visitList(ctx.list());
+			Enumerated e = new Enumerated();
+			List<Object> values = new ArrayList<Object>();
+			for (ArgsContext actx : ctx.list().args())
+				values.add(actx.getText());
+			e.setValues(values.toArray());
+			domain = e;
+		} else if(ctx.array() != null){
+			Enumerated e = new Enumerated();
+			List<Object> values = new ArrayList<Object>();
+			for (ArgsContext actx : ctx.array().args())
+				values.add(actx.getText());
+			e.setValues(values.toArray());
+			domain = e;
 		}
 		m = new Metric(id, type, domain);
 		this.model.getContext().getMetrics().put(id, m);
@@ -869,17 +944,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		r = new Range(Integer.valueOf(ctx.min.getText()),
 				Integer.valueOf(ctx.max.getText()));
 		return r;
-	}
-
-	@Override
-	public Domain visitList(iAgreeParser.ListContext ctx) {
-		Enumerated e = new Enumerated();
-		List<Object> ls = new ArrayList<Object>();
-		for (iAgreeParser.ListArgContext lctx : ctx.listArg()) {
-			ls.add(lctx.getText());
-		}
-		e.setValues(ls);
-		return e;
 	}
 
 	@Override
@@ -963,12 +1027,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Object visitListArg(iAgreeParser.ListArgContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Object visit(ParseTree tree) {
 		// TODO Auto-generated method stub
 		return null;
@@ -994,6 +1052,12 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 	@Override
 	public Object visitCuantif(CuantifContext ctx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object visitArgs(ArgsContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}

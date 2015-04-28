@@ -151,7 +151,7 @@ public class GuaranteeTerm {
 
         if (getQualifyingCondition() != null) {
             sb.append("\t\t\t\t" + "<wsag:QualifyingCondition>").append("\n");
-            sb.append("\t\t\t\t\t").append(getQualifyingCondition().getCondition())
+            sb.append("\t\t\t\t\t").append(Util.encodeEntities(getQualifyingCondition().getCondition().toString()))
                     .append("\n");
             sb.append("\t\t\t\t" + "</wsag:QualifyingCondition>").append("\n");
         }

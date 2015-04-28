@@ -41,8 +41,8 @@ public class OtherTests {
         for (CreationConstraint c : model1.getCreationConstraints()) {
             assertNotNull(c);
             CompoundExpression ce = (CompoundExpression) c.getSlo().getExpression();
-            assertNotNull(ce.getExpresion1());
-            assertNotNull(ce.getExpresion2());
+            assertNotNull(ce.getExpression1());
+            assertNotNull(ce.getExpression2());
             assertNotNull(ce.getExpressions());
             assertNotNull(ce.getOperator());
 

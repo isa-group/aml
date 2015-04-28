@@ -15,7 +15,7 @@ public class AgreementOffer extends AgreementModel {
     }
 
     public void loadFromFile(String path) {
-        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementLanguage lang = AgreementLanguage.valueOf((String) Config.getProperty("defaultInputFormat"));
         loadFromFile(path, lang);
     }
 

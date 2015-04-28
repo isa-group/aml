@@ -136,7 +136,7 @@ public class Store {
 
     // Parsing
     public AgreementModel parseAgreementFile(String content) {
-        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementLanguage lang = AgreementLanguage.valueOf((String) Config.getProperty("defaultInputFormat"));
         AgreementParser parser = ParserFactory.createParser(lang);
         return parser.doParse(content);
     }
@@ -144,6 +144,12 @@ public class Store {
     public AgreementModel parseAgreementFile(String content, AgreementLanguage lang) {
         AgreementParser parser = ParserFactory.createParser(lang);
         AgreementModel model = parser.doParse(content);
+        return model;
+    }
+    
+    public AgreementModel parseAgreementFile(String content, File[] metrics, AgreementLanguage lang) {
+        AgreementParser parser = ParserFactory.createParser(lang);
+        AgreementModel model = parser.doParse(content, metrics);
         return model;
     }
 

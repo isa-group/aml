@@ -139,7 +139,14 @@ public class CSPModel extends AbstractModel {
 		sb.append("\n");
 
 		for (CSPVar var : getVariables()) {
-			sb.append(var.toString()).append("\n");
+			if(!var.getDvar())
+				sb.append(var.toString()).append("\n");
+		}
+		sb.append("\n");
+		
+		for (CSPVar var : getVariables()) {
+			if(var.getDvar())
+				sb.append(var.toString()).append("\n");
 		}
 		sb.append("\n");
 

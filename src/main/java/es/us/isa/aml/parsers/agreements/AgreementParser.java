@@ -5,6 +5,8 @@
  */
 package es.us.isa.aml.parsers.agreements;
 
+import java.io.File;
+
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.util.AgreementLanguage;
 
@@ -15,6 +17,8 @@ import es.us.isa.aml.util.AgreementLanguage;
 public interface AgreementParser {
 
     public AgreementModel doParse(String content);
+    
+    public AgreementModel doParse(String content, File[] metrics);
 
     public AgreementLanguage getSupportedLang();
 }

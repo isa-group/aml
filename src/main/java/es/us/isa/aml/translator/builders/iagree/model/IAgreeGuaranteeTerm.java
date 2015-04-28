@@ -28,18 +28,18 @@ public class IAgreeGuaranteeTerm extends GuaranteeTerm {
         sb.append("\t\t").append(getId()).append(": ").append(getServiceRole()).append(" guarantees ").append(getSlo()).append(";" + "\n");
 
         if (getServiceScope() != null && !getServiceScope().isEmpty()) {
-            sb.append("\t\t" + "upon ").append(getServiceScope());
+            sb.append("\t\t\t" + "upon ").append(getServiceScope());
         }
 
         if (getQc() != null) {
-            sb.append("\t\t").append(Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])).append("(").append(getQc().getCondition()).append(")" + ";");
+            sb.append("\t\t\t").append(Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])).append("(").append(getQc().getCondition()).append(")" + ";");
             sb.append("\n");
         }
 
         if (getCompensations().size() > 0) {
             for (Compensation comp : getCompensations()) {
                 IAgreeCompensation compensation = (IAgreeCompensation) comp;
-                sb.append("\t\t").append(compensation.toString());
+                sb.append("\t\t\t").append(compensation.toString());
             }
         }
 

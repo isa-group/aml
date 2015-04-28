@@ -4,6 +4,7 @@
 package es.us.isa.aml.reasoners;
 
 import ilog.concert.IloConstraint;
+import ilog.concert.IloException;
 import ilog.concert.cppimpl.IloEnv;
 import ilog.cp.IloCP;
 import ilog.cp.IloCP.ConflictStatus;
@@ -105,11 +106,19 @@ public class CplexHandler {
 				cplex.clearModel();
 				opl.endAll();
 			}
-
-		} catch (IOException e) {
-		} catch (Error | Exception e) {
-			solve = false;
-			LOG.log(Level.SEVERE, "There was an error processing the file", e);
+		} catch (IloException e) {
+			String[] aux = e.getMessage().split(":");
+			String exc = aux[0];
+			if (exc.equals("IloMapOutOfBoundException"))
+				solve = false;
+			else {
+				solve = null;
+				LOG.log(Level.SEVERE, e.getMessage());
+				LOG.log(Level.INFO, content);
+			}
+		} catch (Error | IOException e) {
+			solve = null;
+			LOG.log(Level.SEVERE, e.getMessage());
 		}
 
 		return new Gson().toJson(solve);
@@ -189,11 +198,23 @@ public class CplexHandler {
 							List<String> possibleConflicts = new LinkedList<>();
 							for (IloConstraint constraint : constraints) {
 								ConflictStatus cs = cp.getConflict(constraint);
+
+								String constraint_name = constraint.getName();
+								if (constraint_name.contains("_")) {
+									constraint_name = constraint_name
+											.substring(0, constraint_name
+													.lastIndexOf("_"));
+								}
+
 								if (cs.equals(ConflictStatus.ConflictMember)) {
-									provedConflicts.add(constraint.getName());
+									if (!provedConflicts
+											.contains(constraint_name))
+										provedConflicts.add(constraint_name);
 								} else if (cs
 										.equals(ConflictStatus.ConflictPossibleMember)) {
-									possibleConflicts.add(constraint.getName());
+									if (!possibleConflicts
+											.contains(constraint_name))
+										possibleConflicts.add(constraint_name);
 								}
 							}
 							conflictsMap
@@ -231,7 +252,7 @@ public class CplexHandler {
 
 		} catch (Error | Exception e) {
 			result = "ERROR";
-			LOG.log(Level.SEVERE, "There was an error processing the file", e);
+			LOG.log(Level.SEVERE, e.getMessage());
 		}
 
 		response.put("result", result);

@@ -33,6 +33,7 @@ AgreementTerms
             WriteRequests: met5;
             ResponseTime:met5;
             MUP: met5;
+            RRS: boolean;
 		for testFeatures2:
 			MonitProp3: met4;
 		for testFeatures3:

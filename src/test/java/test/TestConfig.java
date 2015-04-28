@@ -3,15 +3,18 @@
  */
 package test;
 
-import es.us.isa.aml.util.Config;
-import es.us.isa.aml.util.Util;
+import static org.junit.Assert.assertEquals;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
+
+import es.us.isa.aml.util.Config;
+import es.us.isa.aml.util.Util;
 
 /**
  * @author jdelafuente
@@ -35,7 +38,7 @@ public class TestConfig {
 
         loadData(); //reset to original properties
 
-        assertEquals(Config.getProperty("hola"), "");
+        assertEquals(Config.getProperty("hola"), null);
 
     }
 

@@ -23,9 +23,9 @@ public class IAgreeCompensation extends Compensation {
 
         sb.append("with ").append(getAssessmentInterval().toString().toLowerCase()).append(" ").append(getCompensationType().toString().toLowerCase()).append("\n");
         for (CompensationElement elem : getElements()) {
-            sb.append("\t\t\t" + "of ").append(elem.getExpression().toString()).append(" if ").append(elem.getCondition().toString()).append(";" + "\n");
+            sb.append("\t\t\t\t" + "of ").append(elem.getExpression().toString()).append(" if ").append(elem.getCondition().toString()).append(";" + "\n");
         }
-        sb.append("\t\t" + "end");
+        sb.append("\t\t\t" + "end");
 
         return sb.toString();
     }

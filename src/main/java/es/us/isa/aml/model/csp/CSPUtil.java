@@ -22,7 +22,8 @@ public class CSPUtil {
             this.put("integer", "int");
             this.put("float", "int");
             this.put("set", "int");
-            this.put("Boolean", "int");
+            this.put("enum", "{string}");
+            this.put("Boolean", "boolean");
         }
     };
 }

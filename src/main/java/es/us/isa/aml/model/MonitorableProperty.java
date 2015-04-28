@@ -10,6 +10,10 @@ import es.us.isa.aml.model.expression.Expression;
  *
  */
 public class MonitorableProperty extends Property {
+	
+	public MonitorableProperty(String id) {
+		super(id);
+	}
 
     public MonitorableProperty(String id, Metric metric) {
         super(id, metric);
@@ -19,8 +23,8 @@ public class MonitorableProperty extends Property {
             Scope scope, Feature feature) {
         super(id, metric, expression, scope, feature);
     }
-    
-    @Override
+
+	@Override
     public MonitorableProperty clone() {
     	MonitorableProperty mp = new MonitorableProperty(getId(), getMetric().clone());
     	mp.setExpression(getExpression());

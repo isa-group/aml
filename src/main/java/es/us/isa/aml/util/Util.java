@@ -24,147 +24,145 @@ import org.w3c.dom.Document;
 
 public class Util {
 
-    private static final Logger LOG = Logger.getLogger(Util.class.getName());
+	private static final Logger LOG = Logger.getLogger(Util.class.getName());
 
-    public static String withoutDoubleQuotes(String s) {
-        String str = s;
-        if (str.startsWith("\"")) {
-            str = str.substring(1, str.length());
-        }
-        if (str.endsWith("\"")) {
-            str = str.substring(0, str.length() - 1);
-        }
-        return str;
-    }
+	public static String withoutDoubleQuotes(String s) {
+		String str = s;
+		if (str.startsWith("\"")) {
+			str = str.substring(1, str.length());
+		}
+		if (str.endsWith("\"")) {
+			str = str.substring(0, str.length() - 1);
+		}
+		return str;
+	}
 
-    public static String withoutQuotes(String s) {
-        String str = s;
-        if (str.startsWith("\'")) {
-            str = str.substring(1, str.length());
-        }
-        if (str.endsWith("\'")) {
-            str = str.substring(0, str.length() - 1);
-        }
-        return str;
-    }
+	public static String withoutQuotes(String s) {
+		String str = s;
+		if (str.startsWith("\'")) {
+			str = str.substring(1, str.length());
+		}
+		if (str.endsWith("\'")) {
+			str = str.substring(0, str.length() - 1);
+		}
+		return str;
+	}
 
-    public static String encodeEntities(String s) {
-        String str = s;
-        str = str.replaceAll("<", "&lt;");
-        str = str.replaceAll(">", "&gt;");
-        return str;
-    }
+	public static String encodeEntities(String str) {
+		str = str.replaceAll("<", "&lt;");
+		str = str.replaceAll(">", "&gt;");
+		return str;
+	}
 
-    public static String decodeEntities(String s) {
-        String str = s;
-        str = str.replaceAll("&lt;", "<");
-        str = str.replaceAll("&gt;", ">");
-        return str;
-    }
+	public static String decodeEntities(String str) {
+		str = str.replaceAll("&lt;", "<");
+		str = str.replaceAll("&gt;", ">");		
+		return str;
+	}
 
-    public static String convertMetricType(String originalType) {
-        String newType = null;
+	public static String convertMetricType(String originalType) {
+		String newType = null;
 
-        if (originalType != null) {
-            originalType = originalType.toLowerCase();
+		if (originalType != null) {
+			originalType = originalType.toLowerCase();
 
-            if (originalType.equals("float") || originalType.equals("double")
-                    || originalType.equals("natural")
-                    || originalType.equals("number")
-                    || originalType.equals("cost")
-                    || originalType.equals("time")
-                    || originalType.equals("size")
-                    || originalType.equals("errors")
-                    || originalType.equals("money")
-                    || originalType.equals("percent")
-                    || originalType.equals("integer")
-                    || originalType.equals("string")) {
-                newType = "integer";
-            } else {
-                newType = "enumerated";
-            }
-        }
+			if (originalType.equals("float") || originalType.equals("double")
+					|| originalType.equals("natural")
+					|| originalType.equals("number")
+					|| originalType.equals("cost")
+					|| originalType.equals("time")
+					|| originalType.equals("size")
+					|| originalType.equals("errors")
+					|| originalType.equals("money")
+					|| originalType.equals("percent")
+					|| originalType.equals("integer")
+					|| originalType.equals("string")) {
+				newType = "integer";
+			} else {
+				newType = "enumerated";
+			}
+		}
 
-        return newType;
-    }
+		return newType;
+	}
 
-    public static String loadFile(String filePath) {
-        // Location of file to read
-        File f = new File(filePath);
-        FileInputStream is;
-        String res = "";
-        try {
-            is = new FileInputStream(f);
-            res = getStringFromInputStream(is);
-            is.close();
-        } catch (FileNotFoundException e) {
-            Util.LOG.log(Level.WARNING, "loadFile error", e);
+	public static String loadFile(String filePath) {
+		// Location of file to read
+		File f = new File(filePath);
+		FileInputStream is;
+		String res = "";
+		try {
+			is = new FileInputStream(f);
+			res = getStringFromInputStream(is);
+			is.close();
+		} catch (FileNotFoundException e) {
+			Util.LOG.log(Level.WARNING, "loadFile error", e);
 
-        } catch (IOException e) {
-            Util.LOG.log(Level.WARNING, "loadFile error", e);
-        }
-        return res;
-    }
+		} catch (IOException e) {
+			Util.LOG.log(Level.WARNING, "loadFile error", e);
+		}
+		return res;
+	}
 
-    public static String DOM2String(Document doc) {
-        String xmlString = null;
-        try {
-            Transformer transformer = TransformerFactory.newInstance()
-                    .newTransformer();
+	public static String DOM2String(Document doc) {
+		String xmlString = null;
+		try {
+			Transformer transformer = TransformerFactory.newInstance()
+					.newTransformer();
 
-            // set some options on the transformer
-            transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
-            transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION,
-                    "yes");
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty(
-                    "{http://xml.apache.org/xslt}indent-amount", "2");
+			// set some options on the transformer
+			transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION,
+					"yes");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(
+					"{http://xml.apache.org/xslt}indent-amount", "2");
 
-            // initialize StreamResult with File object to save to file
-            StreamResult result = new StreamResult(new StringWriter());
-            DOMSource source = new DOMSource(doc);
-            transformer.transform(source, result);
+			// initialize StreamResult with File object to save to file
+			StreamResult result = new StreamResult(new StringWriter());
+			DOMSource source = new DOMSource(doc);
+			transformer.transform(source, result);
 
-            xmlString = result.getWriter().toString();
-        } catch (TransformerConfigurationException e) {
-            Util.LOG.log(Level.WARNING, "DOM2String error", e);
-        } catch (IllegalArgumentException | TransformerFactoryConfigurationError | TransformerException e) {
-            Util.LOG.log(Level.WARNING, "DOM2String error", e);
-        }
+			xmlString = result.getWriter().toString();
+		} catch (TransformerConfigurationException e) {
+			Util.LOG.log(Level.WARNING, "DOM2String error", e);
+		} catch (IllegalArgumentException
+				| TransformerFactoryConfigurationError | TransformerException e) {
+			Util.LOG.log(Level.WARNING, "DOM2String error", e);
+		}
 
-        return xmlString;
-    }
+		return xmlString;
+	}
 
-    public static String getTimestamp() {
-        String timestamp;
-        Date now = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        timestamp = sdf.format(now);
-        return timestamp;
-    }
+	public static String getTimestamp() {
+		String timestamp;
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		timestamp = sdf.format(now);
+		return timestamp;
+	}
 
-    public static String dateTrasform(Date date) {
-        String result;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        result = sdf.format(date);
-        return result;
-    }
+	public static String dateTrasform(Date date) {
+		String result;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		result = sdf.format(date);
+		return result;
+	}
 
-    public static String getStringFromInputStream(InputStream in) {
-        BufferedReader reader = new BufferedReader(
-                new InputStreamReader(in));
-        StringBuilder sb = new StringBuilder();
-        String line = null;
-        try {
-            while ((line = reader.readLine()) != null) {
-                sb.append(line.replaceAll("	", "\t")).append("\n");
-            }
-        } catch (IOException e) {
-            LOG.log(Level.WARNING, null, e);
-        }
-        return sb.toString();
-    }
+	public static String getStringFromInputStream(InputStream in) {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		StringBuilder sb = new StringBuilder();
+		String line = null;
+		try {
+			while ((line = reader.readLine()) != null) {
+				sb.append(line.replaceAll("	", "\t")).append("\n");
+			}
+		} catch (IOException e) {
+			LOG.log(Level.WARNING, null, e);
+		}
+		return sb.toString();
+	}
 
-    private Util() {
-    }
+	private Util() {
+	}
 }

@@ -25,7 +25,7 @@ public class ParserFactory {
             case WSAG:
                 return wsagParser;
             default:
-                throw new IllegalArgumentException("there is no parser for this language: " + lang);
+                throw new IllegalArgumentException("There is no parser for this language: " + lang);
         }
     }
 

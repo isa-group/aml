@@ -5,6 +5,8 @@
  */
 package es.us.isa.aml.parsers.agreements;
 
+import java.io.File;
+
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.iagree.IAgreeErrorListener;
 import es.us.isa.aml.parsers.agreements.iagree.MiAgreeVisitor;
@@ -62,5 +64,10 @@ public class IAgreeParser implements AgreementParser {
     public IAgreeErrorListener getErrorListener() {
         return errorListener;
     }
+
+	@Override
+	public AgreementModel doParse(String content, File[] metrics) {
+		return doParse(content);
+	}
 
 }

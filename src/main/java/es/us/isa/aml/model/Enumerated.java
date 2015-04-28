@@ -3,8 +3,7 @@
  */
 package es.us.isa.aml.model;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * @author jdelafuente
@@ -12,27 +11,27 @@ import java.util.List;
  */
 public class Enumerated extends Domain {
 
-    private List<Object> values;
+    private Object[] values;
 
     public Enumerated() {
-        this.values = new ArrayList<>();
+        this.values = new Object[0];
     }
 
-    public Enumerated(List<Object> values) {
+    public Enumerated(Object[] values) {
         this.values = values;
     }
 
     /**
      * @return the values
      */
-    public List<Object> getValues() {
+    public Object[] getValues() {
         return this.values;
     }
 
     /**
      * @param values the values to set
      */
-    public void setValues(List<Object> values) {
+    public void setValues(Object[] values) {
         this.values = values;
     }
 }

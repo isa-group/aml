@@ -78,10 +78,10 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 		StringBuilder sb = new StringBuilder();
 
 		String exp = getExpr().toString();
-		exp = exp.replace("AND", "&&");
-		exp = exp.replace("OR", "||");
-		exp = exp.replace("NOT ", "!");
-		exp = exp.replace("IMPLIES", "=>");
+		exp = exp.replaceAll("\\bAND\\b", "&&");
+		exp = exp.replaceAll("\\bOR\\b", "||");
+		exp = exp.replaceAll("\\bNOT\\b ", "!");
+		exp = exp.replaceAll("\\bIMPLIES\\b", "=>");
 
 		sb.append(exp);
 

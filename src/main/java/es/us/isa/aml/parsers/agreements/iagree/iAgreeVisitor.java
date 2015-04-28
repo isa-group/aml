@@ -26,11 +26,25 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitSlo(@NotNull iAgreeParser.SloContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#args}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArgs(@NotNull iAgreeParser.ArgsContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#stringAtom}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitStringAtom(@NotNull iAgreeParser.StringAtomContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#arrayExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayExpr(@NotNull iAgreeParser.ArrayExprContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#ag_def}.
@@ -208,6 +222,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitMetric(@NotNull iAgreeParser.MetricContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#impliesExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitImpliesExpr(@NotNull iAgreeParser.ImpliesExprContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#guarantee_def}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -220,6 +241,20 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitVersionNumber(@NotNull iAgreeParser.VersionNumberContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#array}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArray(@NotNull iAgreeParser.ArrayContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#arrayAtom}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAtom(@NotNull iAgreeParser.ArrayAtomContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#andExpr}.
@@ -348,6 +383,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitQualifyingCondition(@NotNull iAgreeParser.QualifyingConditionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#listExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitListExpr(@NotNull iAgreeParser.ListExprContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#template_def}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -465,11 +507,4 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitInitiator_prop(@NotNull iAgreeParser.Initiator_propContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#listArg}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListArg(@NotNull iAgreeParser.ListArgContext ctx);
 }

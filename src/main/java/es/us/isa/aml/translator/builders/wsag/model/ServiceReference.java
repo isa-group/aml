@@ -24,4 +24,44 @@ public class ServiceReference {
      */
     private String serviceName;
 
+    
+    public ServiceReference() {
+	}
+    
+	/**
+	 * @param name
+	 */
+	public ServiceReference(String name) {
+		super();
+		this.name = name;
+	}
+	
+
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
+
+	/**
+	 * @param name the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @return the serviceName
+	 */
+	public String getServiceName() {
+		return serviceName;
+	}
+
+	/**
+	 * @param serviceName the serviceName to set
+	 */
+	public void setServiceName(String serviceName) {
+		this.serviceName = serviceName;
+	}
 }

@@ -24,11 +24,11 @@ public abstract class CompoundExpression extends Expression {
         return res;
     }
 
-    public Expression getExpresion1() {
+    public Expression getExpression1() {
         return this.exp1;
     }
 
-    public Expression getExpresion2() {
+    public Expression getExpression2() {
         return this.exp2;
     }
 

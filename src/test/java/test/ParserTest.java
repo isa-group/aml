@@ -10,14 +10,13 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.operations.core.csp.AreCompliant;
-import es.us.isa.aml.parsers.agreements.IAgreeParser;
 import es.us.isa.aml.translator.Translator;
-import es.us.isa.aml.translator.builders.opl.OPLBuilder;
-import es.us.isa.aml.util.Config;
-import es.us.isa.aml.util.Util;
+import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
+import es.us.isa.aml.util.AgreementLanguage;
 
 /**
  * @author jdelafuente
@@ -36,36 +35,55 @@ public class ParserTest {
 		InputStream in2 = ParserTest.class
 				.getResourceAsStream("/samples/compliant_offer.ao");
 
-		// InputStream in = ParserTest.class
-		// .getResourceAsStream("/samples/wsag.xml");
 		String content = getStringFromInputStream(in);
 		
 		String content2 = getStringFromInputStream(in2);
-
-		IAgreeParser parser = new IAgreeParser();
-		AgreementTemplate model = null;
-		AgreementOffer model2 = null;
-		try {
-			model = (AgreementTemplate) parser.doParse(content);
-			model2 = (AgreementOffer) parser.doParse(content2);
-		} catch (Exception e) {
-			LOG.severe(e.getMessage());
-			return;
-		}
-
-		InputStream ins = ParserTest.class
-				.getResourceAsStream("/defaultConfig.json");
-		String config = Util.getStringFromInputStream(ins);
-		try {
-			Config.loadConfig(config);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		Translator t3 = new Translator(new OPLBuilder());
-//		LOG.log(Level.INFO, t3.print(model));
+	
 		
+		
+//		String asd = "(ConfProp1 <= 10 OR ConfProp2 > 2) AND (ConfProp1 > 10 OR ConfProp2 < 50)";
+//		Expression ex = Expression.parse(asd);
+//		
+//		CSPBuilder builder = new CSPBuilder();
+//		System.out.println(builder.splitExpressions(ex));
+		
+		
+		
+		
+		AgreementManager manager = new AgreementManager();
+		AgreementTemplate model = manager.createAgreementTemplate(content); 
+		AgreementOffer model2 = manager.createAgreementOffer(content2);
+		
+		AreCompliant op = new AreCompliant();
+		op.analyze(model, model2);
+		System.out.println(op.getResult().getResult());
+		
+
+//		IAgreeParser parser = new IAgreeParser();
+//		AgreementTemplate model = null;
+//		AgreementOffer model2 = null;
+//		try {
+//			model = (AgreementTemplate) parser.doParse(content);
+//			model2 = (AgreementOffer) parser.doParse(content2);
+//		} catch (Exception e) {
+//			LOG.severe(e.getMessage());
+//			return;
+//		}
+//
+//		InputStream ins = ParserTest.class
+//				.getResourceAsStream("/defaultConfig.json");
+//		String config = Util.getStringFromInputStream(ins);
+//		try {
+//			Config.loadConfig(config);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		Translator t3 = new Translator(new IAgreeBuilder());
+//		LOG.log(Level.INFO, t3.print(model));
+//		LOG.log(Level.INFO, t3.print(model3));
+//		
 //		model.getCreationConstraints().clear();
 //		model.getAgreementTerms().getGuaranteeTerms().clear();
 //		
@@ -76,9 +94,9 @@ public class ParserTest {
 //		CSPModel finalmodel = antecedent.add(consequent.negate());
 //		System.out.println(finalmodel);
 		
-		AreCompliant op = new AreCompliant();
-		op.analyze(model, model2);
-		System.out.println(op.getResult().get("compliant"));
+//		AreCompliant op = new AreCompliant();
+//		op.analyze(model, model2);
+//		System.out.println(op.getResult().get("compliant"));
 		
 		
 

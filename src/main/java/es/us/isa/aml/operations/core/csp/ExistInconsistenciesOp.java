@@ -19,33 +19,25 @@ import es.us.isa.aml.util.ReasonerFactory;
  */
 public class ExistInconsistenciesOp extends CoreOperation {
 
-    public ExistInconsistenciesOp() {
-        this.reasoner = ReasonerFactory.createCSPReasoner();
-    }
+	public ExistInconsistenciesOp() {
+		this.reasoner = ReasonerFactory.createCSPReasoner();
+	}
 
-    public void analyze(AgreementModel agModel) {
-        
-    	// AgreementModel conversion a CSPModel
-        
-    	Translator translator = new Translator(new CSPBuilder());
-    	CSPModel model = (CSPModel) translator.translate(agModel);
-        Boolean solve = this.reasoner.solve(model);
-        result.put("existInconsistencies", !solve);
-        
-        OperationResponse res = reasoner.explain(model);
-        result.putAll(res);
-        
-        // ... negar todas las expresiones del CSPModel ...
-        // foreach(i) { 
-        //	model.getConstraint(i).expression.negate()
-        //  }
-        // ... mode.add(agModel2)
-        // ... 
-        // reasoner.solve(model);
-    }
+	public void analyze(AgreementModel agModel) {
+		Translator translator = new Translator(new CSPBuilder());
+		CSPModel model = (CSPModel) translator.translate(agModel);
 
-    @Override
-    public OperationResponse getResult() {
-        return this.result;
-    }
+		Boolean solve = this.reasoner.solve(model);
+		if (solve != null) {
+			result.put("existInconsistencies", !solve);
+			OperationResponse res = reasoner.explain(model);
+			result.putAll(res);
+		} else
+			result.put("existInconsistencies", null);
+	}
+
+	@Override
+	public OperationResponse getResult() {
+		return this.result;
+	}
 }

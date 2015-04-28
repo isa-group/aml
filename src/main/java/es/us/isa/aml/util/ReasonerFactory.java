@@ -17,7 +17,7 @@ import es.us.isa.aml.reasoners.Reasoner;
 public class ReasonerFactory {
 
     public static Reasoner createCSPReasoner() {
-        ReasonerType type = ReasonerType.valueOf(Config.getProperty("CSPReasoner"));
+        ReasonerType type = ReasonerType.valueOf((String) Config.getProperty("CSPReasoner"));
         switch (type) {
             case CHOCO:
                 return new ChocoReasoner();
@@ -31,7 +31,7 @@ public class ReasonerFactory {
     }
 
     public static Reasoner createDLReasoner() {
-        ReasonerType type = ReasonerType.valueOf(Config.getProperty("DLReasoner"));
+        ReasonerType type = ReasonerType.valueOf((String) Config.getProperty("DLReasoner"));
         switch (type) {
             default:
                 throw new IllegalArgumentException("there is no reasoner for this type: " + type);

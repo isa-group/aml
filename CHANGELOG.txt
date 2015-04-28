@@ -1,0 +1,9 @@
+AML 0.1.1, 2015-04-28
+-----------------------
+- Fixed AreCompliant operation.
+
+AML 0.1.0, 2015-04-27
+-----------------------
+- AML now support enum datatypes.
+- Added method to support AND constraints breaking.
+- AML now support WSAG old versions.

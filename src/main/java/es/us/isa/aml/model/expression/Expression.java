@@ -1,6 +1,8 @@
 package es.us.isa.aml.model.expression;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,102 +21,190 @@ import es.us.isa.aml.parsers.expression.MExpressionVisitor;
  */
 public abstract class Expression {
 
-    private static final Logger LOG = Logger.getLogger(Expression.class.getName());
+	private static final Logger LOG = Logger.getLogger(Expression.class
+			.getName());
 
-    public static Expression parse(String content) {
+	protected Object value;
 
-        ExpressionLexer lexer = new ExpressionLexer(new ANTLRInputStream(content));
+	public abstract Object calculate();
 
-        // Get a list of matched tokens
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
+	public static Expression parse(String content) {
 
-        // Pass the tokens to the parser
-        ExpressionParser parser = new ExpressionParser(tokens);
+		ExpressionLexer lexer = new ExpressionLexer(new ANTLRInputStream(
+				content));
 
-        // Specify our entry point
-        ParseContext context = parser.parse();
+		// Get a list of matched tokens
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        // Walk it and attach our listener
-        MExpressionVisitor visitor = new MExpressionVisitor();
-        Expression res = visitor.visitParse(context);
+		// Pass the tokens to the parser
+		ExpressionParser parser = new ExpressionParser(tokens);
 
-        return res;
-    }
+		// Specify our entry point
+		ParseContext context = parser.parse();
 
-    public static Set<Atomic> getAtomics(Expression exp) {
-        Set<Atomic> lst = new HashSet<>();
-        if (!(exp instanceof Var)) {
-            if (exp instanceof CompoundExpression) {
-                CompoundExpression ce = (CompoundExpression) exp;
-                for (Expression ex : ce.getExpressions()) {
-                    lst.addAll(Expression.getAtomics(ex));
-                }
-            } else if (exp instanceof UnitaryExpression) {
-                UnitaryExpression ue = (UnitaryExpression) exp;
-                lst.addAll(Expression.getAtomics(ue.getExpression()));
-            }
-        } else {
-            lst.add((Atomic) exp);
-        }
-        return lst;
-    }
+		// Walk it and attach our listener
+		MExpressionVisitor visitor = new MExpressionVisitor();
+		Expression res = visitor.visitParse(context);
 
-    public static Set<Var> getVars(Expression exp) {
-        Set<Var> lst = new HashSet<>();
-        if (!(exp instanceof Var)) {
-            if (exp instanceof CompoundExpression) {
-                CompoundExpression ce = (CompoundExpression) exp;
-                for (Expression ex : ce.getExpressions()) {
-                    lst.addAll(Expression.getVars(ex));
-                }
-            } else if (exp instanceof UnitaryExpression) {
-                UnitaryExpression ue = (UnitaryExpression) exp;
-                lst.addAll(Expression.getVars(ue.getExpression()));
-            }
-        } else {
-            lst.add((Var) exp);
-        }
-        return lst;
-    }
+		return res;
+	}
 
-    public static void printTree(Expression exp, Integer index) {
-        if (index == 0) {
-            LOG.log(Level.INFO, "\n=============== Abstract Syntax Tree ===============" + "\n");
-        }
-        String tab = new String(new char[index]).replace("\0", "\t");
+	public static Set<Atomic> getAtomics(Expression exp) {
+		Set<Atomic> lst = new HashSet<>();
+		if (!(exp instanceof Atomic)) {
 
-        LOG.log(Level.INFO, "{0}{1}", new Object[]{tab, exp.getClass().getSimpleName()});
-        if (!(exp instanceof Atomic) && !(exp instanceof Var)) {
-            if (exp instanceof CompoundExpression) {
-                CompoundExpression ce = (CompoundExpression) exp;
-                index++;
-                try {
-                    LOG.log(Level.INFO, "{0}[{1}]", new Object[]{tab, ce.getOperator()});
-                } catch (Exception e) {
-                    LOG.log(Level.INFO, "{0}[=]", tab);
-                }
-                for (Expression ex : ce.getExpressions()) {
-                    Expression.printTree(ex, index);
-                }
-            } else if (exp instanceof UnitaryExpression) {
-                UnitaryExpression ue = (UnitaryExpression) exp;
-                index++;
-                Expression.printTree(ue.getExpression(), index);
-            }
-        } else {
-            LOG.log(Level.INFO, "{0}[{1}]", new Object[]{tab, exp});
-        }
-    }
-    protected Object value;
+			if (exp instanceof ParenthesisExpression) {
+				exp = ((ParenthesisExpression) exp).getExpression();
+			}
 
-    public abstract Object calculate();
-    
-    @Override
-    public int hashCode() {
-    	return this.toString().hashCode() * 31;
-    }
-    
-    @Override
+			if (exp instanceof CompoundExpression) {
+				CompoundExpression ce = (CompoundExpression) exp;
+				for (Expression ex : ce.getExpressions()) {
+					lst.addAll(Expression.getAtomics(ex));
+				}
+			}
+		} else {
+			lst.add((Atomic) exp);
+		}
+		return lst;
+	}
+
+	public static Set<Var> getVars(Expression exp) {
+		Set<Var> lst = new HashSet<>();
+		if (!(exp instanceof Var)) {
+
+			if (exp instanceof ParenthesisExpression) {
+				exp = ((ParenthesisExpression) exp).getExpression();
+			}
+
+			if (exp instanceof CompoundExpression) {
+				CompoundExpression ce = (CompoundExpression) exp;
+				for (Expression ex : ce.getExpressions()) {
+					lst.addAll(Expression.getVars(ex));
+				}
+			}
+		} else {
+			lst.add((Var) exp);
+		}
+		return lst;
+	}
+
+	public static void printTree(Expression exp, Integer index) {
+		if (index == 0) {
+			LOG.log(Level.INFO,
+					"\n=============== Abstract Syntax Tree ==============="
+							+ "\n");
+		}
+		String tab = new String(new char[index]).replace("\0", "\t");
+
+		LOG.log(Level.INFO, "{0}{1}", new Object[] { tab,
+				exp.getClass().getSimpleName() });
+		if (!(exp instanceof Atomic) && !(exp instanceof Var)) {
+
+			if (exp instanceof ParenthesisExpression) {
+				exp = ((ParenthesisExpression) exp).getExpression();
+			}
+
+			if (exp instanceof CompoundExpression) {
+				CompoundExpression ce = (CompoundExpression) exp;
+				index++;
+				try {
+					LOG.log(Level.INFO, "{0}[{1}]",
+							new Object[] { tab, ce.getOperator() });
+				} catch (Exception e) {
+					LOG.log(Level.INFO, "{0}[=]", tab);
+				}
+				for (Expression ex : ce.getExpressions()) {
+					Expression.printTree(ex, index);
+				}
+			}
+		} else {
+			LOG.log(Level.INFO, "{0}[{1}]", new Object[] { tab, exp });
+		}
+	}
+
+	public static List<Expression> splitExpressions(Expression expr) {
+		List<Expression> res = new ArrayList<Expression>();
+
+		if (expr instanceof ParenthesisExpression)
+			expr = ((ParenthesisExpression) expr).getExpression();
+
+		if (expr instanceof CompoundExpression) {
+			CompoundExpression cexpr = (CompoundExpression) expr;
+			if (cexpr.getOperator() != LogicalOperator.not) {
+				Boolean split = true;
+				for (Expression exp : cexpr.getExpressions()) {
+					if (exp instanceof ParenthesisExpression)
+						exp = ((ParenthesisExpression) exp).getExpression();
+
+					if (!(exp instanceof CompoundExpression)) {
+						split = false;
+						break;
+					}
+				}
+
+				if (split) {
+					Expression e1 = cexpr.getExpression1();
+					Expression e2 = cexpr.getExpression2();
+					res.addAll(splitExpressions(e1));
+					res.addAll(splitExpressions(e2));
+				} else {
+					res.add(cexpr);
+				}
+			} else {
+				res.add(expr);
+			}
+		} else {
+			res.add(expr);
+		}
+
+		return res;
+	}
+
+	public static List<Expression> splitANDExpressions(Expression expr) {
+		List<Expression> res = new ArrayList<Expression>();
+
+		if (expr instanceof ParenthesisExpression)
+			expr = ((ParenthesisExpression) expr).getExpression();
+
+		if (expr instanceof LogicalExpression) {
+			LogicalExpression lexpr = (LogicalExpression) expr;
+			if (lexpr.getOperator() == LogicalOperator.and) {
+				Boolean split = true;
+				for (Expression exp : lexpr.getExpressions()) {
+					if (exp instanceof ParenthesisExpression)
+						exp = ((ParenthesisExpression) exp).getExpression();
+
+					if (!(exp instanceof CompoundExpression)) {
+						split = false;
+						break;
+					}
+				}
+
+				if (split) {
+					Expression e1 = lexpr.getExpression1();
+					Expression e2 = lexpr.getExpression2();
+					res.addAll(splitExpressions(e1));
+					res.addAll(splitExpressions(e2));
+				} else {
+					res.add(lexpr);
+				}
+			} else {
+				res.add(expr);
+			}
+		} else {
+			res.add(expr);
+		}
+
+		return res;
+	}
+
+	@Override
+	public int hashCode() {
+		return this.toString().hashCode() * 31;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Expression) {
 			Expression expr = (Expression) obj;

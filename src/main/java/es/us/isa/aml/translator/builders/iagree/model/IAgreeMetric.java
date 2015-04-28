@@ -26,12 +26,13 @@ public class IAgreeMetric extends Metric {
     @Override
     public String toString() {
         String res = "";
+        
         if (getDomain() instanceof Range) {
             IAgreeRange range = new IAgreeRange(((Range) getDomain()).getMin(), ((Range) getDomain()).getMax());
             res = this.getId() + ": " + this.getType() + range + ";";
         } else if (getDomain() instanceof Enumerated) {
-            IAgreeEnumerated enume = new IAgreeEnumerated();
-            enume.setValues(((Enumerated) getDomain()).getValues());
+        	Object[] values = ((Enumerated) getDomain()).getValues();
+            IAgreeEnumerated enume = new IAgreeEnumerated(values);
             res = this.getId() + ": " + this.getType() + enume + ";";
         }
         return res;

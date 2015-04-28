@@ -23,7 +23,7 @@ public class IAgreeCreationConstraint extends CreationConstraint {
         sb.append(this.getId()).append(": ").append(this.getSlo()).append(";").append("\n");
 
         if (getQc() != null) {
-            sb.append("\t").append(Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])).append("(").append(getQc().getCondition()).append(")" + ";");
+            sb.append("\t\t").append(Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])).append("(").append(getQc().getCondition()).append(")" + ";");
             sb.append("\n");
         }
 

@@ -1,11 +1,10 @@
 package es.us.isa.aml.translator.builders.wsag.model;
 
-import es.us.isa.aml.model.Enumerated;
-import es.us.isa.aml.model.Range;
-import es.us.isa.aml.model.Responder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import es.us.isa.aml.model.Responder;
 
 /**
  * An agreement is scoped by its associated context that SHOULD include parties
@@ -197,16 +196,7 @@ public class Context {
         if (getMetrics().size() > 0) {
             sb.append("\t\t" + "<iag:Metrics>").append("\n");
             for (Metric m : getMetrics()) {
-                if (m.getDomain() instanceof Range) {
-                    Range r = (Range) m.getDomain();
-                    String range_str = "[" + r.getMin() + ".." + r.getMax() + "]";
-                    sb.append("\t\t\t" + "<iag:Metric id=\"").append(m.getId()).append("\" " + "type=\"").append(m.getType()).append("\" " + "domain=\"").append(range_str).append("\">" + "</iag:Metric>").append("\n");
-                } else {
-                    Enumerated e = (Enumerated) m.getDomain();
-                    String enum_str = e.getValues().toString().replace("[", "{").replace("]", "}");
-                    sb.append("\t\t\t" + "<iag:Metric id=\"").append(m.getId()).append("\" " + "type=\"").append(m.getType()).append("\" " + "domain=\"").append(enum_str).append("\">" + "</iag:Metric>").append("\n");
-                }
-
+            	sb.append("\t\t\t" + m.toString());
             }
             sb.append("\t\t" + "</iag:Metrics>").append("\n");
         }

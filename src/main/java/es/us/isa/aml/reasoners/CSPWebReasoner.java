@@ -31,7 +31,7 @@ public class CSPWebReasoner extends Reasoner {
 	@Override
 	public Boolean solve(CSPModel model) {
 
-		String url = Config.getProperty("CSPWebReasonerEndpoint");
+		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/solve";
 
 		String content = model.toString();
@@ -49,7 +49,7 @@ public class CSPWebReasoner extends Reasoner {
 
 	@Override
 	public OperationResponse explain(CSPModel model) {
-		String url = Config.getProperty("CSPWebReasonerEndpoint");
+		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/explain";
 
 		String content = model.toString();
@@ -66,7 +66,7 @@ public class CSPWebReasoner extends Reasoner {
 
 	@Override
 	public Boolean implies(CSPModel antecedent, CSPModel consequent) {
-		String url = Config.getProperty("CSPWebReasonerEndpoint");
+		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/implies";
 		
 		CSPModel model = antecedent.add(consequent.negate());
@@ -115,6 +115,8 @@ public class CSPWebReasoner extends Reasoner {
 			while ((inputLine = in.readLine()) != null) {
 				response.append(inputLine);
 			}
+		} catch (Exception e) {
+			response = new StringBuilder("There was an error trying to connect with the CSPWebReasoner");
 		}
 
 		return response.toString();

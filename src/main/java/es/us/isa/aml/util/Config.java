@@ -5,8 +5,10 @@
  */
 package es.us.isa.aml.util;
 
+import com.fasterxml.jackson.core.JsonParser.Feature;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,7 +40,7 @@ public class Config {
         if (instance.propertiesyMap.containsKey(prop)) {
             return instance.propertiesyMap.get(prop);
         }
-        return "";
+        return null;
     }
 
     public static void setProperty(String prop, String value) {
@@ -46,7 +48,9 @@ public class Config {
     }
 
     public static void loadConfig(String json) throws IOException {
-        getInstance().propertiesyMap = new ObjectMapper().readValue(json, new TypeReference<Map<String, String>>() {
+    	ObjectMapper mapper = new ObjectMapper();
+    	mapper.getFactory().enable(Feature.ALLOW_COMMENTS);
+        getInstance().propertiesyMap = mapper.readValue(json, new TypeReference<Map<String, String>>() {
         });
     }
     private Map<String, String> propertiesyMap = new HashMap<>();

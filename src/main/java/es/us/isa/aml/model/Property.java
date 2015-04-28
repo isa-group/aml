@@ -21,6 +21,12 @@ public class Property extends AgreementElement {
     private Scope scope;
     private Feature feature;
 
+    
+	public Property(String id) {
+		super(id);
+		scope = Scope.Global;
+	}
+    
     public Property(String id, Metric metric) {
         super(id);
         this.metric = metric;

@@ -20,6 +20,7 @@ import es.us.isa.aml.translator.builders.wsag.model.Offer;
 import es.us.isa.aml.translator.builders.wsag.model.OfferItem;
 import es.us.isa.aml.translator.builders.wsag.model.QualifyingCondition;
 import es.us.isa.aml.translator.builders.wsag.model.ServiceLevelObjective;
+import es.us.isa.aml.translator.builders.wsag.model.ServiceReference;
 import es.us.isa.aml.translator.builders.wsag.model.Template;
 import es.us.isa.aml.translator.builders.wsag.model.Variable;
 import es.us.isa.aml.util.DocType;
@@ -97,19 +98,19 @@ public class WSAGBuilder implements IBuilder {
 
 	@Override
 	public void setService(ServiceConfiguration service) {
+		
+		wsagDoc.getTerms().setServiceReference(new ServiceReference(service.getServiceName()));
+		
 		wsagDoc.getTerms().getServiceDescriptionTerm()
 				.setName("SDT_" + service.getServiceName());
-
-		wsagDoc.getTerms().getServiceDescriptionTerm()
-				.setServiceName(service.getServiceName());
+		wsagDoc.getTerms().getServiceDescriptionTerm().setServiceName(service.getServiceName());
 
 		wsagDoc.getTerms().getServiceDescriptionTerm()
 				.setServiceReference(service.getServiceReference());
 
 		wsagDoc.getTerms().getServiceProperties()
 				.setName("SP_" + service.getServiceName());
-		wsagDoc.getTerms().getServiceProperties()
-				.setServiceName(service.getServiceName());
+		wsagDoc.getTerms().getServiceProperties().setServiceName(service.getServiceName());
 
 		for (Property p : service.getConfigurationProperties()) {
 			setConfigurationProperty(p);
@@ -142,8 +143,10 @@ public class WSAGBuilder implements IBuilder {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-
-		v.setLocation("/" + mp.getId());
+		
+		if (mp.getExpression() != null) {
+			v.setLocation(mp.getExpression().toString());
+		}		
 
 		wsagDoc.getTerms().getServiceProperties().getVariableSet().add(v);
 	}

@@ -3,6 +3,8 @@
  */
 package es.us.isa.aml.translator.builders.iagree.model;
 
+import java.util.Arrays;
+
 import es.us.isa.aml.model.Enumerated;
 
 /**
@@ -11,9 +13,14 @@ import es.us.isa.aml.model.Enumerated;
  */
 public class IAgreeEnumerated extends Enumerated {
 
-    @Override
+	
+	public IAgreeEnumerated(Object[] values) {
+		super(values);
+	}
+
+	@Override
     public String toString() {
-        return this.getValues().toString().replace("[", "{").replace("]", "}");
+        return Arrays.asList(getValues()).toString().replace("[", "{").replace("]", "}");
     }
 
 }

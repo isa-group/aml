@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 grammar Expression;
 
 parse : expression
@@ -17,12 +11,20 @@ expression: Identifier ASSIG expression                     #assigExpr
           | expression op=(EQ | NEQ) expression             #equalityExpr
           | expression AND expression                       #andExpr
           | expression OR expression                        #orExpr
+          | expression IMPLIES expression                   #impliesExpr
           | PA expression PC                                #parExpr
+          | list                                            #listExpr
+          | array                                           #arrayExpr
           | atom                                            #atomExpr
           ;
 
+list : LLA l1=args (',' l2=args)* LLC ;
+array : CA l1=args (',' l2=args)* CC ;
+args : l1=(Identifier | String | Integer | S_Integer | Float | S_Float);
+
 atom : (Integer | S_Integer | Float | S_Float)   #numberAtom
        | (TRUE | FALSE)                          #booleanAtom
+       | id=Identifier CA value=String CC        #arrayAtom
        | Identifier                              #idAtom
        | String                                  #stringAtom
      ;
@@ -117,3 +119,5 @@ String : '\'' ~[']* '\''
 WS : [ \t\r\n]+ -> skip;
 COMMENT : '/*' .*? '*/' -> skip;
 LINE_COMMENT : '//' ~[\r\n]* -> skip;
+
+

@@ -1,6 +1,5 @@
 grammar iAgree;
 
-
 /*=====================================
             SYNTACTICAL RULES
  ======================================*/
@@ -32,7 +31,7 @@ temp_properties : context_prop
                 | metrics_prop
                 ;
 
-agreementTerms : AGREEMENT_TERMS service monitorableProperties guaranteeTerms;
+agreementTerms : AGREEMENT_TERMS service monitorableProperties? guaranteeTerms?;
 
 creationConstraints : CREATION_CONSTRAINTS creationConstraint+;
 
@@ -72,7 +71,7 @@ definedPeriod_prop : DEFINEDPERIOD ':' period+;
 
 metrics_prop : METRICS ':' (metric)+;
 
-metric: id=Identifier ':' (type=SET list | type=ENUM list | type=(INTEGER | FLOAT | NATURAL | NUMBER | BOOLEAN) (range)? (list)?) ';' ; 
+metric: id=Identifier ':' (type=SET (list|array) | type=ENUM (list|array) | type=(INTEGER | FLOAT | NATURAL | NUMBER | BOOLEAN) (range)? (list)?) ';' ; 
 
 
 //---------------------------------------
@@ -169,6 +168,18 @@ url : Url
 
 property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN) (ASSIG value=expression)? ';';
 
+cuantif : EXACTLY_ONE 
+        | ONE_OR_MORE
+        | ALL
+        ;
+
+range : '[' min=(Integer | S_Integer) '..' max=(Integer | S_Integer) ']' ;
+
+
+/*=====================================
+              EXPRESSION
+ ======================================*/
+
 
 expression: Identifier ASSIG expression                     #assigExpr
           | NOT expression                                  #notExpr
@@ -178,27 +189,25 @@ expression: Identifier ASSIG expression                     #assigExpr
           | expression op=(EQ | NEQ) expression             #equalityExpr
           | expression AND expression                       #andExpr
           | expression OR expression                        #orExpr
+          | expression IMPLIES expression                   #impliesExpr
           | PA expression PC                                #parExpr
+          | list                                            #listExpr
+          | array                                           #arrayExpr
           | atom                                            #atomExpr
           ;
 
-atom
- : (Integer | S_Integer | Float | S_Float)  #numberAtom
- | (TRUE | FALSE)                           #booleanAtom
- | Identifier                               #idAtom
- | String                                   #stringAtom
- ;
+list : CA l1=args (',' l2=args)* CC ;
+array : LLA l1=args (',' l2=args)* LLC ;
+args : l1=(Identifier | String | Integer | S_Integer | Float | S_Float);
 
-cuantif : EXACTLY_ONE 
-        | ONE_OR_MORE
-        | ALL
-        ;
+atom : (Integer | S_Integer | Float | S_Float)   #numberAtom
+       | (TRUE | FALSE)                          #booleanAtom
+       | id=Identifier CA value=String CC        #arrayAtom
+       | Identifier                              #idAtom
+       | String                                  #stringAtom
+     ;
 
-list : '{' l1=listArg (',' l2=listArg)* '}' ;
 
-listArg : l1=(Identifier | String | Integer | S_Integer | Float | S_Float);
-
-range : '[' min=(Integer | S_Integer) '..' max=(Integer | S_Integer) ']' ;
 
 
 /*=====================================

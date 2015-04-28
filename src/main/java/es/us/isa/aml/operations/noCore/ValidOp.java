@@ -15,12 +15,12 @@ import es.us.isa.aml.util.OperationResponse;
  */
 public class ValidOp extends NoCoreOperation {
 
-	private final ExistInconsistenciesOp existsInconsistenciesOp;
+	private final ExistInconsistenciesOp existInconsistenciesOp;
 	private final ExistDeadTermsOp existDeadTermsOp;
 	private final ExistCondInconsTermsOp existCondInconsTermsOp;
 
 	public ValidOp() {
-		this.existsInconsistenciesOp = new ExistInconsistenciesOp();
+		this.existInconsistenciesOp = new ExistInconsistenciesOp();
 		this.existDeadTermsOp = new ExistDeadTermsOp();
 		this.existCondInconsTermsOp = new ExistCondInconsTermsOp();
 		this.result = new OperationResponse();
@@ -30,28 +30,40 @@ public class ValidOp extends NoCoreOperation {
 
 		Boolean existInconsistencies = false, existDeadTerms = false, existCondInconsTerms = false;
 
-		existsInconsistenciesOp.analyze(model);
-		existInconsistencies = (Boolean) existsInconsistenciesOp.getResult()
+		existInconsistenciesOp.analyze(model);
+		existInconsistencies = (Boolean) existInconsistenciesOp.getResult()
 				.get("existInconsistencies");
-		result.put("existInconsistencies", existInconsistencies);
+		result.putAll(existInconsistenciesOp.getResult());
 
-		if (existInconsistencies) {
-			result.put("existDeadTerms", false);
-			result.put("existCondInconsTerms", false);
-		} else {
-			existDeadTermsOp.analyze(model);
-			existDeadTerms = (Boolean) existDeadTermsOp.getResult().get(
-					"existDeadTerms");
-			result.putAll(existDeadTermsOp.getResult());
-
-			if (existDeadTerms) {
+		try {
+			if (existInconsistencies) {
+				result.put("existDeadTerms", false);
 				result.put("existCondInconsTerms", false);
 			} else {
-				existCondInconsTermsOp.analyze(model);
-				existCondInconsTerms = (Boolean) existCondInconsTermsOp
-						.getResult().get("existCondInconsTerms");
-				result.putAll(existCondInconsTermsOp.getResult());				
+				existDeadTermsOp.analyze(model);
+				existDeadTerms = (Boolean) existDeadTermsOp.getResult().get(
+						"existDeadTerms");
+				result.putAll(existDeadTermsOp.getResult());
+
+				if (existDeadTerms) {
+					result.put("existCondInconsTerms", false);
+				} else {
+					existCondInconsTermsOp.analyze(model);
+					existCondInconsTerms = (Boolean) existCondInconsTermsOp
+							.getResult().get("existCondInconsTerms");
+					result.putAll(existCondInconsTermsOp.getResult());
+				}
 			}
+		} catch (Exception e) {
+			result = new OperationResponse();
+			result.put("result", null);
+			result.put("conflicts", "There was an error: " + e.getMessage());
+			result.put("existInconsistencies", false);
+			result.put("existDeadTerms", false);
+			result.put("existCondInconsTerms", false);
+			existInconsistencies = true;
+			existDeadTerms = true;
+			existCondInconsTerms = true;
 		}
 
 		Boolean valid = !existInconsistencies && !existDeadTerms

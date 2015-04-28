@@ -18,65 +18,76 @@ import java.util.List;
  */
 public class ExistDeadTermsOp extends NoCoreOperation {
 
-    private final ExistInconsistenciesOp existInconsistenciesOp;
+	private final ExistInconsistenciesOp existInconsistenciesOp;
 
-    public ExistDeadTermsOp() {
-        this.existInconsistenciesOp = new ExistInconsistenciesOp();
-        result = new OperationResponse();
-    }
+	public ExistDeadTermsOp() {
+		this.existInconsistenciesOp = new ExistInconsistenciesOp();
+		result = new OperationResponse();
+	}
 
-    public void analyze(AgreementModel model) {
+	public void analyze(AgreementModel model) {
 
-    	existInconsistenciesOp.analyze(model);
-        Boolean existInconsistencies = (Boolean) existInconsistenciesOp.getResult().get("existInconsistencies");
-        
-        result.put("result", existInconsistenciesOp.getResult().get("result"));
-        result.put("conflicts", existInconsistenciesOp.getResult().get("conflicts"));
-        
-        if (existInconsistencies) {
-            result.put("existDeadTerms", false);
-            return;
-        }
+		existInconsistenciesOp.analyze(model);
+		Boolean existInconsistencies = (Boolean) existInconsistenciesOp
+				.getResult().get("existInconsistencies");
 
-        List<GuaranteeTerm> gtOriginal = new ArrayList<>(model
-                .getAgreementTerms().getGuaranteeTerms());
-        List<GuaranteeTerm> gtCopy = new ArrayList<>(gtOriginal);
+		result.put("result", existInconsistenciesOp.getResult().get("result"));
+		result.put("conflicts",
+				existInconsistenciesOp.getResult().get("conflicts"));
 
-        for (int i = 0; i < gtCopy.size(); i++) {
+		if (existInconsistencies) {
+			result.put("existDeadTerms", false);
+			return;
+		}
 
-            GuaranteeTerm gt = gtCopy.get(i);
-            if (gt.getQc() != null) {
-                GuaranteeTerm newgt = new IAgreeGuaranteeTerm(gt.getId(), gt.getServiceRole(), new IAgreeSLO(gt.getQc().getCondition()));
-                gtCopy.set(gtCopy.indexOf(gt), newgt);
+		List<GuaranteeTerm> gtOriginal = new ArrayList<>(model
+				.getAgreementTerms().getGuaranteeTerms());
+		List<GuaranteeTerm> gtCopy = new ArrayList<>(gtOriginal);
 
-                model.getAgreementTerms().setGuaranteeTerms(gtCopy);
+		if (gtCopy.size() == 0) {
+			result.put("existDeadTerms", false);
+		} else {
+			for (int i = 0; i < gtCopy.size(); i++) {
+				GuaranteeTerm gt = gtCopy.get(i);
+				if (gt.getQc() != null) {
+					GuaranteeTerm newgt = new IAgreeGuaranteeTerm(gt.getId(),
+							gt.getServiceRole(), new IAgreeSLO(gt.getQc()
+									.getCondition()));
+					gtCopy.set(gtCopy.indexOf(gt), newgt);
 
-                existInconsistenciesOp.analyze(model);
-                existInconsistencies = (Boolean) existInconsistenciesOp.getResult().get("existInconsistencies");
+					model.getAgreementTerms().setGuaranteeTerms(gtCopy);
 
-                if (existInconsistencies) {
-                	result.put("result", "The document has dead terms");
-                    result.put("conflicts_deadterms", existInconsistenciesOp.getResult().get("conflicts"));
-                    result.put("existDeadTerms", true);
-                    break;
-                } else {
-                    gtCopy.clear();
-                    gtCopy.addAll(gtOriginal);
+					existInconsistenciesOp.analyze(model);
+					existInconsistencies = (Boolean) existInconsistenciesOp
+							.getResult().get("existInconsistencies");
 
-                    model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
-                    result.put("existDeadTerms", false);
-                }
-            } else {
-                result.put("existDeadTerms", false);
-            }
-        }
+					if (existInconsistencies) {
+						result.put("result", "The document has dead terms");
+						result.put(
+								"conflicts_deadterms",
+								existInconsistenciesOp.getResult().get(
+										"conflicts"));
+						result.put("existDeadTerms", true);
+						break;
+					} else {
+						gtCopy.clear();
+						gtCopy.addAll(gtOriginal);
 
-        model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
-    }
+						model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
+						result.put("existDeadTerms", false);
+					}
+				} else {
+					result.put("existDeadTerms", false);
+				}
+			}
+		}
 
-    @Override
-    public OperationResponse getResult() {
-        return this.result;
-    }
+		model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
+	}
+
+	@Override
+	public OperationResponse getResult() {
+		return this.result;
+	}
 
 }

@@ -35,11 +35,10 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 		Boolean existInconsistencies = (Boolean) existInconsistenciesOp
 				.getResult().get("existInconsistencies");
 
-		result.put("result",
-				existInconsistenciesOp.getResult().get("result"));
+		result.put("result", existInconsistenciesOp.getResult().get("result"));
 		result.put("conflicts",
 				existInconsistenciesOp.getResult().get("conflicts"));
-		
+
 		if (existInconsistencies) {
 			result.put("existCondInconsTerms", false);
 			return;
@@ -48,43 +47,49 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 				.getAgreementTerms().getGuaranteeTerms());
 		List<GuaranteeTerm> gtCopy = new ArrayList<>(gtOriginal);
 
-		for (int i = 0; i < gtCopy.size(); i++) {
-			GuaranteeTerm gti = gtCopy.get(i);
-			if (gti.getQc() != null && gti.getSlo() != null) {
-				GuaranteeTerm newGtQc = new IAgreeGuaranteeTerm(gti.getId()
-						+ "_QC", gti.getServiceRole(), new IAgreeSLO(gti
-						.getQc().getCondition()));
-				GuaranteeTerm newGtSlo = new IAgreeGuaranteeTerm(gti.getId()
-						+ "_SLO", gti.getServiceRole(), new IAgreeSLO(gti
-						.getSlo().getExpression()));
-				gtCopy.set(gtCopy.indexOf(gti), newGtQc);
-				gtCopy.add(gtCopy.indexOf(gti) + 1, newGtSlo);
+		if (gtCopy.size() == 0) {
+			result.put("existCondInconsTerms", false);
+		} else {
+			for (int i = 0; i < gtCopy.size(); i++) {
+				GuaranteeTerm gti = gtCopy.get(i);
+				if (gti.getQc() != null && gti.getSlo() != null) {
+					GuaranteeTerm newGtQc = new IAgreeGuaranteeTerm(gti.getId()
+							+ "_QC", gti.getServiceRole(), new IAgreeSLO(gti
+							.getQc().getCondition()));
+					GuaranteeTerm newGtSlo = new IAgreeGuaranteeTerm(
+							gti.getId() + "_SLO", gti.getServiceRole(),
+							new IAgreeSLO(gti.getSlo().getExpression()));
+					gtCopy.set(gtCopy.indexOf(gti), newGtQc);
+					gtCopy.add(gtCopy.indexOf(gti) + 1, newGtSlo);
 
-				model.getAgreementTerms().setGuaranteeTerms(gtCopy);
+					model.getAgreementTerms().setGuaranteeTerms(gtCopy);
 
-				existInconsistenciesOp.analyze(model);
-				existInconsistencies = (Boolean) existInconsistenciesOp
-						.getResult().get("existInconsistencies");
+					existInconsistenciesOp.analyze(model);
+					existInconsistencies = (Boolean) existInconsistenciesOp
+							.getResult().get("existInconsistencies");
 
-				if (existInconsistencies) {
-					String conflicts = existInconsistenciesOp.getResult()
-							.get("conflicts").toString().replaceAll("_QC", "")
-							.replaceAll("_SLO", "");
-					result.put("result", "The document has conditionally inconsistent terms");
-					result.put("conflicts_condIncons", conflicts);
-					result.put("existCondInconsTerms", true);
-					break;
+					if (existInconsistencies) {
+						String conflicts = existInconsistenciesOp.getResult()
+								.get("conflicts").toString()
+								.replaceAll("_QC", "").replaceAll("_SLO", "");
+						result.put("result",
+								"The document has conditionally inconsistent terms");
+						result.put("conflicts_condIncons", conflicts);
+						result.put("existCondInconsTerms", true);
+						break;
+					} else {
+						gtCopy.clear();
+						gtCopy.addAll(gtOriginal);
+
+						model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
+						result.put("existCondInconsTerms", false);
+					}
 				} else {
-					gtCopy.clear();
-					gtCopy.addAll(gtOriginal);
-
-					model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
 					result.put("existCondInconsTerms", false);
 				}
-			} else {
-				result.put("existCondInconsTerms", false);
 			}
 		}
+
 		model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
 	}
 

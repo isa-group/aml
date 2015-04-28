@@ -3,6 +3,16 @@
  */
 package es.us.isa.aml.parsers.agreements.wsag;
 
+import java.io.File;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
@@ -20,17 +30,15 @@ import es.us.isa.aml.model.Range;
 import es.us.isa.aml.model.Responder;
 import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.ServiceRole;
+import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.LogicalExpression;
+import es.us.isa.aml.model.expression.LogicalOperator;
+import es.us.isa.aml.model.expression.RelationalExpression;
+import es.us.isa.aml.model.expression.RelationalOperator;
+import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * @author jdelafuente
@@ -39,11 +47,14 @@ import org.w3c.dom.NodeList;
 public class WsagParserHelper {
 
 	private final Document doc;
+	private File[] metrics;
 	private AgreementModel model;
 
-	public WsagParserHelper(Document doc) {
-		this.doc = doc;
+	private Boolean new_version;
 
+	public WsagParserHelper(Document doc, File[] metrics) {
+		this.doc = doc;
+		this.metrics = metrics;
 	}
 
 	public AgreementModel getModel() {
@@ -62,23 +73,29 @@ public class WsagParserHelper {
 			Element temp = (Element) template;
 			version = Double.valueOf(temp.getAttribute("wsag:TemplateId"));
 			model.setVersion(version);
-		} else if(offer != null) {
+		} else if (offer != null) {
 			model = new AgreementOffer();
 			Element agoffer = (Element) offer;
-			version = Double.valueOf(agoffer
-					.getAttribute("wsag:AgreementOfferId"));
+			String offer_id = agoffer.getAttribute("wsag:AgreementOfferId");
+			if (offer_id.isEmpty()) {
+				new_version = false;
+				version = Double.valueOf(agoffer
+						.getAttribute("wsag:AgreementId"));
+			} else {
+				new_version = true;
+				version = Double.valueOf(offer_id);
+			}
 			model.setVersion(version);
-		} else if(agreement != null){
+		} else if (agreement != null) {
 			model = new Agreement();
 			Element ag = (Element) agreement;
-			version = Double.valueOf(ag
-					.getAttribute("wsag:AgreementId"));
+			version = Double.valueOf(ag.getAttribute("wsag:AgreementId"));
 			model.setVersion(version);
 		}
 
 		Node name = doc.getElementsByTagName("wsag:Name").item(0);
 		if (name != null) {
-			model.setID(name.getTextContent());
+			model.setID(name.getTextContent().trim());
 		}
 
 		setContext();
@@ -90,17 +107,22 @@ public class WsagParserHelper {
 
 	public void setContext() {
 		Context context = new Context();
-		
+
 		Node temp_id = doc.getElementsByTagName("wsag:TemplateId").item(0);
-		if(temp_id != null && temp_id instanceof Element){
+		if (temp_id != null && temp_id instanceof Element) {
 			Element templateId = (Element) temp_id;
-			context.setTemplateVersion(Float.valueOf(templateId.getTextContent()));
+			String str_tempId = templateId.getTextContent().trim();
+			if (str_tempId.isEmpty()) {
+				// TODO throw exception
+			} else {
+				context.setTemplateVersion(Float.valueOf(str_tempId));
+			}
 		}
-		
+
 		Node temp_name = doc.getElementsByTagName("wsag:TemplateName").item(0);
-		if(temp_name != null && temp_name instanceof Element){
+		if (temp_name != null && temp_name instanceof Element) {
 			Element tempName = (Element) temp_name;
-			context.setTemplateId(tempName.getTextContent());
+			context.setTemplateId(tempName.getTextContent().trim());
 		}
 
 		Node responder = doc.getElementsByTagName("wsag:AgreementResponder")
@@ -108,42 +130,49 @@ public class WsagParserHelper {
 		if (responder != null && responder instanceof Element) {
 			Element resp = (Element) responder;
 			Responder r = new Responder();
-			r.setId(resp.getAttribute("id"));
-			r.setRoleType(ServiceRole.valueOf(responder.getTextContent()));
+			if (resp.getAttribute("id").isEmpty()) {
+				new_version = false;
+				r.setId(responder.getTextContent().trim());
+				r.setRoleType(ServiceRole.Provider);
+			} else {
+				new_version = true;
+				r.setId(resp.getAttribute("id"));
+				r.setRoleType(ServiceRole.valueOf(responder.getTextContent()
+						.trim()));
+			}
+
 			context.setResponder(r);
 		}
 
-		Node node_metrics = doc.getElementsByTagName("iag:Metrics").item(0);
-		NodeList metrics = node_metrics.getChildNodes();
-		for (int i = 0; i < metrics.getLength(); i++) {
-			Node node_metric = (Node) (metrics.item(i));
-			if (node_metric.getNodeType() == Node.ELEMENT_NODE) {
-				Element metric = (Element) node_metric;
-				String id = metric.getAttribute("id");
-				String type = metric.getAttribute("type");
-				String domain = metric.getAttribute("domain");
+		if (new_version) {
+			Node node_metrics = doc.getElementsByTagName("iag:Metrics").item(0);
+			NodeList metrics = node_metrics.getChildNodes();
+			for (int i = 0; i < metrics.getLength(); i++) {
+				Node node_metric = (Node) (metrics.item(i));
+				if (node_metric.getNodeType() == Node.ELEMENT_NODE) {
+					Element metric = (Element) node_metric;
+					String id = metric.getAttribute("id");
+					String type = metric.getAttribute("type");
+					String domain = metric.getAttribute("domain");
 
-				Metric m = new Metric(id);
-				m.setType(type);
+					Metric m = new Metric(id);
+					m.setType(type);
 
-				Domain d = new Domain();
-				if (domain.contains("..")) {
-					String[] args = domain.replace("[", "").replace("]", "")
-							.split("\\.\\.");
-					Integer min = Integer.valueOf(args[0]);
-					Integer max = Integer.valueOf(args[1]);
-					d = new Range(min, max);
-				} else {
-					String[] args = domain.replace("{", "").replace("}", "")
-							.split(", ");
-					List<Object> values = new ArrayList<>();
-					for (String s : args) {
-						values.add(s);
+					Domain d = new Domain();
+					if (domain.contains("..")) {
+						String[] args = domain.replace("[", "")
+								.replace("]", "").split("\\.\\.");
+						Integer min = Integer.valueOf(args[0]);
+						Integer max = Integer.valueOf(args[1]);
+						d = new Range(min, max);
+					} else {
+						String[] args = domain.replace("{", "")
+								.replace("}", "").split(", ");
+						d = new Enumerated(args);
 					}
-					d = new Enumerated(values);
+					m.setDomain(d);
+					context.getMetrics().put(id, m);
 				}
-				m.setDomain(d);
-				context.getMetrics().put(id, m);
 			}
 		}
 
@@ -152,6 +181,10 @@ public class WsagParserHelper {
 
 	public void setAgreementTerms() {
 		Node node_terms = doc.getElementsByTagName("wsag:Terms").item(0);
+
+		String name = ((Element) node_terms).getAttribute("wsag:Name");
+		model.getAgreementTerms().getService().setServiceName(name);
+
 		NodeList nList = node_terms.getChildNodes();
 		Node node_allterms = null;
 		for (int i = 0; i < nList.getLength(); i++) {
@@ -162,6 +195,10 @@ public class WsagParserHelper {
 			}
 		}
 
+		setTerms(node_allterms);
+	}
+
+	private void setTerms(Node node_allterms) {
 		NodeList terms = node_allterms.getChildNodes();
 		for (int i = 0; i < terms.getLength(); i++) {
 			Node node_term = (Node) (terms.item(i));
@@ -170,14 +207,12 @@ public class WsagParserHelper {
 
 				if (term.getTagName().equals("wsag:ServiceDescriptionTerm")) {
 
-					String serviceName = term.getAttribute("wsag:ServiceName");
-					model.getAgreementTerms().getService()
-							.setServiceName(serviceName);
-
-					String serviceReference = term
-							.getAttribute("iag:ServiceReference");
-					model.getAgreementTerms().getService()
-							.setServiceReference(serviceReference);
+					if (new_version) {
+						String serviceReference = term
+								.getAttribute("iag:ServiceReference");
+						model.getAgreementTerms().getService()
+								.setServiceReference(serviceReference);
+					}
 
 					NodeList offer_items = term.getChildNodes();
 					for (int j = 0; j < offer_items.getLength(); j++) {
@@ -185,21 +220,31 @@ public class WsagParserHelper {
 						if (node_oi instanceof Element) {
 							Element offer_item = (Element) node_oi;
 							String id = offer_item.getAttribute("name");
-							String value = null;
-							if (!offer_item.getTextContent().isEmpty()) {
-								value = offer_item.getTextContent();
-							}
-
-							String metric_id = offer_item
-									.getAttribute("iag:Metric");
-							Metric m = model.getContext().getMetrics()
-									.get(metric_id);
 
 							ConfigurationProperty p = new ConfigurationProperty(
-									id, m);
+									id);
 
-							if (value != null) {
-								Expression exp = Expression.parse(value);
+							if (new_version) {
+								String metric_id = offer_item
+										.getAttribute("iag:Metric");
+								Metric m = model.getContext().getMetrics()
+										.get(metric_id);
+								p.setMetric(m);
+							} else {
+								String metric = offer_item
+										.getAttribute("wsag:Metric");
+								String[] aux = metric.split(":");
+								String path = aux[0] + ".xml";
+								String metric_id = aux[1];
+
+								setMetric(metric_id, path);
+								p.setMetric(model.getContext().getMetrics()
+										.get(metric_id));
+							}
+
+							if (!offer_item.getTextContent().trim().isEmpty()) {
+								Expression exp = Expression.parse(offer_item
+										.getTextContent().trim());
 								p.setExpression(exp);
 							}
 
@@ -217,13 +262,33 @@ public class WsagParserHelper {
 							Element variable = (Element) node_v;
 							String id = variable.getAttribute("wsag:Name");
 
-							String metric_id = variable
-									.getAttribute("iag:Metric");
-							Metric m = model.getContext().getMetrics()
-									.get(metric_id);
+							MonitorableProperty p = new MonitorableProperty(id);
 
-							MonitorableProperty p = new MonitorableProperty(id,
-									m);
+							if (new_version) {
+								String metric_id = variable
+										.getAttribute("iag:Metric");
+								Metric m = model.getContext().getMetrics()
+										.get(metric_id);
+								p.setMetric(m);
+							} else {
+								String metric = variable
+										.getAttribute("wsag:Metric");
+								String[] aux = metric.split(":");
+								String path = aux[0] + ".xml";
+								String metric_id = aux[1];
+
+								setMetric(metric_id, path);
+								p.setMetric(model.getContext().getMetrics()
+										.get(metric_id));
+							}
+							if (new_version
+									&& variable.getElementsByTagName(
+											"wsag:Location").item(0) != null) {
+								Node location = variable.getElementsByTagName(
+										"wsag:Location").item(0);
+								p.setExpression(Expression.parse(location
+										.getTextContent()));
+							}
 
 							model.getAgreementTerms()
 									.getMonitorableProperties().add(p);
@@ -235,6 +300,14 @@ public class WsagParserHelper {
 						Element gt_element = (Element) term;
 						String id = gt_element.getAttribute("wsag:Name");
 						String ob = gt_element.getAttribute("wsag:Obligated");
+
+						if (!new_version) {
+							ob = ob.replaceAll("\\bServiceProvider\\b",
+									"Provider");
+							ob = ob.replaceAll("\\bServiceConsumer\\b",
+									"Consumer");
+						}
+
 						GuaranteeTerm gt = new GuaranteeTerm(id);
 						gt.setServiceRole(ServiceRole.valueOf(ob));
 
@@ -245,7 +318,13 @@ public class WsagParserHelper {
 								Element prop = (Element) node_prop;
 								if (prop.getTagName().equals(
 										"wsag:QualifyingCondition")) {
-									String aux = prop.getTextContent();
+									String aux = prop.getTextContent().trim();
+									if (aux.contains("NOT")) {
+										aux = "NOT ("
+												+ aux.substring(aux
+														.indexOf("NOT") + 3)
+												+ ")";
+									}
 									Expression cond = Expression.parse(Util
 											.decodeEntities(aux));
 									QualifyingCondition qc = new QualifyingCondition(
@@ -253,7 +332,13 @@ public class WsagParserHelper {
 									gt.setQc(qc);
 								} else if (prop.getTagName().equals(
 										"wsag:ServiceLevelObjective")) {
-									String aux = prop.getTextContent();
+									String aux = prop.getTextContent().trim();
+									if (aux.contains("NOT")) {
+										aux = "NOT ("
+												+ aux.substring(aux
+														.indexOf("NOT") + 3)
+												+ ")";
+									}
 									Expression exp = Expression.parse(Util
 											.decodeEntities(aux));
 									SLO slo = new SLO(exp);
@@ -265,6 +350,9 @@ public class WsagParserHelper {
 						model.getAgreementTerms().getGuaranteeTerms().add(gt);
 					}
 
+				} else if (term.getTagName().equals("wsag:ExactlyOne")
+						|| term.getTagName().equals("wsag:OneOrMore")) {
+					setTerms(term);
 				}
 
 			}
@@ -281,103 +369,198 @@ public class WsagParserHelper {
 				Node node = (Node) (nList.item(i));
 				if (node instanceof Element) {
 					Element constraint = (Element) node;
-					Node node_id = constraint.getElementsByTagName("Name")
-							.item(0);
-					String id = node_id.getTextContent();
 
-					Node node_expr = constraint.getElementsByTagName("Content")
-							.item(0);
-					String str_expr = node_expr.getTextContent();
+					if (constraint.getTagName().equals("wsag:Constraint")) {
+						Node node_id = constraint.getElementsByTagName("Name")
+								.item(0);
+						String id = node_id.getTextContent().trim();
 
-					CreationConstraint cc = null;
+						Node node_expr = constraint.getElementsByTagName(
+								"Content").item(0);
+						String str_expr = node_expr.getTextContent().trim();
+						if (str_expr.contains("NOT")) {
+							str_expr = "NOT ("
+									+ str_expr.substring(str_expr
+											.indexOf("NOT") + 3) + ")";
+						}
 
-					if (str_expr.contains("IMPLIES")) {
-						String[] args = str_expr.split(" IMPLIES ");
-						String str_qc = args[0];
-						String str_slo = args[1];
+						CreationConstraint cc = null;
 
-						Expression qc_cond = Expression.parse(str_qc);
-						QualifyingCondition qc = new QualifyingCondition(
-								qc_cond);
+						if (str_expr.contains("IMPLIES")) {
+							String[] args = str_expr.split(" IMPLIES ");
+							String str_qc = args[0];
+							String str_slo = args[1];
 
-						Expression slo_expr = Expression.parse(str_slo);
-						SLO slo = new SLO(slo_expr);
-						cc = new CreationConstraint(id, slo);
-						cc.setQc(qc);
+							Expression qc_cond = Expression.parse(Util
+									.decodeEntities(str_qc));
+							QualifyingCondition qc = new QualifyingCondition(
+									qc_cond);
 
-					} else {
-						Expression slo_expr = Expression.parse(str_expr);
-						SLO slo = new SLO(slo_expr);
-						cc = new CreationConstraint(id, slo);
-					}
+							Expression slo_expr = Expression.parse(Util
+									.decodeEntities(str_slo));
+							SLO slo = new SLO(slo_expr);
+							cc = new CreationConstraint(id, slo);
+							cc.setQc(qc);
 
-					if (cc != null) {
+						} else {
+							Expression slo_expr = Expression.parse(Util
+									.decodeEntities(str_expr));
+							SLO slo = new SLO(slo_expr);
+							cc = new CreationConstraint(id, slo);
+						}
+
+						if (cc != null) {
+							((AgreementTemplate) model)
+									.getCreationConstraints().add(cc);
+						}
+					} else if (constraint.getTagName().equals("wsag:Item")) {
+						String prop = constraint.getAttribute("wsag:Name");
+						String id = "Cons_" + prop;
+						Node itemConstraintNode = constraint
+								.getElementsByTagName("wsag:ItemConstraint")
+								.item(0);
+						Element itemConstraint = (Element) itemConstraintNode;
+
+						Expression min_expr = null;
+						Expression max_expr = null;
+
+						// Inclusive constraints
+						if (itemConstraint.getElementsByTagName(
+								"xs:minInclusive").item(0) != null) {
+							Node min = itemConstraint.getElementsByTagName(
+									"xs:minInclusive").item(0);
+							String str_min_value = ((Element) min)
+									.getAttribute("value");
+							Integer min_value = Integer.valueOf(str_min_value);
+
+							min_expr = new RelationalExpression(new Var(prop),
+									new Atomic(min_value),
+									RelationalOperator.gte);
+						}
+
+						if (itemConstraint.getElementsByTagName(
+								"xs:maxInclusive").item(0) != null) {
+							Node max = itemConstraint.getElementsByTagName(
+									"xs:maxInclusive").item(0);
+							String str_max_value = ((Element) max)
+									.getAttribute("value");
+							Integer max_value = Integer.valueOf(str_max_value);
+
+							max_expr = new RelationalExpression(new Var(prop),
+									new Atomic(max_value),
+									RelationalOperator.lte);
+						}
+
+						// Exclusive constraints
+						if (itemConstraint.getElementsByTagName(
+								"xs:minExclusive").item(0) != null) {
+							Node min = itemConstraint.getElementsByTagName(
+									"xs:minExclusive").item(0);
+							String str_value = ((Element) min)
+									.getAttribute("value");
+							Integer value = Integer.valueOf(str_value);
+
+							min_expr = new RelationalExpression(new Var(prop),
+									new Atomic(value), RelationalOperator.gt);
+						}
+
+						if (itemConstraint.getElementsByTagName(
+								"xs:maxExclusive").item(0) != null) {
+							Node max = itemConstraint.getElementsByTagName(
+									"xs:maxExclusive").item(0);
+							String str_value = ((Element) max)
+									.getAttribute("value");
+							Integer value = Integer.valueOf(str_value);
+
+							max_expr = new RelationalExpression(new Var(prop),
+									new Atomic(value), RelationalOperator.lt);
+						}
+
+						Expression expr = null;
+
+						if (min_expr != null && max_expr != null)
+							expr = new LogicalExpression(min_expr, max_expr,
+									LogicalOperator.and);
+						else if (min_expr != null)
+							expr = min_expr;
+						else if (max_expr != null)
+							expr = max_expr;
+
+						SLO slo = new SLO(expr);
+						CreationConstraint cc = new CreationConstraint(id, slo);
 						((AgreementTemplate) model).getCreationConstraints()
 								.add(cc);
+
 					}
 				}
 			}
 		}
-
 	}
 
-	//
-	// public String getCreationConstraints() {
-	//
-	// String result = "";
-	//
-	// Element cc = (Element) doc.getElementsByTagName(
-	// "wsag:CreationConstraints").item(0);
-	//
-	// if (cc != null && !cc.getTextContent().isEmpty()) {
-	// result += Util
-	// .withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.CREATION_CONSTRAINTS]);
-	//
-	// NodeList nList = cc.getElementsByTagName("wsag:Constraint");
-	//
-	// for (int i = 0; i < nList.getLength(); i++) {
-	// Element constraint = (Element) nList.item(i);
-	// result += "\n\t"
-	// + constraint.getElementsByTagName("Name").item(0)
-	// .getTextContent() + ":";
-	//
-	// String content = constraint.getElementsByTagName("Content")
-	// .item(0).getTextContent();
-	//
-	// if (content.contains("IMPLIES")) {
-	// String[] aux = content.split("IMPLIES");
-	// String exp1 = aux[0].trim();
-	// if (exp1.contains("True") || exp1.contains("False")) {
-	// exp1 = exp1.replace("\"", "");
-	// exp1 = exp1.replace("True", "true").replace("False",
-	// "false");
-	// }
-	// String exp2 = aux[1].trim();
-	// if (exp2.contains("True") || exp2.contains("False")) {
-	// exp2 = exp2.replace("\"", "");
-	// exp2 = exp2.replace("True", "true").replace("False",
-	// "false");
-	// }
-	//
-	// if (exp2.contains("OR")) {
-	// // exp2 = getBelongsExp(exp2);
-	// }
-	//
-	// result += Util.decodeEntities(exp2) + ";" + "\n";
-	//
-	// result += "\t\t"
-	// + Util.withoutQuotes(iAgreeParser.tokenNames[iAgreeParser.ONLY_IF])
-	// + " (" + Util.decodeEntities(exp1) + ");\n";
-	//
-	// } else if (content.contains("OR")) {
-	// result += "\t"; //+ getBelongsExp(content) + ";\n";
-	// } else {
-	// result += "\t" + Util.decodeEntities(content.trim())
-	// + ";\n";
-	// }
-	// }
-	// }
-	//
-	// return result;
-	// }
+	private void setMetric(String metric_id, String path) {
+
+		File file_metric = null;
+		String filename = path;
+		if (path.contains("/"))
+			filename = path.substring(path.lastIndexOf("/") + 1);
+		for (File m : metrics) {
+			if (m.getName().equals(filename))
+				file_metric = m;
+		}
+
+		if (file_metric != null) {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
+			try {
+				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				Document doc = dBuilder.parse(file_metric);
+
+				doc.getDocumentElement().normalize();
+
+				NodeList nList2 = doc.getElementsByTagName("met:metric");
+
+				for (int k = 0; k < nList2.getLength(); k++) {
+					Node nNode = nList2.item(k);
+					if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+						Element element = (Element) nNode;
+						if (element.getAttribute("id").equals(metric_id)) {
+							Metric m = new Metric(metric_id);
+							String type = element.getAttribute("type");
+							m.setType(type);
+							if (type.equals("enumerated")) {
+								Enumerated e = new Enumerated();
+								NodeList nList3 = element
+										.getElementsByTagName("met:value");
+								Object[] values = new Object[nList3.getLength()];
+								for (int l = 0; l < nList3.getLength(); l++) {
+									Node nNode2 = nList3.item(l);
+									if (nNode2.getNodeType() == Node.ELEMENT_NODE) {
+										Element element2 = (Element) nNode2;
+										values[l] = element2
+												.getAttribute("value");
+									}
+								}
+								e.setValues(values);
+								m.setDomain(e);
+							} else {
+								Integer min = Integer.valueOf(element
+										.getAttribute("min"));
+								Integer max = Integer.valueOf(element
+										.getAttribute("max"));
+								Range r = new Range(min, max);
+								m.setDomain(r);
+							}
+
+							model.getContext().getMetrics().put(metric_id, m);
+							break;
+						}
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println();
+		}
+	}
 }

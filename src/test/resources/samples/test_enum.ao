@@ -1,0 +1,37 @@
+AgreementOffer AgreementCore version 1.1 for Template TemplateforComplianceAmazon version 1.0
+	Provider "ident" as Responder;
+	
+	Metrics:
+		met1: float [0..100];
+		met2: integer [0..100];
+		met4: integer [0..500];
+		met3: enum {DOM1, DOM2, DOM3, DOM4, DOM5, DOM6, Auto};
+		
+AgreementTerms
+	Service IAg-Core availableAt "www.iagree.core.com/service"
+		GlobalDescription 
+			ConfProp1: met1 = 18;
+			ConfProp2: met2;
+			ConfProp3: met4;
+
+	MonitorableProperties
+		global:
+			MonitProp1: met1;
+			MonitProp2: met2;
+			MonitProp3: boolean;
+			MonitProp4: met3 = "DOM5";
+				
+	GuaranteeTerms
+		G1: Provider guarantees ConfProp1 <= 10 AND MonitProp1 > 20;
+//			onlyIf (MonitProp3 == false);
+		
+//		G2: Provider guarantees ConfProp1 <= 20;
+//			onlyIf (MonitProp3 == true);
+			
+//		G3: Consumer guarantees ConfProp2 >= 30;
+//			onlyIf (MonitProp4 == "DOM4");
+			
+//		G4: Consumer guarantees ConfProp2 < 16;
+//			onlyIf (NOT (MonitProp4 == "DOM4"));
+		
+EndAgreementOffer

@@ -3,7 +3,8 @@
  */
 package test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -87,6 +88,7 @@ public class TestLibLocal2 {
 		LOG.info("\n----------------------- MODEL 2 -----------------------");
 
 		LOG.log(Level.INFO, "model2 is valid: {0}", model2.isValid());
+		
 		assertFalse(model2.isValid());
 
 		op.analyze(model2);

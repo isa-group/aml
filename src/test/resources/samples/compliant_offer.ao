@@ -1,19 +1,18 @@
-AgreementOffer CompliantOfferAmazon version 1.0 for TemplateforComplianceAmazon version 1.0
-	Initiator: "Initiator1";
+AgreementOffer CompliantOfferAmazon version 1.0 for Template TemplateforComplianceAmazon version 1.0
 	Provider "Prov1" as Responder;
-	
 	Metrics:
-		percent: integer [0..100];
-		size: integer [0..200];
-		mediumInt: integer [0..100];
-		time: integer [0..100];
-		price: integer [0..400];
-		
+		mediumInt: integer[0..100];
+		size: integer[0..200];
+		price: integer[0..400];
+		time: integer[0..100];
+		percent: integer[0..100];
+
+
 AgreementTerms
 	Service AWS-S3 availableAt "aws.amazon.com/s3"
 		GlobalDescription
 			RRS: boolean;
-			StorageSize: size = 100;
+			StorageSize: size = 170;
 			FirstProject: boolean;
 			TotalPrice: price;
 			StoragePrice: price;
@@ -21,16 +20,19 @@ AgreementTerms
 
 	MonitorableProperties
 		global:
-			MUP: percent;
-			TransferredGb: mediumInt;
-			ResponseTime: time;
-			ReadRequests: mediumInt;
 			WriteRequests: mediumInt;
+			MUP: percent;
 			OnlineReportingSupport: boolean;
-			PhoneSupport: boolean;
+			ResponseTime: time;
 			TurnAroundTime: time;
-				
+			TransferredGb: mediumInt;
+			ReadRequests: mediumInt;
+			PhoneSupport: boolean;
+
 	GuaranteeTerms
 		G1: Provider guarantees MUP >= 90;
-		G2: Provider guarantees ResponseTime <= 10; 
+
+		G2: Provider guarantees ResponseTime > 10;
+
+
 EndAgreementOffer

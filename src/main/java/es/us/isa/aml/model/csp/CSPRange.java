@@ -4,8 +4,6 @@ import es.us.isa.aml.model.Domain;
 import es.us.isa.aml.model.Enumerated;
 import es.us.isa.aml.model.Range;
 
-import java.util.List;
-
 /**
  * @author jdelafuente
  *
@@ -44,9 +42,8 @@ public class CSPRange {
         Range range = null;
 
         if (domain instanceof Enumerated) {
-            // TODO mapear enumerado
-            List<Object> values = ((Enumerated) domain).getValues();
-            range = new Range(0, values.size() - 1);
+            Object[] values = ((Enumerated) domain).getValues();
+            range = new Range(0, values.length - 1);
         } else if (domain instanceof Range) {
             range = (Range) domain;
         }

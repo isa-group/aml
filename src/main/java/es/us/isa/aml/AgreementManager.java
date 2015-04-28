@@ -57,7 +57,7 @@ public class AgreementManager {
     // Creation
     
     public Agreement createAgreementFromFile(String path) {
-        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementLanguage lang = AgreementLanguage.valueOf((String) Config.getProperty("defaultInputFormat"));
         String content = Util.loadFile(path);
         return store.createAgreement(content, lang, this);
     }
@@ -68,12 +68,12 @@ public class AgreementManager {
     }
 
     public Agreement createAgreement(String content) {
-        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementLanguage lang = AgreementLanguage.valueOf((String) Config.getProperty("defaultInputFormat"));
         return store.createAgreement(content, lang, this);
     }
     
     public AgreementOffer createAgreementOfferFromFile(String path) {
-        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementLanguage lang = AgreementLanguage.valueOf((String) Config.getProperty("defaultInputFormat"));
         String content = Util.loadFile(path);
         return store.createAgreementOffer(content, lang, this);
     }
@@ -84,12 +84,12 @@ public class AgreementManager {
     }
 
     public AgreementOffer createAgreementOffer(String content) {
-        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementLanguage lang = AgreementLanguage.valueOf((String) Config.getProperty("defaultInputFormat"));
         return store.createAgreementOffer(content, lang, this);
     }
 
     public AgreementTemplate createAgreementTemplateFromFile(String path) {
-        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementLanguage lang = AgreementLanguage.valueOf((String) Config.getProperty("defaultInputFormat"));
         String content = Util.loadFile(path);
         return store.createAgreementTemplate(content, lang, this);
     }
@@ -100,7 +100,11 @@ public class AgreementManager {
     }
 
     public AgreementTemplate createAgreementTemplate(String content) {
-        AgreementLanguage lang = AgreementLanguage.valueOf(Config.getProperty("defaultInputFormat"));
+        AgreementLanguage lang = AgreementLanguage.valueOf((String) Config.getProperty("defaultInputFormat"));
+        return store.createAgreementTemplate(content, lang, this);
+    }
+    
+    public AgreementTemplate createAgreementTemplate(String content, AgreementLanguage lang) {
         return store.createAgreementTemplate(content, lang, this);
     }
 

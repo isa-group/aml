@@ -34,12 +34,12 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 				ch.init();
 				solve = new Gson().fromJson(ch.solve(content), Boolean.class);
 			} catch (Exception e) {
-				solve = false;
+				solve = null;
 				LOG.log(Level.SEVERE, "There was an error processing the file",
 						e);
 			}
 		} else {
-			solve = false;
+			solve = null;
 			LOG.log(Level.SEVERE, "There was an error processing the file");
 		}
 		return solve;
@@ -70,29 +70,25 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 
 	@Override
 	public Boolean implies(CSPModel antecedent, CSPModel consequent) {
-		Boolean compliant = false;
+		Boolean implies = false;
 
 		if (antecedent != null && consequent != null) {
 			try {
 				CSPModel model = antecedent.add(consequent.negate());
-
+				
 				CplexHandler ch = new CplexHandler();
 				ch.init();
-				compliant = !(new Gson().fromJson(ch.solve(model.toString()),
+				implies = !(new Gson().fromJson(ch.solve(model.toString()),
 						Boolean.class));
-
-				// OperationResponse response = new
-				// Gson().fromJson(ch.explain(model.toString()),
-				// OperationResponse.class);
-
 			} catch (Exception e) {
-				LOG.log(Level.SEVERE, "There was an error processing the file",
+				implies = null;
+				LOG.log(Level.SEVERE, "There was an error: ",
 						e);
 			}
 		} else {
-			LOG.log(Level.SEVERE, "There was an error processing the file");
+			LOG.log(Level.SEVERE, "One of the CSPModels is not valid");
 		}
-		return compliant;
+		return implies;
 	}
 
 	@Override

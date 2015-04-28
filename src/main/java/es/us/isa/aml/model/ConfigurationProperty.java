@@ -11,6 +11,11 @@ import es.us.isa.aml.model.expression.Expression;
  */
 public class ConfigurationProperty extends Property {
 
+	
+	public ConfigurationProperty(String id) {
+		super(id);
+	}
+	
     public ConfigurationProperty(String id, Metric metric) {
         super(id, metric);
     }
@@ -18,9 +23,9 @@ public class ConfigurationProperty extends Property {
     public ConfigurationProperty(String id, Metric metric,
             Expression expression, Scope scope, Feature feature) {
         super(id, metric, expression, scope, feature);
-    }
-    
-    @Override
+    }	
+
+	@Override
     public ConfigurationProperty clone() {
     	ConfigurationProperty cp = new ConfigurationProperty(getId(), getMetric().clone());
     	cp.setExpression(getExpression());

@@ -19,7 +19,7 @@ public class Atomic extends Expression {
 
     @Override
     public String toString() {
-        if (AgreementElement.class.isAssignableFrom(this.value.getClass())) {
+        if (value instanceof AgreementElement) {
             return ((AgreementElement) this.value).getId();
         } else {
             return this.value.toString();
