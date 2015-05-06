@@ -31,6 +31,10 @@ public class MonitorableProperty extends Property {
     	if(getFeature() != null)
     		mp.setFeature(getFeature().clone());
     	mp.setScope(getScope());
+    	if(getDefinitionReference() != null)
+    		mp.setDefinitionReference(getDefinitionReference());
+    	if(getMonitorReference() != null)
+    		mp.setMonitorReference(getMonitorReference());
     	return mp;
     }
 

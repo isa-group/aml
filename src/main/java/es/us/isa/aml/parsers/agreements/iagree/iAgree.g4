@@ -94,7 +94,7 @@ period_def : FROM Hour '..' Hour (ON Identifier)? datePeriod_def
 // Agreement Terms definitions
 //---------------------------------------
 			
-service : SERVICE Identifier (AVAL_AT url)?
+service : SERVICE Identifier (AVAL_AT endpointUrl=url)? (DEFINED_AT definitionUrl=url)? (MONITORED_AT monitorUrl=url)?
           (features)? 
           globalDescription 
           localDescription*
@@ -166,7 +166,11 @@ url : Url
     | String
     ;
 
-property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN) (ASSIG value=expression)? ';';
+property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN) 
+           (DEFINED_AT definitionUrl=url)? 
+           (MONITORED_AT monitorUrl=url)?
+           (ASSIG value=expression)? 
+            ';';
 
 cuantif : EXACTLY_ONE 
         | ONE_OR_MORE
@@ -250,6 +254,8 @@ MONITORABLEPROPERTIES : 'MonitorableProperties';
 GUARANTEES : 'guarantees';
 
 AVAL_AT : 'availableAt';
+DEFINED_AT : 'definedAt';
+MONITORED_AT : 'monitoredAt';
 
 PROVIDER : 'Provider';
 CONSUMER : 'Consumer';

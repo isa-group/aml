@@ -25,11 +25,8 @@ import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -109,9 +106,9 @@ public class CplexHandler {
 		} catch (IloException e) {
 			String[] aux = e.getMessage().split(":");
 			String exc = aux[0];
-			if (exc.equals("IloMapOutOfBoundException"))
+			if (exc.equals("IloMapOutOfBoundException")){
 				solve = false;
-			else {
+			} else {
 				solve = null;
 				LOG.log(Level.SEVERE, e.getMessage());
 				LOG.log(Level.INFO, content);
@@ -129,7 +126,7 @@ public class CplexHandler {
 
 		Boolean solve = false;
 		String result = "";
-		Map<String, List<String>> conflictsMap = new HashMap<>();
+		List<String> conflicts = new ArrayList<String>();
 
 		Date date = new Date();
 		File temp;
@@ -194,8 +191,6 @@ public class CplexHandler {
 					} else {
 						result = "The document has conflicts";
 						if (cp.refineConflict(constraints, prefs)) {
-							List<String> provedConflicts = new LinkedList<>();
-							List<String> possibleConflicts = new LinkedList<>();
 							for (IloConstraint constraint : constraints) {
 								ConflictStatus cs = cp.getConflict(constraint);
 
@@ -207,20 +202,16 @@ public class CplexHandler {
 								}
 
 								if (cs.equals(ConflictStatus.ConflictMember)) {
-									if (!provedConflicts
+									if (!conflicts
 											.contains(constraint_name))
-										provedConflicts.add(constraint_name);
+										conflicts.add(constraint_name);
 								} else if (cs
 										.equals(ConflictStatus.ConflictPossibleMember)) {
-									if (!possibleConflicts
+									if (!conflicts
 											.contains(constraint_name))
-										possibleConflicts.add(constraint_name);
+										conflicts.add(constraint_name);
 								}
 							}
-							conflictsMap
-									.put("provedConflicts", provedConflicts);
-							conflictsMap.put("possibleConflicts",
-									possibleConflicts);
 						}
 					}
 				}
@@ -241,22 +232,30 @@ public class CplexHandler {
 					} else {
 						result = "The document has conflicts";
 						opl.printConflict(baos);
-						List<String> aux = new ArrayList<String>();
-						aux.add(baos.toString());
-						conflictsMap.put("conflicts", aux);
+						conflicts.add(baos.toString());
 					}
 				}
 				cplex.clearModel();
 				opl.endAll();
 			}
-
+		} catch (IloException e) {
+			String[] aux = e.getMessage().split(":");
+			String exc = aux[0];
+			if (exc.equals("IloMapOutOfBoundException")){
+				result = "ERROR";
+				conflicts.add(e.getMessage());
+			} else {
+				solve = null;
+				LOG.log(Level.SEVERE, e.getMessage());
+				LOG.log(Level.INFO, content);
+			}
 		} catch (Error | Exception e) {
 			result = "ERROR";
 			LOG.log(Level.SEVERE, e.getMessage());
 		}
 
 		response.put("result", result);
-		response.put("conflicts", conflictsMap);
+		response.put("conflicts", conflicts);
 		return new Gson().toJson(response);
 	}
 }

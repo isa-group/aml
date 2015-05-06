@@ -23,11 +23,18 @@ public class IAgreeConfigurationProperty extends ConfigurationProperty {
 
     @Override
     public String toString() {
-        if (this.getExpression() != null) {
-            return this.getId() + ": " + this.getMetric().getId() + " = "
-                    + this.getExpression() + ";";
-        } else {
-            return this.getId() + ": " + this.getMetric().getId() + ";";
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(this.getId() + ": " + this.getMetric().getId());
+    	
+    	if(this.getDefinitionReference() != null){
+        	sb.append(" definedAt " + getDefinitionReference());
         }
+        
+    	if (this.getExpression() != null) {
+            sb.append(" = " + this.getExpression());
+        }
+        
+        sb.append(";");
+        return sb.toString();
     }
 }

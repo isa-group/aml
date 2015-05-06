@@ -20,6 +20,8 @@ public class Property extends AgreementElement {
     private Expression expr;
     private Scope scope;
     private Feature feature;
+    private String definitionReference;
+    private String monitorReference;
 
     
 	public Property(String id) {
@@ -73,8 +75,24 @@ public class Property extends AgreementElement {
     public void setFeature(Feature feature) {
         this.feature = feature;
     }
+    
+    public String getDefinitionReference() {
+		return definitionReference;
+	}
 
-    public Object getValue() {
+	public void setDefinitionReference(String definitionReference) {
+		this.definitionReference = definitionReference;
+	}
+
+	public String getMonitorReference() {
+		return monitorReference;
+	}
+
+	public void setMonitorReference(String monitorReference) {
+		this.monitorReference = monitorReference;
+	}
+
+	public Object getValue() {
         if (expr == null) {
             LOG.log(Level.INFO, "Property {0} has not been initialized", this.id);
             return null;

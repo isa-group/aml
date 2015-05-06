@@ -41,7 +41,7 @@ public class CSPWebReasoner extends Reasoner {
 			String response = sendPost(url, content);
 			res = new Gson().fromJson(response.toString(), Boolean.class);
 		} catch (Exception e) {
-			LOG.log(Level.WARNING, null, e);
+			LOG.log(Level.SEVERE, e.getMessage());
 		}
 
 		return res;
@@ -59,7 +59,7 @@ public class CSPWebReasoner extends Reasoner {
 			String response = sendPost(url, content);
 			res = new Gson().fromJson(response.toString(), OperationResponse.class);
 		} catch (Exception e) {
-			LOG.log(Level.WARNING, null, e);
+			LOG.log(Level.SEVERE, e.getMessage());
 		}
 		return res;
 	}
@@ -77,7 +77,7 @@ public class CSPWebReasoner extends Reasoner {
 			String response = sendPost(url, content);
 			res = new Gson().fromJson(response.toString(), Boolean.class);
 		} catch (Exception e) {
-			LOG.log(Level.WARNING, null, e);
+			LOG.log(Level.SEVERE, e.getMessage());
 		}
 		return res;
 	}

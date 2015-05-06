@@ -3,6 +3,14 @@
  */
 package test;
 
+import static es.us.isa.aml.util.Util.getStringFromInputStream;
+import static org.junit.Assert.assertEquals;
+
+import java.io.InputStream;
+import java.util.logging.Logger;
+
+import org.junit.Test;
+
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.AgreementTerms;
@@ -25,11 +33,6 @@ import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.agreements.IAgreeParser;
-import static es.us.isa.aml.util.Util.getStringFromInputStream;
-import java.io.InputStream;
-import java.util.logging.Logger;
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
 
 /**
  * @author jdelafuente
@@ -105,7 +108,7 @@ public class TestIAgreeParser {
         // Service reference
         ServiceConfiguration service = new ServiceConfiguration();
         service.setServiceName("TTS");
-        service.setServiceReference("test.template.com/service");
+        service.setEndpointReference("test.template.com/service");
         at.setService(service);
 
         // Configuration properties

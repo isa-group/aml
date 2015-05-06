@@ -211,7 +211,7 @@ public class WsagParserHelper {
 						String serviceReference = term
 								.getAttribute("iag:ServiceReference");
 						model.getAgreementTerms().getService()
-								.setServiceReference(serviceReference);
+								.setEndpointReference(serviceReference);
 					}
 
 					NodeList offer_items = term.getChildNodes();

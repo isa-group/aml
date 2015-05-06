@@ -16,14 +16,14 @@ public class IAgreeService extends ServiceConfiguration {
 	}
 	
 	public IAgreeService(ServiceConfiguration s) {
-		super(s.getServiceName(), s.getServiceReference(), s.getFeatures(), s.getConfigurationProperties());
+		super(s.getServiceName(), s.getEndpointReference(), s.getFeatures(), s.getConfigurationProperties());
 	}	
 
 	@Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Service ").append(this.getServiceName()).append(" availableAt " + "\"").append(this.getServiceReference()).append("\"").append("\n");
+        sb.append("Service ").append(this.getServiceName()).append(" availableAt " + "\"").append(this.getEndpointReference()).append("\"").append("\n");
 
         if (getFeatures().size() > 0) {
             sb.append("\t\t" + "Features: ").append(getFeatures().values().toString().replace("[", "").replace("]", "")).append("\n");

@@ -1,8 +1,0 @@
-{
-    "defaultInputFormat": "IAGREE",
-    "CSPReasoner": "CPLEX",
-    "CSPWebReasonerEndpoint": "https://labs.isa.us.es:8181/CSPWebReasoner",
-    "DLReasoner": "none",
-    "ANDConstraintsBreaking" : "true"
-}
-

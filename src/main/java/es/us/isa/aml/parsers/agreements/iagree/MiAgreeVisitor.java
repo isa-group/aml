@@ -134,7 +134,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			throw new IllegalArgumentException(
 					"There was an error parsing the file. "
 							+ "Please, check the syntax of the document.");
-			
+
 		}
 
 		return this.model;
@@ -211,10 +211,10 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		this.visitService(ctx.service());
 
-		if(ctx.monitorableProperties() != null)
+		if (ctx.monitorableProperties() != null)
 			this.visitMonitorableProperties(ctx.monitorableProperties());
 
-		if(ctx.guaranteeTerms() != null)
+		if (ctx.guaranteeTerms() != null)
 			this.visitGuaranteeTerms(ctx.guaranteeTerms());
 
 		return null;
@@ -259,10 +259,28 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		model.getAgreementTerms().setService(service);
 		model.getAgreementTerms().getService()
 				.setServiceName(ctx.Identifier().getText());
-		model.getAgreementTerms()
-				.getService()
-				.setServiceReference(
-						Util.withoutDoubleQuotes(ctx.url().getText()));
+
+		if (ctx.AVAL_AT() != null) {
+			model.getAgreementTerms()
+					.getService()
+					.setEndpointReference(
+							Util.withoutDoubleQuotes(ctx.endpointUrl.getText()));
+		}
+
+		if (ctx.DEFINED_AT() != null) {
+			model.getAgreementTerms()
+					.getService()
+					.setDefinitionReference(
+							Util.withoutDoubleQuotes(ctx.definitionUrl
+									.getText()));
+		}
+
+		if (ctx.MONITORED_AT() != null) {
+			model.getAgreementTerms()
+					.getService()
+					.setMonitorReference(
+							Util.withoutDoubleQuotes(ctx.monitorUrl.getText()));
+		}
 
 		if (ctx.features() != null) {
 			visitFeatures(ctx.features());
@@ -449,13 +467,20 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		for (iAgreeParser.PropertyContext prop : ctx.property()) {
 			Property p = this.visitProperty(prop);
-			if (p != null) {
-				ConfigurationProperty cp = new ConfigurationProperty(p.getId(),
-						p.getMetric());
-				cp.setExpression(p.getExpression());
-				cp.setScope(Scope.Global);
-				this.model.getAgreementTerms().getService()
-						.getConfigurationProperties().add(cp);
+			if (prop.MONITORED_AT() != null) {
+				parser.notifyErrorListeners(
+						prop.start,
+						"Monitoring is not allowed for service description properties.",
+						null);
+			} else {
+				if (p != null) {
+					ConfigurationProperty cp = new ConfigurationProperty(
+							p.getId(), p.getMetric());
+					cp.setExpression(p.getExpression());
+					cp.setScope(Scope.Global);
+					this.model.getAgreementTerms().getService()
+							.getConfigurationProperties().add(cp);
+				}
 			}
 		}
 
@@ -644,10 +669,21 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 			p = new Property(id, m);
 
+			if (ctx.DEFINED_AT() != null) {
+				p.setDefinitionReference(Util
+						.withoutDoubleQuotes(ctx.definitionUrl.getText()));
+			}
+
+			if (ctx.MONITORED_AT() != null) {
+				p.setMonitorReference(Util.withoutDoubleQuotes(ctx.monitorUrl
+						.getText()));
+			}
+
 			if (ctx.value != null) {
 				Expression expr = this.visitExpression(ctx.expression());
 				p.setExpression(expr);
 			}
+
 		} else {
 			parser.notifyErrorListeners(ctx.start, "Metric \"" + metric_id
 					+ "\" has not been declared.", null);
@@ -804,13 +840,13 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		Expression e2 = this.visitExpression(ctx.expression(1));
 		return new LogicalExpression(e1, e2, LogicalOperator.or);
 	}
-	
+
 	@Override
-    public Expression visitImpliesExpr(ImpliesExprContext ctx) {
-    	Expression e1 = this.visitExpression(ctx.expression(0));
-        Expression e2 = this.visitExpression(ctx.expression(1));
-        return new LogicalExpression(e1, e2, LogicalOperator.implies);
-    }
+	public Expression visitImpliesExpr(ImpliesExprContext ctx) {
+		Expression e1 = this.visitExpression(ctx.expression(0));
+		Expression e2 = this.visitExpression(ctx.expression(1));
+		return new LogicalExpression(e1, e2, LogicalOperator.implies);
+	}
 
 	@Override
 	public Expression visitListExpr(ListExprContext ctx) {
@@ -925,7 +961,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				values.add(actx.getText());
 			e.setValues(values.toArray());
 			domain = e;
-		} else if(ctx.array() != null){
+		} else if (ctx.array() != null) {
 			Enumerated e = new Enumerated();
 			List<Object> values = new ArrayList<Object>();
 			for (ArgsContext actx : ctx.array().args())

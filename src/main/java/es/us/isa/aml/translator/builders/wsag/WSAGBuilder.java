@@ -105,8 +105,7 @@ public class WSAGBuilder implements IBuilder {
 				.setName("SDT_" + service.getServiceName());
 		wsagDoc.getTerms().getServiceDescriptionTerm().setServiceName(service.getServiceName());
 
-		wsagDoc.getTerms().getServiceDescriptionTerm()
-				.setServiceReference(service.getServiceReference());
+		wsagDoc.getTerms().getServiceDescriptionTerm().setServiceReference(service.getEndpointReference());
 
 		wsagDoc.getTerms().getServiceProperties()
 				.setName("SP_" + service.getServiceName());

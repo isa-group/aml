@@ -1,3 +1,9 @@
+AML 0.1.2, 2015-05-06
+-----------------------
+- Updated model with definition and monitoring references.
+- Fixed AreCompliant operation.
+- Updated iAgree parser.
+
 AML 0.1.1, 2015-04-28
 -----------------------
 - Fixed AreCompliant operation.

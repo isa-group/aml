@@ -23,10 +23,22 @@ public class IAgreeMonitorableProperty extends MonitorableProperty {
 
     @Override
     public String toString() {
-        if (this.getExpression() != null) {
-            return this.getId() + ": " + this.getMetric().getId() + " = " + this.getExpression() + ";";
-        } else {
-            return this.getId() + ": " + this.getMetric().getId() + ";";
+    	StringBuilder sb = new StringBuilder();
+    	sb.append(this.getId() + ": " + this.getMetric().getId());
+    	
+    	if(this.getDefinitionReference() != null){
+        	sb.append(" definedAt " + getDefinitionReference());
         }
+        
+        if(this.getMonitorReference() != null){
+        	sb.append( " monitoredAt " + getMonitorReference());
+        }
+    	
+        if (this.getExpression() != null) {
+            sb.append(" = " + this.getExpression());
+        }
+        
+        sb.append(";");
+        return sb.toString();
     }
 }

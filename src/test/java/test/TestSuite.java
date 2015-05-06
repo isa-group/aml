@@ -14,7 +14,6 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
     TestExpression.class,
     TestIAgreeParser.class,
-    TestConfig.class,
     TestLibLocal.class,
     TestStore.class
 })

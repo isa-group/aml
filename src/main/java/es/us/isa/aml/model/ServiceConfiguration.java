@@ -12,20 +12,22 @@ import java.util.Map;
 public class ServiceConfiguration {
 
     private String serviceName;
-    private String serviceReference;
+    private String endpointReference;
+    private String definitionReference;
+    private String monitorReference;
     private Map<String, Feature> features;
     private List<ConfigurationProperty> cps;
 
     public ServiceConfiguration() {
         serviceName = "";
-        serviceReference = "";
+        endpointReference = "";
         features = new HashMap<>();
         cps = new ArrayList<>();
     }
 
     public ServiceConfiguration(String serviceName, String serviceReference) {
         this.serviceName = serviceName;
-        this.serviceReference = serviceReference;
+        this.endpointReference = serviceReference;
         features = new HashMap<>();
         cps = new ArrayList<>();
     }
@@ -34,7 +36,7 @@ public class ServiceConfiguration {
 			Map<String, Feature> features,
 			List<ConfigurationProperty> configurationProperties) {
 		this.serviceName = serviceName;
-        this.serviceReference = serviceReference;
+        this.endpointReference = serviceReference;
         this.features = features;
         cps = configurationProperties;
 	}
@@ -46,14 +48,30 @@ public class ServiceConfiguration {
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
     }
+    
+    public String getEndpointReference() {
+		return endpointReference;
+	}
 
-    public String getServiceReference() {
-        return this.serviceReference;
-    }
+	public void setEndpointReference(String endpointReference) {
+		this.endpointReference = endpointReference;
+	}
 
-    public void setServiceReference(String serviceReference) {
-        this.serviceReference = serviceReference;
-    }
+	public String getDefinitionReference() {
+		return definitionReference;
+	}
+
+	public void setDefinitionReference(String definitionReference) {
+		this.definitionReference = definitionReference;
+	}
+
+	public String getMonitorReference() {
+		return monitorReference;
+	}
+
+	public void setMonitorReference(String monitorReference) {
+		this.monitorReference = monitorReference;
+	}
 
     public Map<String, Feature> getFeatures() {
         return features;
@@ -75,7 +93,7 @@ public class ServiceConfiguration {
     public ServiceConfiguration clone(){
     	ServiceConfiguration sc = new ServiceConfiguration();
     	sc.setServiceName(serviceName);
-    	sc.setServiceReference(serviceReference);
+    	sc.setEndpointReference(endpointReference);
     	for(Feature feature : features.values()){
     		Feature f = feature.clone();
     		sc.getFeatures().put(f.getId(), f);

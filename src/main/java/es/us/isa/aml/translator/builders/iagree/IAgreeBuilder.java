@@ -114,7 +114,7 @@ public class IAgreeBuilder implements IBuilder {
 	public void setService(ServiceConfiguration s) {
 		IAgreeService service = new IAgreeService();
 		service.setServiceName(s.getServiceName());
-		service.setServiceReference(s.getServiceReference());
+		service.setEndpointReference(s.getEndpointReference());
 		Map<String, Feature> features = new HashMap<String, Feature>();
 		for (Feature f : s.getFeatures().values()) {
 			IAgreeFeature iaf = new IAgreeFeature();

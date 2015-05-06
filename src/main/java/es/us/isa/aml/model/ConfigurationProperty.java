@@ -32,6 +32,10 @@ public class ConfigurationProperty extends Property {
     	if(getFeature() != null)
     		cp.setFeature(getFeature().clone());
     	cp.setScope(getScope());
+    	if(getDefinitionReference() != null)
+    		cp.setDefinitionReference(getDefinitionReference());
+    	if(getMonitorReference() != null)
+    		cp.setMonitorReference(getMonitorReference());
     	return cp;
     }
 }
