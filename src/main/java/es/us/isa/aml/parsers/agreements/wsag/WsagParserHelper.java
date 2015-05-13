@@ -308,8 +308,8 @@ public class WsagParserHelper {
 									"Consumer");
 						}
 
-						GuaranteeTerm gt = new GuaranteeTerm(id);
-						gt.setServiceRole(ServiceRole.valueOf(ob));
+						GuaranteeTerm GT = new GuaranteeTerm(id);
+						GT.setServiceRole(ServiceRole.valueOf(ob));
 
 						NodeList nList2 = gt_element.getChildNodes();
 						for (int j = 0; j < nList2.getLength(); j++) {
@@ -329,7 +329,7 @@ public class WsagParserHelper {
 											.decodeEntities(aux));
 									QualifyingCondition qc = new QualifyingCondition(
 											cond);
-									gt.setQc(qc);
+									GT.setQc(qc);
 								} else if (prop.getTagName().equals(
 										"wsag:ServiceLevelObjective")) {
 									String aux = prop.getTextContent().trim();
@@ -342,12 +342,12 @@ public class WsagParserHelper {
 									Expression exp = Expression.parse(Util
 											.decodeEntities(aux));
 									SLO slo = new SLO(exp);
-									gt.setSlo(slo);
+									GT.setSlo(slo);
 								}
 							}
 						}
 
-						model.getAgreementTerms().getGuaranteeTerms().add(gt);
+						model.getAgreementTerms().getGuaranteeTerms().add(GT);
 					}
 
 				} else if (term.getTagName().equals("wsag:ExactlyOne")
@@ -435,7 +435,7 @@ public class WsagParserHelper {
 
 							min_expr = new RelationalExpression(new Var(prop),
 									new Atomic(min_value),
-									RelationalOperator.gte);
+									RelationalOperator.GTE);
 						}
 
 						if (itemConstraint.getElementsByTagName(
@@ -448,7 +448,7 @@ public class WsagParserHelper {
 
 							max_expr = new RelationalExpression(new Var(prop),
 									new Atomic(max_value),
-									RelationalOperator.lte);
+									RelationalOperator.LTE);
 						}
 
 						// Exclusive constraints
@@ -461,7 +461,7 @@ public class WsagParserHelper {
 							Integer value = Integer.valueOf(str_value);
 
 							min_expr = new RelationalExpression(new Var(prop),
-									new Atomic(value), RelationalOperator.gt);
+									new Atomic(value), RelationalOperator.GT);
 						}
 
 						if (itemConstraint.getElementsByTagName(
@@ -473,14 +473,14 @@ public class WsagParserHelper {
 							Integer value = Integer.valueOf(str_value);
 
 							max_expr = new RelationalExpression(new Var(prop),
-									new Atomic(value), RelationalOperator.lt);
+									new Atomic(value), RelationalOperator.LT);
 						}
 
 						Expression expr = null;
 
 						if (min_expr != null && max_expr != null)
 							expr = new LogicalExpression(min_expr, max_expr,
-									LogicalOperator.and);
+									LogicalOperator.AND);
 						else if (min_expr != null)
 							expr = min_expr;
 						else if (max_expr != null)

@@ -454,8 +454,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	@Override
 	public Object visitGuaranteeTerms(iAgreeParser.GuaranteeTermsContext ctx) {
 
-		for (iAgreeParser.GuaranteeTermContext gt : ctx.guaranteeTerm()) {
-			this.visitGuaranteeTerm(gt);
+		for (iAgreeParser.GuaranteeTermContext GT : ctx.guaranteeTerm()) {
+			this.visitGuaranteeTerm(GT);
 		}
 
 		return null;
@@ -567,10 +567,10 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		if (ctx.guarantee_def() != null) {
 
-			GuaranteeTerm gt = this.visitGuarantee_def(ctx.guarantee_def());
-			gt.setId(ctx.Identifier().getText());
+			GuaranteeTerm GT = this.visitGuarantee_def(ctx.guarantee_def());
+			GT.setId(ctx.Identifier().getText());
 
-			this.model.getAgreementTerms().getGuaranteeTerms().add(gt);
+			this.model.getAgreementTerms().getGuaranteeTerms().add(GT);
 
 		} else if (ctx.cuantif() != null) {
 			// TODO
@@ -588,17 +588,17 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		SLO slo = new SLO(exp);
 		ServiceRole actor = ServiceRole.valueOf(ctx.ob.getText());
 
-		GuaranteeTerm gt = new GuaranteeTerm("", actor, slo);
+		GuaranteeTerm GT = new GuaranteeTerm("", actor, slo);
 
 		if (ctx.serviceScope() != null) {
 			String serviceScope = visitServiceScope(ctx.serviceScope());
-			gt.setServiceScope(serviceScope);
+			GT.setServiceScope(serviceScope);
 		}
 
 		if (ctx.qualifyingCondition() != null) {
 			QualifyingCondition qc = visitQualifyingCondition(ctx
 					.qualifyingCondition());
-			gt.setQc(qc);
+			GT.setQc(qc);
 		}
 
 		List<Compensation> compensations = new ArrayList<Compensation>();
@@ -606,9 +606,9 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			Compensation c = visitCompensation(comp);
 			compensations.add(c);
 		}
-		gt.setCompensations(compensations);
+		GT.setCompensations(compensations);
 
-		return gt;
+		return GT;
 	}
 
 	@Override
@@ -752,7 +752,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	@Override
 	public Expression visitNotExpr(NotExprContext ctx) {
 		Expression e1 = this.visitExpression(ctx.expression());
-		Expression res = new LogicalExpression(e1, LogicalOperator.not);
+		Expression res = new LogicalExpression(e1, LogicalOperator.NOT);
 		return res;
 	}
 
@@ -765,9 +765,9 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		switch (ctx.op.getType()) {
 		case iAgreeParser.MULTIPLY:
-			return new ArithmeticExpression(e1, e2, ArithmeticOperator.multiply);
+			return new ArithmeticExpression(e1, e2, ArithmeticOperator.MULTIPLY);
 		case iAgreeParser.DIVIDE:
-			return new ArithmeticExpression(e1, e2, ArithmeticOperator.divide);
+			return new ArithmeticExpression(e1, e2, ArithmeticOperator.DIVIDE);
 		default:
 			throw new RuntimeException("unknown operator: "
 					+ iAgreeParser.tokenNames[ctx.op.getType()]);
@@ -782,9 +782,9 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		switch (ctx.op.getType()) {
 		case iAgreeParser.ADD:
-			return new ArithmeticExpression(e1, e2, ArithmeticOperator.add);
+			return new ArithmeticExpression(e1, e2, ArithmeticOperator.ADD);
 		case iAgreeParser.SUBTRACT:
-			return new ArithmeticExpression(e1, e2, ArithmeticOperator.subtract);
+			return new ArithmeticExpression(e1, e2, ArithmeticOperator.SUBTRACT);
 		default:
 			throw new RuntimeException("unknown operator: "
 					+ iAgreeParser.tokenNames[ctx.op.getType()]);
@@ -799,13 +799,13 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		switch (ctx.op.getType()) {
 		case iAgreeParser.LTE:
-			return new RelationalExpression(e1, e2, RelationalOperator.lte);
+			return new RelationalExpression(e1, e2, RelationalOperator.LTE);
 		case iAgreeParser.GTE:
-			return new RelationalExpression(e1, e2, RelationalOperator.gte);
+			return new RelationalExpression(e1, e2, RelationalOperator.GTE);
 		case iAgreeParser.LT:
-			return new RelationalExpression(e1, e2, RelationalOperator.lt);
+			return new RelationalExpression(e1, e2, RelationalOperator.LT);
 		case iAgreeParser.GT:
-			return new RelationalExpression(e1, e2, RelationalOperator.gt);
+			return new RelationalExpression(e1, e2, RelationalOperator.GT);
 		default:
 			throw new RuntimeException("unknown operator: "
 					+ iAgreeParser.tokenNames[ctx.op.getType()]);
@@ -820,7 +820,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		switch (ctx.op.getType()) {
 		case iAgreeParser.EQ:
-			return new RelationalExpression(e1, e2, RelationalOperator.eq);
+			return new RelationalExpression(e1, e2, RelationalOperator.EQ);
 		default:
 			throw new IllegalArgumentException("unknown operator: "
 					+ iAgreeParser.tokenNames[ctx.op.getType()]);
@@ -831,21 +831,21 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	public Expression visitAndExpr(AndExprContext ctx) {
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
-		return new LogicalExpression(e1, e2, LogicalOperator.and);
+		return new LogicalExpression(e1, e2, LogicalOperator.AND);
 	}
 
 	@Override
 	public Expression visitOrExpr(OrExprContext ctx) {
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
-		return new LogicalExpression(e1, e2, LogicalOperator.or);
+		return new LogicalExpression(e1, e2, LogicalOperator.OR);
 	}
 
 	@Override
 	public Expression visitImpliesExpr(ImpliesExprContext ctx) {
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
-		return new LogicalExpression(e1, e2, LogicalOperator.implies);
+		return new LogicalExpression(e1, e2, LogicalOperator.IMPLIES);
 	}
 
 	@Override

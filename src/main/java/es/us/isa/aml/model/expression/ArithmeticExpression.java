@@ -19,22 +19,22 @@ public class ArithmeticExpression extends CompoundExpression {
 
         try {
             switch ((ArithmeticOperator) this.operator) {
-                case add:
+                case ADD:
                     res = Double.valueOf(this.exp1.calculate().toString())
                             + Double.valueOf(this.exp2.calculate().toString());
 
                     break;
-                case subtract:
+                case SUBTRACT:
                     res = Double.valueOf(this.exp1.calculate().toString())
                             - Double.valueOf(this.exp2.calculate().toString());
 
                     break;
-                case multiply:
+                case MULTIPLY:
                     res = Double.valueOf(this.exp1.calculate().toString())
                             * Double.valueOf(this.exp2.calculate().toString());
 
                     break;
-                case divide:
+                case DIVIDE:
                     res = Double.valueOf(this.exp1.calculate().toString())
                             / Double.valueOf(this.exp2.calculate().toString());
                     break;
@@ -50,16 +50,16 @@ public class ArithmeticExpression extends CompoundExpression {
     public String toString() {
         String op = "";
         switch ((ArithmeticOperator) this.operator) {
-            case add:
+            case ADD:
                 op = "+";
                 break;
-            case subtract:
+            case SUBTRACT:
                 op = "-";
                 break;
-            case multiply:
+            case MULTIPLY:
                 op = "*";
                 break;
-            case divide:
+            case DIVIDE:
                 op = "/";
                 break;
         }

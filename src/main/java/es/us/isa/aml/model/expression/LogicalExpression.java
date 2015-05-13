@@ -22,18 +22,18 @@ public class LogicalExpression extends CompoundExpression {
 	public Boolean calculate() {
 		Boolean res = null;
 		switch ((LogicalOperator) this.operator) {
-		case and:
+		case AND:
 			res = Boolean.valueOf(this.exp1.calculate().toString())
 					&& Boolean.valueOf(this.exp2.calculate().toString());
 			break;
-		case or:
+		case OR:
 			res = Boolean.valueOf(this.exp1.calculate().toString())
 					|| Boolean.valueOf(this.exp2.calculate().toString());
 			break;
-		case not:
+		case NOT:
 			res = !Boolean.valueOf(this.exp1.calculate().toString());
 			break;
-		case implies:
+		case IMPLIES:
 			res = !Boolean.valueOf(this.exp1.calculate().toString())
 					|| Boolean.valueOf(this.exp2.calculate().toString());
 			break;
@@ -46,16 +46,16 @@ public class LogicalExpression extends CompoundExpression {
 	public String toString() {
 		String op = "";
 		switch ((LogicalOperator) this.operator) {
-		case and:
+		case AND:
 			op = "AND";
 			break;
-		case or:
+		case OR:
 			op = "OR";
 			break;
-		case not:
+		case NOT:
 			op = "NOT";
 			break;
-		case implies:
+		case IMPLIES:
 			op = "IMPLIES";
 			break;
 		}

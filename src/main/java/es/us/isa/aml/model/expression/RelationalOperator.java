@@ -6,5 +6,5 @@ package es.us.isa.aml.model.expression;
  */
 public enum RelationalOperator {
 
-    gt, lt, gte, lte, eq
+    GT, LT, GTE, LTE, EQ
 }

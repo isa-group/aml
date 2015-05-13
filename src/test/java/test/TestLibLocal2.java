@@ -14,8 +14,8 @@ import org.junit.Test;
 
 import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.operations.core.csp.AreCompliant;
 import es.us.isa.aml.operations.noCore.ValidOp;
-import es.us.isa.aml.util.Util;
 
 /**
  * @author jdelafuente
@@ -26,22 +26,21 @@ public class TestLibLocal2 {
 	private static final Logger LOG = Logger.getLogger(TestLibLocal2.class
 			.getName());
 	private static AgreementManager serv;
-	private static AgreementModel model1, model2, model3;
+	private static AgreementModel model1, model2, model3, model4;
 
 	@BeforeClass
 	public static void init() {
-		serv = new AgreementManager(
-				Util.loadFile("src/test/resources/config.json"));
+		serv = new AgreementManager();
 
 		model1 = serv
 				.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core.at");
 		model2 = serv
 				.createAgreementTemplateFromFile("src/test/resources/samples/deadterms.at");
 		model3 = serv
-				.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-dead.at");
+				.createAgreementTemplateFromFile("src/test/resources/samples/compliant_template.at");
 		
-		model3 = serv
-				.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-condIncs.at");
+		model4 = serv
+				.createAgreementOfferFromFile("src/test/resources/samples/compliant_offer.ao");
 
 		// Translator t = new Translator(new CSPBuilder());
 		// // CSPModel m = (CSPModel) t.translate(model1);
@@ -56,10 +55,18 @@ public class TestLibLocal2 {
 		// // IAgreeAgreementTemplate at = (IAgreeAgreementTemplate)
 		// // t2.translate(model1);
 		// System.out.println(t3.print(model1));
-
+		
+		
+	}
+	
+	@Test
+	public void testCompliant() {
+		AreCompliant op = new AreCompliant();
+		op.analyze(model3, model4);
+		System.out.println(op.getResult());
 	}
 
-	@Test
+	//@Test
 	public void testIsValid() {
 
 		LOG.info("\n----------------------- MODEL 1 -----------------------");

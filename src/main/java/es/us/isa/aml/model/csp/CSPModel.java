@@ -95,16 +95,20 @@ public class CSPModel extends AbstractModel {
 	}
 
 	public CSPModel negate() {
-
 		CSPModel model = this.clone();
-
-		for (CSPConstraint constraint : model.getConstraints()) {
-			Expression e = constraint.getExpr();
+		List<String> arr = new ArrayList<String>();
+		for (CSPConstraint cons : model.getConstraints()) {
+			Expression e = cons.getExpr();
 			Expression neg = new LogicalExpression(
-					new ParenthesisExpression(e), LogicalOperator.not);
-			constraint.setExpr(neg);
+					new ParenthesisExpression(e), LogicalOperator.NOT);
+			arr.add(neg.toString());
 		}
-
+		Expression expr = Expression.parse(String.join(
+				LogicalOperator.OR.toString() + " ", arr));
+		
+		CSPConstraint constraint = new CSPConstraint("C", expr);
+		model.getConstraints().clear();
+		model.getConstraints().add(constraint);
 		return model;
 	}
 
@@ -139,13 +143,13 @@ public class CSPModel extends AbstractModel {
 		sb.append("\n");
 
 		for (CSPVar var : getVariables()) {
-			if(!var.getDvar())
+			if (!var.getDvar())
 				sb.append(var.toString()).append("\n");
 		}
 		sb.append("\n");
-		
+
 		for (CSPVar var : getVariables()) {
-			if(var.getDvar())
+			if (var.getDvar())
 				sb.append(var.toString()).append("\n");
 		}
 		sb.append("\n");

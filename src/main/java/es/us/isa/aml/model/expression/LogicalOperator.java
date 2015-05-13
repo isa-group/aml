@@ -6,5 +6,5 @@ package es.us.isa.aml.model.expression;
  */
 public enum LogicalOperator {
 
-    and, or, not, implies
+    AND, OR, NOT, IMPLIES
 }

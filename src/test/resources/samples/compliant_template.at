@@ -1,46 +1,31 @@
-Template IAgreeCore version 1.0
+Template CompliantTemplate version 1.0
 	Initiator: "Initiator1";
 	Provider "Prov1" as Responder;
 
 	Metrics:
 		percent: integer[0..100];
 		size: integer[0..200];
-		mediumInt: integer[0..100];
 		time: integer[0..100];
 		price: integer[0..400];
 
 AgreementTerms
 	Service AWS-S3 availableAt "aws.amazon.com/s3"
 		GlobalDescription
-			RRS: boolean;
 			StorageSize: size;
-			FirstProject: boolean;
-			TotalPrice: price;
-			StoragePrice: price;
 			SupportPlanPrice: price;
 
 	MonitorableProperties
 		global:
 			MUP: percent;
-			TransferredGb: mediumInt;
 			ResponseTime: time;
-			ReadRequests: mediumInt;
-			WriteRequests: mediumInt;
-			OnlineReportingSupport: boolean;
-			PhoneSupport: boolean;
-			TurnAroundTime: time;
 
 		GuaranteeTerms
 			G1:	Provider guarantees MUP >= 90;
 
 			G2:	Provider guarantees ResponseTime <= 10;
 
-			G3:	Provider guarantees StorageSize <= 110;
-
-			G4:	Provider guarantees SupportPlanPrice > 300;
-
 CreationConstraints
-	C1:	StorageSize <= 150;
+	C1:	StorageSize <= 170;
 
 	C2:	SupportPlanPrice > 200;
 

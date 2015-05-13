@@ -74,7 +74,7 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 
 		if (antecedent != null && consequent != null) {
 			try {
-				CSPModel model = antecedent.add(consequent.negate());
+				CSPModel model = antecedent.add(consequent.negate());				
 				CplexHandler ch = new CplexHandler();
 				ch.init();
 				implies = !(new Gson().fromJson(ch.solve(model.toString()),

@@ -16,23 +16,23 @@ public class RelationalExpression extends CompoundExpression {
     public Boolean calculate() {
         Boolean res = null;
         switch ((RelationalOperator) this.operator) {
-            case gt:
+            case GT:
                 res = Double.valueOf(this.exp1.calculate().toString()) > Double
                         .valueOf(this.exp2.calculate().toString());
                 break;
-            case lt:
+            case LT:
                 res = Double.valueOf(this.exp1.calculate().toString()) < Double
                         .valueOf(this.exp2.calculate().toString());
                 break;
-            case gte:
+            case GTE:
                 res = Double.valueOf(this.exp1.calculate().toString()) >= Double
                         .valueOf(this.exp2.calculate().toString());
                 break;
-            case lte:
+            case LTE:
                 res = Double.valueOf(this.exp1.calculate().toString()) <= Double
                         .valueOf(this.exp2.calculate().toString());
                 break;
-            case eq:
+            case EQ:
                 res = Double.valueOf(this.exp1.calculate().toString()).equals(
                         Double.valueOf(this.exp2.calculate().toString()));
                 break;
@@ -45,19 +45,19 @@ public class RelationalExpression extends CompoundExpression {
     public String toString() {
         String op = "";
         switch ((RelationalOperator) this.operator) {
-            case eq:
+            case EQ:
                 op = "==";
                 break;
-            case gt:
+            case GT:
                 op = ">";
                 break;
-            case gte:
+            case GTE:
                 op = ">=";
                 break;
-            case lt:
+            case LT:
                 op = "<";
                 break;
-            case lte:
+            case LTE:
                 op = "<=";
                 break;
         }

@@ -117,7 +117,7 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
     @Override
     public Expression visitNotExpr(ExpressionParser.NotExprContext ctx) {
         Expression e1 = this.visitExpression(ctx.expression());
-        Expression res = new LogicalExpression(e1, LogicalOperator.not);
+        Expression res = new LogicalExpression(e1, LogicalOperator.NOT);
         return res;
     }
 
@@ -130,9 +130,9 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
 
         switch (ctx.op.getType()) {
             case ExpressionParser.MULTIPLY:
-                return new ArithmeticExpression(e1, e2, ArithmeticOperator.multiply);
+                return new ArithmeticExpression(e1, e2, ArithmeticOperator.MULTIPLY);
             case ExpressionParser.DIVIDE:
-                return new ArithmeticExpression(e1, e2, ArithmeticOperator.divide);
+                return new ArithmeticExpression(e1, e2, ArithmeticOperator.DIVIDE);
             default:
                 throw new RuntimeException("unknown operator: "
                         + ExpressionParser.tokenNames[ctx.op.getType()]);
@@ -148,9 +148,9 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
 
         switch (ctx.op.getType()) {
             case ExpressionParser.ADD:
-                return new ArithmeticExpression(e1, e2, ArithmeticOperator.add);
+                return new ArithmeticExpression(e1, e2, ArithmeticOperator.ADD);
             case ExpressionParser.SUBTRACT:
-                return new ArithmeticExpression(e1, e2, ArithmeticOperator.subtract);
+                return new ArithmeticExpression(e1, e2, ArithmeticOperator.SUBTRACT);
             default:
                 throw new RuntimeException("unknown operator: "
                         + ExpressionParser.tokenNames[ctx.op.getType()]);
@@ -166,13 +166,13 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
 
         switch (ctx.op.getType()) {
             case ExpressionParser.LTE:
-                return new RelationalExpression(e1, e2, RelationalOperator.lte);
+                return new RelationalExpression(e1, e2, RelationalOperator.LTE);
             case ExpressionParser.GTE:
-                return new RelationalExpression(e1, e2, RelationalOperator.gte);
+                return new RelationalExpression(e1, e2, RelationalOperator.GTE);
             case ExpressionParser.LT:
-                return new RelationalExpression(e1, e2, RelationalOperator.lt);
+                return new RelationalExpression(e1, e2, RelationalOperator.LT);
             case ExpressionParser.GT:
-                return new RelationalExpression(e1, e2, RelationalOperator.gt);
+                return new RelationalExpression(e1, e2, RelationalOperator.GT);
             default:
                 throw new RuntimeException("unknown operator: "
                         + ExpressionParser.tokenNames[ctx.op.getType()]);
@@ -188,7 +188,7 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
 
         switch (ctx.op.getType()) {
             case ExpressionParser.EQ:
-                return new RelationalExpression(e1, e2, RelationalOperator.eq);
+                return new RelationalExpression(e1, e2, RelationalOperator.EQ);
             default:
                 throw new IllegalArgumentException("unknown operator: "
                         + ExpressionParser.tokenNames[ctx.op.getType()]);
@@ -199,21 +199,21 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
     public Expression visitAndExpr(ExpressionParser.AndExprContext ctx) {
         Expression e1 = this.visitExpression(ctx.expression(0));
         Expression e2 = this.visitExpression(ctx.expression(1));
-        return new LogicalExpression(e1, e2, LogicalOperator.and);
+        return new LogicalExpression(e1, e2, LogicalOperator.AND);
     }
 
     @Override
     public Expression visitOrExpr(ExpressionParser.OrExprContext ctx) {
         Expression e1 = this.visitExpression(ctx.expression(0));
         Expression e2 = this.visitExpression(ctx.expression(1));
-        return new LogicalExpression(e1, e2, LogicalOperator.or);
+        return new LogicalExpression(e1, e2, LogicalOperator.OR);
     }
     
     @Override
     public Expression visitImpliesExpr(ImpliesExprContext ctx) {
     	Expression e1 = this.visitExpression(ctx.expression(0));
         Expression e2 = this.visitExpression(ctx.expression(1));
-        return new LogicalExpression(e1, e2, LogicalOperator.implies);
+        return new LogicalExpression(e1, e2, LogicalOperator.IMPLIES);
     }
     
     @Override

@@ -6,5 +6,5 @@ package es.us.isa.aml.model.expression;
  */
 public enum ArithmeticOperator {
 
-    add, subtract, multiply, divide
+    ADD, SUBTRACT, MULTIPLY, DIVIDE
 }

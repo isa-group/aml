@@ -24,7 +24,7 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 	public CSPConstraint(String id, SLO slo, QualifyingCondition qc) {
 		this.id = id;
 		this.expr = new LogicalExpression(new ParenthesisExpression(qc.getCondition()),
-				new ParenthesisExpression(slo.getExpression()), LogicalOperator.implies);
+				new ParenthesisExpression(slo.getExpression()), LogicalOperator.IMPLIES);
 	}
 
 	public CSPConstraint(String id, Expression expr) {

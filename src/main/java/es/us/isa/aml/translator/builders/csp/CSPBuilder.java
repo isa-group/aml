@@ -165,12 +165,12 @@ public class CSPBuilder implements IBuilder {
 							+ Util.withoutDoubleQuotes(cp.getExpression()
 									.toString()) + "\"" + "]");
 					Expression expr = new RelationalExpression(new Var(cp),
-							exp, RelationalOperator.eq);
+							exp, RelationalOperator.EQ);
 					CSPConstraint constraint = new CSPConstraint(assig, expr);
 					this.model.addConstraint(constraint);
 				} else {
 					Expression expr = new RelationalExpression(new Var(cp),
-							cp.getExpression(), RelationalOperator.eq);
+							cp.getExpression(), RelationalOperator.EQ);
 					CSPConstraint constraint = new CSPConstraint(assig, expr);
 					this.model.addConstraint(constraint);
 				}
@@ -219,12 +219,12 @@ public class CSPBuilder implements IBuilder {
 							+ mp.getMetric().getId() + "[" + mp.getExpression()
 							+ "]");
 					Expression expr = new RelationalExpression(new Var(mp),
-							exp, RelationalOperator.eq);
+							exp, RelationalOperator.EQ);
 					CSPConstraint constraint = new CSPConstraint(assig, expr);
 					this.model.addConstraint(constraint);
 				} else {
 					Expression expr = new RelationalExpression(new Var(mp),
-							mp.getExpression(), RelationalOperator.eq);
+							mp.getExpression(), RelationalOperator.EQ);
 					CSPConstraint constraint = new CSPConstraint(assig, expr);
 					this.model.addConstraint(constraint);
 				}

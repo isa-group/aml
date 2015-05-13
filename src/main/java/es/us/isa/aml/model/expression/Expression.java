@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -20,9 +18,6 @@ import es.us.isa.aml.parsers.expression.MExpressionVisitor;
  *
  */
 public abstract class Expression {
-
-	private static final Logger LOG = Logger.getLogger(Expression.class
-			.getName());
 
 	protected Object value;
 
@@ -91,35 +86,35 @@ public abstract class Expression {
 
 	public static void printTree(Expression exp, Integer index) {
 		if (index == 0) {
-			LOG.log(Level.INFO,
-					"\n=============== Abstract Syntax Tree ==============="
+			System.out
+					.println("\n Abstract Syntax Tree"
 							+ "\n");
 		}
 		String tab = new String(new char[index]).replace("\0", "\t");
 
-		LOG.log(Level.INFO, "{0}{1}", new Object[] { tab,
-				exp.getClass().getSimpleName() });
+		System.out.println(tab + exp.getClass().getSimpleName());
 		if (!(exp instanceof Atomic) && !(exp instanceof Var)) {
 
 			if (exp instanceof ParenthesisExpression) {
 				exp = ((ParenthesisExpression) exp).getExpression();
-			}
-
-			if (exp instanceof CompoundExpression) {
-				CompoundExpression ce = (CompoundExpression) exp;
 				index++;
-				try {
-					LOG.log(Level.INFO, "{0}[{1}]",
-							new Object[] { tab, ce.getOperator() });
-				} catch (Exception e) {
-					LOG.log(Level.INFO, "{0}[=]", tab);
-				}
-				for (Expression ex : ce.getExpressions()) {
-					Expression.printTree(ex, index);
+				Expression.printTree(exp, index);
+			} else {
+				if (exp instanceof CompoundExpression) {
+					CompoundExpression ce = (CompoundExpression) exp;
+					index++;
+					try {
+						System.out.println(tab + ce.getOperator());
+					} catch (Exception e) {
+						System.out.println(tab);
+					}
+					for (Expression ex : ce.getExpressions()) {
+						Expression.printTree(ex, index);
+					}
 				}
 			}
 		} else {
-			LOG.log(Level.INFO, "{0}[{1}]", new Object[] { tab, exp });
+			System.out.println(tab + exp);
 		}
 	}
 
@@ -131,7 +126,7 @@ public abstract class Expression {
 
 		if (expr instanceof CompoundExpression) {
 			CompoundExpression cexpr = (CompoundExpression) expr;
-			if (cexpr.getOperator() != LogicalOperator.not) {
+			if (cexpr.getOperator() != LogicalOperator.NOT) {
 				Boolean split = true;
 				for (Expression exp : cexpr.getExpressions()) {
 					if (exp instanceof ParenthesisExpression)
@@ -169,7 +164,7 @@ public abstract class Expression {
 
 		if (expr instanceof LogicalExpression) {
 			LogicalExpression lexpr = (LogicalExpression) expr;
-			if (lexpr.getOperator() == LogicalOperator.and) {
+			if (lexpr.getOperator() == LogicalOperator.AND) {
 				Boolean split = true;
 				for (Expression exp : lexpr.getExpressions()) {
 					if (exp instanceof ParenthesisExpression)

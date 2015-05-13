@@ -40,118 +40,129 @@ import es.us.isa.aml.parsers.agreements.IAgreeParser;
  */
 public class TestIAgreeParser {
 
-    private static final Logger LOG = Logger.getLogger(TestIAgreeParser.class.getName());
+	private static final Logger LOG = Logger.getLogger(TestIAgreeParser.class
+			.getName());
 
-    /**
-     * Retrieve the model returned by parsing the provided document. Then,
-     * translate the model to the original document's language (iAgree) and
-     * compare it with the original document.
-     * <br>
-     * <br>
-     * Test lifecycle:
-     * <br>
-     * Document 1 -> Model -> Document 2 -> Document 1 vs Document 2
-     */
-    @Test
-    public void testParser() {
-        InputStream in = getClass().getResourceAsStream("/samples/iagree-core.at");
-        String content = getStringFromInputStream(in);
+	/**
+	 * Retrieve the model returned by parsing the provided document. Then,
+	 * translate the model to the original document's language (iAgree) and
+	 * compare it with the original document. <br>
+	 * <br>
+	 * Test lifecycle: <br>
+	 * Document 1 -> Model -> Document 2 -> Document 1 vs Document 2
+	 */
+	@Test
+	public void testParser() {
+		InputStream in = getClass().getResourceAsStream(
+				"/samples/iagree-core.at");
+		String content = getStringFromInputStream(in);
 
-        IAgreeParser parser = new IAgreeParser();
-        AgreementModel model = parser.doParse(content);
+		IAgreeParser parser = new IAgreeParser();
+		AgreementModel model = parser.doParse(content);
 
-//        assertEquals(content.replaceAll("\\s+", ""), model.toString().replaceAll("\\s+", ""));
-    }
+		// assertEquals(content.replaceAll("\\s+", ""),
+		// model.toString().replaceAll("\\s+", ""));
+	}
 
-    /**
-     * Parse a document and retrieve the model. Then, compare each model element
-     * with a new one, equivalent to the original element, created by hand.
-     * <br>
-     * <br>
-     * Test lifecycle:
-     * <br>
-     * Document 1 -> Model 1 -> Element 1
-     * <br>
-     * Model 2 -> Element 2
-     * <br>
-     * Element 1 vs Element 2
-     */
-    @Test
-    public void testModel() {
+	/**
+	 * Parse a document and retrieve the model. Then, compare each model element
+	 * with a new one, equivalent to the original element, created by hand. <br>
+	 * <br>
+	 * Test lifecycle: <br>
+	 * Document 1 -> Model 1 -> Element 1 <br>
+	 * Model 2 -> Element 2 <br>
+	 * Element 1 vs Element 2
+	 */
+	@Test
+	public void testModel() {
 
-        InputStream in = getClass().getResourceAsStream("/samples/iagree-core.at");
-        String content = getStringFromInputStream(in);
+		InputStream in = getClass().getResourceAsStream(
+				"/samples/iagree-core.at");
+		String content = getStringFromInputStream(in);
 
-        IAgreeParser parser = new IAgreeParser();
-        AgreementModel model = parser.doParse(content);
+		IAgreeParser parser = new IAgreeParser();
+		AgreementModel model = parser.doParse(content);
 
-        // Asserts ID y Version
-        assertEquals(model.getID(), "IAgreeCore");
-        assertEquals(model.getVersion(), 1.0f, 0.0);
+		// Asserts ID y Version
+		assertEquals(model.getID(), "IAgreeCore");
+		assertEquals(model.getVersion(), 1.0f, 0.0);
 
-        // Asserts Responder
-        assertEquals(model.getContext().getResponder().getRoleType(), ServiceRole.Provider);
+		// Asserts Responder
+		assertEquals(model.getContext().getResponder().getRoleType(),
+				ServiceRole.Provider);
 
-        // Metrics
-        Metric met1 = new Metric("met1", "integer", new Range(0, 23));
-        Metric met2 = new Metric("met2", "integer", new Range(0, 512));
-        Metric met3 = new Metric("met3", "float", new Range(0, 128));
+		// Metrics
+		Metric met1 = new Metric("met1", "integer", new Range(0, 23));
+		Metric met2 = new Metric("met2", "integer", new Range(0, 512));
+		Metric met3 = new Metric("met3", "float", new Range(0, 128));
 
-        // Asserts metrics
-        assertEquals(model.getContext().getMetrics().get(met1.getId()), met1);
-        assertEquals(model.getContext().getMetrics().get(met2.getId()), met2);
-        assertEquals(model.getContext().getMetrics().get(met3.getId()), met3);
+		// Asserts metrics
+		assertEquals(model.getContext().getMetrics().get(met1.getId()), met1);
+		assertEquals(model.getContext().getMetrics().get(met2.getId()), met2);
+		assertEquals(model.getContext().getMetrics().get(met3.getId()), met3);
 
-        // Agreement Terms
-        AgreementTerms at = new AgreementTerms();
+		// Agreement Terms
+		AgreementTerms at = new AgreementTerms();
 
-        // Service reference
-        ServiceConfiguration service = new ServiceConfiguration();
-        service.setServiceName("TTS");
-        service.setEndpointReference("test.template.com/service");
-        at.setService(service);
+		// Service reference
+		ServiceConfiguration service = new ServiceConfiguration();
+		service.setServiceName("TTS");
+		service.setEndpointReference("test.template.com/service");
+		at.setService(service);
 
-        // Configuration properties
-        ConfigurationProperty ConfProp1 = new ConfigurationProperty("ConfProp1", met1);
-        ConfProp1.setScope(Scope.Global);
-        at.getService().getConfigurationProperties().add(ConfProp1);
+		// Configuration properties
+		ConfigurationProperty ConfProp1 = new ConfigurationProperty(
+				"ConfProp1", met1);
+		ConfProp1.setScope(Scope.Global);
+		at.getService().getConfigurationProperties().add(ConfProp1);
 
-        // Monitorable properties
-        MonitorableProperty MonitProp1 = new MonitorableProperty("MonitProp1", met2);
-        MonitProp1.setScope(Scope.Global);
-        at.getMonitorableProperties().add(MonitProp1);
+		// Monitorable properties
+		MonitorableProperty MonitProp1 = new MonitorableProperty("MonitProp1",
+				met2);
+		MonitProp1.setScope(Scope.Global);
+		at.getMonitorableProperties().add(MonitProp1);
 
-        MonitorableProperty MonitProp2 = new MonitorableProperty("MonitProp2", met3);
-        MonitProp2.setScope(Scope.Local);
-        MonitProp2.setFeature(new Feature("testFeature1"));
-        at.getMonitorableProperties().add(MonitProp2);
+		MonitorableProperty MonitProp2 = new MonitorableProperty("MonitProp2",
+				met3);
+		MonitProp2.setScope(Scope.Local);
+		MonitProp2.setFeature(new Feature("testFeature1"));
+		at.getMonitorableProperties().add(MonitProp2);
 
-        // Guarantee terms
-        Expression exp = new RelationalExpression(new Var(MonitProp1), new Atomic(64), RelationalOperator.lte);
-        SLO slo = new SLO(exp);
-        GuaranteeTerm g1 = new GuaranteeTerm("G1", ServiceRole.Provider, slo);
+		// Guarantee terms
+		Expression exp = new RelationalExpression(new Var(MonitProp1),
+				new Atomic(64), RelationalOperator.LTE);
+		SLO slo = new SLO(exp);
+		GuaranteeTerm g1 = new GuaranteeTerm("G1", ServiceRole.Provider, slo);
 
-        Expression exp2 = new RelationalExpression(new Var(MonitProp2), new Atomic(256), RelationalOperator.lt);
-        SLO slo2 = new SLO(exp2);
-        GuaranteeTerm g2 = new GuaranteeTerm("G2", ServiceRole.Consumer, slo2);
+		Expression exp2 = new RelationalExpression(new Var(MonitProp2),
+				new Atomic(256), RelationalOperator.LT);
+		SLO slo2 = new SLO(exp2);
+		GuaranteeTerm g2 = new GuaranteeTerm("G2", ServiceRole.Consumer, slo2);
 
-        at.getGuaranteeTerms().add(g1);
-        at.getGuaranteeTerms().add(g2);
+		at.getGuaranteeTerms().add(g1);
+		at.getGuaranteeTerms().add(g2);
 
-        // Asserts Agreement Terms
-        assertEquals(model.getAgreementTerms().getService().getConfigurationProperties().get(0), at.getService().getConfigurationProperties().get(0));
-        assertEquals(model.getAgreementTerms().getMonitorableProperties().get(0), at.getMonitorableProperties().get(0));
-        assertEquals(model.getAgreementTerms().getGuaranteeTerms(), at.getGuaranteeTerms());
+		// Asserts Agreement Terms
+		assertEquals(model.getAgreementTerms().getService()
+				.getConfigurationProperties().get(0), at.getService()
+				.getConfigurationProperties().get(0));
+		assertEquals(model.getAgreementTerms().getMonitorableProperties()
+				.get(0), at.getMonitorableProperties().get(0));
+		assertEquals(model.getAgreementTerms().getGuaranteeTerms(),
+				at.getGuaranteeTerms());
 
-        // Creation constraints
-        Expression e = new ArithmeticExpression(new Var(MonitProp1), new Atomic(2), ArithmeticOperator.multiply);
-        Expression exp3 = new RelationalExpression(new Var(ConfProp1), e, RelationalOperator.eq);
-        SLO slo3 = new SLO(exp3);
+		// Creation constraints
+		Expression e = new ArithmeticExpression(new Var(MonitProp1),
+				new Atomic(2), ArithmeticOperator.MULTIPLY);
+		Expression exp3 = new RelationalExpression(new Var(ConfProp1), e,
+				RelationalOperator.EQ);
+		SLO slo3 = new SLO(exp3);
 
-        CreationConstraint cc = new CreationConstraint("C1", slo3);
+		CreationConstraint cc = new CreationConstraint("C1", slo3);
 
-        // Assert Creation Constraint
-        assertEquals(((AgreementTemplate) model).getCreationConstraints().get(0), cc);
-    }
+		// Assert Creation Constraint
+		assertEquals(((AgreementTemplate) model).getCreationConstraints()
+				.get(0), cc);
+	}
 
 }
