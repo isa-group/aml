@@ -1,20 +1,26 @@
-Template basicPlanT version 1.0
-	Initiator: "Papamoscas SL";
-	Provider "Papamoscas SL" as Responder;
-	Metrics:
-		price: integer [0..500];
-        int: integer[0..10000];
-
+Template AmazonEC2withoutPricePolicy version 1.0
+                Provider "Prov" as Responder;
+                Metrics:
+                    storageCost: integer [0..50000];
+                    cores: integer [0..32];
+                    ram: integer [0..244000];
+                               
 AgreementTerms
-	Service BirdAPI availableAt "http://papamoscas-isa.appspot.com/api/v3/birds"
-		GlobalDescription
-			PlanPrice: price = 9;
-
-	MonitorableProperties
-		global:
-			Requests: int = 10;
-
-	GuaranteeTerms
-		RequestTerm: Consumer guarantees Requests <=10;
-
+                Service AWS-S3 availableAt "aws.amazon.com/ec2"
+                                GlobalDescription
+                                            Cores: cores;
+                                            RAM: ram;
+                                               
+                                               
+                MonitorableProperties
+                                global:
+                                               StorageCost: storageCost;
+                                                               
+                GuaranteeTerms
+                                G1: Provider guarantees StorageCost == Cores + RAM ;
+                               
+CreationConstraints
+                //Cost constraints
+                C41: StorageCost <= 250;
+                //C41: Cost==CostHour*Usage;
 EndTemplate

@@ -108,5 +108,4 @@ public class TestExpression {
         Expression exp = new ArithmeticExpression(a, new Atomic(2), ArithmeticOperator.ADD);
         exp.calculate();
     }
-
 }

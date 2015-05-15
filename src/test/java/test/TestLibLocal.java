@@ -28,13 +28,13 @@ public class TestLibLocal {
 
     private static final Logger LOG = Logger.getLogger(TestLibLocal.class.getName());
     private static AgreementManager serv;
-    private static AgreementTemplate model1, model2, model3;
+    private static AgreementTemplate model0, model1, model2, model3;
 
     @BeforeClass
     public static void init() {
         //serv = new AgreementManager(Util.loadFile("src/test/resources/config.json"));
         serv = new AgreementManager();
-        model1 = serv.createAgreementTemplateFromFile("src/test/resources/samples/papamoscas.at");
+        model0 = serv.createAgreementTemplateFromFile("src/test/resources/samples/papamoscas.at");
 
         model1 = serv.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core.at");
         model2 = serv.createAgreementTemplateFromFile("src/test/resources/samples/iagree-core-dead.at");
@@ -43,6 +43,12 @@ public class TestLibLocal {
 
     @Test
     public void testIsValid() {
+    	
+    	assertTrue(model0.isValid());
+        assertFalse((Boolean) model0.isValidFullResponse().get("existInconsistencies"));
+        assertFalse((Boolean) model0.isValidFullResponse().get("existDeadTerms"));
+        assertFalse((Boolean) model0.isValidFullResponse().get("existCondInconsTerms"));
+    	
 
 //        LOG.log(Level.INFO, "\n-----------------TEST_1-----------------");
 //        LOG.log(Level.INFO, "\n{0}", model1.isValidFullResponse().toString());

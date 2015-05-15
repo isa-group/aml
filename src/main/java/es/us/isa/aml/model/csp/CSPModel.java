@@ -18,6 +18,7 @@ public class CSPModel extends AbstractModel {
 
 	protected List<CSPRange> ranges;
 	protected List<CSPVar> variables;
+	protected CSPObjectiveFunction objectiveFunction;
 	protected List<CSPConstraint> constraints;
 
 	public CSPModel() {
@@ -56,6 +57,14 @@ public class CSPModel extends AbstractModel {
 		this.variables = variables;
 	}
 
+	public CSPObjectiveFunction getObjectiveFunction() {
+		return objectiveFunction;
+	}
+
+	public void setObjectiveFunction(CSPObjectiveFunction objectiveFunction) {
+		this.objectiveFunction = objectiveFunction;
+	}
+
 	public List<CSPConstraint> getConstraints() {
 		return constraints;
 	}
@@ -76,6 +85,8 @@ public class CSPModel extends AbstractModel {
 			if (!newModel.getVariables().contains(var))
 				newModel.addVar(var.clone());
 		}
+
+		newModel.setObjectiveFunction(model.getObjectiveFunction().clone());
 
 		for (CSPConstraint cons : model.getConstraints()) {
 			if (!newModel.getConstraints().contains(cons)) {
@@ -105,7 +116,7 @@ public class CSPModel extends AbstractModel {
 		}
 		Expression expr = Expression.parse(String.join(
 				LogicalOperator.OR.toString() + " ", arr));
-		
+
 		CSPConstraint constraint = new CSPConstraint("C", expr);
 		model.getConstraints().clear();
 		model.getConstraints().add(constraint);
@@ -135,7 +146,7 @@ public class CSPModel extends AbstractModel {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("using CP;" + "\n\n");
+		sb.append("using CP;").append("\n").append("\n");
 
 		for (CSPRange range : getRanges()) {
 			sb.append(range.toString()).append("\n");
@@ -154,8 +165,17 @@ public class CSPModel extends AbstractModel {
 		}
 		sb.append("\n");
 
+		if (getObjectiveFunction() != null) {
+			String type = (getObjectiveFunction().getMinimize()) ? "minimize"
+					: "maximize";
+			sb.append(
+					type + " "
+							+ getObjectiveFunction().getExpression().toString()
+							+ ";").append("\n").append("\n");
+		}
+
 		if (getConstraints().size() > 0) {
-			sb.append("subject to {" + "\n");
+			sb.append("subject to {").append("\n");
 
 			List<CSPConstraint> ordered = new ArrayList<>(getConstraints());
 			Collections.sort(ordered);

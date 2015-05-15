@@ -12,7 +12,7 @@ public class IAgreeRange extends Range {
      * @param min
      * @param max
      */
-    public IAgreeRange(Integer min, Integer max) {
+    public IAgreeRange(Number min, Number max) {
         super(min, max);
     }
 

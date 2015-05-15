@@ -21,7 +21,6 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,8 +58,7 @@ public class CplexHandler {
 
 	public String solve(String content) {
 		Date date = new Date();
-		File temp;
-
+		File temp;		
 		Boolean solve = false;
 
 		try {
@@ -113,9 +111,11 @@ public class CplexHandler {
 				LOG.log(Level.SEVERE, e.getMessage());
 				LOG.log(Level.INFO, content);
 			}
-		} catch (Error | IOException e) {
+			e.printStackTrace();
+		} catch (Error | Exception e) {
 			solve = null;
 			LOG.log(Level.SEVERE, e.getMessage());
+			e.printStackTrace();
 		}
 
 		return new Gson().toJson(solve);

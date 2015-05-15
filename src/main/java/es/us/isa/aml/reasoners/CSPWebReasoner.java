@@ -36,7 +36,7 @@ public class CSPWebReasoner extends Reasoner {
 
 		String content = model.toString();
 		Boolean res = null;
-		
+
 		try {
 			String response = sendPost(url, content);
 			res = new Gson().fromJson(response.toString(), Boolean.class);
@@ -54,10 +54,11 @@ public class CSPWebReasoner extends Reasoner {
 
 		String content = model.toString();
 		OperationResponse res = null;
-		
+
 		try {
 			String response = sendPost(url, content);
-			res = new Gson().fromJson(response.toString(), OperationResponse.class);
+			res = new Gson().fromJson(response.toString(),
+					OperationResponse.class);
 		} catch (Exception e) {
 			LOG.log(Level.SEVERE, e.getMessage());
 		}
@@ -68,11 +69,11 @@ public class CSPWebReasoner extends Reasoner {
 	public Boolean implies(CSPModel antecedent, CSPModel consequent) {
 		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/implies";
-		
+
 		CSPModel model = antecedent.add(consequent.negate());
 		String content = model.toString();
 		Boolean res = false;
-		
+
 		try {
 			String response = sendPost(url, content);
 			res = new Gson().fromJson(response.toString(), Boolean.class);
@@ -81,6 +82,7 @@ public class CSPWebReasoner extends Reasoner {
 		}
 		return res;
 	}
+
 	@Override
 	public OperationResponse whyNotImplies() {
 		// TODO Auto-generated method stub
@@ -88,16 +90,29 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	// HTTP POST request
-	private String sendPost(String url, String content)
-			throws Exception {
+	private String sendPost(String url, String content) throws Exception {
 
 		URL obj = new URL(url);
+
+		javax.net.ssl.HttpsURLConnection
+				.setDefaultHostnameVerifier(new javax.net.ssl.HostnameVerifier() {
+
+					public boolean verify(String hostname,
+							javax.net.ssl.SSLSession sslSession) {
+						if (hostname.equals("localhost")) {
+							return true;
+						}
+						return false;
+					}
+				});
+
 		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
 
 		// add reuqest header
 		con.setRequestMethod("POST");
 
-		String param = "content=" + URLEncoder.encode(content, "UTF-8");
+		String param = "content="
+				+ URLEncoder.encode(content.replaceAll("\\+", "%2B"), "UTF-8");
 
 		// Send post request
 		con.setDoOutput(true);
@@ -116,10 +131,11 @@ public class CSPWebReasoner extends Reasoner {
 				response.append(inputLine);
 			}
 		} catch (Exception e) {
-			response = new StringBuilder("There was an error trying to connect with the CSPWebReasoner");
+			response = new StringBuilder(
+					"There was an error trying to connect with the CSPWebReasoner");
 		}
 
 		return response.toString();
-	}	
+	}
 
 }

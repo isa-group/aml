@@ -37,6 +37,13 @@ public class CSPVar {
 		this.dvar = dvar;
 	}
 
+	public CSPVar(String id, String type, CSPRange range, Boolean dvar) {
+		this.id = id;
+		this.setType(type);
+		this.range = range;
+		this.dvar = dvar;
+	}
+
 	public String getId() {
 		return this.id;
 	}
@@ -95,7 +102,7 @@ public class CSPVar {
 			var = new CSPVar(getProp().clone(), getRange(), getDvar());
 		else {
 			var = new CSPVar(getId(), getType(), getDvar());
-			if(getRange() != null)
+			if (getRange() != null)
 				var.setRange(getRange().clone());
 		}
 
@@ -131,7 +138,9 @@ public class CSPVar {
 						+ this.getRange().getId() + ";";
 			}
 		} else {
-			if (getType().equals("{string}")) {
+			if (getType().equals("boolean"))
+				return this.getType() + " " + this.getId() + ";";
+			else if (getType().equals("{string}")) {
 				StringBuilder sb = new StringBuilder();
 				if (getExpression() != null) {
 					sb.append(this.getType() + " " + this.getId() + " = "
@@ -141,6 +150,7 @@ public class CSPVar {
 				}
 				sb.append(";");
 				return sb.toString();
+
 			} else {
 				if (getRange() != null) {
 					if (getExpression() != null)
@@ -158,6 +168,34 @@ public class CSPVar {
 						return this.getType() + " " + this.getId() + ";";
 				}
 			}
+
+			// if (getType().equals("{string}")) {
+			// StringBuilder sb = new StringBuilder();
+			// if (getExpression() != null) {
+			// sb.append(this.getType() + " " + this.getId() + " = "
+			// + getExpression().toString());
+			// } else {
+			// sb.append(this.getType() + " " + this.getId());
+			// }
+			// sb.append(";");
+			// return sb.toString();
+			// } else {
+			// if (getRange() != null) {
+			// if (getExpression() != null)
+			// return this.getType() + " " + this.getId() + "["
+			// + getRange().getId() + "]" + " = "
+			// + this.getExpression() + ";";
+			// else
+			// return this.getType() + " " + this.getId() + "["
+			// + getRange().getId() + "]" + ";";
+			// } else {
+			// if (getExpression() != null)
+			// return this.getType() + " " + this.getId() + " = "
+			// + this.getExpression();
+			// else
+			// return this.getType() + " " + this.getId() + ";";
+			// }
+			// }
 		}
 	}
 

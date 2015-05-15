@@ -6,32 +6,32 @@ package es.us.isa.aml.model;
  */
 public class Range extends Domain {
 
-    protected int min;
-    protected int max;
+    protected Number min;
+    protected Number max;
 
     public Range() {
-        this.min = 0;
-        this.max = 100;
+        this.min = 0.0;
+        this.max = 100.0;
     }
 
-    public Range(int min, int max) {
+    public Range(Number min, Number max) {
         this.min = min;
         this.max = max;
     }
 
-    public int getMin() {
+	public Number getMin() {
         return this.min;
     }
 
-    public void setMin(int min) {
+    public void setMin(Number min) {
         this.min = min;
     }
 
-    public int getMax() {
+    public Number getMax() {
         return this.max;
     }
 
-    public void setMax(int max) {
+    public void setMax(Number max) {
         this.max = max;
     }
 }

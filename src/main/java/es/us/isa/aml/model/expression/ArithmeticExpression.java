@@ -63,7 +63,7 @@ public class ArithmeticExpression extends CompoundExpression {
                 op = "/";
                 break;
         }
-
+        
         return this.exp1 + " " + op + " " + this.exp2;
     }
 

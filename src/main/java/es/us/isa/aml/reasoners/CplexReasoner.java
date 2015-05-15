@@ -32,6 +32,7 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 				String content = model.toString();
 				CplexHandler ch = new CplexHandler();
 				ch.init();
+				content = content.replaceAll("\\+", "%2B");
 				solve = new Gson().fromJson(ch.solve(content), Boolean.class);
 			} catch (Exception e) {
 				solve = null;
@@ -54,6 +55,7 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 				String content = model.toString();
 				CplexHandler ch = new CplexHandler();
 				ch.init();
+				content = content.replaceAll("\\+", "%2B");
 				response = new Gson().fromJson(ch.explain(content),
 						OperationResponse.class);
 			} catch (Exception e) {
@@ -77,7 +79,8 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 				CSPModel model = antecedent.add(consequent.negate());				
 				CplexHandler ch = new CplexHandler();
 				ch.init();
-				implies = !(new Gson().fromJson(ch.solve(model.toString()),
+				String content = model.toString().replaceAll("\\+", "%2B");
+				implies = !(new Gson().fromJson(ch.solve(content),
 						Boolean.class));
 			} catch (Exception e) {
 				implies = null;
