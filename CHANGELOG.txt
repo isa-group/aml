@@ -1,3 +1,9 @@
+AML 0.1.5, 2015-05-21
+-----------------------
+- Added support to "iff" and "exludes" expressions.
+- Added relational operator NEQ.
+- Fixed CSPModel objective function bug.
+
 AML 0.1.4, 2015-05-15 (Not tested)
 -----------------------
 - Constraints sum operation bug fixed.
