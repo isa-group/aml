@@ -49,7 +49,7 @@ public abstract class Expression {
 		if (!(exp instanceof Atomic)) {
 
 			if (exp instanceof ParenthesisExpression) {
-				exp = ((ParenthesisExpression) exp).getExpression();
+				exp = ((ParenthesisExpression) exp).getInnerExpression();
 			}
 
 			if (exp instanceof CompoundExpression) {
@@ -69,7 +69,7 @@ public abstract class Expression {
 		if (!(exp instanceof Var)) {
 
 			if (exp instanceof ParenthesisExpression) {
-				exp = ((ParenthesisExpression) exp).getExpression();
+				exp = ((ParenthesisExpression) exp).getInnerExpression();
 			}
 
 			if (exp instanceof CompoundExpression) {
@@ -96,7 +96,7 @@ public abstract class Expression {
 		if (!(exp instanceof Atomic) && !(exp instanceof Var)) {
 
 			if (exp instanceof ParenthesisExpression) {
-				exp = ((ParenthesisExpression) exp).getExpression();
+				exp = ((ParenthesisExpression) exp).getInnerExpression();
 				index++;
 				Expression.printTree(exp, index);
 			} else {
@@ -122,7 +122,7 @@ public abstract class Expression {
 		List<Expression> res = new ArrayList<Expression>();
 
 		if (expr instanceof ParenthesisExpression)
-			expr = ((ParenthesisExpression) expr).getExpression();
+			expr = ((ParenthesisExpression) expr).getInnerExpression();
 
 		if (expr instanceof CompoundExpression) {
 			CompoundExpression cexpr = (CompoundExpression) expr;
@@ -130,7 +130,7 @@ public abstract class Expression {
 				Boolean split = true;
 				for (Expression exp : cexpr.getExpressions()) {
 					if (exp instanceof ParenthesisExpression)
-						exp = ((ParenthesisExpression) exp).getExpression();
+						exp = ((ParenthesisExpression) exp).getInnerExpression();
 
 					if (!(exp instanceof CompoundExpression)) {
 						split = false;
@@ -160,7 +160,7 @@ public abstract class Expression {
 		List<Expression> res = new ArrayList<Expression>();
 
 		if (expr instanceof ParenthesisExpression)
-			expr = ((ParenthesisExpression) expr).getExpression();
+			expr = ((ParenthesisExpression) expr).getInnerExpression();
 
 		if (expr instanceof LogicalExpression) {
 			LogicalExpression lexpr = (LogicalExpression) expr;
@@ -168,7 +168,7 @@ public abstract class Expression {
 				Boolean split = true;
 				for (Expression exp : lexpr.getExpressions()) {
 					if (exp instanceof ParenthesisExpression)
-						exp = ((ParenthesisExpression) exp).getExpression();
+						exp = ((ParenthesisExpression) exp).getInnerExpression();
 
 					if (!(exp instanceof CompoundExpression)) {
 						split = false;

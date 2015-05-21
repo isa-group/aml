@@ -60,8 +60,10 @@ public class LogicalExpression extends CompoundExpression {
 			break;
 		}
 
-		if (op.equals("NOT")) {
+		if (operator == LogicalOperator.NOT) {
 			return "NOT " + this.exp1;
+		} else if (operator == LogicalOperator.IMPLIES) {
+			return "(" + this.exp1 + ") " + op + " (" + this.exp2 + ")";
 		} else {
 			return this.exp1 + " " + op + " " + this.exp2;
 		}

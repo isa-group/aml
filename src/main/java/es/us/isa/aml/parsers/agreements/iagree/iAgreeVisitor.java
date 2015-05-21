@@ -89,6 +89,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCreationConstraint(@NotNull iAgreeParser.CreationConstraintContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#excludesExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExcludesExpr(@NotNull iAgreeParser.ExcludesExprContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#features}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -437,6 +444,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGmtZone_prop(@NotNull iAgreeParser.GmtZone_propContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#iffExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIffExpr(@NotNull iAgreeParser.IffExprContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#temp_properties}.

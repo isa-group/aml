@@ -134,8 +134,12 @@ public class CSPVar {
 				return "dvar " + "int " + this.getId() + " in "
 						+ this.getRange().getDomain() + ";";
 			else {
-				return "dvar " + this.getType() + " " + this.getId() + " in "
-						+ this.getRange().getId() + ";";
+				if (getRange().getId() != null)
+					return "dvar " + this.getType() + " " + this.getId()
+							+ " in " + getRange().getId() + ";";
+				else
+					return "dvar " + this.getType() + " " + this.getId()
+							+ " in " + getRange().getDomain().toString() + ";";
 			}
 		} else {
 			if (getType().equals("boolean"))
@@ -157,9 +161,14 @@ public class CSPVar {
 						return this.getType() + " " + this.getId() + "["
 								+ getRange().getId() + "]" + " = "
 								+ this.getExpression() + ";";
-					else
-						return this.getType() + " " + this.getId() + "["
-								+ getRange().getId() + "]" + ";";
+					else {
+						if (getRange().getId() != null)
+							return this.getType() + " " + this.getId() + " in "
+									+ getRange().getId() + ";";
+						else
+							return this.getType() + " " + this.getId() + " in "
+									+ getRange().getDomain().toString() + ";";
+					}
 				} else {
 					if (getExpression() != null)
 						return this.getType() + " " + this.getId() + " = "

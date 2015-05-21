@@ -36,6 +36,10 @@ public class RelationalExpression extends CompoundExpression {
                 res = Double.valueOf(this.exp1.calculate().toString()).equals(
                         Double.valueOf(this.exp2.calculate().toString()));
                 break;
+            case NEQ:
+                res = !(Double.valueOf(this.exp1.calculate().toString()).equals(
+                        Double.valueOf(this.exp2.calculate().toString())));
+                break;
         }
 
         return res;
@@ -45,9 +49,6 @@ public class RelationalExpression extends CompoundExpression {
     public String toString() {
         String op = "";
         switch ((RelationalOperator) this.operator) {
-            case EQ:
-                op = "==";
-                break;
             case GT:
                 op = ">";
                 break;
@@ -59,6 +60,12 @@ public class RelationalExpression extends CompoundExpression {
                 break;
             case LTE:
                 op = "<=";
+                break;
+            case EQ:
+                op = "==";
+                break;
+            case NEQ:
+                op = "!=";
                 break;
         }
 

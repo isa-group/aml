@@ -69,10 +69,13 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Consumer_propContext
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Context_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CuantifContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EqualityExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ExcludesExprContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ExpressionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeatureContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Feature_operationContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeaturesContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.IdAtomContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.IffExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ImpliesExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ListExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.LocalDescriptionContext;
@@ -693,7 +696,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	// expr overrides
-	public Expression visitExpression(iAgreeParser.ExpressionContext ctx) {
+	public Expression visitExpression(ExpressionContext ctx) {
 		Expression res = null;
 
 		switch (ctx.getClass().getSimpleName()) {
@@ -723,6 +726,12 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			break;
 		case "ImpliesExprContext":
 			res = this.visitImpliesExpr((ImpliesExprContext) ctx);
+			break;
+		case "ExcludesExprContext":
+			res = this.visitExcludesExpr((ExcludesExprContext) ctx);
+			break;
+		case "IffExprContext":
+			res = this.visitIffExpr((IffExprContext) ctx);
 			break;
 		case "ParExprContext":
 			res = this.visitParExpr((ParExprContext) ctx);
@@ -846,6 +855,26 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
 		return new LogicalExpression(e1, e2, LogicalOperator.IMPLIES);
+	}
+
+	@Override
+	public Expression visitExcludesExpr(ExcludesExprContext ctx) {
+		Expression e1 = this.visitExpression(ctx.expression(0));
+		Expression _e2 = this.visitExpression(ctx.expression(1));
+		Expression e2 = new LogicalExpression(_e2, LogicalOperator.NOT);
+		return new LogicalExpression(e1, e2, LogicalOperator.IMPLIES);
+	}
+
+	@Override
+	public Expression visitIffExpr(IffExprContext ctx) {
+		Expression e1_1 = this.visitExpression(ctx.expression(0));
+		Expression e1_2 = this.visitExpression(ctx.expression(1));
+		Expression e1 = new LogicalExpression(e1_1, e1_2,
+				LogicalOperator.IMPLIES);
+		Expression e2 = new LogicalExpression(e1_2, e1_1,
+				LogicalOperator.IMPLIES);
+		return new LogicalExpression(new ParenthesisExpression(e1),
+				new ParenthesisExpression(e2), LogicalOperator.AND);
 	}
 
 	@Override

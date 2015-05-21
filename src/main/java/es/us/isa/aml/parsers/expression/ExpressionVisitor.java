@@ -75,6 +75,13 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	T visitNumberAtom(@NotNull ExpressionParser.NumberAtomContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#iffExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIffExpr(@NotNull ExpressionParser.IffExprContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#arrayExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -122,6 +129,13 @@ public interface ExpressionVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitIdAtom(@NotNull ExpressionParser.IdAtomContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link ExpressionParser#excludesExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExcludesExpr(@NotNull ExpressionParser.ExcludesExprContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link ExpressionParser#relationalExpr}.

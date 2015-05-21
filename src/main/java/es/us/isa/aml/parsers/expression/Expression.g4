@@ -4,6 +4,7 @@ parse : expression
       ;
 
 expression: Identifier ASSIG expression                     #assigExpr
+          | PA expression PC                                #parExpr
           | NOT expression                                  #notExpr
           | expression op=(MULTIPLY | DIVIDE) expression    #multiplicationExpr
           | expression op=(ADD | SUBTRACT) expression       #additiveExpr
@@ -11,15 +12,16 @@ expression: Identifier ASSIG expression                     #assigExpr
           | expression op=(EQ | NEQ) expression             #equalityExpr
           | expression AND expression                       #andExpr
           | expression OR expression                        #orExpr
-          | expression IMPLIES expression                   #impliesExpr
-          | PA expression PC                                #parExpr
+          | expression (IMPLIES | REQUIRES) expression      #impliesExpr
+          | expression IFF expression                       #iffExpr
+          | expression EXCLUDES expression                  #excludesExpr
           | list                                            #listExpr
           | array                                           #arrayExpr
           | atom                                            #atomExpr
           ;
 
-list : LLA l1=args (',' l2=args)* LLC ;
-array : CA l1=args (',' l2=args)* CC ;
+list : CA l1=args (',' l2=args)* CC ;
+array : LLA l1=args (',' l2=args)* LLC ;
 args : l1=(Identifier | String | Integer | S_Integer | Float | S_Float);
 
 atom : (Integer | S_Integer | Float | S_Float)   #numberAtom
@@ -61,6 +63,9 @@ AND : 'AND';
 OR : 'OR';
 NOT : 'NOT';
 IMPLIES : 'IMPLIES';
+REQUIRES : 'REQUIRES';
+IFF: 'IFF';
+EXCLUDES : 'EXCLUDES';
 
 
 //---------------------------------------

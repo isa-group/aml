@@ -1,7 +1,6 @@
 package es.us.isa.aml.model.csp;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import es.us.isa.aml.model.expression.Expression;
@@ -86,7 +85,8 @@ public class CSPModel extends AbstractModel {
 				newModel.addVar(var.clone());
 		}
 
-		newModel.setObjectiveFunction(model.getObjectiveFunction().clone());
+		if(model.getObjectiveFunction() != null)
+			newModel.setObjectiveFunction(model.getObjectiveFunction().clone());
 
 		for (CSPConstraint cons : model.getConstraints()) {
 			if (!newModel.getConstraints().contains(cons)) {
@@ -114,8 +114,14 @@ public class CSPModel extends AbstractModel {
 					new ParenthesisExpression(e), LogicalOperator.NOT);
 			arr.add(neg.toString());
 		}
-		Expression expr = Expression.parse(String.join(
-				LogicalOperator.OR.toString() + " ", arr));
+		
+		// Java 8
+//		String str_expr = String.join(
+//				" " + LogicalOperator.OR.toString() + " ", arr);
+		
+		String str_expr = arr.toString().replaceAll("[\\[\\]]", "")
+				.replaceAll(", ", " " + LogicalOperator.OR.toString() + " ");
+		Expression expr = Expression.parse(str_expr);
 
 		CSPConstraint constraint = new CSPConstraint("C", expr);
 		model.getConstraints().clear();
@@ -178,7 +184,7 @@ public class CSPModel extends AbstractModel {
 			sb.append("subject to {").append("\n");
 
 			List<CSPConstraint> ordered = new ArrayList<>(getConstraints());
-			Collections.sort(ordered);
+//			Collections.sort(ordered);
 			for (CSPConstraint cons : ordered) {
 				sb.append("\t").append(cons.toString()).append("\n");
 			}

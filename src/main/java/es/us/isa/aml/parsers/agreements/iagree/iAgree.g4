@@ -193,7 +193,9 @@ expression: Identifier ASSIG expression                     #assigExpr
           | expression op=(EQ | NEQ) expression             #equalityExpr
           | expression AND expression                       #andExpr
           | expression OR expression                        #orExpr
-          | expression IMPLIES expression                   #impliesExpr
+          | expression (IMPLIES | REQUIRES) expression      #impliesExpr
+          | expression IFF expression                       #iffExpr
+          | expression EXCLUDES expression                  #excludesExpr
           | PA expression PC                                #parExpr
           | list                                            #listExpr
           | array                                           #arrayExpr
@@ -280,6 +282,8 @@ WITH : 'with';
 END : 'end';
 IF : 'if';
 
+ONLY_IF : 'onlyIf';
+
 YEARLY : 'yearly';
 MONTHLY : 'monthly';
 WEEKLY : 'weekly';
@@ -327,7 +331,9 @@ AND : 'AND';
 OR : 'OR';
 NOT : 'NOT';
 IMPLIES : 'IMPLIES';
-ONLY_IF : 'onlyIf';
+REQUIRES : 'REQUIRES';
+IFF: 'IFF';
+EXCLUDES : 'EXCLUDES';
 
 
 //---------------------------------------

@@ -5,7 +5,6 @@ import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.LogicalExpression;
 import es.us.isa.aml.model.expression.LogicalOperator;
-import es.us.isa.aml.model.expression.ParenthesisExpression;
 
 /**
  * @author jdelafuente
@@ -23,8 +22,8 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 
 	public CSPConstraint(String id, SLO slo, QualifyingCondition qc) {
 		this.id = id;
-		this.expr = new LogicalExpression(new ParenthesisExpression(qc.getCondition()),
-				new ParenthesisExpression(slo.getExpression()), LogicalOperator.IMPLIES);
+		this.expr = new LogicalExpression(qc.getCondition(),
+				slo.getExpression(), LogicalOperator.IMPLIES);
 	}
 
 	public CSPConstraint(String id, Expression expr) {

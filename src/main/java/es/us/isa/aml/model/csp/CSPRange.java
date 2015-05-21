@@ -22,6 +22,10 @@ public class CSPRange {
 		this.id = id;
 		this.setDomain(domain);
 	}
+	
+	public CSPRange(Domain domain) {
+		this.setDomain(domain);
+	}
 
 	public CSPRange(String id, String type, Domain domain) {
 		this.id = id;

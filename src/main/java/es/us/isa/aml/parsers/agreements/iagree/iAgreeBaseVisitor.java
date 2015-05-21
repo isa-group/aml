@@ -106,6 +106,14 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitExcludesExpr(@NotNull iAgreeParser.ExcludesExprContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitFeatures(@NotNull iAgreeParser.FeaturesContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -499,6 +507,14 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitGmtZone_prop(@NotNull iAgreeParser.GmtZone_propContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitIffExpr(@NotNull iAgreeParser.IffExprContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

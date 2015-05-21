@@ -90,6 +90,14 @@ public class ExpressionBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitIffExpr(@NotNull ExpressionParser.IffExprContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitArrayExpr(@NotNull ExpressionParser.ArrayExprContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -139,6 +147,14 @@ public class ExpressionBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitIdAtom(@NotNull ExpressionParser.IdAtomContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitExcludesExpr(@NotNull ExpressionParser.ExcludesExprContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

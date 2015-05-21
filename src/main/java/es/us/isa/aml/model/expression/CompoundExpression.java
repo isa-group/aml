@@ -27,12 +27,20 @@ public abstract class CompoundExpression extends Expression {
     public Expression getExpression1() {
         return this.exp1;
     }
+    
+    public void setExpression1(Expression exp1) {
+		this.exp1 = exp1;
+	}
 
     public Expression getExpression2() {
         return this.exp2;
     }
 
-    public Object getOperator() {
+	public void setExpression2(Expression exp2) {
+		this.exp2 = exp2;
+	}
+
+	public Object getOperator() {
         return this.operator;
     }
 }

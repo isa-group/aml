@@ -12,7 +12,7 @@ public class ParenthesisExpression extends Expression {
         this.exp = e;
     }
     
-    public Expression getExpression() {
+    public Expression getInnerExpression() {
 		return exp;
 	}
 
