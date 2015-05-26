@@ -33,57 +33,59 @@ public class Util {
 	private static final Logger LOG = Logger.getLogger(Util.class.getName());
 
 	// HTTP POST request
-		public static String sendPost(String url, String content) throws Exception {
+	public static String sendPost(String url, String content) throws Exception {
 
-			javax.net.ssl.HttpsURLConnection
-					.setDefaultHostnameVerifier(new javax.net.ssl.HostnameVerifier() {
+		javax.net.ssl.HttpsURLConnection
+				.setDefaultHostnameVerifier(new javax.net.ssl.HostnameVerifier() {
 
-						public boolean verify(String hostname,
-								javax.net.ssl.SSLSession sslSession) {
-							if (hostname.equals("localhost")) {
-								return true;
-							}
-							return false;
+					public boolean verify(String hostname,
+							javax.net.ssl.SSLSession sslSession) {
+						if (hostname.equals("localhost")) {
+							return true;
 						}
-					});
+						return false;
+					}
+				});
 
-			URL obj = new URL(url);
-			HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
-			con.addRequestProperty("Content-Type", "application/" + "POST");
+		URL obj = new URL(url);
+		HttpsURLConnection con = (HttpsURLConnection) obj.openConnection();
+		con.addRequestProperty("Content-Type", "application/" + "POST");
 
-			// add reuqest header
-			con.setRequestMethod("POST");
+		// add reuqest header
+		con.setRequestMethod("POST");
 
-//			String data = URLEncoder.encode(content.replaceAll("\\+", "%2B"),"UTF-8");
-			String data = URLEncoder.encode(content,"UTF-8");
-			con.setRequestProperty("Content-Length", Integer.toString(data.length()));		
+		// String data = URLEncoder.encode(content.replaceAll("\\+",
+		// "%2B"),"UTF-8");
+		String data = URLEncoder.encode(content, "UTF-8");
+		con.setRequestProperty("Content-Length",
+				Integer.toString(data.length()));
 
-			// Send post request
-			con.setDoOutput(true);
-			try {
-				OutputStream os = con.getOutputStream();
-				os.write(data.getBytes());
-				os.flush();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-
-			StringBuilder response = null;
-			try {
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						con.getInputStream()), 2097152);
-				String inputLine;
-				response = new StringBuilder();
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-				}
-				in.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			return response.toString();
+		// Send post request
+		con.setDoOutput(true);
+		try {
+			OutputStream os = con.getOutputStream();
+			os.write(data.getBytes());
+			os.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
+		StringBuilder response = null;
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					con.getInputStream()));
+			String inputLine;
+			response = new StringBuilder();
+			while ((inputLine = in.readLine()) != null) {
+				response.append(inputLine);
+			}
+			in.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return response.toString();
+	}
 
 	public static String withoutDoubleQuotes(String s) {
 		String str = s;

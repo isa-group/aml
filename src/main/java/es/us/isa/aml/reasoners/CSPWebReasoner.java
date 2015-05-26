@@ -24,15 +24,19 @@ public class CSPWebReasoner extends Reasoner {
 
 	@Override
 	public Boolean solve(CSPModel model) {
+		return solve(model.toString());
+	}
 
+	public Boolean solve(String cspModel) {
 		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/solve";
 
-		String content = model.toString();
+		System.out.println("AML webreasonerendpint: " + url);
+		
 		Boolean res = null;
 
 		try {
-			String response = Util.sendPost(url, content);
+			String response = Util.sendPost(url, cspModel);
 			res = new Gson().fromJson(response.toString(), Boolean.class);
 		} catch (Exception e) {
 			LOG.log(Level.SEVERE, e.getMessage());
@@ -43,14 +47,17 @@ public class CSPWebReasoner extends Reasoner {
 
 	@Override
 	public OperationResponse explain(CSPModel model) {
+		return explain(model.toString());
+	}
+
+	public OperationResponse explain(String cspModel) {
 		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/explain";
 
-		String content = model.toString();
 		OperationResponse res = null;
 
 		try {
-			String response = Util.sendPost(url, content);
+			String response = Util.sendPost(url, cspModel);
 			res = new Gson().fromJson(response.toString(),
 					OperationResponse.class);
 		} catch (Exception e) {
