@@ -1,3 +1,9 @@
+AML 0.1.7, 2015-05-27
+-----------------------
+- Updated CSPWebReasoner endpoint (moved to dedicated server)
+- Fixed Config file.
+- Fixed bug: empty files after generation.
+
 AML 0.1.6, 2015-05-26
 -----------------------
 - Updated CSPWebReasoner.

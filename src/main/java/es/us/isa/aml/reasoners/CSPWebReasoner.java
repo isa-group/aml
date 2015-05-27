@@ -31,7 +31,7 @@ public class CSPWebReasoner extends Reasoner {
 		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/solve";
 
-		System.out.println("AML webreasonerendpint: " + url);
+		System.out.println("CSPWebReasoner Endpoint: " + url);
 		
 		Boolean res = null;
 
