@@ -24,8 +24,8 @@ public class Agreement extends AgreementOffer {
 
     @Override
     public void loadFromFile(String path, AgreementLanguage lang) {
-        AgreementOffer newT = (AgreementOffer) store.parseAgreementFile(path, lang);
-        this.agreementManager = newT.agreementManager;
+        AgreementOffer newT = (AgreementOffer) manager.getStoreManager().parseAgreementFile(path, lang);
+        this.manager = newT.manager;
         this.agreementTerms = newT.agreementTerms;
         this.context = newT.context;
         this.docType = newT.docType;

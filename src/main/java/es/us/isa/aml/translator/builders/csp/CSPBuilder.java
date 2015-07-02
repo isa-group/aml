@@ -67,7 +67,7 @@ public class CSPBuilder implements IBuilder {
 
 		if (metric.getType().equals("enum")) {
 			CSPVar domain = new CSPVar("domain_" + metric.getId(),
-					metric.getType(), false);
+					metric.getType(), false, model.getUseCP());
 			domain.setExpression(new ListExpression(((Enumerated) metric
 					.getDomain()).getValues()));
 
@@ -75,7 +75,7 @@ public class CSPBuilder implements IBuilder {
 			CSPRange range_enum = new CSPRange(domain.getId(), new Range(0,
 					max_size - 1));
 			CSPVar _enum = new CSPVar("enum_" + metric.getId(), "integer",
-					false);
+					false, model.getUseCP());
 			_enum.setRange(range_enum);
 			List<Integer> range = new ArrayList<Integer>();
 			for (int i = 0; i < max_size; i++) {
@@ -129,7 +129,7 @@ public class CSPBuilder implements IBuilder {
 
 		if (cp.getMetric().getType().equals("enum")) {
 			CSPVar var = new CSPVar(cp, vars.get(
-					"enum_" + cp.getMetric().getId()).getRange(), true);
+					"enum_" + cp.getMetric().getId()).getRange(), true, model.getUseCP());
 			this.model.addVar(var);
 			vars.put(var.getId(), var);
 
@@ -141,7 +141,7 @@ public class CSPBuilder implements IBuilder {
 			}
 
 			CSPVar var = new CSPVar(cp, ranges.get("range_"
-					+ cp.getMetric().getId()), true);
+					+ cp.getMetric().getId()), true, model.getUseCP());
 			this.model.addVar(var);
 			vars.put(var.getId(), var);
 		}
@@ -186,7 +186,7 @@ public class CSPBuilder implements IBuilder {
 
 		if (mp.getMetric().getType().equals("enum")) {
 			CSPVar var = new CSPVar(mp, vars.get(
-					"enum_" + mp.getMetric().getId()).getRange(), true);
+					"enum_" + mp.getMetric().getId()).getRange(), true, model.getUseCP());
 			this.model.addVar(var);
 			vars.put(var.getId(), var);
 
@@ -198,7 +198,7 @@ public class CSPBuilder implements IBuilder {
 			}
 
 			CSPVar var = new CSPVar(mp, ranges.get("range_"
-					+ mp.getMetric().getId()), true);
+					+ mp.getMetric().getId()), true, model.getUseCP());
 			this.model.addVar(var);
 			vars.put(var.getId(), var);
 		}

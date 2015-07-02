@@ -1,3 +1,9 @@
+AML 0.2, 2015-07-02
+-----------------------
+- Added support for generating CPLEX Optimizer CSPModel.
+- Enum mapping bug fixed.
+- Store, AgreementManager and AgreementModel refactorized.
+
 AML 0.1.7, 2015-05-27
 -----------------------
 - Updated CSPWebReasoner endpoint (moved to dedicated server)

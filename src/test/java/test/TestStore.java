@@ -84,7 +84,7 @@ public class TestStore {
         //MODO_3a
         String path3a = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template3a = m.createAgreementTemplateFromFile(path3a);
-        template3a.register();
+        s.register(template3a);
         AgreementTemplate template3aR = s.getAgreementTemplate(template3a.getID());
         Assert.assertNotNull(template3aR);
     }
@@ -97,7 +97,7 @@ public class TestStore {
         //MODO_3b
         String path3b = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template3b = m.createAgreementTemplateFromFile(path3b);
-        template3b.register("hola");
+        s.register("hola", template3b);
         AgreementTemplate template3bR = s.getAgreementTemplate("hola");
         Assert.assertNotNull(template3bR);
     }
@@ -110,10 +110,10 @@ public class TestStore {
         String path = "src/test/resources/samples/iagree-core.at";
         AgreementTemplate template = m.createAgreementTemplateFromFile(path);
 
-        template.register("plantilla");
+        s.register("plantilla", template);
 
-        s.getAgreementTemplate("plantilla").generateAgreementOffer("cliente").register("oferta");
-
+        s.register("oferta", s.getAgreementTemplate("plantilla").generateAgreementOffer("cliente"));
+        
         AgreementOffer offer = s.getAgreementOffer("oferta");
 
         Assert.assertNotNull(template);

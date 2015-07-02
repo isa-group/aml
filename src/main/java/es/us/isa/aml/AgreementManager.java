@@ -116,6 +116,10 @@ public class AgreementManager {
     public void registerOffer(AgreementOffer offer) {
         store.register("offer", offer);
     }
+    
+    public void registerAgreement(Agreement agreement) {
+        store.register("agreement", agreement);
+    }
 
     // Retrieve
     public AgreementTemplate getAgreementTemplate() {
@@ -124,6 +128,10 @@ public class AgreementManager {
 
     public AgreementOffer getAgreementOffer() {
         return store.getAgreementOffer("offer");
+    }
+    
+    public Agreement getAgreement() {
+        return store.getAgreement("agreement");
     }
 
     // End agreement files and model management
@@ -139,6 +147,4 @@ public class AgreementManager {
         op.analyze(agreementModel);
         return op.getResult();
     }
-
-    //
 }

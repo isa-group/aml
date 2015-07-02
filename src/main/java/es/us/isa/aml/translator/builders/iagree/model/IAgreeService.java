@@ -26,7 +26,7 @@ public class IAgreeService extends ServiceConfiguration {
         sb.append("Service ").append(this.getServiceName()).append(" availableAt " + "\"").append(this.getEndpointReference()).append("\"").append("\n");
 
         if (getFeatures().size() > 0) {
-            sb.append("\t\t" + "Features: ").append(getFeatures().values().toString().replace("[", "").replace("]", "")).append("\n");
+            sb.append("\t\t" + "Features: ").append(getFeatures().values().toString().replace("[", "").replace("]", "")).append(";").append("\n");
         }
 
         List<ConfigurationProperty> cps = this.getConfigurationProperties();

@@ -15,33 +15,38 @@ public class CSPVar {
 	protected CSPRange range;
 	protected Expression value;
 	protected Boolean dvar;
+	protected Boolean useCP;
 
-	public CSPVar(Property p, CSPRange range, Boolean dvar) {
+	public CSPVar(Property p, CSPRange range, Boolean dvar, Boolean useCP) {
 		this.prop = p;
 		this.id = p.getId();
+		this.range = range;
+		this.dvar = dvar;
+		this.useCP = useCP;
 		this.setType(p.getMetric().getType());
-		this.range = range;
-		this.dvar = dvar;
 	}
 
-	public CSPVar(Property p, String type, Boolean dvar) {
+	public CSPVar(Property p, String type, Boolean dvar, Boolean useCP) {
 		this.prop = p;
 		this.id = p.getId();
-		this.setType(type);
 		this.dvar = dvar;
+		this.useCP = useCP;
+		this.setType(type);
 	}
 
-	public CSPVar(String id, String type, Boolean dvar) {
+	public CSPVar(String id, String type, Boolean dvar, Boolean useCP) {
 		this.id = id;
-		this.setType(type);
 		this.dvar = dvar;
+		this.useCP = useCP;
+		this.setType(type);
 	}
 
-	public CSPVar(String id, String type, CSPRange range, Boolean dvar) {
+	public CSPVar(String id, String type, CSPRange range, Boolean dvar, Boolean useCP) {
 		this.id = id;
-		this.setType(type);
 		this.range = range;
 		this.dvar = dvar;
+		this.useCP = useCP;
+		this.setType(type);
 	}
 
 	public String getId() {
@@ -57,10 +62,17 @@ public class CSPVar {
 	}
 
 	public void setType(String type) {
-		if (CSPUtil.DATATYPES.containsKey(type))
-			this.type = CSPUtil.DATATYPES.get(type);
-		else
-			this.type = type;
+		if (useCP) {
+			if (CSPUtil.CP_DATATYPES.containsKey(type))
+				this.type = CSPUtil.CP_DATATYPES.get(type);
+			else
+				this.type = type;
+		} else {
+			if (CSPUtil.CPLEX_DATATYPES.containsKey(type))
+				this.type = CSPUtil.CPLEX_DATATYPES.get(type);
+			else
+				this.type = type;
+		}
 	}
 
 	public CSPRange getRange() {
@@ -94,14 +106,22 @@ public class CSPVar {
 	public void setProp(Property prop) {
 		this.prop = prop;
 	}
+	
+	public Boolean getUseCP() {
+		return useCP;
+	}
+
+	public void setUseCP(Boolean useCP) {
+		this.useCP = useCP;
+	}
 
 	@Override
 	public CSPVar clone() {
 		CSPVar var = null;
 		if (getProp() != null)
-			var = new CSPVar(getProp().clone(), getRange(), getDvar());
+			var = new CSPVar(getProp().clone(), getRange(), getDvar(), getUseCP());
 		else {
-			var = new CSPVar(getId(), getType(), getDvar());
+			var = new CSPVar(getId(), getType(), getDvar(), getUseCP());
 			if (getRange() != null)
 				var.setRange(getRange().clone());
 		}

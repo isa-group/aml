@@ -34,8 +34,8 @@ public class AgreementTemplate extends AgreementModel {
 
     @Override
     public void loadFromFile(String path, AgreementLanguage lang) {
-        AgreementTemplate newT = (AgreementTemplate) store.parseAgreementFile(path, lang);
-        this.agreementManager = newT.agreementManager;
+        AgreementTemplate newT = (AgreementTemplate) manager.getStoreManager().parseAgreementFile(path, lang);
+        this.manager = newT.manager;
         this.agreementTerms = newT.agreementTerms;
         this.context = newT.context;
         this.creationConstraints = newT.creationConstraints;
@@ -44,9 +44,7 @@ public class AgreementTemplate extends AgreementModel {
         this.version = newT.version;
     }
 
-    public AgreementOffer generateAgreementOffer(String consumerName) {
-        //todo: por ahora es una copia de la template
-    	    	
+    public AgreementOffer generateAgreementOffer(String consumerName) {    	    	
         AgreementOffer ao = new AgreementOffer();        
         ao.setDocType(DocType.OFFER);
         ao.setID(this.id + "_" + consumerName);
@@ -54,7 +52,7 @@ public class AgreementTemplate extends AgreementModel {
         ao.setContext(context.clone());
         ao.getContext().setConsumer(consumerName);
         ao.setAgreementTerms(agreementTerms.clone());
-        ao.setAgreementManager(agreementManager);
+        ao.setAgreementManager(manager);
         return ao;
     }
     

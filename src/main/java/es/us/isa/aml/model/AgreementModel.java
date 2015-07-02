@@ -1,7 +1,6 @@
 package es.us.isa.aml.model;
 
 import es.us.isa.aml.AgreementManager;
-import es.us.isa.aml.Store;
 import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.Var;
@@ -20,9 +19,8 @@ public abstract class AgreementModel extends AbstractModel {
     protected Double version;
     protected Context context;
     protected AgreementTerms agreementTerms;
-    protected AgreementManager agreementManager;
+    protected AgreementManager manager;
     protected DocType docType;
-    protected final Store store = Store.getInstance();
 
     public AgreementModel() {
         this.id = "";
@@ -34,7 +32,7 @@ public abstract class AgreementModel extends AbstractModel {
 
     public AgreementModel(AgreementManager agreementManager) {
         super();
-        this.agreementManager = agreementManager;
+        this.manager = agreementManager;
     }
 
     public String getID() {
@@ -70,7 +68,7 @@ public abstract class AgreementModel extends AbstractModel {
     }
 
     public void setAgreementManager(AgreementManager agreementManager) {
-        this.agreementManager = agreementManager;
+        this.manager = agreementManager;
     }
 
     public DocType getDocType() {
@@ -81,23 +79,15 @@ public abstract class AgreementModel extends AbstractModel {
         this.docType = docType;
     }
 
-    public void register() {
-        store.register(this);
-    }
-
-    public void register(String name) {
-        store.register(name, this);
-    }
-
     public abstract void loadFromFile(String path, AgreementLanguage lang);
 
     // OPERATIONS - This should be syncronized with AgreementManager methods
     public Boolean isValid() {
-        return agreementManager.isValid(this);
+        return manager.isValid(this);
     }
 
     public OperationResponse isValidFullResponse() {
-        return agreementManager.isValidFullResponse(this);
+        return manager.isValidFullResponse(this);
     }
 
     // Model operations
@@ -207,7 +197,7 @@ public abstract class AgreementModel extends AbstractModel {
     	model.setVersion(version);
     	model.setContext(context.clone());
     	model.setAgreementTerms(agreementTerms.clone());
-    	model.setAgreementManager(agreementManager);
+    	model.setAgreementManager(manager);
     	model.setDocType(docType);
         
         return model;
