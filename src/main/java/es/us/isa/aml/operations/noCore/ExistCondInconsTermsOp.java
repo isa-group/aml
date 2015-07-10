@@ -5,6 +5,9 @@
  */
 package es.us.isa.aml.operations.noCore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
@@ -12,12 +15,10 @@ import es.us.isa.aml.translator.builders.iagree.model.IAgreeGuaranteeTerm;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeSLO;
 import es.us.isa.aml.util.OperationResponse;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
+ * @author jdelafuente
  *
- * @author AntonioGamez
  */
 public class ExistCondInconsTermsOp extends NoCoreOperation {
 
@@ -43,15 +44,14 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 			result.put("existCondInconsTerms", false);
 			return;
 		}
-		List<GuaranteeTerm> gtOriginal = new ArrayList<>(model
+		Map<String, GuaranteeTerm> gtOriginal = new HashMap<>(model
 				.getAgreementTerms().getGuaranteeTerms());
-		List<GuaranteeTerm> gtCopy = new ArrayList<>(gtOriginal);
+		Map<String, GuaranteeTerm> gtCopy = new HashMap<>(gtOriginal);
 
 		if (gtCopy.size() == 0) {
 			result.put("existCondInconsTerms", false);
 		} else {
-			for (int i = 0; i < gtCopy.size(); i++) {
-				GuaranteeTerm gti = gtCopy.get(i);
+			for (GuaranteeTerm gti : gtOriginal.values()) {
 				if (gti.getQc() != null && gti.getSlo() != null) {
 					GuaranteeTerm newGtQc = new IAgreeGuaranteeTerm(gti.getId()
 							+ "_QC", gti.getServiceRole(), new IAgreeSLO(gti
@@ -59,8 +59,8 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 					GuaranteeTerm newGtSlo = new IAgreeGuaranteeTerm(
 							gti.getId() + "_SLO", gti.getServiceRole(),
 							new IAgreeSLO(gti.getSlo().getExpression()));
-					gtCopy.set(gtCopy.indexOf(gti), newGtQc);
-					gtCopy.add(gtCopy.indexOf(gti) + 1, newGtSlo);
+					gtCopy.put(gti.getId(), newGtQc);
+					gtCopy.put(gti.getId() + "_slo", newGtSlo);
 
 					model.getAgreementTerms().setGuaranteeTerms(gtCopy);
 
@@ -79,7 +79,7 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 						break;
 					} else {
 						gtCopy.clear();
-						gtCopy.addAll(gtOriginal);
+						gtCopy.putAll(gtOriginal);
 
 						model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
 						result.put("existCondInconsTerms", false);

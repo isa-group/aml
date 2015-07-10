@@ -1,8 +1,6 @@
 package es.us.isa.aml.model;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -16,25 +14,25 @@ public class ServiceConfiguration {
     private String definitionReference;
     private String monitorReference;
     private Map<String, Feature> features;
-    private List<ConfigurationProperty> cps;
+    private Map<String, ConfigurationProperty> cps;
 
     public ServiceConfiguration() {
         serviceName = "";
         endpointReference = "";
         features = new HashMap<>();
-        cps = new ArrayList<>();
+        cps = new HashMap<>();
     }
 
     public ServiceConfiguration(String serviceName, String serviceReference) {
         this.serviceName = serviceName;
         this.endpointReference = serviceReference;
         features = new HashMap<>();
-        cps = new ArrayList<>();
+        cps = new HashMap<>();
     }
 
 	public ServiceConfiguration(String serviceName, String serviceReference,
 			Map<String, Feature> features,
-			List<ConfigurationProperty> configurationProperties) {
+			Map<String, ConfigurationProperty> configurationProperties) {
 		this.serviceName = serviceName;
         this.endpointReference = serviceReference;
         this.features = features;
@@ -81,11 +79,11 @@ public class ServiceConfiguration {
         this.features = features;
     }
 
-    public List<ConfigurationProperty> getConfigurationProperties() {
+    public Map<String, ConfigurationProperty> getConfigurationProperties() {
         return this.cps;
     }
 
-    public void setConfigurationProperties(List<ConfigurationProperty> cps) {
+    public void setConfigurationProperties(Map<String, ConfigurationProperty> cps) {
         this.cps = cps;
     }
     
@@ -98,8 +96,8 @@ public class ServiceConfiguration {
     		Feature f = feature.clone();
     		sc.getFeatures().put(f.getId(), f);
     	}
-    	for(ConfigurationProperty cp : getConfigurationProperties())
-    		sc.getConfigurationProperties().add(cp.clone());
+    	for(ConfigurationProperty cp : getConfigurationProperties().values())
+    		sc.getConfigurationProperties().put(cp.getId(), cp.clone());
     	
     	return sc;
     }

@@ -1,7 +1,7 @@
 package es.us.isa.aml.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author jdelafuente
@@ -10,18 +10,18 @@ import java.util.List;
 public class AgreementTerms {
 
     private ServiceConfiguration service;
-    private List<MonitorableProperty> mps;
-    private List<GuaranteeTerm> gts;
+    private Map<String, MonitorableProperty> mps;
+    private Map<String, GuaranteeTerm> gts;
 
     public AgreementTerms() {
         this.service = new ServiceConfiguration();
-        this.mps = new ArrayList<>();
-        this.gts = new ArrayList<>();
+        this.mps = new HashMap<String, MonitorableProperty>();
+        this.gts = new HashMap<String, GuaranteeTerm>();
     }
 
 	public AgreementTerms(ServiceConfiguration service,
-			List<MonitorableProperty> monitorableProperties,
-			List<GuaranteeTerm> guaranteeTerms) {
+			Map<String, MonitorableProperty> monitorableProperties,
+			Map<String, GuaranteeTerm> guaranteeTerms) {
 		this.service = service; // ServiceReference
         this.mps = monitorableProperties;
         this.gts = guaranteeTerms;
@@ -35,19 +35,19 @@ public class AgreementTerms {
         this.service = service;
     }
 
-    public List<MonitorableProperty> getMonitorableProperties() {
+    public Map<String, MonitorableProperty> getMonitorableProperties() {
         return this.mps;
     }
 
-    public void setMonitorableProperties(List<MonitorableProperty> mps) {
+    public void setMonitorableProperties(Map<String, MonitorableProperty> mps) {
         this.mps = mps;
     }
 
-    public List<GuaranteeTerm> getGuaranteeTerms() {
+    public Map<String, GuaranteeTerm> getGuaranteeTerms() {
         return this.gts;
     }
 
-    public void setGuaranteeTerms(List<GuaranteeTerm> gts) {
+    public void setGuaranteeTerms(Map<String, GuaranteeTerm> gts) {
     	this.gts = gts;
     }
     
@@ -56,11 +56,11 @@ public class AgreementTerms {
     	AgreementTerms at = new AgreementTerms();
     	ServiceConfiguration sc = service.clone();
     	at.setService(sc);
-    	for(MonitorableProperty mp : mps)
-    		at.getMonitorableProperties().add(mp.clone());
+    	for(MonitorableProperty mp : mps.values())
+    		at.getMonitorableProperties().put(mp.getId(), mp.clone());
     	
-    	for(GuaranteeTerm gt : gts)
-    		at.getGuaranteeTerms().add(gt.clone());
+    	for(GuaranteeTerm gt : gts.values())
+    		at.getGuaranteeTerms().put(gt.getId(), gt.clone());
     	
     	return at;    	
     }

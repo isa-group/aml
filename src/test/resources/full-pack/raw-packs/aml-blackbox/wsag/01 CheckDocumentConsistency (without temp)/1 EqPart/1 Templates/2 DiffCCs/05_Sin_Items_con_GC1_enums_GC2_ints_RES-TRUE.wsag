@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding = "UTF-8"?>
+<wsag:Template wsag:TemplateId="1.1" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+ xmlns:wsag="http://schemas.ggf.org/graap/2007/03/ws-agreement" 
+ xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+ xsi:schemaLocation="http://schemas.ggf.org/graap/2007/03/wsagreement" 
+ agreement_types.xsd="http://www.w3.org/2001/XMLSchema XMLSchema.xsd">
+   <wsag:Name>
+     TranslateIt
+   </wsag:Name>
+   <wsag:Context>
+     <wsag:AgreementInitiator>
+       I need translation Corp. 
+     </wsag:AgreementInitiator>   
+     <wsag:AgreementResponder>
+       Translator 
+     </wsag:AgreementResponder>   
+     <wsag:ServiceProvider>
+       AgreementResponder 
+     </wsag:ServiceProvider>   
+     <wsag:ExpirationTime>
+       2012-01-01T00:00:00
+     </wsag:ExpirationTime>   
+   </wsag:Context>
+   <wsag:Terms wsag:Name="TranslationService">
+     <wsag:All>
+       <wsag:ServiceProperties wsag:Name="SP1" 
+        wsag:ServiceName="TranslationService"> 
+         <wsag:VariableSet> 
+           <wsag:Variable wsag:Name="TranslationTime" wsag:Metric="metrics/TranslationServiceMetric:Time"> 
+            <wsag:Location> 
+              /TranslationTime
+            </wsag:Location>
+           </wsag:Variable>
+           <wsag:Variable wsag:Name="InputErrors" wsag:Metric="metrics/TranslationServiceMetric:Percent"> 
+            <wsag:Location> 
+              /InputErrors
+            </wsag:Location>
+           </wsag:Variable>
+         </wsag:VariableSet> 
+       </wsag:ServiceProperties>
+       <wsag:ServiceDescriptionTerm wsag:Name="SDT1" 
+        wsag:ServiceName="TranslationService">
+        <OfferItem name="SourceLang" wsag:Metric="metrics/TranslationServiceMetric:Languages"></OfferItem> 
+        <OfferItem name="TargetLang" wsag:Metric="metrics/TranslationServiceMetric:Languages"></OfferItem> 
+        <OfferItem name="InputFileSize" wsag:Metric="metrics/TranslationServiceMetric:Size"></OfferItem> 
+        <OfferItem name="Cost" wsag:Metric="metrics/TranslationServiceMetric:Cost"></OfferItem>  <!-- in cents of euros -->
+        <OfferItem name="ImageTranslation" wsag:Metric="metrics/TranslationServiceMetric:Boolean"></OfferItem> 
+       </wsag:ServiceDescriptionTerm>
+     </wsag:All>
+   </wsag:Terms>
+   <wsag:CreationConstraints>
+     <wsag:Constraint>
+          <Name>
+            OnlyInts
+          </Name>
+          <Content>
+            InputErrors&lt;30 AND Cost==InputFileSize*1
+          </Content>
+     </wsag:Constraint>
+	 <wsag:Constraint>
+          <Name>
+            OnlyEnums
+          </Name>
+          <Content>
+            ImageTranslation=="False" OR SourceLang=="ES" IMPLIES TargetLang=="Auto"
+          </Content>
+     </wsag:Constraint>
+   </wsag:CreationConstraints>
+</wsag:Template>

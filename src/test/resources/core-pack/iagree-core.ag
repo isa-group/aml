@@ -1,0 +1,37 @@
+Agreement IAgreeCore_OfferClient_ag version 1.0
+	Initiator: "Initiator1";
+	Consumer "AgClient";
+	Metrics:
+		met3: float[0..128];
+		met2: integer[0..512];
+		met1: integer[0..23];
+		met6: integer[-50..50];
+		met5: float[0..100];
+		met4: integer[0..512];
+
+AgreementTerms
+	Service IAg-Core availableAt "iagree.core.com/service"
+		Features: testFeatures1, testFeatures2(param1), testFeatures3(param1, param2);
+		GlobalDescription
+			ConfProp1: met1;
+			ConfProp2: met2 = 18;
+		Description for testFeatures1:
+			ConfProp3: met6;
+
+	MonitorableProperties
+		global:
+			MonitProp1: met2;
+			MonitProp2: met3;
+		for testFeatures2:
+			MonitProp3: met4;
+		for testFeatures3:
+			MonitProp4: met5;
+
+	GuaranteeTerms
+		G1: Provider guarantees MonitProp1 >= 64;
+			onlyIf(MonitProp3 >= 128);
+
+		G2: Consumer guarantees MonitProp2 >= 95.5;
+
+
+EndAgreement

@@ -104,9 +104,9 @@ public class IAgreeBuilder implements IBuilder {
 		model.setAgreementTerms(agTerms);
 
 		setService(at.getService());
-		for (MonitorableProperty mp : at.getMonitorableProperties())
+		for (MonitorableProperty mp : at.getMonitorableProperties().values())
 			setMonitorableProperty(mp);
-		for (GuaranteeTerm gt : at.getGuaranteeTerms())
+		for (GuaranteeTerm gt : at.getGuaranteeTerms().values())
 			setGuaranteeTerm(gt);
 	}
 
@@ -125,7 +125,7 @@ public class IAgreeBuilder implements IBuilder {
 		service.setFeatures(features);
 		model.getAgreementTerms().setService(service);
 
-		for (ConfigurationProperty cp : s.getConfigurationProperties())
+		for (ConfigurationProperty cp : s.getConfigurationProperties().values())
 			setConfigurationProperty(cp);
 	}
 
@@ -133,13 +133,13 @@ public class IAgreeBuilder implements IBuilder {
 	public void setConfigurationProperty(Property cp) {
 		IAgreeConfigurationProperty icp = new IAgreeConfigurationProperty(cp);
 		model.getAgreementTerms().getService().getConfigurationProperties()
-				.add(icp);
+				.put(icp.getId(), icp);
 	}
 
 	@Override
 	public void setMonitorableProperty(Property mp) {
 		IAgreeMonitorableProperty imp = new IAgreeMonitorableProperty(mp);
-		model.getAgreementTerms().getMonitorableProperties().add(imp);
+		model.getAgreementTerms().getMonitorableProperties().put(imp.getId(), imp);
 	}
 
 	@Override
@@ -161,7 +161,7 @@ public class IAgreeBuilder implements IBuilder {
 			}
 		}
 
-		model.getAgreementTerms().getGuaranteeTerms().add(igt);
+		model.getAgreementTerms().getGuaranteeTerms().put(igt.getId(), igt);
 	}
 
 	@Override
@@ -174,7 +174,7 @@ public class IAgreeBuilder implements IBuilder {
 			icc.setQc(cc.getQc());
 		}
 
-		((IAgreeAgreementTemplate) model).getCreationConstraints().add(icc);
+		((IAgreeAgreementTemplate) model).getCreationConstraints().put(icc.getId(), icc);
 	}
 
 	@Override

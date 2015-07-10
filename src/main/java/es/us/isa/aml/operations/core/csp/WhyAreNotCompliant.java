@@ -3,8 +3,8 @@
  */
 package es.us.isa.aml.operations.core.csp;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
@@ -40,14 +40,14 @@ public class WhyAreNotCompliant extends CoreOperation {
 		// map(O.Terms))
 		AgreementTemplate template_gts = (AgreementTemplate) template.clone();
 		template_gts.getCreationConstraints().clear();
-		List<GuaranteeTerm> list_gts = template_gts.getAgreementTerms()
+		Map<String, GuaranteeTerm> gts = template_gts.getAgreementTerms()
 				.getGuaranteeTerms();
 		Boolean compliant1 = true;
 		
 		if (template.getAgreementTerms().getGuaranteeTerms().size() > 0) {
-			for (GuaranteeTerm gt : list_gts) {
-				List<GuaranteeTerm> new_gts = new ArrayList<GuaranteeTerm>();
-				new_gts.add(gt);
+			for (GuaranteeTerm gt : gts.values()) {
+				Map<String, GuaranteeTerm> new_gts = new HashMap<String, GuaranteeTerm>();
+				new_gts.put(gt.getId(), gt);
 				template_gts.getAgreementTerms().setGuaranteeTerms(new_gts);
 				CSPModel csp_template_gts = (CSPModel) translator
 						.translate(template_gts);
@@ -65,14 +65,14 @@ public class WhyAreNotCompliant extends CoreOperation {
 		// map(T.CCs))
 		AgreementTemplate template_ccs = (AgreementTemplate) template.clone();
 		template_ccs.getAgreementTerms().getGuaranteeTerms().clear();
-		List<CreationConstraint> list_ccs = template_ccs
+		Map<String, CreationConstraint> ccs = template_ccs
 				.getCreationConstraints();
 		Boolean compliant2 = true;
 
 		if (((AgreementTemplate) template).getCreationConstraints().size() > 0) {
-			for (CreationConstraint cc : list_ccs) {
-				List<CreationConstraint> new_ccs = new ArrayList<CreationConstraint>();
-				new_ccs.add(cc);
+			for (CreationConstraint cc : ccs.values()) {
+				Map<String, CreationConstraint> new_ccs = new HashMap<String, CreationConstraint>();
+				new_ccs.put(cc.getId(), cc);
 				template_ccs.setCreationConstraints(new_ccs);
 				CSPModel csp_template_ccs = (CSPModel) translator
 						.translate(template_ccs);

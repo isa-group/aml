@@ -1,0 +1,49 @@
+Template IAgreeCore version 1.0
+	Initiator: "Initiator1";
+	Provider "Prov1" as Responder;
+	Consumer "Cons1";
+	Metrics: 
+		met1: integer [0..23];
+		met2: integer [0..512];
+		met3: float [0..128];
+		met4: integer [0..512];
+		met5: float [0..1024];
+		met6: integer [-50..50];
+		
+    AgreementTerms
+    	Service IAg-Core availableAt "iagree.core.com/service"
+    		Features: testFeatures1, testFeatures2(param1), testFeatures3(param1, param2);
+    		GlobalDescription
+    			ConfProp1: met1 = 9;
+    			ConfProp2: met2 = 18;
+    		Description for testFeatures1:
+    			ConfProp3: met3 = 64;
+    	
+    	MonitorableProperties
+    		global:
+    			MonitProp1: met3;
+    			MonitProp2: met4;
+    		for testFeatures2:
+    			MonitProp3: met5;
+    		for testFeatures3:
+    			MonitProp4: met6;
+    				
+    	GuaranteeTerms
+    		G1: Provider guarantees MonitProp1 >= 64;
+				onlyIf(MonitProp3 >= 128);
+    		
+    		G2: Consumer guarantees MonitProp2 >= 95;
+    			with monthly penalty
+    				of MonitProp4 = 20 if MonitProp3 > 256;
+    				of MonitProp4 = 50 if MonitProp3 >= 512;
+    			end
+    
+    CreationConstraints
+    	C1: ConfProp2 == ConfProp1 * 2;
+    	
+    	C2: (ConfProp1 >= 9) AND ((MonitProp3 >= 128) OR (ConfProp3 > 0));
+    	
+    	C3: MonitProp3 == 256;
+	    	onlyIf(ConfProp3 > 0);
+	
+EndTemplate

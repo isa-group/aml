@@ -162,7 +162,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		this.model.getContext().setTemplateId(ctx.templateId.getText());
 		this.model.getContext().setTemplateVersion(
-				new Float(ctx.templateVersion.getText()));
+				Double.valueOf(ctx.templateVersion.getText()));
 
 		this.visitAg_def(ctx.ag_def());
 
@@ -250,7 +250,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			cc.setQc(qc);
 		}
 
-		((AgreementTemplate) this.model).getCreationConstraints().add(cc);
+		((AgreementTemplate) this.model).getCreationConstraints().put(
+				cc.getId(), cc);
 
 		return null;
 	}
@@ -400,11 +401,10 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			} else if (ServiceRole.valueOf(ctx.responder.getText()) == ServiceRole.Consumer) {
 				r = new Responder(ctx.id.getText(), ServiceRole.Consumer);
 			}
-
 		} else {
-			if (ctx.PROVIDER() != null) {
+			if (ctx.provider_prop() != null) {
 				visitProvider_prop(ctx.provider_prop());
-			} else if (ctx.CONSUMER() != null) {
+			} else if (ctx.consumer_prop() != null) {
 				visitConsumer_prop(ctx.consumer_prop());
 			}
 		}
@@ -482,7 +482,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 					cp.setExpression(p.getExpression());
 					cp.setScope(Scope.Global);
 					this.model.getAgreementTerms().getService()
-							.getConfigurationProperties().add(cp);
+							.getConfigurationProperties().put(cp.getId(), cp);
 				}
 			}
 		}
@@ -505,7 +505,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				if (features.containsKey(ctx.Identifier().getText())) {
 					cp.setFeature(features.get(ctx.Identifier().getText()));
 					this.model.getAgreementTerms().getService()
-							.getConfigurationProperties().add(cp);
+							.getConfigurationProperties().put(cp.getId(), cp);
 				} else {
 					parser.notifyErrorListeners(ctx.start, "Feature \""
 							+ ctx.Identifier().getText()
@@ -529,7 +529,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				mp.setExpression(p.getExpression());
 				mp.setScope(Scope.Global);
 				this.model.getAgreementTerms().getMonitorableProperties()
-						.add(mp);
+						.put(mp.getId(), mp);
 			}
 		}
 
@@ -553,7 +553,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				if (features.containsKey(ctx.Identifier().getText())) {
 					mp.setFeature(features.get(ctx.Identifier().getText()));
 					this.model.getAgreementTerms().getMonitorableProperties()
-							.add(mp);
+							.put(mp.getId(), mp);
 				} else {
 					parser.notifyErrorListeners(ctx.start, "Feature \""
 							+ ctx.Identifier().getText()
@@ -567,18 +567,14 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 	@Override
 	public Object visitGuaranteeTerm(iAgreeParser.GuaranteeTermContext ctx) {
-
 		if (ctx.guarantee_def() != null) {
-
 			GuaranteeTerm GT = this.visitGuarantee_def(ctx.guarantee_def());
 			GT.setId(ctx.Identifier().getText());
-
-			this.model.getAgreementTerms().getGuaranteeTerms().add(GT);
-
+			this.model.getAgreementTerms().getGuaranteeTerms()
+					.put(GT.getId(), GT);
 		} else if (ctx.cuantif() != null) {
 			// TODO
 		}
-
 		return null;
 	}
 

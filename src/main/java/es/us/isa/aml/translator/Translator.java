@@ -49,14 +49,14 @@ public class Translator {
 
 	public void translate(AgreementModel model, IBuilder builder) {
 		builder.setId(model.getID());
-		builder.setVersion(model.getVersion());
+		builder.setVersion(model.getVersion());		
 		builder.setContext(model.getContext());
 		
 		translate(model.getAgreementTerms(), builder);
 
 		if (model instanceof AgreementTemplate) {
-			translate(((AgreementTemplate) model).getCreationConstraints(),
-					builder);
+			for(CreationConstraint cc : ((AgreementTemplate) model).getCreationConstraints().values())
+				translate(cc, builder);
 		}
 	}
 
