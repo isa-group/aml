@@ -115,7 +115,7 @@ public class WsagParserHelper {
 			if (str_tempId.isEmpty()) {
 				// TODO throw exception
 			} else {
-				context.setTemplateVersion(Float.valueOf(str_tempId));
+				context.setTemplateVersion(Double.valueOf(str_tempId));
 			}
 		}
 
@@ -249,7 +249,7 @@ public class WsagParserHelper {
 							}
 
 							model.getAgreementTerms().getService()
-									.getConfigurationProperties().add(p);
+									.getConfigurationProperties().put(p.getId(), p);
 						}
 					}
 				} else if (term.getTagName().equals("wsag:ServiceProperties")) {
@@ -291,7 +291,7 @@ public class WsagParserHelper {
 							}
 
 							model.getAgreementTerms()
-									.getMonitorableProperties().add(p);
+									.getMonitorableProperties().put(p.getId(), p);
 						}
 					}
 
@@ -347,7 +347,7 @@ public class WsagParserHelper {
 							}
 						}
 
-						model.getAgreementTerms().getGuaranteeTerms().add(GT);
+						model.getAgreementTerms().getGuaranteeTerms().put(GT.getId(), GT);
 					}
 
 				} else if (term.getTagName().equals("wsag:ExactlyOne")
@@ -411,7 +411,7 @@ public class WsagParserHelper {
 
 						if (cc != null) {
 							((AgreementTemplate) model)
-									.getCreationConstraints().add(cc);
+									.getCreationConstraints().put(cc.getId(), cc);
 						}
 					} else if (constraint.getTagName().equals("wsag:Item")) {
 						String prop = constraint.getAttribute("wsag:Name");
@@ -489,7 +489,7 @@ public class WsagParserHelper {
 						SLO slo = new SLO(expr);
 						CreationConstraint cc = new CreationConstraint(id, slo);
 						((AgreementTemplate) model).getCreationConstraints()
-								.add(cc);
+								.put(cc.getId(), cc);
 
 					}
 				}

@@ -88,11 +88,11 @@ public class WSAGBuilder implements IBuilder {
 	public void setAgreementTerms(AgreementTerms at) {
 		setService(at.getService());
 
-		for (Property p : at.getMonitorableProperties()) {
+		for (Property p : at.getMonitorableProperties().values()) {
 			setMonitorableProperty(p);
 		}
 
-		for (es.us.isa.aml.model.GuaranteeTerm gt : at.getGuaranteeTerms())
+		for (es.us.isa.aml.model.GuaranteeTerm gt : at.getGuaranteeTerms().values())
 			setGuaranteeTerm(gt);
 	}
 
@@ -111,7 +111,7 @@ public class WSAGBuilder implements IBuilder {
 				.setName("SP_" + service.getServiceName());
 		wsagDoc.getTerms().getServiceProperties().setServiceName(service.getServiceName());
 
-		for (Property p : service.getConfigurationProperties()) {
+		for (Property p : service.getConfigurationProperties().values()) {
 			setConfigurationProperty(p);
 		}
 	}

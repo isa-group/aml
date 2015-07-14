@@ -19,7 +19,7 @@ public class IAgreeAgreementTemplate extends AgreementTemplate {
 
 		if (this.getCreationConstraints().size() > 0) {
 			sb.append("CreationConstraints" + "\n");
-			for (CreationConstraint cc : this.getCreationConstraints()) {
+			for (CreationConstraint cc : this.getCreationConstraints().values()) {
 				sb.append("\t").append(cc).append("\n");
 			}
 		}

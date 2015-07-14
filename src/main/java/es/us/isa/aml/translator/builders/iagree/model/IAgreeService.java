@@ -1,6 +1,6 @@
 package es.us.isa.aml.translator.builders.iagree.model;
 
-import java.util.List;
+import java.util.Map;
 
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.Scope;
@@ -28,17 +28,17 @@ public class IAgreeService extends ServiceConfiguration {
         if (getFeatures().size() > 0) {
             sb.append("\t\t" + "Features: ").append(getFeatures().values().toString().replace("[", "").replace("]", "")).append(";").append("\n");
         }
-
-        List<ConfigurationProperty> cps = this.getConfigurationProperties();
-
+        
+        Map<String, ConfigurationProperty> cps = this.getConfigurationProperties();
+        
         sb.append("\t\t" + "GlobalDescription").append("\n");
-        for (ConfigurationProperty cp : cps) {
+        for (ConfigurationProperty cp : cps.values()) {
             if (cp.getScope() == Scope.Global) {
                 sb.append("\t\t\t").append(cp).append("\n");
             }
         }
 
-        for (ConfigurationProperty cp : cps) {
+        for (ConfigurationProperty cp : cps.values()) {
             if (cp.getScope() == Scope.Local) {
                 sb.append("\t\t" + "Description for ").append(cp.getFeature().getId()).append(":" + "\n");
                 sb.append("\t\t\t").append(cp).append("\n");

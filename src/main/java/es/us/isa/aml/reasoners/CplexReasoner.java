@@ -76,7 +76,7 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 
 		if (antecedent != null && consequent != null) {
 			try {
-				CSPModel model = antecedent.add(consequent.negate());				
+				CSPModel model = antecedent.add(consequent.negate());
 				CplexHandler ch = new CplexHandler();
 				ch.init();
 				String content = model.toString().replaceAll("\\+", "%2B");

@@ -9,9 +9,10 @@ import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
 import es.us.isa.aml.util.OperationResponse;
 
+
 /**
+ * @author jdelafuente
  *
- * @author AntonioGamez
  */
 public class ValidOp extends NoCoreOperation {
 
@@ -68,7 +69,6 @@ public class ValidOp extends NoCoreOperation {
 
 		Boolean valid = !existInconsistencies && !existDeadTerms
 				&& !existCondInconsTerms;
-
 		result.put("valid", valid);
 	}
 

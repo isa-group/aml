@@ -3,14 +3,15 @@
  */
 package es.us.isa.aml.operations.noCore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeGuaranteeTerm;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeSLO;
 import es.us.isa.aml.util.OperationResponse;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author jdelafuente
@@ -40,20 +41,19 @@ public class ExistDeadTermsOp extends NoCoreOperation {
 			return;
 		}
 
-		List<GuaranteeTerm> gtOriginal = new ArrayList<>(model
+		Map<String, GuaranteeTerm> gtOriginal = new HashMap<>(model
 				.getAgreementTerms().getGuaranteeTerms());
-		List<GuaranteeTerm> gtCopy = new ArrayList<>(gtOriginal);
+		Map<String, GuaranteeTerm> gtCopy = new HashMap<>(gtOriginal);
 
 		if (gtCopy.size() == 0) {
 			result.put("existDeadTerms", false);
 		} else {
-			for (int i = 0; i < gtCopy.size(); i++) {
-				GuaranteeTerm gt = gtCopy.get(i);
+			for (GuaranteeTerm gt : gtOriginal.values()) {
 				if (gt.getQc() != null) {
 					GuaranteeTerm newgt = new IAgreeGuaranteeTerm(gt.getId(),
 							gt.getServiceRole(), new IAgreeSLO(gt.getQc()
 									.getCondition()));
-					gtCopy.set(gtCopy.indexOf(gt), newgt);
+					gtCopy.put(gt.getId(), newgt);
 
 					model.getAgreementTerms().setGuaranteeTerms(gtCopy);
 
@@ -71,7 +71,7 @@ public class ExistDeadTermsOp extends NoCoreOperation {
 						break;
 					} else {
 						gtCopy.clear();
-						gtCopy.addAll(gtOriginal);
+						gtCopy.putAll(gtOriginal);
 
 						model.getAgreementTerms().setGuaranteeTerms(gtOriginal);
 						result.put("existDeadTerms", false);

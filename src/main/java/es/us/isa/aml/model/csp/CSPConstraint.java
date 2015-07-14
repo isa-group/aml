@@ -22,8 +22,11 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 
 	public CSPConstraint(String id, SLO slo, QualifyingCondition qc) {
 		this.id = id;
-		this.expr = new LogicalExpression(qc.getCondition(),
-				slo.getExpression(), LogicalOperator.IMPLIES);
+		if (qc != null)
+			this.expr = new LogicalExpression(qc.getCondition(),
+					slo.getExpression(), LogicalOperator.IMPLIES);
+		else
+			this.expr = slo.getExpression();
 	}
 
 	public CSPConstraint(String id, Expression expr) {
@@ -66,7 +69,7 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 	public int compareTo(CSPConstraint o) {
 		return getId().compareTo(o.getId());
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return this.getExpr().hashCode() * 31;

@@ -13,7 +13,7 @@ import java.util.Map;
 public class Context {
 
 	private String templateId;
-	private Float templateVersion;
+	private Double templateVersion;
     private String initiator;
     private Responder responder;
     private String provider;
@@ -45,14 +45,14 @@ public class Context {
     /**
      * @return the templateVersion
      */
-    public Float getTemplateVersion() {
+    public Double getTemplateVersion() {
         return this.templateVersion;
     }
 
     /**
      * @param templateVersion the templateVersion to set
      */
-    public void setTemplateVersion(Float templateVersion) {
+    public void setTemplateVersion(Double templateVersion) {
         this.templateVersion = templateVersion;
     }
 
