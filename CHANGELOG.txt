@@ -1,47 +1,56 @@
-AML 0.2, 2015-07-02
+AML v0.3, 2015-07-10
+-----------------------
+- Now Configuration properties are stored in map (id, object).
+- Monitorable properties are stored in map (id, object).
+- Guarantee terms are stored in map (id, object).
+- Creation constraints are stored in map (id, object).
+- Fixed AreCompliant operation.
+- Added test packs.
+
+AML v0.2, 2015-07-02
 -----------------------
 - Added support for generating CPLEX Optimizer CSPModel.
 - Enum mapping bug fixed.
 - Store, AgreementManager and AgreementModel refactorized.
 
-AML 0.1.7, 2015-05-27
+AML v0.1.7, 2015-05-27
 -----------------------
 - Updated CSPWebReasoner endpoint (moved to dedicated server)
 - Fixed Config file.
 - Fixed bug: empty files after generation.
 
-AML 0.1.6, 2015-05-26
+AML v0.1.6, 2015-05-26
 -----------------------
 - Updated CSPWebReasoner.
 
-AML 0.1.5, 2015-05-21
+AML v0.1.5, 2015-05-21
 -----------------------
 - Added support to "iff" and "exludes" expressions.
 - Added relational operator NEQ.
 - Fixed CSPModel objective function bug.
 
-AML 0.1.4, 2015-05-15 (Not tested)
+AML v0.1.4, 2015-05-15 (Not tested)
 -----------------------
 - Constraints sum operation bug fixed.
 - Added objective function to CSPModel.
 
-AML 0.1.3, 2015-05-13 (Not tested)
+AML v0.1.3, 2015-05-13 (Not tested)
 -----------------------
 - Fixed method "negate" of CSPModel.
 - Updated AreCompliant operation.
 - Added WhyAreNotCompliant operation first version.
 
-AML 0.1.2, 2015-05-06
+AML v0.1.2, 2015-05-06
 -----------------------
 - Updated model with definition and monitoring references.
 - Fixed AreCompliant operation.
 - Updated iAgree parser.
 
-AML 0.1.1, 2015-04-28
+AML v0.1.1, 2015-04-28
 -----------------------
 - Fixed AreCompliant operation.
 
-AML 0.1.0, 2015-04-27
+AML v0.1.0, 2015-04-27
 -----------------------
 - AML now support enum datatypes.
 - Added method to support AND constraints breaking.
