@@ -47,8 +47,8 @@ public class ChocoReasoner extends Reasoner {
 	}
 
     @Override
-    public OperationResponse whyNotImplies() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public OperationResponse whyNotImplies(CSPModel antecedent, CSPModel consequent) {
+        throw new UnsupportedOperationException("Not supported yet in Choco.");
     }
 
     @Override

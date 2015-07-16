@@ -1,7 +1,6 @@
 package es.us.isa.aml.translator.builders.csp;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,7 +66,7 @@ public class CSPBuilder implements IBuilder {
 
 		if (metric.getType().equals("enum")) {
 			CSPVar domain = new CSPVar("domain_" + metric.getId(),
-					getTypeByOpt(metric.getType(), model.getUseCP()), false);
+					metric.getType(), false);
 			domain.setExpression(new ListExpression(((Enumerated) metric
 					.getDomain()).getValues()));
 
@@ -108,17 +107,15 @@ public class CSPBuilder implements IBuilder {
 			;
 		}
 
-		List<GuaranteeTerm> list = new ArrayList<GuaranteeTerm>(at
-				.getGuaranteeTerms().values());
-		Collections.sort(list);
-		for (GuaranteeTerm gt : list) {
+		for (GuaranteeTerm gt : at.getGuaranteeTerms().values()) {
 			this.setGuaranteeTerm(gt);
 		}
 	}
 
 	@Override
 	public void setService(ServiceConfiguration service) {
-		for (ConfigurationProperty cp : service.getConfigurationProperties().values()) {
+		for (ConfigurationProperty cp : service.getConfigurationProperties()
+				.values()) {
 			this.setConfigurationProperty(cp);
 		}
 	}
@@ -152,14 +149,12 @@ public class CSPBuilder implements IBuilder {
 
 		if (docType == DocType.OFFER) {
 			if (cp.getExpression() != null) {
-				int i = 1;
-				String assig = "ASSIG";
+				String assig = "ASSIG_" + cp.getId().toString();
 				for (CSPConstraint cons : model.getConstraints()) {
 					if (cons.getId().contains("ASSIG")) {
-						i++;
+						assig = "ASSIG_" + cp.getId().toString();
 					}
 				}
-				assig = "ASSIG_" + i;
 
 				if (cp.getMetric().getType().equals("enum")) {
 					Expression exp = new Atomic("enum_"

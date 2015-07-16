@@ -94,7 +94,8 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 	}
 
 	@Override
-	public OperationResponse whyNotImplies() {
+	public OperationResponse whyNotImplies(CSPModel antecedent,
+			CSPModel consequent) {
 		throw new UnsupportedOperationException("Not supported yet."); // Todo
 	}
 

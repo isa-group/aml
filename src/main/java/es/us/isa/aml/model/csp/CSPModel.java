@@ -41,6 +41,10 @@ public class CSPModel extends AbstractModel {
 	public void addConstraint(CSPConstraint constraint) {
 		constraints.add(constraint);
 	}
+	
+	public void addConstraintOnTop(CSPConstraint constraint) {
+		constraints.add(0, constraint);
+	}
 
 	public List<CSPRange> getRanges() {
 		return ranges;
