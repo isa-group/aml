@@ -62,7 +62,8 @@ public class CplexHandler {
 		try {
 			temp = File.createTempFile(String.valueOf(date.getTime()), ".opl");
 			BufferedWriter bw = new BufferedWriter(new FileWriter(temp));			
-			String content = URLDecoder.decode(raw, "UTF-8");			
+			//String content = URLDecoder.decode(raw, "UTF-8");		
+			String content = raw;
 			bw.write(content);
 			bw.close();
 

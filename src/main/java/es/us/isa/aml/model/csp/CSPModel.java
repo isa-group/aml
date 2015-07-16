@@ -19,13 +19,11 @@ public class CSPModel extends AbstractModel {
 	protected List<CSPVar> variables;
 	protected CSPObjectiveFunction objectiveFunction;
 	protected List<CSPConstraint> constraints;
-	protected Boolean useCP;
 
 	public CSPModel() {
 		ranges = new ArrayList<>();
 		variables = new ArrayList<>();
 		constraints = new ArrayList<>();
-		useCP = true;
 	}
 
 	public void addRange(CSPRange range) {
@@ -40,6 +38,10 @@ public class CSPModel extends AbstractModel {
 
 	public void addConstraint(CSPConstraint constraint) {
 		constraints.add(constraint);
+	}
+	
+	public void addConstraintOnTop(CSPConstraint constraint) {
+		constraints.add(0, constraint);
 	}
 
 	public List<CSPRange> getRanges() {
@@ -72,14 +74,6 @@ public class CSPModel extends AbstractModel {
 
 	public void setConstraints(List<CSPConstraint> constraints) {
 		this.constraints = constraints;
-	}
-	
-	public Boolean getUseCP() {
-		return useCP;
-	}
-
-	public void setUseCP(Boolean useCP) {
-		this.useCP = useCP;
 	}
 
 	public CSPModel add(CSPModel model) {
@@ -124,19 +118,13 @@ public class CSPModel extends AbstractModel {
 					new ParenthesisExpression(e), LogicalOperator.NOT);
 			arr.add(neg.toString());
 		}
-		StringBuilder sb = new StringBuilder();
-		for(String s : arr){
-			sb.append(s);
-			if(arr.indexOf(s) < arr.size() - 1)
-				sb.append(" OR ");
-		}
-		
-		String str_expr = sb.toString();
 		
 		// Java 8
 //		String str_expr = String.join(
-//				" " + LogicalOperator.OR.toString() + " ", arr);		
+//				" " + LogicalOperator.OR.toString() + " ", arr);
 		
+		String str_expr = arr.toString().replaceAll("[\\[\\]]", "")
+				.replaceAll(", ", " " + LogicalOperator.OR.toString() + " ");
 		Expression expr = Expression.parse(str_expr);
 
 		CSPConstraint constraint = new CSPConstraint("C", expr);
@@ -168,8 +156,7 @@ public class CSPModel extends AbstractModel {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		if(useCP)
-			sb.append("using CP;").append("\n").append("\n");
+		sb.append("using CP;").append("\n").append("\n");
 
 		for (CSPRange range : getRanges()) {
 			sb.append(range.toString()).append("\n");
