@@ -3,10 +3,8 @@
  */
 package es.us.isa.aml.reasoners;
 
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,7 +43,7 @@ public class CSPWebReasoner extends Reasoner {
 		url += "/solver/solve";
 
 		System.out.println("CSPWebReasoner Endpoint: " + url);
-		
+
 		Boolean res = null;
 
 		try {
@@ -99,29 +97,25 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	@Override
-	public OperationResponse whyNotImplies(CSPModel antecedent, CSPModel consequent) {
-	
+	public OperationResponse whyNotImplies(CSPModel antecedent,
+			CSPModel consequent) {
+
 		Boolean precondition = !implies(antecedent, consequent);
-		
+
 		CSPModel antecedentOriginal = antecedent.clone();
-		CSPModel consequentOriginal = consequent.clone();
-		
 		OperationResponse problem = null;
 		OperationResponse res = null;
-		
-		//String solveUrl = (String) Config.getProperty("CSPWebReasonerEndpoint");		
-		//solveUrl += "/solver/solve";
-		
-		String explainUrl = (String) Config.getProperty("CSPWebReasonerEndpoint");		
+
+		String explainUrl = (String) Config
+				.getProperty("CSPWebReasonerEndpoint");
 		explainUrl += "/solver/explain";
-		
-		if (precondition) {			
-			//creamos el modelo para obtener el "problem" V, D, Antec y no Conseq
+
+		if (precondition) {
+			// creamos el modelo para obtener el "problem" V, D, Antec y no
+			// Conseq
 			CSPModel modelForProblem = antecedent.add(consequent.negate());
 			String stringForProblem = modelForProblem.toString();
-		
-			System.out.println("String for Problem: \n "+stringForProblem);
-			
+
 			try {
 				String response = Util.sendPost(explainUrl, stringForProblem);
 				problem = new Gson().fromJson(response.toString(),
@@ -129,55 +123,66 @@ public class CSPWebReasoner extends Reasoner {
 			} catch (Exception e) {
 				LOG.log(Level.SEVERE, e.getMessage());
 			}
-			
-			
+
 			Map<String, Object> test = problem.getResult();
-			//System.out.println(test.keySet().toString());
-			//System.out.println(test.values().toString());
 			String result = (String) test.get("result");
-			System.out.println(result);
-			
-			
+
 			Expression problemExpr = null;
-			
+
 			if (result.length() > 0) {
-				result = result.substring(result.indexOf("\n"));  // del // solution\n en adelante
+				result = result.substring(result.indexOf("\n")); // del //
+																	// solution\n
+																	// en
+																	// adelante
 				ArrayList<RelationalExpression> assignments = new ArrayList<RelationalExpression>();
-				
+
 				while (result != null) {
-					String v = result.substring(0, result.indexOf("=")-1);
-					Var var = new Var(v.trim()); 
-					String a = result.substring(result.indexOf("=")+1, result.indexOf(";"));
-					Atomic at = new Atomic(a.trim()); 
-					RelationalExpression assg = new RelationalExpression(var, at, RelationalOperator.EQ);
+					String v = result.substring(0, result.indexOf("=") - 1);
+					Var var = new Var(v.trim());
+					String a = result.substring(result.indexOf("=") + 1,
+							result.indexOf(";"));
+					Atomic at = new Atomic(a.trim());
+					RelationalExpression assg = new RelationalExpression(var,
+							at, RelationalOperator.EQ);
 					assignments.add(assg);
-					if ((result.indexOf(";")+1) < result.length()) {
-						result = result.substring(result.indexOf(";")+1);
+					if ((result.indexOf(";") + 1) < result.length()) {
+						result = result.substring(result.indexOf(";") + 1);
 						result.trim();
-					}
-					else result = null;
-					if (result.indexOf(";")<0) result = null;
-				}				
-				
-				Iterator it = assignments.iterator();
+					} else
+						result = null;
+					if (result.indexOf(";") < 0)
+						result = null;
+				}
+
+				Iterator<RelationalExpression> it = assignments.iterator();
 				while (it.hasNext()) {
 					RelationalExpression exp = (RelationalExpression) it.next();
 					if (problemExpr == null) {
 						problemExpr = exp;
 					} else {
-						problemExpr = new LogicalExpression(problemExpr, exp, LogicalOperator.AND);
+						problemExpr = new LogicalExpression(problemExpr, exp,
+								LogicalOperator.AND);
 					}
-				}		
-				System.out.println("La problem expresion es: "+problemExpr.toString());					
+				}
 			}
-			
-			CSPConstraint problemConst = new CSPConstraint("Problem", problemExpr);
+
+			CSPConstraint problemConst = new CSPConstraint("Problem",
+					problemExpr);
 			CSPModel background = antecedentOriginal.clone();
-			background.addConstraintOnTop(problemConst); //no hace falta partir estas restricciones en el CSPBuilder pq se añade aquí todo junto. Y lo añado al ppio para que el explaining funcione correctamente
+			background.addConstraintOnTop(problemConst); // no hace falta partir
+															// estas
+															// restricciones en
+															// el CSPBuilder pq
+															// se añade aquí
+															// todo junto. Y lo
+															// añado al ppio
+															// para que el
+															// explaining
+															// funcione
+															// correctamente
 			CSPModel modelForExplain = background.add(consequent);
 			String stringForExplain = modelForExplain.toString();
-			System.out.println("String for Explain: \n"+stringForExplain);
-			
+
 			try {
 				String response2 = Util.sendPost(explainUrl, stringForExplain);
 				res = new Gson().fromJson(response2.toString(),
@@ -185,17 +190,15 @@ public class CSPWebReasoner extends Reasoner {
 			} catch (Exception e) {
 				LOG.log(Level.SEVERE, e.getMessage());
 			}
-			
+
 			res.put("compliant", false);
-		}
-		else {
+		} else {
 			res = new OperationResponse();
 			res.put("compliant", true);
 			res.put("conflicts", null);
 			res.put("conflictType", null);
 		}
-		
-		
+
 		return res;
 	}
 }

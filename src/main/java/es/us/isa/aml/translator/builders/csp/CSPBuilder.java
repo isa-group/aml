@@ -1,13 +1,9 @@
 package es.us.isa.aml.translator.builders.csp;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.ConfigurationProperty;
@@ -106,20 +102,20 @@ public class CSPBuilder implements IBuilder {
 
 		setService(at.getService());
 
-		for (MonitorableProperty mp : at.getMonitorableProperties()) {
+		for (MonitorableProperty mp : at.getMonitorableProperties().values()) {
 			this.setMonitorableProperty(mp);
 			;
 		}
 
-		Collections.sort(at.getGuaranteeTerms());
-		for (GuaranteeTerm gt : at.getGuaranteeTerms()) {
+		for (GuaranteeTerm gt : at.getGuaranteeTerms().values()) {
 			this.setGuaranteeTerm(gt);
 		}
 	}
 
 	@Override
 	public void setService(ServiceConfiguration service) {
-		for (ConfigurationProperty cp : service.getConfigurationProperties()) {
+		for (ConfigurationProperty cp : service.getConfigurationProperties()
+				.values()) {
 			this.setConfigurationProperty(cp);
 		}
 	}
@@ -131,7 +127,8 @@ public class CSPBuilder implements IBuilder {
 		}
 
 		if (cp.getMetric().getType().equals("enum")) {
-			CSPVar var = new CSPVar(cp, vars.get(
+			CSPVar var = new CSPVar(cp.getId(), getTypeByOpt(cp.getMetric()
+					.getType(), model.getUseCP()), vars.get(
 					"enum_" + cp.getMetric().getId()).getRange(), true);
 			this.model.addVar(var);
 			vars.put(var.getId(), var);
@@ -143,7 +140,8 @@ public class CSPBuilder implements IBuilder {
 				ranges.put(range.getId(), range);
 			}
 
-			CSPVar var = new CSPVar(cp, ranges.get("range_"
+			CSPVar var = new CSPVar(cp.getId(), getTypeByOpt(cp.getMetric()
+					.getType(), model.getUseCP()), ranges.get("range_"
 					+ cp.getMetric().getId()), true);
 			this.model.addVar(var);
 			vars.put(var.getId(), var);
@@ -151,28 +149,12 @@ public class CSPBuilder implements IBuilder {
 
 		if (docType == DocType.OFFER) {
 			if (cp.getExpression() != null) {
-				System.out.println("cp: "+cp.toString());
-				System.out.println("cp.id: "+cp.getId().toString());
-				//System.out.println("cp.monitorRef: "+cp.getMonitorReference().toString());
-				//System.out.println("cp.defRef: "+cp.getDefinitionReference().toString());
-				//System.out.println("cp.feature: "+cp.getFeature().toString());
-				//System.out.println("cp.value: "+cp.getValue().toString());
-				
-				
-				int i = 1;
-				String assig = "ASSIG_"+cp.getId().toString();
-				
+				String assig = "ASSIG_" + cp.getId().toString();
 				for (CSPConstraint cons : model.getConstraints()) {
-					System.out.println("constraint "+i+", es: "+cons.getId().toString());
 					if (cons.getId().contains("ASSIG")) {
-						i++;
-						assig = "ASSIG_"+cp.getId().toString();
-					}					
-					
+						assig = "ASSIG_" + cp.getId().toString();
+					}
 				}
-				System.out.println("Fuera del if, el assig vale: "+assig);
-				
-				
 
 				if (cp.getMetric().getType().equals("enum")) {
 					Expression exp = new Atomic("enum_"
@@ -184,13 +166,11 @@ public class CSPBuilder implements IBuilder {
 					Expression expr = new RelationalExpression(new Var(cp),
 							exp, RelationalOperator.EQ);
 					CSPConstraint constraint = new CSPConstraint(assig, expr);
-					System.out.println("constraint del modelo con enum: "+constraint.toString());
 					this.model.addConstraint(constraint);
 				} else {
 					Expression expr = new RelationalExpression(new Var(cp),
 							cp.getExpression(), RelationalOperator.EQ);
 					CSPConstraint constraint = new CSPConstraint(assig, expr);
-					System.out.println("constraint del modelo sin enum: "+constraint.toString());
 					this.model.addConstraint(constraint);
 				}
 			}
@@ -204,7 +184,8 @@ public class CSPBuilder implements IBuilder {
 		}
 
 		if (mp.getMetric().getType().equals("enum")) {
-			CSPVar var = new CSPVar(mp, vars.get(
+			CSPVar var = new CSPVar(mp.getId(), getTypeByOpt(mp.getMetric()
+					.getType(), model.getUseCP()), vars.get(
 					"enum_" + mp.getMetric().getId()).getRange(), true);
 			this.model.addVar(var);
 			vars.put(var.getId(), var);
@@ -216,7 +197,8 @@ public class CSPBuilder implements IBuilder {
 				ranges.put(range.getId(), range);
 			}
 
-			CSPVar var = new CSPVar(mp, ranges.get("range_"
+			CSPVar var = new CSPVar(mp.getId(), getTypeByOpt(mp.getMetric()
+					.getType(), model.getUseCP()), ranges.get("range_"
 					+ mp.getMetric().getId()), true);
 			this.model.addVar(var);
 			vars.put(var.getId(), var);
@@ -266,13 +248,14 @@ public class CSPBuilder implements IBuilder {
 			for (Expression expr : expressions) {
 				for (Var v : Expression.getVars(expr)) {
 					if (vars.containsKey(v.getId())) {
-						Property p = vars.get(v.getId()).getProp();
-						if (p.getMetric().getType().equals("enum")) {
+						CSPVar var = vars.get(v.getId());
+						if (var.getType().equals("{string}")) {
 							for (Atomic atom : Expression.getAtomics(expr)) {
 								if (atom.calculate() instanceof String) {
+									String range_id = var.getRange().getId()
+											.split("domain_")[1];
 									Expression ex = new Atomic("enum_"
-											+ p.getMetric().getId() + "["
-											+ atom + "]");
+											+ range_id + "[" + atom + "]");
 									atom.setValue(ex);
 								}
 							}
@@ -288,13 +271,14 @@ public class CSPBuilder implements IBuilder {
 				for (Expression expr : expressions_qc) {
 					for (Var v : Expression.getVars(expr)) {
 						if (vars.containsKey(v.getId())) {
-							Property p = vars.get(v.getId()).getProp();
-							if (p.getMetric().getType().equals("enum")) {
+							CSPVar var = vars.get(v.getId());
+							if (var.getType().equals("{string}")) {
 								for (Atomic atom : Expression.getAtomics(expr)) {
 									if (atom.calculate() instanceof String) {
+										String range_id = var.getRange()
+												.getId().split("domain_")[1];
 										Expression ex = new Atomic("enum_"
-												+ p.getMetric().getId() + "["
-												+ atom + "]");
+												+ range_id + "[" + atom + "]");
 										atom.setValue(ex);
 									}
 								}
@@ -353,13 +337,14 @@ public class CSPBuilder implements IBuilder {
 		for (Expression expr : expressions) {
 			for (Var v : Expression.getVars(expr)) {
 				if (vars.containsKey(v.getId())) {
-					Property p = vars.get(v.getId()).getProp();
-					if (p.getMetric().getType().equals("enum")) {
+					CSPVar var = vars.get(v.getId());
+					if (var.getType().equals("{string}")) {
 						for (Atomic atom : Expression.getAtomics(expr)) {
 							if (atom.calculate() instanceof String) {
-								Expression ex = new Atomic("enum_"
-										+ p.getMetric().getId() + "[" + atom
-										+ "]");
+								String range_id = var.getRange().getId()
+										.split("domain_")[1];
+								Expression ex = new Atomic("enum_" + range_id
+										+ "[" + atom + "]");
 								atom.setValue(ex);
 							}
 						}
@@ -377,13 +362,14 @@ public class CSPBuilder implements IBuilder {
 			for (Expression expr : expressions_qc) {
 				for (Var v : Expression.getVars(expr)) {
 					if (vars.containsKey(v.getId())) {
-						Property p = vars.get(v.getId()).getProp();
-						if (p.getMetric().getType().equals("enum")) {
+						CSPVar var = vars.get(v.getId());
+						if (var.getType().equals("{string}")) {
 							for (Atomic atom : Expression.getAtomics(expr)) {
 								if (atom.calculate() instanceof String) {
+									String range_id = var.getRange().getId()
+											.split("domain_")[1];
 									Expression ex = new Atomic("enum_"
-											+ p.getMetric().getId() + "["
-											+ atom + "]");
+											+ range_id + "[" + atom + "]");
 									atom.setValue(ex);
 								}
 							}
@@ -422,5 +408,11 @@ public class CSPBuilder implements IBuilder {
 	public void setVersion(Double version) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public String getTypeByOpt(String originalType, Boolean useCP) {
+		if (originalType.equals("real") || originalType.equals("float"))
+			return "int";
+		return originalType;
 	}
 }
