@@ -42,7 +42,7 @@ public class CSPWebReasoner extends Reasoner {
 		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/solve";
 
-		System.out.println("CSPWebReasoner Endpoint: " + url);
+		//System.out.println("CSPWebReasoner Endpoint: " + url);
 
 		Boolean res = null;
 
@@ -115,6 +115,7 @@ public class CSPWebReasoner extends Reasoner {
 			// Conseq
 			CSPModel modelForProblem = antecedent.add(consequent.negate());
 			String stringForProblem = modelForProblem.toString();
+			//System.out.println("antecedent.add(consequent.negate()): \n"+stringForProblem);
 
 			try {
 				String response = Util.sendPost(explainUrl, stringForProblem);
@@ -182,6 +183,7 @@ public class CSPWebReasoner extends Reasoner {
 															// correctamente
 			CSPModel modelForExplain = background.add(consequent);
 			String stringForExplain = modelForExplain.toString();
+			//System.out.println("String For Explain: \n"+stringForExplain);
 
 			try {
 				String response2 = Util.sendPost(explainUrl, stringForExplain);
