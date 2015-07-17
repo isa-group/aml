@@ -195,7 +195,10 @@ public class CplexHandler {
 								ConflictStatus cs = cp.getConflict(constraint);
 
 								String constraint_name = constraint.getName();
-								if (constraint_name.contains("_")) {
+								
+								//System.out.println("Constraint name en CplexHandler: "+constraint_name);
+								
+								if (constraint_name.contains("_") && !constraint_name.startsWith("ASSIG")) {
 									constraint_name = constraint_name
 											.substring(0, constraint_name
 													.lastIndexOf("_"));
