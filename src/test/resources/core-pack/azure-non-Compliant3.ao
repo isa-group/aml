@@ -1,0 +1,35 @@
+AgreementOffer non-Compliant3WithsimplifiedAzureSiteRecovery version 1.0 for Template simplifiedAzureSiteRecovery version 1.0
+	Provider "MicrosoftAzure" as Responder;
+	Metrics:
+		availableOs: enum {RedHatEnterprise, Suse, Linux, Windows, WindowsSQLWeb, WindowsSQLStd};
+		ram: integer [0..244000];
+		cost: integer [0..1000000000];
+		percent: integer [0..100000];
+		hours: integer [0..24];
+		extraStorageSpace: integer [0..100000];
+		shortInt: integer [0..100];		
+		
+AgreementTerms
+	Service Azure-SR availableAt "azure.microsoft.com"
+		GlobalDescription
+			OS: availableOs = "Windows";
+			RAM: ram = 14;
+			Encrypted: boolean = false;  
+			RecoveryOnAzure: boolean = false;
+			Price: cost = 10000;
+			MPI: shortInt = 10;
+			
+	MonitorableProperties
+		global:
+			MUP: percent;
+			MRTO: hours;
+			add25G: extraStorageSpace; 
+			//MPI: shortInt;
+				
+	GuaranteeTerms
+		G1: Provider guarantees MUP >= 999;  //99.9
+		G2: Provider guarantees MRTO < (4+(1*add25G));
+			onlyIf (Encrypted==false);	
+		G3: Provider guarantees MRTO < (6+(1*add25G));
+			onlyIf (Encrypted==true);
+EndAgreementOffer

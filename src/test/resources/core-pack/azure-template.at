@@ -1,0 +1,49 @@
+Template simplifiedAzureSiteRecovery version 1.0
+	Provider "MicrosoftAzure" as Responder;
+	Metrics:
+		availableOs: enum{RedHatEnterprise, Suse, Linux, Windows, WindowsSQLWeb, WindowsSQLStd};
+		shortInt: integer[0..100];
+		percent: integer[0..100000];
+		extraStorageSpace: integer[0..100000];
+		ram: integer[0..244000];
+		hours: integer[0..24];
+		cost: integer[0..1000000000];
+
+AgreementTerms
+	Service Azure-SR availableAt "azure.microsoft.com"
+		GlobalDescription
+			OS: availableOs;
+			RAM: ram;
+			Encrypted: boolean = false;
+			RecoveryOnAzure: boolean;
+			Price: cost;
+
+	MonitorableProperties
+		global:
+			MRTO: hours;
+			MUP: percent;
+			MPI: shortInt;
+			add25G: extraStorageSpace;
+
+	GuaranteeTerms
+		G1: Provider guarantees MUP >= 999;
+
+		G2: Provider guarantees MRTO < (4 + (1 * add25G));
+			onlyIf(Encrypted == false);
+
+		G3: Provider guarantees MRTO < (6 + (1 * add25G));
+			onlyIf(Encrypted == true);
+
+CreationConstraints
+	C1: (OS == "Windows" OR OS == "Linux");
+
+	C2: Price == 1192 * MPI;
+		onlyIf(RecoveryOnAzure == false);
+
+	C3: Price == 4022 * MPI;
+		onlyIf(RecoveryOnAzure == true);
+
+	C4: RAM <= 14;
+
+
+EndTemplate

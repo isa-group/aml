@@ -16,6 +16,7 @@ import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.operations.core.csp.AreCompliant;
 import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
+import es.us.isa.aml.operations.core.csp.WhyAreNotCompliant;
 import es.us.isa.aml.operations.noCore.ExistCondInconsTermsOp;
 import es.us.isa.aml.operations.noCore.ExistDeadTermsOp;
 import es.us.isa.aml.util.OperationResponse;
@@ -29,8 +30,8 @@ public class TestOperations {
 	private static final Logger LOG = Logger.getLogger(TestOperations.class
 			.getName());
 	private static AgreementManager service;
-	private static AgreementTemplate model1, model2, model3, model4, model5;
-	private static AgreementOffer model6;
+	private static AgreementTemplate model1, model2, model3, model4, model5, azureTemplate;
+	private static AgreementOffer model6, azureOffer1, azureOffer2, azureOffer3, azureOffer4;
 
 	@BeforeClass
 	public static void init() {
@@ -47,6 +48,16 @@ public class TestOperations {
 				.createAgreementTemplateFromFile("src/test/resources/core-pack/compliant-template.at");
 		model6 = service
 				.createAgreementOfferFromFile("src/test/resources/core-pack/compliant-offer.ao");
+		azureOffer1 = service
+				.createAgreementOfferFromFile("src/test/resources/core-pack/azure-compliantOffer.ao");
+		azureOffer2 = service
+				.createAgreementOfferFromFile("src/test/resources/core-pack/azure-non-Compliant1.ao");
+		azureOffer3 = service
+				.createAgreementOfferFromFile("src/test/resources/core-pack/azure-non-Compliant2.ao");
+		azureOffer4 = service
+				.createAgreementOfferFromFile("src/test/resources/core-pack/azure-non-Compliant3.ao");
+		azureTemplate = service
+				.createAgreementTemplateFromFile("src/test/resources/core-pack/azure-template.at");
 	}
 
 	@Test
@@ -57,6 +68,11 @@ public class TestOperations {
 		assertFalse(model4.isValid());
 		assertTrue(model5.isValid());
 		assertTrue(model6.isValid());
+		assertFalse(azureOffer1.isValid()); //has dead terms
+		assertFalse(azureOffer2.isValid()); //has dead terms
+		assertFalse(azureOffer3.isValid()); //has dead terms
+		assertFalse(azureOffer4.isValid()); //has dead terms
+		assertTrue(azureTemplate.isValid());
 	}
 
 	@Test
@@ -85,6 +101,26 @@ public class TestOperations {
 		op.analyze(model6);
 		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
 				.toString()));
+		
+		op.analyze(azureOffer1);
+		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
+				.toString()));
+		
+		op.analyze(azureOffer2);
+		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
+				.toString()));
+		
+		op.analyze(azureOffer3);
+		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
+				.toString()));
+		
+		op.analyze(azureOffer4);
+		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
+				.toString()));
+		
+		op.analyze(azureTemplate);
+		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
+				.toString()));
 	}
 
 	@Test
@@ -111,6 +147,26 @@ public class TestOperations {
 				.toString()));
 
 		op.analyze(model6);
+		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString()));
+		
+		op.analyze(azureOffer1);
+		assertTrue(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString())); //Tiene un dead term
+		
+		op.analyze(azureOffer2);
+		assertTrue(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString())); //Tiene un dead term
+		
+		op.analyze(azureOffer3);
+		assertTrue(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString())); //Tiene un dead term
+		
+		op.analyze(azureOffer4);
+		assertTrue(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString())); //Tiene un dead term
+		
+		op.analyze(azureTemplate);
 		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
 				.toString()));
 	}
@@ -142,14 +198,104 @@ public class TestOperations {
 		op.analyze(model6);
 		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
 				.toString()));
+		
+		op.analyze(azureOffer1);
+		assertTrue(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString())); //Tiene un dead term
+		
+		op.analyze(azureOffer2);
+		assertTrue(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString())); //Tiene un dead term
+		
+		op.analyze(azureOffer3);
+		assertTrue(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString())); //Tiene un dead term
+		
+		op.analyze(azureOffer4);
+		assertTrue(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString())); //Tiene un dead term
+		
+		op.analyze(azureTemplate);
+		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString()));
 	}
 
 	@Test
-	public void testAreCompliant() {
+	public void testAreCompliant1() {
 		AreCompliant op = new AreCompliant();
 		op.analyze(model5, model6);
 		OperationResponse resp = op.getResult();
 		assertTrue(Boolean.valueOf(resp.get("compliant").toString()));
+	}
+	
+	@Test
+	public void testAreCompliant2() {
+		AreCompliant op = new AreCompliant();
+		op.analyze(azureTemplate, azureOffer1);
+		OperationResponse resp = op.getResult();
+		assertTrue(Boolean.valueOf(resp.get("compliant").toString()));
+	}
+	
+	@Test
+	public void testAreCompliant3() {
+		AreCompliant op = new AreCompliant();
+		op.analyze(azureTemplate, azureOffer2);
+		OperationResponse resp = op.getResult();
+		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
+	}
+	
+	@Test
+	public void testAreCompliant4() {
+		AreCompliant op = new AreCompliant();
+		op.analyze(azureTemplate, azureOffer3);
+		OperationResponse resp = op.getResult();
+		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
+	}
+	
+	@Test
+	public void testAreCompliant5() {
+		AreCompliant op = new AreCompliant();
+		op.analyze(azureTemplate, azureOffer4);
+		OperationResponse resp = op.getResult();
+		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
+	}
+	
+	@Test
+	public void testWhyAreNotCompliant1() {
+		WhyAreNotCompliant op = new WhyAreNotCompliant();
+		op.analyze(azureTemplate, azureOffer1);
+		OperationResponse resp = op.getResult();
+		assertTrue(Boolean.valueOf(resp.get("compliant").toString()));
+	}
+	
+	@Test
+	public void testWhyAreNotCompliant2() {
+		WhyAreNotCompliant op = new WhyAreNotCompliant();
+		op.analyze(azureTemplate, azureOffer2);
+		OperationResponse resp = op.getResult();
+		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
+		assertTrue(resp.get("conflicts").toString().equalsIgnoreCase("[G1: MUP < 999;]"));
+		assertTrue(resp.get("conflictType").toString().equalsIgnoreCase("contradictory offer term"));
+	}
+	
+	@Test
+	public void testWhyAreNotCompliant3() {
+		WhyAreNotCompliant op = new WhyAreNotCompliant();
+		op.analyze(azureTemplate, azureOffer3);
+		OperationResponse resp = op.getResult();
+		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
+		assertTrue(resp.get("conflicts").toString().equalsIgnoreCase("[G1: MUP >= 9999;]"));
+		assertTrue(resp.get("conflictType").toString().equalsIgnoreCase("more restrictive offer term"));
+	}
+	
+	@Test
+	public void testWhyAreNotCompliant4() {
+		WhyAreNotCompliant op = new WhyAreNotCompliant();
+		op.analyze(azureTemplate, azureOffer4);
+		OperationResponse resp = op.getResult();
+		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
+		assertTrue(resp.get("conflicts").toString().equalsIgnoreCase("[ASSIG_Price: Price == 10000;, ASSIG_RecoveryOnAzure: RecoveryOnAzure == false;]"));
+		assertTrue(resp.get("conflictType").toString().equalsIgnoreCase("contradictory offer term"));
 	}
 
 }
