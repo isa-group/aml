@@ -4,6 +4,7 @@
 package es.us.isa.aml.parsers.agreements.iagree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
@@ -679,8 +680,38 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			}
 
 			if (ctx.value != null) {
-				Expression expr = this.visitExpression(ctx.expression());
-				p.setExpression(expr);
+				if (m.getType().equals("integer")
+						|| m.getType().equals("float")) {
+					Range r = (Range) m.getDomain();
+					Double val = Double.valueOf(ctx.value.getText());
+					if (val > r.getMax().doubleValue()
+							|| val < r.getMin().doubleValue()) {
+						parser.notifyErrorListeners(ctx.start, "Value \"" + val
+								+ "\" is out of the range [" + r.getMin()
+								+ ", " + r.getMax() + "].", null);
+					} else {
+						Expression expr = this
+								.visitExpression(ctx.expression());
+						p.setExpression(expr);
+					}
+				} else if (m.getType().equals("enum")) {
+					Enumerated en = (Enumerated) m.getDomain();
+					String val = Util.withoutDoubleQuotes(ctx.value.getText());
+					List<Object> ls = Arrays.asList(en.getValues());
+					if (!ls.contains(val)) {
+						parser.notifyErrorListeners(
+								ctx.start,
+								"Value \""
+										+ val
+										+ "\" has not been declared in metric \""
+										+ m.getId() + "\".", null);
+					} else {
+						Expression expr = this
+								.visitExpression(ctx.expression());
+						p.setExpression(expr);
+
+					}
+				}
 			}
 
 		} else {
@@ -802,6 +833,31 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
 
+		try {
+			if (e1 instanceof Var && e2 instanceof Atomic) {
+				Var var = (Var) e1;
+				Atomic value = (Atomic) e2;
+				Property prop = model.getProperty(var.getId().toString());
+				Metric m = prop.getMetric();
+
+				if (m.getType().equals("enum")) {
+					Enumerated en = (Enumerated) m.getDomain();
+					String val = Util.withoutDoubleQuotes(value.toString());
+					List<Object> ls = Arrays.asList(en.getValues());
+					if (!ls.contains(val)) {
+						parser.notifyErrorListeners(
+								ctx.start,
+								"Value \""
+										+ val
+										+ "\" has not been declared in metric \""
+										+ m.getId() + "\".", null);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		switch (ctx.op.getType()) {
 		case iAgreeParser.LTE:
 			return new RelationalExpression(e1, e2, RelationalOperator.LTE);
@@ -822,6 +878,31 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		Expression e1 = this.visitExpression(ctx.expression(0));
 		Expression e2 = this.visitExpression(ctx.expression(1));
+
+		try {
+			if (e1 instanceof Var && e2 instanceof Atomic) {
+				Var var = (Var) e1;
+				Atomic value = (Atomic) e2;
+				Property prop = model.getProperty(var.getId().toString());
+				Metric m = prop.getMetric();
+
+				if (m.getType().equals("enum")) {
+					Enumerated en = (Enumerated) m.getDomain();
+					String val = Util.withoutDoubleQuotes(value.toString());
+					List<Object> ls = Arrays.asList(en.getValues());
+					if (!ls.contains(val)) {
+						parser.notifyErrorListeners(
+								ctx.start,
+								"Value \""
+										+ val
+										+ "\" has not been declared in metric \""
+										+ m.getId() + "\".", null);
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 		switch (ctx.op.getType()) {
 		case iAgreeParser.EQ:
