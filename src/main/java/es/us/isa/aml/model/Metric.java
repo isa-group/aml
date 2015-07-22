@@ -19,7 +19,7 @@ public class Metric extends AgreementElement {
 
     public Metric(String id, String type, Domain domain) {
         super(id);
-        this.type = type;
+        setType(type);
         this.domain = domain;
     }
 
