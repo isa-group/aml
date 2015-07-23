@@ -206,6 +206,7 @@ public class CSPBuilder implements IBuilder {
 
 		if (docType == DocType.OFFER) {
 			if (mp.getExpression() != null) {
+				/*
 				int i = 1;
 				String assig = "ASSIG";
 				for (CSPConstraint cons : model.getConstraints()) {
@@ -214,7 +215,13 @@ public class CSPBuilder implements IBuilder {
 					}
 				}
 				assig = "ASSIG_" + i;
-
+				*/
+				String assig = "ASSIG_" + mp.getId().toString();
+				for (CSPConstraint cons : model.getConstraints()) {
+					if (cons.getId().contains("ASSIG")) {
+						assig = "ASSIG_" + mp.getId().toString();
+					}
+				}
 				if (mp.getMetric().getType().equals("enum")) {
 					Expression exp = new Atomic("enum_"
 							+ mp.getMetric().getId() + "[" + mp.getExpression()
