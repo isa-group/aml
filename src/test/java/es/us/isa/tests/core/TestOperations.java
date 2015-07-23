@@ -30,8 +30,8 @@ public class TestOperations {
 	private static final Logger LOG = Logger.getLogger(TestOperations.class
 			.getName());
 	private static AgreementManager service;
-	private static AgreementTemplate model1, model2, model3, model4, model5, azureTemplate;
-	private static AgreementOffer model6, azureOffer1, azureOffer2, azureOffer3, azureOffer4;
+	private static AgreementTemplate model1, model2, model3, model4, model5, azureTemplate, TSCTemplate;
+	private static AgreementOffer model6, azureOffer1, azureOffer2, azureOffer3, azureOffer4, TSCCompliant;
 
 	@BeforeClass
 	public static void init() {
@@ -58,6 +58,10 @@ public class TestOperations {
 				.createAgreementOfferFromFile("src/test/resources/core-pack/azure-non-Compliant3.ao");
 		azureTemplate = service
 				.createAgreementTemplateFromFile("src/test/resources/core-pack/azure-template.at");
+		TSCTemplate = service
+				.createAgreementTemplateFromFile("src/test/resources/core-pack/template-Fig2.at");
+		TSCCompliant = service
+				.createAgreementOfferFromFile("src/test/resources/core-pack/compliantOffer.ao");
 	}
 
 	@Test
@@ -68,11 +72,13 @@ public class TestOperations {
 		assertFalse(model4.isValid());
 		assertTrue(model5.isValid());
 		assertTrue(model6.isValid());
-		assertFalse(azureOffer1.isValid()); //has dead terms
-		assertFalse(azureOffer2.isValid()); //has dead terms
-		assertFalse(azureOffer3.isValid()); //has dead terms
-		assertFalse(azureOffer4.isValid()); //has dead terms
+		assertTrue(azureOffer1.isValid()); 
+		assertTrue(azureOffer2.isValid()); 
+		assertTrue(azureOffer3.isValid());
+		assertTrue(azureOffer4.isValid()); 
 		assertTrue(azureTemplate.isValid());
+		assertTrue(TSCTemplate.isValid());
+		assertTrue(TSCCompliant.isValid()); 
 	}
 
 	@Test
@@ -121,6 +127,14 @@ public class TestOperations {
 		op.analyze(azureTemplate);
 		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
 				.toString()));
+		
+		op.analyze(TSCTemplate);
+		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
+				.toString()));
+
+		op.analyze(TSCCompliant);
+		assertFalse(Boolean.valueOf(op.getResult().get("existInconsistencies")
+				.toString()));
 	}
 
 	@Test
@@ -151,24 +165,32 @@ public class TestOperations {
 				.toString()));
 		
 		op.analyze(azureOffer1);
-		assertTrue(Boolean.valueOf(op.getResult().get("existDeadTerms")
-				.toString())); //Tiene un dead term
+		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString())); 
 		
 		op.analyze(azureOffer2);
-		assertTrue(Boolean.valueOf(op.getResult().get("existDeadTerms")
-				.toString())); //Tiene un dead term
+		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString())); 
 		
 		op.analyze(azureOffer3);
-		assertTrue(Boolean.valueOf(op.getResult().get("existDeadTerms")
-				.toString())); //Tiene un dead term
+		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString()));
 		
 		op.analyze(azureOffer4);
-		assertTrue(Boolean.valueOf(op.getResult().get("existDeadTerms")
-				.toString())); //Tiene un dead term
+		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString())); 
 		
 		op.analyze(azureTemplate);
 		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
 				.toString()));
+		
+		op.analyze(TSCTemplate);
+		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString()));
+		
+		op.analyze(TSCCompliant);
+		assertFalse(Boolean.valueOf(op.getResult().get("existDeadTerms")
+				.toString())); 
 	}
 
 	@Test
@@ -200,22 +222,30 @@ public class TestOperations {
 				.toString()));
 		
 		op.analyze(azureOffer1);
-		assertTrue(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
-				.toString())); //Tiene un dead term
+		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString())); 
 		
 		op.analyze(azureOffer2);
-		assertTrue(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
-				.toString())); //Tiene un dead term
+		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString())); 
 		
 		op.analyze(azureOffer3);
-		assertTrue(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
-				.toString())); //Tiene un dead term
+		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString())); 
 		
 		op.analyze(azureOffer4);
-		assertTrue(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
-				.toString())); //Tiene un dead term
+		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString())); 
 		
 		op.analyze(azureTemplate);
+		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString()));
+		
+		op.analyze(TSCTemplate);
+		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
+				.toString()));
+
+		op.analyze(TSCCompliant);
 		assertFalse(Boolean.valueOf(op.getResult().get("existCondInconsTerms")
 				.toString()));
 	}
@@ -261,6 +291,14 @@ public class TestOperations {
 	}
 	
 	@Test
+	public void testAreCompliant6() {
+		AreCompliant op = new AreCompliant();
+		op.analyze(TSCTemplate, TSCCompliant);
+		OperationResponse resp = op.getResult();
+		assertTrue(Boolean.valueOf(resp.get("compliant").toString()));
+	}
+	
+	@Test
 	public void testWhyAreNotCompliant1() {
 		WhyAreNotCompliant op = new WhyAreNotCompliant();
 		op.analyze(azureTemplate, azureOffer1);
@@ -294,8 +332,16 @@ public class TestOperations {
 		op.analyze(azureTemplate, azureOffer4);
 		OperationResponse resp = op.getResult();
 		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
-		assertTrue(resp.get("conflicts").toString().equalsIgnoreCase("[ASSIG_Price: Price == 10000;, ASSIG_RecoveryOnAzure: RecoveryOnAzure == false;]"));
+		assertTrue(resp.get("conflicts").toString().equalsIgnoreCase("[ASSIG_Price: Price == 10000;]"));
 		assertTrue(resp.get("conflictType").toString().equalsIgnoreCase("contradictory offer term"));
+	}
+	
+	@Test
+	public void testWhyAreNotCompliant5() {
+		WhyAreNotCompliant op = new WhyAreNotCompliant();
+		op.analyze(TSCTemplate, TSCCompliant);
+		OperationResponse resp = op.getResult();
+		assertTrue(Boolean.valueOf(resp.get("compliant").toString()));
 	}
 
 }

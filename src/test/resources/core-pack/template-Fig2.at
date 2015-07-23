@@ -1,4 +1,4 @@
-AgreementOffer non-Compliant2WithsimplifiedAzureSiteRecovery version 1.0 for Template simplifiedAzureSiteRecovery version 1.0
+Template SimplifiedAzureSiteRecovery version 1.0
 	Provider "MicrosoftAzure" as Responder;
 	Metrics:
 		availableOs: enum {RedHatEnterprise, Suse, Linux, Windows, WindowsSQLWeb, WindowsSQLStd};
@@ -12,23 +12,32 @@ AgreementOffer non-Compliant2WithsimplifiedAzureSiteRecovery version 1.0 for Tem
 AgreementTerms
 	Service Azure-SR availableAt "azure.microsoft.com"
 		GlobalDescription
-			OS: availableOs = "Windows";
-			RAM: ram = 14;
+			OS: availableOs;
+			RAM: ram;
 			//Encrypted: boolean = false;  
-			//RecoveryOnAzure: boolean = false;
-			Price: cost = 11920;
+			//RecoveryOnAzure: boolean;
+			Price: cost;	
 			
 	MonitorableProperties
 		global:
 			MUP: percent;
 			MRTO: hours;
 			add25G: extraStorageSpace; 
-			MPI: shortInt = 10;
+			MPI: shortInt;
 				
 	GuaranteeTerms
-		G1: Provider guarantees MUP >= 9999;  //99.9
+		G1: Provider guarantees MUP >= 999;  //99.9
 		//G2: Provider guarantees MRTO < (4+(1*add25G));
 			//onlyIf (Encrypted==false);	
 		//G3: Provider guarantees MRTO < (6+(1*add25G));
 			//onlyIf (Encrypted==true);
-EndAgreementOffer
+		
+CreationConstraints
+	C1: (OS=="Windows") OR (OS=="Linux");
+	//C2: Price == 1192 * MPI; //11.92 * MPI
+	  //onlyIf (RecoveryOnAzure==false);
+	//C3: Price == 4022 * MPI;  //40.22 * MPI
+	  //onlyIf (RecoveryOnAzure==true);
+	C4: RAM <= 14;
+	C2: Price == 1192 * MPI; //11.92 * MPI
+EndTemplate

@@ -1,4 +1,4 @@
-AgreementOffer non-Compliant2WithsimplifiedAzureSiteRecovery version 1.0 for Template simplifiedAzureSiteRecovery version 1.0
+AgreementOffer AzureNonCompliantOffer version 1.0 for Template SimplifiedAzureSiteRecovery version 1.0
 	Provider "MicrosoftAzure" as Responder;
 	Metrics:
 		availableOs: enum {RedHatEnterprise, Suse, Linux, Windows, WindowsSQLWeb, WindowsSQLStd};
@@ -18,17 +18,19 @@ AgreementTerms
 			//RecoveryOnAzure: boolean = false;
 			Price: cost = 11920;
 			
+			
 	MonitorableProperties
 		global:
 			MUP: percent;
 			MRTO: hours;
-			add25G: extraStorageSpace; 
+			add25G: extraStorageSpace;
 			MPI: shortInt = 10;
+			
 				
 	GuaranteeTerms
-		G1: Provider guarantees MUP >= 9999;  //99.9
+		G1: Provider guarantees MUP >= 999;  //99.9
 		//G2: Provider guarantees MRTO < (4+(1*add25G));
 			//onlyIf (Encrypted==false);	
 		//G3: Provider guarantees MRTO < (6+(1*add25G));
-			//onlyIf (Encrypted==true);
+	        //onlyIf (Encrypted==true);
 EndAgreementOffer

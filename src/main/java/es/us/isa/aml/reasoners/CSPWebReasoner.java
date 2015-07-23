@@ -85,7 +85,6 @@ public class CSPWebReasoner extends Reasoner {
 		CSPModel model = antecedent.add(consequent.negate());
 		String content = model.toString();
 		Boolean res = false;
-
 		try {
 			String response = Util.sendPost(url, content);
 			res = (new Gson().fromJson(response.toString(), Boolean.class));

@@ -16,6 +16,7 @@ import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.GuaranteeTerm;
+import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.csp.CSPConstraint;
 import es.us.isa.aml.model.csp.CSPModel;
 import es.us.isa.aml.operations.core.CoreOperation;
@@ -52,14 +53,21 @@ public class WhyAreNotCompliant extends CoreOperation {
 
 		AgreementOffer offer_gts = (AgreementOffer) offer.clone();
 		offer_gts.getAgreementTerms().getService().getConfigurationProperties().clear();
+		//Con esto de debajo no tengo en cuenta las asignaciones de valores a variables en las MPs de la oferta
+		Map<String, MonitorableProperty> mps = offer_gts.getAgreementTerms().getMonitorableProperties();
+		Iterator it = mps.keySet().iterator();
+		while (it.hasNext()) {
+			String mpId = (String) it.next();
+			MonitorableProperty mp = mps.get(mpId);
+			if (mp.getExpression() != null) {
+				mp.setExpression(null);
+			}
+		}
 
 		if ((template.getAgreementTerms().getGuaranteeTerms().size() > 0) && (offer.getAgreementTerms().getGuaranteeTerms().size() > 0)) {
 			CSPModel csp_template_gts = (CSPModel) translator.translate(template_gts);
 			CSPModel csp_offer_gts = (CSPModel) translator.translate(offer_gts);
-			//System.out.println("CSP_template_GTs: \n"+csp_template_gts);
-			//System.out.println("CSP_offer_GTs: \n"+csp_offer_gts);
 			res = reasoner.whyNotImplies(csp_template_gts, csp_offer_gts);
-			//System.out.println("Resultado de whyNotImplies(map(T.GTs), map(O.GTs)): \n"+res.getResult());
 		}
 
 
@@ -72,10 +80,7 @@ public class WhyAreNotCompliant extends CoreOperation {
 			if (((AgreementTemplate) template).getCreationConstraints().size() > 0) {
 				CSPModel csp_template_ccs = (CSPModel) translator
 						.translate(template_ccs);
-				//System.out.println("CSP_offer: \n"+csp_offer);
-				//System.out.println("CSP_template_CCs: \n"+csp_template_ccs);
-				OperationResponse res2 = reasoner.whyNotImplies(csp_offer, csp_template_ccs);
-				//System.out.println("Resultado de whyNotImplies(map(O.Terms), map(T.CCs)): \n"+res2.getResult());	
+				OperationResponse res2 = reasoner.whyNotImplies(csp_offer, csp_template_ccs);	
 
 				res = res2;
 

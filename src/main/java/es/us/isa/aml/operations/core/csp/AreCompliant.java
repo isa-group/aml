@@ -3,9 +3,14 @@
  */
 package es.us.isa.aml.operations.core.csp;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
+
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
+import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.csp.CSPModel;
 import es.us.isa.aml.operations.core.CoreOperation;
 import es.us.isa.aml.translator.Translator;
@@ -36,6 +41,17 @@ public class AreCompliant extends CoreOperation {
 		AgreementOffer offer_gts = (AgreementOffer) offer.clone();
 		offer_gts.getAgreementTerms().getService().getConfigurationProperties()
 				.clear();
+		//Con esto de debajo no tengo en cuenta las asignaciones de valores a variables en las MPs de la oferta
+		Map<String, MonitorableProperty> mps = offer_gts.getAgreementTerms().getMonitorableProperties();
+		Iterator it = mps.keySet().iterator();
+		while (it.hasNext()) {
+			String mpId = (String) it.next();
+			MonitorableProperty mp = mps.get(mpId);
+			if (mp.getExpression() != null) {
+				mp.setExpression(null);
+			}
+		}
+		
 
 		Boolean compliant1 = true;
 
@@ -48,7 +64,6 @@ public class AreCompliant extends CoreOperation {
 		}
 
 		// areCompliant(O.Ts, T.CCs) <-> implies(map(O.Terms), map(T.CCs))
-
 		CSPModel csp_offer = (CSPModel) translator.translate(offer);
 		AgreementTemplate template_ccs = (AgreementTemplate) template.clone();
 		template_ccs.getAgreementTerms().getGuaranteeTerms().clear();
@@ -56,7 +71,7 @@ public class AreCompliant extends CoreOperation {
 
 		if (((AgreementTemplate) template).getCreationConstraints().size() > 0) {
 			CSPModel csp_template_ccs = (CSPModel) translator
-					.translate(template_ccs);
+					.translate(template_ccs);			
 			compliant2 = reasoner.implies(csp_offer, csp_template_ccs);
 		}
 

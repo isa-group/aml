@@ -14,22 +14,21 @@ AgreementTerms
 		GlobalDescription
 			OS: availableOs = "Windows";
 			RAM: ram = 14;
-			Encrypted: boolean = false;  
-			RecoveryOnAzure: boolean = false;
+			//Encrypted: boolean = false;  
+			//RecoveryOnAzure: boolean = false;
 			Price: cost = 11920;
-			MPI: shortInt = 10;
 			
 	MonitorableProperties
 		global:
 			MUP: percent;
 			MRTO: hours;
 			add25G: extraStorageSpace; 
-			//MPI: shortInt;
+			MPI: shortInt = 10;
 				
 	GuaranteeTerms
 		G1: Provider guarantees MUP < 999;  //99.9
-		G2: Provider guarantees MRTO < (4+(1*add25G));
-			onlyIf (Encrypted==false);	
-		G3: Provider guarantees MRTO < (6+(1*add25G));
-			onlyIf (Encrypted==true);
+		//G2: Provider guarantees MRTO < (4+(1*add25G));
+			//onlyIf (Encrypted==false);	
+		//G3: Provider guarantees MRTO < (6+(1*add25G));
+			//onlyIf (Encrypted==true);
 EndAgreementOffer

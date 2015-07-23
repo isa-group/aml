@@ -1,0 +1,74 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] Using the builder org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder with a thread count of 1
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building AML 0.3
+[INFO] ------------------------------------------------------------------------
+[WARNING] The POM for es.us.isa.opl:oplall:jar:1.0.0 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The artifact axis:axis-ant:jar:1.4 has been relocated to org.apache.axis:axis-ant:jar:1.4
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ AML ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:compile (default-compile) @ AML ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 152 source files to C:\Universidad\IDEAS\Projects\AML\target\classes
+[INFO] /C:/Universidad/IDEAS/Projects/AML/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Some input files use or override a deprecated API.
+[INFO] /C:/Universidad/IDEAS/Projects/AML/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ AML ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3806 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ AML ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 15 source files to C:\Universidad\IDEAS\Projects\AML\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ AML ---
+[INFO] Surefire report directory: C:\Universidad\IDEAS\Projects\AML\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running es.us.isa.tests.core.TestCSPModel
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.618 sec - in es.us.isa.tests.core.TestCSPModel
+Running es.us.isa.tests.core.TestExpression
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.tests.core.TestExpression
+Running es.us.isa.tests.core.TestIAgreeModel
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.tests.core.TestIAgreeModel
+Running es.us.isa.tests.core.TestOperations
+Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: [G1, G1_2]
+Restricciones conflicto: [G1: MUP < 999;]
+Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: [Problem, G1_2]
+Restricciones conflicto: [G1: MUP >= 9999;]
+Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: [ASSIG_Price, C2]
+Restricciones conflicto: [ASSIG_Price: Price == 10000;]
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 33.087 sec - in es.us.isa.tests.core.TestOperations
+Running es.us.isa.tests.core.TestPapamoscas
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.124 sec - in es.us.isa.tests.core.TestPapamoscas
+Running es.us.isa.tests.core.TestStore
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in es.us.isa.tests.core.TestStore
+Running es.us.isa.tests.core.TestSuite
+Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: [G1, G1_2]
+Restricciones conflicto: [G1: MUP < 999;]
+Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: [Problem, G1_2]
+Restricciones conflicto: [G1: MUP >= 9999;]
+Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: [ASSIG_Price, C2]
+Restricciones conflicto: [ASSIG_Price: Price == 10000;]
+Tests run: 31, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 25.863 sec - in es.us.isa.tests.core.TestSuite
+
+Results :
+
+Tests run: 64, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 01:44 min
+[INFO] Finished at: 2015-07-23T13:16:12+01:00
+[INFO] Final Memory: 18M/176M
+[INFO] ------------------------------------------------------------------------
