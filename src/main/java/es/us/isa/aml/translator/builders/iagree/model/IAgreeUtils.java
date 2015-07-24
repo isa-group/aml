@@ -22,7 +22,6 @@ public class IAgreeUtils {
             this.put("int", "integer");
             this.put("float", "float");
             this.put("enumerated", "enum");
-            this.put("boolean", "Boolean");
         }
     };
 

@@ -680,6 +680,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			}
 
 			if (ctx.value != null) {
+				Boolean hasErrors = false;
 				if (m.getType().equals("integer")
 						|| m.getType().equals("float")) {
 					Range r = (Range) m.getDomain();
@@ -689,10 +690,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 						parser.notifyErrorListeners(ctx.start, "Value \"" + val
 								+ "\" is out of the range [" + r.getMin()
 								+ ", " + r.getMax() + "].", null);
-					} else {
-						Expression expr = this
-								.visitExpression(ctx.expression());
-						p.setExpression(expr);
+						hasErrors = true;
 					}
 				} else if (m.getType().equals("enum")) {
 					Enumerated en = (Enumerated) m.getDomain();
@@ -705,13 +703,15 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 										+ val
 										+ "\" has not been declared in metric \""
 										+ m.getId() + "\".", null);
-					} else {
-						Expression expr = this
-								.visitExpression(ctx.expression());
-						p.setExpression(expr);
-
+						hasErrors = true;
 					}
 				}
+
+				if (!hasErrors) {
+					Expression expr = this.visitExpression(ctx.expression());
+					p.setExpression(expr);
+				}
+
 			}
 
 		} else {
