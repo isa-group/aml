@@ -116,9 +116,6 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 		if (precondition) {
 			CSPModel modelForProblem = antecedent.add(consequent.negate());
 			String stringForProblem = modelForProblem.toString();
-
-			System.out.println("asd");
-			
 			problem = new Gson().fromJson(ch.explain(stringForProblem)
 					.toString(), OperationResponse.class);
 
@@ -166,14 +163,14 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 			CSPModel background = antecedentOriginal.clone();
 			background.addConstraintOnTop(problemConst);
 			CSPModel modelForExplain = background.add(consequent);
-						
+
 			String stringForExplain = modelForExplain.toString();
 
 			res = new Gson().fromJson(ch.explain(stringForExplain).toString(),
 					OperationResponse.class);
 
 			res.put("compliant", false);
-		} else {			
+		} else {
 			res = new OperationResponse();
 			res.put("compliant", true);
 			res.put("conflicts", null);
