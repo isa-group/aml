@@ -48,7 +48,7 @@ public class TestCSPModel {
 
 		Translator t = new Translator(new CSPBuilder());
 		model = (CSPModel) t.translate(iagreeModel);
-		enumModel = (CSPModel) t.translate(iagreeEnumModel);
+		enumModel = (CSPModel) t.translate(iagreeEnumModel);		
 	}
 
 	/**
@@ -214,6 +214,15 @@ public class TestCSPModel {
 			assertEquals(cons.getId(), other.getId());
 			assertEquals(cons.getExpr(), other.getExpr());
 		}
+	}
+	
+	/**
+	 * Negate a CSP Model.
+	 */
+	@Test
+	public void testNegateModel() {
+		CSPModel neg_model = model.negate();
+		assertTrue(neg_model != null);
 	}
 
 }

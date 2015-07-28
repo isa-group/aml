@@ -47,6 +47,7 @@ public class AgreementManager {
 		} catch (IOException ex) {
 			LOG.log(Level.WARNING, "AgreementManager load config error", ex);
 		}
+		
 		this.store = Store.getInstance();
 	}
 

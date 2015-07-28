@@ -1,10 +1,16 @@
 package es.us.isa.aml.model.expression;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author jdelafuente
  *
  */
 public class LogicalExpression extends CompoundExpression {
+
+	private static final Logger LOGGER = Logger
+			.getLogger(LogicalExpression.class.getName());
 
 	public LogicalExpression(Expression e1, LogicalOperator operator) {
 		this.exp1 = e1;
@@ -60,10 +66,15 @@ public class LogicalExpression extends CompoundExpression {
 			break;
 		}
 
-		if (operator == LogicalOperator.NOT) {
-			return "NOT " + this.exp1;
-		} else {
-			return this.exp1 + " " + op + " " + this.exp2;
+		try {
+			if (operator == LogicalOperator.NOT) {
+				return "NOT " + this.exp1;
+			} else {
+				return this.exp1 + " " + op + " " + this.exp2;
+			}
+		} catch (StackOverflowError e) {
+			LOGGER.log(Level.SEVERE, "Expression is too large");
 		}
+		return null;
 	}
 }

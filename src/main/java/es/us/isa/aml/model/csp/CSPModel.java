@@ -2,6 +2,7 @@ package es.us.isa.aml.model.csp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.LogicalExpression;
@@ -15,13 +16,16 @@ import es.us.isa.aml.translator.AbstractModel;
  */
 public class CSPModel extends AbstractModel {
 
+	private static final Logger LOGGER = Logger.getLogger(CSPModel.class
+			.getName());
+
 	protected List<CSPRange> ranges;
 	protected List<CSPVar> variables;
 	protected CSPObjectiveFunction objectiveFunction;
 	protected List<CSPConstraint> constraints;
 	protected Boolean useCP;
 
-	public CSPModel() {
+	public CSPModel() {		
 		ranges = new ArrayList<>();
 		variables = new ArrayList<>();
 		constraints = new ArrayList<>();
@@ -41,7 +45,7 @@ public class CSPModel extends AbstractModel {
 	public void addConstraint(CSPConstraint constraint) {
 		constraints.add(constraint);
 	}
-	
+
 	public void addConstraintOnTop(CSPConstraint constraint) {
 		constraints.add(0, constraint);
 	}
@@ -77,7 +81,7 @@ public class CSPModel extends AbstractModel {
 	public void setConstraints(List<CSPConstraint> constraints) {
 		this.constraints = constraints;
 	}
-	
+
 	public Boolean getUseCP() {
 		return useCP;
 	}
@@ -99,7 +103,7 @@ public class CSPModel extends AbstractModel {
 				newModel.addVar(var.clone());
 		}
 
-		if(model.getObjectiveFunction() != null)
+		if (model.getObjectiveFunction() != null)
 			newModel.setObjectiveFunction(model.getObjectiveFunction().clone());
 
 		for (CSPConstraint cons : model.getConstraints()) {
@@ -121,31 +125,32 @@ public class CSPModel extends AbstractModel {
 
 	public CSPModel negate() {
 		CSPModel model = this.clone();
-		List<String> arr = new ArrayList<String>();
-		for (CSPConstraint cons : model.getConstraints()) {
-			Expression e = cons.getExpr();
-			Expression neg = new LogicalExpression(
-					new ParenthesisExpression(e), LogicalOperator.NOT);
-			arr.add(neg.toString());
-		}
-		StringBuilder sb = new StringBuilder();
-		for(String s : arr){
-			sb.append(s);
-			if(arr.indexOf(s) < arr.size() - 1)
-				sb.append(" OR ");
-		}
-		
-		String str_expr = sb.toString();
-		
-		// Java 8
-//		String str_expr = String.join(
-//				" " + LogicalOperator.OR.toString() + " ", arr);		
-		
-		Expression expr = Expression.parse(str_expr);
+		List<Expression> stack = new ArrayList<Expression>();
 
-		CSPConstraint constraint = new CSPConstraint("C", expr);
-		model.getConstraints().clear();
-		model.getConstraints().add(constraint);
+		if (model.getConstraints().size() > 0) {
+			for (CSPConstraint cons : model.getConstraints()) {
+				Expression neg = new LogicalExpression(
+						new ParenthesisExpression(cons.getExpr()),
+						LogicalOperator.NOT);
+				stack.add(neg);
+			}
+
+			Expression expr1 = stack.get(0);
+			Expression expr2 = stack.get(stack.size() / 2);
+			for (int i = 1; i < stack.size() / 2; i++)
+				expr1 = new LogicalExpression(expr1, stack.get(i),
+						LogicalOperator.OR);
+			for (int i = (stack.size() / 2) + 1; i < stack.size(); i++)
+				expr2 = new LogicalExpression(expr2, stack.get(i),
+						LogicalOperator.OR);
+
+			Expression expr = new LogicalExpression(expr1, expr2,
+					LogicalOperator.OR);
+
+			CSPConstraint constraint = new CSPConstraint("C", expr);
+			model.getConstraints().clear();
+			model.getConstraints().add(constraint);
+		}
 		return model;
 	}
 
@@ -172,7 +177,7 @@ public class CSPModel extends AbstractModel {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 
-		if(useCP)
+		if (useCP)
 			sb.append("using CP;").append("\n").append("\n");
 
 		for (CSPRange range : getRanges()) {
@@ -205,7 +210,7 @@ public class CSPModel extends AbstractModel {
 			sb.append("subject to {").append("\n");
 
 			List<CSPConstraint> ordered = new ArrayList<>(getConstraints());
-//			Collections.sort(ordered);
+			// Collections.sort(ordered);
 			for (CSPConstraint cons : ordered) {
 				sb.append("\t").append(cons.toString()).append("\n");
 			}
