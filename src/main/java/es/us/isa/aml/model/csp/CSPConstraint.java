@@ -1,5 +1,8 @@
 package es.us.isa.aml.model.csp;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import es.us.isa.aml.model.QualifyingCondition;
 import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.expression.Expression;
@@ -11,6 +14,9 @@ import es.us.isa.aml.model.expression.LogicalOperator;
  *
  */
 public class CSPConstraint implements Comparable<CSPConstraint> {
+
+	private static final Logger LOGGER = Logger.getLogger(CSPConstraint.class
+			.getName());
 
 	protected String id;
 	protected Expression expr;
@@ -54,7 +60,7 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 	public boolean equals(Object obj) {
 		if (obj instanceof CSPConstraint) {
 			CSPConstraint cons = (CSPConstraint) obj;
-			return this.expr.equals(cons.getExpr());
+			return this.id.equals(cons.getId());
 		}
 		return false;
 	}
@@ -72,22 +78,22 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 
 	@Override
 	public int hashCode() {
-		return this.getExpr().hashCode() * 31;
+		return this.getId().hashCode() * 31;
 	}
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
-
-		String exp = getExpr().toString();
-		exp = exp.replaceAll("\\bAND\\b", "&&");
-		exp = exp.replaceAll("\\bOR\\b", "||");
-		exp = exp.replaceAll("\\bNOT\\b ", "!");
-		exp = exp.replaceAll("\\bIMPLIES\\b", "=>");
-
-		sb.append(exp);
-
-		return this.getId() + ": " + sb.toString() + ";";
+		StringBuilder sb = new StringBuilder(this.getId()).append(": ");
+		try {
+			String exp = getExpr().toString();
+			exp = exp.replaceAll("\\bAND\\b", "&&")
+					.replaceAll("\\bOR\\b", "||").replaceAll("\\bNOT\\b ", "!")
+					.replaceAll("\\bIMPLIES\\b", "=>");
+			sb.append(exp).append(";");
+		} catch (Exception e) {
+			LOGGER.log(Level.SEVERE, e.getMessage());
+		}
+		return sb.toString();
 	}
 
 }

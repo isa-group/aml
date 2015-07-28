@@ -5,12 +5,23 @@
  */
 package es.us.isa.aml.reasoners;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.gson.Gson;
 
+import es.us.isa.aml.model.csp.CSPConstraint;
 import es.us.isa.aml.model.csp.CSPModel;
+import es.us.isa.aml.model.expression.Atomic;
+import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.LogicalExpression;
+import es.us.isa.aml.model.expression.LogicalOperator;
+import es.us.isa.aml.model.expression.RelationalExpression;
+import es.us.isa.aml.model.expression.RelationalOperator;
+import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerType;
 
@@ -84,8 +95,7 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 						Boolean.class));
 			} catch (Exception e) {
 				implies = null;
-				LOG.log(Level.SEVERE, "There was an error: ",
-						e);
+				LOG.log(Level.SEVERE, "There was an error: ", e);
 			}
 		} else {
 			LOG.log(Level.SEVERE, "One of the CSPModels is not valid");
@@ -96,7 +106,90 @@ public class CplexReasoner extends Reasoner { // CSPReasoner
 	@Override
 	public OperationResponse whyNotImplies(CSPModel antecedent,
 			CSPModel consequent) {
-		throw new UnsupportedOperationException("Not supported yet."); // Todo
+
+		Boolean precondition = !implies(antecedent, consequent);
+
+		CSPModel antecedentOriginal = antecedent.clone();
+		OperationResponse problem = null;
+		OperationResponse res = null;
+		CplexHandler ch = new CplexHandler();
+		ch.init();
+
+		if (precondition) {
+			CSPModel modelForProblem = antecedent.add(consequent.negate());
+			String stringForProblem = modelForProblem.toString();
+
+			try {
+				String response = ch.explain(stringForProblem);
+				problem = new Gson().fromJson(response.toString(),
+						OperationResponse.class);
+			} catch (Exception e) {
+				LOG.log(Level.SEVERE, e.getMessage());
+			}
+
+			Map<String, Object> test = problem.getResult();
+			String result = (String) test.get("result");
+
+			Expression problemExpr = null;
+
+			if (result.length() > 0) {
+				result = result.substring(result.indexOf("\n"));
+				ArrayList<RelationalExpression> assignments = new ArrayList<RelationalExpression>();
+
+				while (result != null) {
+					String v = result.substring(0, result.indexOf("=") - 1);
+					Var var = new Var(v.trim());
+					String a = result.substring(result.indexOf("=") + 1,
+							result.indexOf(";"));
+					Atomic at = new Atomic(a.trim());
+					RelationalExpression assg = new RelationalExpression(var,
+							at, RelationalOperator.EQ);
+					assignments.add(assg);
+					if ((result.indexOf(";") + 1) < result.length()) {
+						result = result.substring(result.indexOf(";") + 1);
+						result.trim();
+					} else
+						result = null;
+					if (result.indexOf(";") < 0)
+						result = null;
+				}
+
+				Iterator<RelationalExpression> it = assignments.iterator();
+				while (it.hasNext()) {
+					RelationalExpression exp = (RelationalExpression) it.next();
+					if (problemExpr == null) {
+						problemExpr = exp;
+					} else {
+						problemExpr = new LogicalExpression(problemExpr, exp,
+								LogicalOperator.AND);
+					}
+				}
+			}
+
+			CSPConstraint problemConst = new CSPConstraint("Problem",
+					problemExpr);
+			CSPModel background = antecedentOriginal.clone();
+			background.addConstraintOnTop(problemConst);
+			CSPModel modelForExplain = background.add(consequent);
+			String stringForExplain = modelForExplain.toString();
+
+			try {
+				String response2 = ch.explain(stringForExplain);
+				res = new Gson().fromJson(response2.toString(),
+						OperationResponse.class);
+			} catch (Exception e) {
+				LOG.log(Level.SEVERE, e.getMessage());
+			}
+
+			res.put("compliant", false);
+		} else {
+			res = new OperationResponse();
+			res.put("compliant", true);
+			res.put("conflicts", null);
+			res.put("conflictType", null);
+		}
+
+		return res;
 	}
 
 	@Override
