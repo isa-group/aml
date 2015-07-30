@@ -17,7 +17,7 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 
 	private static final Logger LOGGER = Logger.getLogger(CSPConstraint.class
 			.getName());
-
+	
 	protected String id;
 	protected Expression expr;
 
@@ -60,7 +60,7 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 	public boolean equals(Object obj) {
 		if (obj instanceof CSPConstraint) {
 			CSPConstraint cons = (CSPConstraint) obj;
-			return this.id.equals(cons.getId());
+			return this.expr.equals(cons.getExpr());
 		}
 		return false;
 	}
@@ -78,7 +78,7 @@ public class CSPConstraint implements Comparable<CSPConstraint> {
 
 	@Override
 	public int hashCode() {
-		return this.getId().hashCode() * 31;
+		return this.getExpr().hashCode() * 31;
 	}
 
 	@Override
