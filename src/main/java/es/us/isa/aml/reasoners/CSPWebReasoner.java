@@ -30,7 +30,7 @@ import es.us.isa.aml.util.Util;
  */
 public class CSPWebReasoner extends Reasoner {
 
-	private static final Logger LOG = Logger.getLogger(CSPWebReasoner.class
+	private static final Logger LOGGER = Logger.getLogger(CSPWebReasoner.class
 			.getName());
 
 	@Override
@@ -41,16 +41,14 @@ public class CSPWebReasoner extends Reasoner {
 	public Boolean solve(String cspModel) {
 		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
 		url += "/solver/solve";
-
-		//System.out.println("CSPWebReasoner Endpoint: " + url);
-
+		LOGGER.log(Level.INFO, "CSPWebReasoner Endpoint: " + url);
+		
 		Boolean res = null;
-
 		try {
 			String response = Util.sendPost(url, cspModel);
 			res = new Gson().fromJson(response.toString(), Boolean.class);
 		} catch (Exception e) {
-			LOG.log(Level.SEVERE, e.getMessage());
+			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
 
 		return res;
@@ -72,7 +70,7 @@ public class CSPWebReasoner extends Reasoner {
 			res = new Gson().fromJson(response.toString(),
 					OperationResponse.class);
 		} catch (Exception e) {
-			LOG.log(Level.SEVERE, e.getMessage());
+			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
 		return res;
 	}
@@ -90,7 +88,7 @@ public class CSPWebReasoner extends Reasoner {
 			res = (new Gson().fromJson(response.toString(), Boolean.class));
 
 		} catch (Exception e) {
-			LOG.log(Level.SEVERE, e.getMessage());
+			LOGGER.log(Level.SEVERE, e.getMessage());
 		}
 		return res;
 	}
@@ -121,7 +119,7 @@ public class CSPWebReasoner extends Reasoner {
 				problem = new Gson().fromJson(response.toString(),
 						OperationResponse.class);
 			} catch (Exception e) {
-				LOG.log(Level.SEVERE, e.getMessage());
+				LOGGER.log(Level.SEVERE, e.getMessage());
 			}
 
 			Map<String, Object> test = problem.getResult();
@@ -189,7 +187,7 @@ public class CSPWebReasoner extends Reasoner {
 				res = new Gson().fromJson(response2.toString(),
 						OperationResponse.class);
 			} catch (Exception e) {
-				LOG.log(Level.SEVERE, e.getMessage());
+				LOGGER.log(Level.SEVERE, e.getMessage());
 			}
 
 			res.put("compliant", false);
