@@ -1,0 +1,488 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] Using the builder org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder with a thread count of 1
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building AML 0.3
+[INFO] ------------------------------------------------------------------------
+[WARNING] The POM for es.us.isa.opl:oplall:jar:1.0.0 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The artifact axis:axis-ant:jar:1.4 has been relocated to org.apache.axis:axis-ant:jar:1.4
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ AML ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:compile (default-compile) @ AML ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 153 source files to C:\Universidad\IDEAS\Projects\AML\target\classes
+[INFO] /C:/Universidad/IDEAS/Projects/AML/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Some input files use or override a deprecated API.
+[INFO] /C:/Universidad/IDEAS/Projects/AML/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Recompile with -Xlint:deprecation for details.
+[INFO] /C:/Universidad/IDEAS/Projects/AML/src/main/java/es/us/isa/aml/operations/core/csp/WhyAreNotCompliant.java: Some input files use unchecked or unsafe operations.
+[INFO] /C:/Universidad/IDEAS/Projects/AML/src/main/java/es/us/isa/aml/operations/core/csp/WhyAreNotCompliant.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ AML ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 3806 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ AML ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ AML ---
+[INFO] Surefire report directory: C:\Universidad\IDEAS\Projects\AML\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running es.us.isa.tests.core.TestAzureCompliance
+ago 13, 2015 6:28:31 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:31 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:31 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:31 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:31 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:31 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:31 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:31 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.172 sec - in es.us.isa.tests.core.TestAzureCompliance
+Running es.us.isa.tests.core.TestCSPModel
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec - in es.us.isa.tests.core.TestCSPModel
+Running es.us.isa.tests.core.TestExpression
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.tests.core.TestExpression
+Running es.us.isa.tests.core.TestIAgreeModel
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.tests.core.TestIAgreeModel
+Running es.us.isa.tests.core.TestOperations
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:32 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:33 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:34 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [G1, G1_2]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP < 999;]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [Problem, G1_2]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP >= 9999;]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [ASSIG_Price, C2]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [ASSIG_Price: Price == 10000;]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [C2: Price == 1192 * MPI;]
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:35 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.44 sec - in es.us.isa.tests.core.TestOperations
+Running es.us.isa.tests.core.TestPapamoscas
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 sec - in es.us.isa.tests.core.TestPapamoscas
+Running es.us.isa.tests.core.TestStore
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in es.us.isa.tests.core.TestStore
+Running es.us.isa.tests.core.TestSuite
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:36 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:37 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:38 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [G1, G1_2]
+ago 13, 2015 6:28:39 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP < 999;]
+ago 13, 2015 6:28:39 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:39 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:40 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [Problem, G1_2]
+ago 13, 2015 6:28:40 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP >= 9999;]
+ago 13, 2015 6:28:40 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+ago 13, 2015 6:28:40 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [ASSIG_Price, C2]
+ago 13, 2015 6:28:41 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [ASSIG_Price: Price == 10000;]
+ago 13, 2015 6:28:41 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [C2: Price == 1192 * MPI;]
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:41 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:42 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:43 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:43 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:43 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:43 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:43 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:43 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:43 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+ago 13, 2015 6:28:43 PM es.us.isa.aml.reasoners.CSPWebReasoner solve
+INFORMACIÓN: CSPWebReasoner Endpoint: http://localhost:8080/CSPWebReasoner/solver/solve
+Tests run: 32, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.613 sec - in es.us.isa.tests.core.TestSuite
+
+Results :
+
+Tests run: 72, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 22.189 s
+[INFO] Finished at: 2015-08-13T18:28:43+01:00
+[INFO] Final Memory: 19M/242M
+[INFO] ------------------------------------------------------------------------
