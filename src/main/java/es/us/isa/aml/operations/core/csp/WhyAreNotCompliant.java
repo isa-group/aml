@@ -93,6 +93,9 @@ public class WhyAreNotCompliant extends CoreOperation {
 			Map<String, Object> test2 = res.getResult();
 			ArrayList result2 = (ArrayList) test2.get("conflicts");
 			
+			//Created a copy to remove the conflicts that are from the offer. This is used to show the affected template constraints
+			ArrayList<String> conflictsForTemplate = (ArrayList<String>) result2.clone();
+			
 			logger.log(Level.INFO, "Conflicts from wich Problem constraint must be removed and to check if they are included within the Offer (to be returned): "+result2);
 			//System.out.println("Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: "+result2);
 			
@@ -105,6 +108,8 @@ public class WhyAreNotCompliant extends CoreOperation {
 			//Sometimes, although documents have conflicts, none of them are returned because some problematic SDT value assignment are not detected
 			//to be developed
 			CSPModel csp_template = (CSPModel) translator.translate(template);
+			List<CSPConstraint> sourceTemplateConstraints = csp_template.getConstraints();
+			List<CSPConstraint> affectedTemplateConstraints = new ArrayList<CSPConstraint>();
 			
 			Boolean constraintsEmpty = true;
 			Boolean exit = false;
@@ -137,6 +142,7 @@ public class WhyAreNotCompliant extends CoreOperation {
 								if (confs == null || !confs.contains(cons.toString())){
 									constraints.add(cons);
 									res.put("conflicts", cons.toString());
+									conflictsForTemplate.remove(cons.getId());
 								}
 								
 							}
@@ -145,11 +151,13 @@ public class WhyAreNotCompliant extends CoreOperation {
 							if (confs == null || confs != null && !confs.contains(cons.toString())){
 								constraints.add(cons);
 								res.put("conflicts", cons.toString());
+								conflictsForTemplate.remove(cons.getId());
 							}
 						}
 					}
 				}
-				logger.log(Level.INFO, "Conflicting constraints: "+constraints);
+				logger.log(Level.INFO, "Conflicting Offer constraints: "+constraints);
+				//logger.log(Level.INFO, "Affected Template constraints in ArrayList<String>: "+conflictsForTemplate);
 				//System.out.println("Restricciones conflicto: "+constraints);
 				if (constraints.isEmpty() && !exit){
 					CSPModel modelAux = csp_template.clone().add(csp_offer); //O y T
@@ -164,6 +172,50 @@ public class WhyAreNotCompliant extends CoreOperation {
 			res.put("conflicts", constraints.toString());
 			
 			
+			//To run on conflictsForTemplate in order to create the list of affected tempalte CSP conflicts
+			//ESTO SE PODRÁ SACAR FACTOR COMÚN CON LO DE ARRIBA SEGURO
+			Iterator itConflictsForTemplate = conflictsForTemplate.iterator();
+			while (itConflictsForTemplate.hasNext()) {
+				String affected = (String) itConflictsForTemplate.next();				
+
+				Iterator itResult4 = sourceTemplateConstraints.iterator();
+				while (itResult4.hasNext()) {
+					CSPConstraint c = (CSPConstraint) itResult4.next();
+					String constraint_name = c.getId(); 
+					
+					if (!(affected=="Problem") && !(affected.startsWith("ASSIG"))){
+						
+						if (affected.contains("_")) {
+							affected = affected
+									.substring(0, affected
+											.lastIndexOf("_"));
+						}						
+						
+						if (affected.equalsIgnoreCase(constraint_name)){
+							if (affected.contains("_")) {
+								affected = affected
+										.substring(0, affected
+												.lastIndexOf("_"));
+							}
+							if (affected == null || !affected.contains(c.toString())){
+								affectedTemplateConstraints.add(c);
+								res.put("affectedTerms", c.toString());
+								//conflictsForTemplate.remove(cons.getId());
+							}
+							
+						}
+					}
+					if (affected.startsWith("ASSIG") && affected.equalsIgnoreCase(constraint_name)){
+						if (affected == null || affected != null && !affected.contains(c.toString())){
+							affectedTemplateConstraints.add(c);
+							res.put("affectedTerms", c.toString());
+							//conflictsForTemplate.remove(cons.getId());
+						}
+					}
+				}
+			}
+			
+			logger.log(Level.INFO, "Affected Template constraints: "+affectedTemplateConstraints);
 			
 			//CSPModel csp_template = (CSPModel) translator.translate(template);
 			
