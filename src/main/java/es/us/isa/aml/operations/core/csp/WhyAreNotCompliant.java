@@ -8,24 +8,19 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
-
-import com.google.gson.Gson;
+import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
-import es.us.isa.aml.model.CreationConstraint;
-import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.csp.CSPConstraint;
 import es.us.isa.aml.model.csp.CSPModel;
 import es.us.isa.aml.operations.core.CoreOperation;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.translator.builders.csp.CSPBuilder;
-import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerFactory;
-import es.us.isa.aml.util.Util;
 
 /**
  * @author cmuller
@@ -33,13 +28,15 @@ import es.us.isa.aml.util.Util;
  */
 public class WhyAreNotCompliant extends CoreOperation {
 
+	private final static Logger logger = Logger.getLogger(WhyAreNotCompliant.class.getName());
+	
 	public WhyAreNotCompliant() {
 		result = new OperationResponse();
 		this.reasoner = ReasonerFactory.createCSPReasoner();
 	}
 
 	public void analyze(AgreementModel template, AgreementModel offer) {
-		//La comprobación de si son o no compliant se hace dentro del whyNotImplies
+		//Compliance checking is done within whyNotImplies CSP operation.
 
 		OperationResponse res = null;
 		Translator translator = new Translator(new CSPBuilder());
@@ -53,9 +50,9 @@ public class WhyAreNotCompliant extends CoreOperation {
 
 		AgreementOffer offer_gts = (AgreementOffer) offer.clone();
 		offer_gts.getAgreementTerms().getService().getConfigurationProperties().clear();
-		//Con esto de debajo no tengo en cuenta las asignaciones de valores a variables en las MPs de la oferta
+		//With the following line I do not consider value assignments for MonitorableProps within the Offer
 		Map<String, MonitorableProperty> mps = offer_gts.getAgreementTerms().getMonitorableProperties();
-		Iterator it = mps.keySet().iterator();
+		Iterator<String> it = mps.keySet().iterator();
 		while (it.hasNext()) {
 			String mpId = (String) it.next();
 			MonitorableProperty mp = mps.get(mpId);
@@ -71,7 +68,7 @@ public class WhyAreNotCompliant extends CoreOperation {
 		}
 
 
-		//Si lo anterior no es compliant que devuelva su resultado, y si sí es compliant, se analiza la segunda parte
+		//If previous checking is not compliant conflicts are returned, and if it was compliant second part is analysed as follows
 		if((Boolean)res.get("compliant")){
 			// whyNotImplies(map(O.Terms), map(T.CCs))
 			AgreementTemplate template_ccs = (AgreementTemplate) template.clone();
@@ -83,51 +80,30 @@ public class WhyAreNotCompliant extends CoreOperation {
 				OperationResponse res2 = reasoner.whyNotImplies(csp_offer, csp_template_ccs);	
 
 				res = res2;
-
-				// Alt1: Sólo poner los conflictos del segundo whyNotImplies si en el primero no hubo conflictos
-				/*
-						if ((res.get("conflicts")==null) && (res.get("conflictType")==null)){
-							res = res2;
-						}
-				 */
-
-				// Alt2: Unir el res2 al res
-				/*
-						String conflicts = (String) res.get("conflicts");
-						String conflictType = (String) res.get("conflictType");
-
-						res.put("conflicts", conflicts.concat(", "+res2.get("conflicts")));
-						res.put("conflicttype", conflictType.concat(", "+res2.get("conflictType")));
-				 */		
 			}	
 		}
 		
-		// Si han habido conflictos analizamos de qué tipo son con este código de debajo
+		// If conflicts were found, we classify the kind of conflict as follows
 		if (!(Boolean)res.get("compliant")){
-			//Añado aquí la comprobación del tipo de conflicto detectado
 			Boolean moreRestrictive = null;
 			Boolean contradictory = null;
-			//Boolean intersec = null;
+			//Boolean intersec = null;  //this is another kind of CSP conflict not observed yet
 			
 			//System.out.println("Res es: "+res);
 			Map<String, Object> test2 = res.getResult();
 			ArrayList result2 = (ArrayList) test2.get("conflicts");
 			
-			System.out.println("Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: "+result2);
+			logger.log(Level.INFO, "Conflicts from wich Problem constraint must be removed and to check if they are included within the Offer (to be returned): "+result2);
+			//System.out.println("Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: "+result2);
 			
-			//CSPModel resModel = consequent;
-			//CSPModel resModel = antecedent;
 			List<CSPConstraint> sourceConstraints = csp_offer.getConstraints();
 			List<CSPConstraint> constraints = new ArrayList<CSPConstraint>();
 			
-			//Esto lo hago para quitar el Problem de los conflictos a devolver y mejorar la explicación
-			res.remove("conflicts");
+			//the following line remove Problem constraint from the conflicts to be returned
+			res.remove("conflicts");		
 			
-			
-			
-			//En ocasiones constraints es vacío, y se debe a cómo OPL devuelve los conflictos y sólo son de la Template porque no 
-			//es capaz de ver los problemas en las asignaciones de variables en los SDTs.
-			//En estos casos, voy a hacer un explain con oferta Y plantilla
+			//Sometimes, although documents have conflicts, none of them are returned because some problematic SDT value assignment are not detected
+			//to be developed
 			CSPModel csp_template = (CSPModel) translator.translate(template);
 			
 			Boolean constraintsEmpty = true;
@@ -135,16 +111,13 @@ public class WhyAreNotCompliant extends CoreOperation {
 			while (constraintsEmpty){
 				Iterator itResult2 = result2.iterator();
 				while (itResult2.hasNext()) {
-					String conf = (String) itResult2.next();
-					//System.out.println("Nombre del Conflicto: "+conf);
-					
+					String conf = (String) itResult2.next();				
 					String confs = (String) res.get("conflicts");
 					
 					Iterator itResult3 = sourceConstraints.iterator();
 					while (itResult3.hasNext()) {
 						CSPConstraint cons = (CSPConstraint) itResult3.next();
 						String constraint_name = cons.getId(); 
-						//System.out.println("Nombre de la restricción de la Offer: "+constraint_name);
 						
 						if (!(conf=="Problem") && !(conf.startsWith("ASSIG"))){
 							
@@ -160,8 +133,7 @@ public class WhyAreNotCompliant extends CoreOperation {
 											.substring(0, conf
 													.lastIndexOf("_"));
 								}
-								//System.out.println("Añado: "+cons.getId());
-								//comprobar que no haya sido ya incluida (esto pasa cuando las GTs se llaman igual en plantilla y oferta)
+								//We check that the cons has not been included yet (such a situation happens when GTs have the same name in offer and template)
 								if (confs == null || !confs.contains(cons.toString())){
 									constraints.add(cons);
 									res.put("conflicts", cons.toString());
@@ -170,8 +142,6 @@ public class WhyAreNotCompliant extends CoreOperation {
 							}
 						}
 						if (conf.startsWith("ASSIG") && conf.equalsIgnoreCase(constraint_name)){
-							//System.out.println("Añado: "+cons.getId());
-							//comprobar que no haya sido ya incluida (esto pasa cuando las GTs se llaman igual en plantilla y oferta)
 							if (confs == null || confs != null && !confs.contains(cons.toString())){
 								constraints.add(cons);
 								res.put("conflicts", cons.toString());
@@ -179,15 +149,13 @@ public class WhyAreNotCompliant extends CoreOperation {
 						}
 					}
 				}
-				System.out.println("Restricciones conflicto: "+constraints);
-				//System.out.println("Devuelvo en res: "+(String)res.get("conflicts"));
+				logger.log(Level.INFO, "Conflicting constraints: "+constraints);
+				//System.out.println("Restricciones conflicto: "+constraints);
 				if (constraints.isEmpty() && !exit){
 					CSPModel modelAux = csp_template.clone().add(csp_offer); //O y T
-					//System.out.println("Model for O y T: "+modelAux.toString());
 					OperationResponse resAux = reasoner.explain(modelAux);
 					Map<String, Object> test3 = resAux.getResult();
 					result2 = (ArrayList) test3.get("conflicts");
-					//System.out.println("Resultados del O y T: \n"+result2);
 					exit = true;
 				} else {
 					constraintsEmpty = false;
@@ -204,12 +172,9 @@ public class WhyAreNotCompliant extends CoreOperation {
 			empty_template.getCreationConstraints().clear(); 
 			empty_template.getAgreementTerms().getGuaranteeTerms().clear();
 			CSPModel confModel = (CSPModel) translator.translate(empty_template);
-			//System.out.println("ConfModel debe tener sólo las variables y monitorable props: \n"+confModel);
 			confModel.setConstraints(constraints);
-			//System.out.println("ConfModel con las constraints de conflicto: \n"+confModel);
 			
 			CSPModel modelForClassify2 = confModel.clone().add(csp_template); //V,D,Conflict y T
-			//System.out.println("Model for Classify2 (debe ser V,D,Conflict y T): "+modelForClassify2.toString());
 			
 			Boolean sol = reasoner.solve(modelForClassify2);
 			
@@ -224,9 +189,7 @@ public class WhyAreNotCompliant extends CoreOperation {
 			} 
 			else {
 				CSPModel modelForClassify = confModel.clone().add(csp_template.negate()); //V,D,Conflict y noT
-				//System.out.println("Model for Classify (debe ser V,D,Conflict y noT): "+modelForClassify.toString());
-				
-				//Boolean sol2 = reasoner.solve(modelForClassify2);
+
 				Boolean sol2 = reasoner.solve(modelForClassify);
 				
 				if (sol2) contradictory = true;
