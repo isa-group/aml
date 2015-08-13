@@ -41,8 +41,8 @@ public class WhyAreNotCompliant extends CoreOperation {
 		OperationResponse res = null;
 		Translator translator = new Translator(new CSPBuilder());
 
-
 		CSPModel csp_offer = (CSPModel) translator.translate(offer);
+		CSPModel csp_template = (CSPModel) translator.translate(template);
 
 		// whyNotImplies(map(T.GTs), map(O.GTs))
 		AgreementTemplate template_gts = (AgreementTemplate) template.clone();
@@ -50,7 +50,7 @@ public class WhyAreNotCompliant extends CoreOperation {
 
 		AgreementOffer offer_gts = (AgreementOffer) offer.clone();
 		offer_gts.getAgreementTerms().getService().getConfigurationProperties().clear();
-		//With the following line I do not consider value assignments for MonitorableProps within the Offer
+		//With the following code line I do not consider in the compliance analysis the value assignments for MonitorableProps within the Offer
 		Map<String, MonitorableProperty> mps = offer_gts.getAgreementTerms().getMonitorableProperties();
 		Iterator<String> it = mps.keySet().iterator();
 		while (it.hasNext()) {
@@ -83,185 +83,190 @@ public class WhyAreNotCompliant extends CoreOperation {
 			}	
 		}
 		
+		result.putAll(res);
+		
 		// If conflicts were found, we classify the kind of conflict as follows
-		if (!(Boolean)res.get("compliant")){
-			Boolean moreRestrictive = null;
-			Boolean contradictory = null;
-			//Boolean intersec = null;  //this is another kind of CSP conflict not observed yet
-			
-			//System.out.println("Res es: "+res);
-			Map<String, Object> test2 = res.getResult();
-			ArrayList result2 = (ArrayList) test2.get("conflicts");
-			
-			//Created a copy to remove the conflicts that are from the offer. This is used to show the affected template constraints
-			ArrayList<String> conflictsForTemplate = (ArrayList<String>) result2.clone();
-			
-			logger.log(Level.INFO, "Conflicts from wich Problem constraint must be removed and to check if they are included within the Offer (to be returned): "+result2);
-			//System.out.println("Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: "+result2);
-			
-			List<CSPConstraint> sourceConstraints = csp_offer.getConstraints();
-			List<CSPConstraint> constraints = new ArrayList<CSPConstraint>();
-			
-			//the following line remove Problem constraint from the conflicts to be returned
-			res.remove("conflicts");		
-			
-			//Sometimes, although documents have conflicts, none of them are returned because some problematic SDT value assignment are not detected
-			//to be developed
-			CSPModel csp_template = (CSPModel) translator.translate(template);
-			List<CSPConstraint> sourceTemplateConstraints = csp_template.getConstraints();
-			List<CSPConstraint> affectedTemplateConstraints = new ArrayList<CSPConstraint>();
-			
-			Boolean constraintsEmpty = true;
-			Boolean exit = false;
-			while (constraintsEmpty){
-				Iterator itResult2 = result2.iterator();
-				while (itResult2.hasNext()) {
-					String conf = (String) itResult2.next();				
-					String confs = (String) res.get("conflicts");
+		if (!(Boolean)res.get("compliant")) {
+			List<CSPConstraint> conflictingConstraints = putExplanation(res, csp_offer.clone(), csp_template.clone());
+			classifyConflicts(conflictingConstraints, (AgreementTemplate) template, csp_template.clone(), translator);
+		}
+		//result.putAll(res);		
+	}
+
+	private List<CSPConstraint> putExplanation(OperationResponse res, CSPModel csp_offer, CSPModel csp_template) {
+		//System.out.println("Res es: "+res);
+		Map<String, Object> resMap = res.getResult();
+		ArrayList conflictResult = (ArrayList) resMap.get("conflicts");
+		
+		//Created a copy to remove the conflicts that are from the offer. This is used to show the affected template constraints
+		ArrayList<String> conflictsForTemplate = (ArrayList<String>) conflictResult.clone();
+		
+		logger.log(Level.INFO, "Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: "+conflictResult);
+		//System.out.println("Conflictos por limpiar Problem, mirar que sean de Offer, y clasificar: "+result2);
+		
+		List<CSPConstraint> sourceConstraints = csp_offer.getConstraints();
+		List<CSPConstraint> constraints = new ArrayList<CSPConstraint>();
+		
+		//the following line remove Problem constraint from the conflicts to be returned
+		result.remove("conflicts");		
+		
+		//Sometimes, although documents have conflicts, none of them are returned because some problematic SDT value assignment are not detected
+		//to be developed
+		List<CSPConstraint> sourceTemplateConstraints = csp_template.getConstraints();
+		List<CSPConstraint> affectedTemplateConstraints = new ArrayList<CSPConstraint>();
+		
+		Boolean constraintsEmpty = true;
+		Boolean exit = false;
+		while (constraintsEmpty){
+			Iterator itConflictResult = conflictResult.iterator();
+			while (itConflictResult.hasNext()) {
+				String conf = (String) itConflictResult.next();				
+				String confs = (String) result.get("conflicts");
+				
+				Iterator itSourceConstraints = sourceConstraints.iterator();
+				while (itSourceConstraints.hasNext()) {
+					CSPConstraint cons = (CSPConstraint) itSourceConstraints.next();
+					String constraint_name = cons.getId(); 
 					
-					Iterator itResult3 = sourceConstraints.iterator();
-					while (itResult3.hasNext()) {
-						CSPConstraint cons = (CSPConstraint) itResult3.next();
-						String constraint_name = cons.getId(); 
+					if (!(conf=="Problem") && !(conf.startsWith("ASSIG"))){
 						
-						if (!(conf=="Problem") && !(conf.startsWith("ASSIG"))){
-							
-							if (conf.contains("_")) {
-								conf = conf
-										.substring(0, conf
-												.lastIndexOf("_"));
-							}						
-							
-							if (conf.equalsIgnoreCase(constraint_name)){
-								if (conf.contains("_")) {
-									conf = conf
-											.substring(0, conf
-													.lastIndexOf("_"));
-								}
-								//We check that the cons has not been included yet (such a situation happens when GTs have the same name in offer and template)
-								if (confs == null || !confs.contains(cons.toString())){
-									constraints.add(cons);
-									res.put("conflicts", cons.toString());
-									conflictsForTemplate.remove(cons.getId());
-								}
-								
-							}
-						}
-						if (conf.startsWith("ASSIG") && conf.equalsIgnoreCase(constraint_name)){
-							if (confs == null || confs != null && !confs.contains(cons.toString())){
+						if (conf.contains("_")) conf = removeUnderScore(conf);
+						
+						if (conf.equalsIgnoreCase(constraint_name)){
+							if (conf.contains("_")) conf = removeUnderScore(conf);
+
+							//We check that the cons has not been included yet (such a situation happens when GTs have the same name in offer and template)
+							if (confs == null || !confs.contains(cons.toString())){
 								constraints.add(cons);
-								res.put("conflicts", cons.toString());
+								result.put("conflicts", cons.toString());
 								conflictsForTemplate.remove(cons.getId());
 							}
 						}
 					}
-				}
-				logger.log(Level.INFO, "Conflicting Offer constraints: "+constraints);
-				//logger.log(Level.INFO, "Affected Template constraints in ArrayList<String>: "+conflictsForTemplate);
-				//System.out.println("Restricciones conflicto: "+constraints);
-				if (constraints.isEmpty() && !exit){
-					CSPModel modelAux = csp_template.clone().add(csp_offer); //O y T
-					OperationResponse resAux = reasoner.explain(modelAux);
-					Map<String, Object> test3 = resAux.getResult();
-					result2 = (ArrayList) test3.get("conflicts");
-					exit = true;
-				} else {
-					constraintsEmpty = false;
-				}
-			}
-			res.put("conflicts", constraints.toString());
-			
-			
-			//To run on conflictsForTemplate in order to create the list of affected tempalte CSP conflicts
-			//ESTO SE PODRÁ SACAR FACTOR COMÚN CON LO DE ARRIBA SEGURO
-			Iterator itConflictsForTemplate = conflictsForTemplate.iterator();
-			while (itConflictsForTemplate.hasNext()) {
-				String affected = (String) itConflictsForTemplate.next();				
-
-				Iterator itResult4 = sourceTemplateConstraints.iterator();
-				while (itResult4.hasNext()) {
-					CSPConstraint c = (CSPConstraint) itResult4.next();
-					String constraint_name = c.getId(); 
-					
-					if (!(affected=="Problem") && !(affected.startsWith("ASSIG"))){
-						
-						if (affected.contains("_")) {
-							affected = affected
-									.substring(0, affected
-											.lastIndexOf("_"));
-						}						
-						
-						if (affected.equalsIgnoreCase(constraint_name)){
-							if (affected.contains("_")) {
-								affected = affected
-										.substring(0, affected
-												.lastIndexOf("_"));
-							}
-							if (affected == null || !affected.contains(c.toString())){
-								affectedTemplateConstraints.add(c);
-								res.put("affectedTerms", c.toString());
-								//conflictsForTemplate.remove(cons.getId());
-							}
-							
+					if (conf.startsWith("ASSIG") && conf.equalsIgnoreCase(constraint_name)){
+						if (confs == null || confs != null && !confs.contains(cons.toString())){
+							constraints.add(cons);
+							result.put("conflicts", cons.toString());
+							conflictsForTemplate.remove(cons.getId());
 						}
 					}
-					if (affected.startsWith("ASSIG") && affected.equalsIgnoreCase(constraint_name)){
-						if (affected == null || affected != null && !affected.contains(c.toString())){
+				}
+			}
+			logger.log(Level.INFO, "Conflicting Offer constraints: "+constraints);
+			//System.out.println("Restricciones conflicto: "+constraints);
+			if (constraints.isEmpty() && !exit){
+				CSPModel modelAux = csp_template.clone().add(csp_offer); //O y T
+				OperationResponse resAux = reasoner.explain(modelAux);
+				Map<String, Object> test3 = resAux.getResult();
+				conflictResult = (ArrayList) test3.get("conflicts");
+				exit = true;
+			} else {
+				constraintsEmpty = false;
+			}
+		}
+		result.put("conflicts", constraints.toString());
+		
+		
+		//To run on conflictsForTemplate in order to create the list of affected template CSP conflicts
+		//ESTO SE PODRÁ SACAR FACTOR COMÚN CON LO DE ARRIBA SEGURO
+		Iterator itConflictsForTemplate = conflictsForTemplate.iterator();
+		while (itConflictsForTemplate.hasNext()) {
+			String affected = (String) itConflictsForTemplate.next();				
+
+			Iterator itSourceTemplateConstraints = sourceTemplateConstraints.iterator();
+			while (itSourceTemplateConstraints.hasNext()) {
+				CSPConstraint c = (CSPConstraint) itSourceTemplateConstraints.next();
+				String constraint_name = c.getId(); 
+				
+				if (!(affected=="Problem") && !(affected.startsWith("ASSIG"))){
+					
+					if (affected.contains("_")) {
+						affected = removeUnderScore(affected);
+					}						
+					
+					if (affected.equalsIgnoreCase(constraint_name)){
+						if (affected.contains("_")) {
+							affected = removeUnderScore(affected);
+						}
+						if (affected == null || !affected.contains(c.toString())){
 							affectedTemplateConstraints.add(c);
-							res.put("affectedTerms", c.toString());
+							result.put("affectedTerms", c.toString());
 							//conflictsForTemplate.remove(cons.getId());
 						}
+						
+					}
+				}
+				if (affected.startsWith("ASSIG") && affected.equalsIgnoreCase(constraint_name)){
+					if (affected == null || affected != null && !affected.contains(c.toString())){
+						affectedTemplateConstraints.add(c);
+						result.put("affectedTerms", c.toString());
+						//conflictsForTemplate.remove(cons.getId());
 					}
 				}
 			}
-			
-			logger.log(Level.INFO, "Affected Template constraints: "+affectedTemplateConstraints);
-			
-			//CSPModel csp_template = (CSPModel) translator.translate(template);
-			
-			
-			AgreementTemplate empty_template = (AgreementTemplate) template.clone();
-			empty_template.getCreationConstraints().clear(); 
-			empty_template.getAgreementTerms().getGuaranteeTerms().clear();
-			CSPModel confModel = (CSPModel) translator.translate(empty_template);
-			confModel.setConstraints(constraints);
-			
-			CSPModel modelForClassify2 = confModel.clone().add(csp_template); //V,D,Conflict y T
-			
-			Boolean sol = reasoner.solve(modelForClassify2);
-			
-			if (sol) moreRestrictive = true;
-			else moreRestrictive = false;
-				
-			String conflictType = null;
-			
-			if (moreRestrictive) {
-				if (res.get("conflicts")==null) conflictType = "the offer has more restrictive terms";
-				else conflictType = "more restrictive offer term";
-			} 
-			else {
-				CSPModel modelForClassify = confModel.clone().add(csp_template.negate()); //V,D,Conflict y noT
-
-				Boolean sol2 = reasoner.solve(modelForClassify);
-				
-				if (sol2) contradictory = true;
-				else contradictory = false;
-				
-				if (contradictory) {
-					if (res.get("conflicts")==null) conflictType = "the offer has contradictory terms";
-					else conflictType = "contradictory offer term";
-				}
-				else {
-					if (res.get("conflicts")==null) conflictType = "the offer has possibly contradictory terms (i.e. it allows values non-compliant with template terms)";
-					else conflictType = "possibly contradictory offer term (i.e. it allows values non-compliant with template terms)";
-				}
-			}
-			res.put("compliant", false);
-			res.put("conflictType", conflictType);
 		}
-		result.putAll(res);		
+		
+		logger.log(Level.INFO, "Affected Template constraints: "+affectedTemplateConstraints);
+		
+		//CSPModel csp_template = (CSPModel) translator.translate(template);
+		return constraints;
+	}
+	
+	private void classifyConflicts(List<CSPConstraint> constraints, AgreementTemplate template, CSPModel csp_template, Translator translator) {	
+		Boolean moreRestrictive = null;
+		Boolean contradictory = null;
+		//Boolean intersec = null;  //this is another kind of CSP conflict not observed yet
+		
+		AgreementTemplate empty_template = (AgreementTemplate) template.clone();
+		empty_template.getCreationConstraints().clear(); 
+		empty_template.getAgreementTerms().getGuaranteeTerms().clear();
+		CSPModel confModel = (CSPModel) translator.translate(empty_template);
+		confModel.setConstraints(constraints);
+		
+		CSPModel modelForClassify2 = confModel.clone().add(csp_template); //V,D,Conflict y T
+		
+		Boolean sol = reasoner.solve(modelForClassify2);
+		
+		if (sol) moreRestrictive = true;
+		else moreRestrictive = false;
+			
+		String conflictType = null;
+		
+		if (moreRestrictive) {
+			if (result.get("conflicts")==null) conflictType = "the offer has more restrictive terms";
+			else conflictType = "more restrictive offer term";
+		} 
+		else {
+			CSPModel modelForClassify = confModel.clone().add(csp_template.negate()); //V,D,Conflict y noT
+
+			Boolean sol2 = reasoner.solve(modelForClassify);
+			
+			if (sol2) contradictory = true;
+			else contradictory = false;
+			
+			if (contradictory) {
+				if (result.get("conflicts")==null) conflictType = "the offer has contradictory terms";
+				else conflictType = "contradictory offer term";
+			}
+			else {
+				if (result.get("conflicts")==null) conflictType = "the offer has possibly contradictory terms (i.e. it allows values non-compliant with template terms)";
+				else conflictType = "possibly contradictory offer term (i.e. it allows values non-compliant with template terms)";
+			}
+		}
+		result.put("compliant", false);
+		result.put("conflictType", conflictType);
 	}
 
+	
+	private String removeUnderScore(String conf) {
+		conf = conf
+				.substring(0, conf
+						.lastIndexOf("_"));
+		return conf;
+	}
+
+	
+	
 	@Override
 	public OperationResponse getResult() {
 		return result;
