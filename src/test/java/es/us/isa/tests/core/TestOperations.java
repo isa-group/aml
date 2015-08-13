@@ -314,6 +314,7 @@ public class TestOperations {
 		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
 		assertTrue(resp.get("conflicts").toString().equalsIgnoreCase("[G1: MUP < 999;]"));
 		assertTrue(resp.get("conflictType").toString().equalsIgnoreCase("contradictory offer term"));
+		assertTrue(resp.get("affectedTerms").toString().equalsIgnoreCase("G1: MUP >= 999;"));
 	}
 	
 	@Test
@@ -324,6 +325,7 @@ public class TestOperations {
 		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
 		assertTrue(resp.get("conflicts").toString().equalsIgnoreCase("[G1: MUP >= 9999;]"));
 		assertTrue(resp.get("conflictType").toString().equalsIgnoreCase("more restrictive offer term"));
+		assertTrue(resp.get("affectedTerms").toString().equalsIgnoreCase("G1: MUP >= 999;"));
 	}
 	
 	@Test
@@ -334,6 +336,7 @@ public class TestOperations {
 		assertFalse(Boolean.valueOf(resp.get("compliant").toString()));
 		assertTrue(resp.get("conflicts").toString().equalsIgnoreCase("[ASSIG_Price: Price == 10000;]"));
 		assertTrue(resp.get("conflictType").toString().equalsIgnoreCase("contradictory offer term"));
+		assertTrue(resp.get("affectedTerms").toString().equalsIgnoreCase("C2: Price == 1192 * MPI;"));
 	}
 	
 	@Test
