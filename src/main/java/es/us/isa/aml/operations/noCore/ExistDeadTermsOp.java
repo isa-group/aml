@@ -14,6 +14,8 @@ import es.us.isa.aml.translator.builders.iagree.model.IAgreeSLO;
 import es.us.isa.aml.util.OperationResponse;
 
 /**
+ * No core operation that determines if an agreement model contains dead terms.
+ * 
  * @author jdelafuente
  *
  */

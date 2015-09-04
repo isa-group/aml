@@ -3,11 +3,14 @@ package es.us.isa.aml.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import es.us.isa.aml.parsers.agreements.AgreementParser;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.DocType;
 
 /**
+ * This class represents an agreement template.
+ * 
  * @author jdelafuente
  *
  */
@@ -29,14 +32,13 @@ public class AgreementTemplate extends AgreementModel {
 	}
 
 	public void loadFromFile(String path) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
+		AgreementLanguage lang = AgreementLanguage.valueOf(Config
+				.getInstance().getDefaultInputFormat());
 		loadFromFile(path, lang);
 	}
 
-	@Override
 	public void loadFromFile(String path, AgreementLanguage lang) {
-		AgreementTemplate newT = (AgreementTemplate) manager.getStoreManager()
+		AgreementTemplate newT = (AgreementTemplate) AgreementParser
 				.parseAgreementFile(path, lang);
 		this.manager = newT.manager;
 		this.agreementTerms = newT.agreementTerms;

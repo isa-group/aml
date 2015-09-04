@@ -1,3 +1,12 @@
+AML v0.4, 2015-09-04
+-----------------------
+- Bug #925 fixed.
+- Bug #932 fixed.
+- Feature #686 added.
+- Feature #785 added.
+- Feature #868 added.
+- Feature #877 added.
+
 AML v0.3, 2015-07-10
 -----------------------
 - Now Configuration properties are stored in map (id, object).

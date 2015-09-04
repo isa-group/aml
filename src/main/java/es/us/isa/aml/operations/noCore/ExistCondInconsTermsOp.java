@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.us.isa.aml.operations.noCore;
 
 import java.util.HashMap;
@@ -15,8 +10,10 @@ import es.us.isa.aml.translator.builders.iagree.model.IAgreeGuaranteeTerm;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeSLO;
 import es.us.isa.aml.util.OperationResponse;
 
-
 /**
+ * No core operation that determines if an agreement model contains conditionally
+ * inconsistent terms.
+ * 
  * @author jdelafuente
  *
  */

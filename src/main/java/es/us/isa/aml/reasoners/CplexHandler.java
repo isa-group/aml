@@ -10,6 +10,7 @@ import ilog.cp.IloCP;
 import ilog.cp.IloCP.ConflictStatus;
 import ilog.cplex.IloCplex;
 import ilog.opl.IloOplElement;
+import ilog.opl.IloOplElementType;
 import ilog.opl.IloOplErrorHandler;
 import ilog.opl.IloOplFactory;
 import ilog.opl.IloOplModel;
@@ -56,14 +57,13 @@ public class CplexHandler {
 
 	public String solve(String raw) {
 		Date date = new Date();
-		File temp;		
+		File temp;
 		Boolean solve = false;
 
 		try {
 			temp = File.createTempFile(String.valueOf(date.getTime()), ".opl");
-			BufferedWriter bw = new BufferedWriter(new FileWriter(temp));			
-			//String content = URLDecoder.decode(raw, "UTF-8");		
-			String content = raw;
+			BufferedWriter bw = new BufferedWriter(new FileWriter(temp));
+			String content = URLDecoder.decode(raw, "UTF-8");
 			bw.write(content);
 			bw.close();
 
@@ -100,12 +100,12 @@ public class CplexHandler {
 				cplex.clearModel();
 				opl.endAll();
 			}
-			
+
 			env.end();
 		} catch (IloException e) {
 			String[] aux = e.getMessage().split(":");
 			String exc = aux[0];
-			if (exc.equals("IloMapOutOfBoundException")){
+			if (exc.equals("IloMapOutOfBoundException")) {
 				solve = false;
 			} else {
 				solve = null;
@@ -169,8 +169,8 @@ public class CplexHandler {
 				Iterator<IloOplElement> it = opl.getElementIterator(); it
 						.hasNext();) {
 					IloOplElement e = it.next();
-					if (!e.isDecisionVariable() && !e.isData()
-							&& !e.isCalculated()) {
+					if (e.getElementType().equals(
+							IloOplElementType.Type.CONSTRAINT)) {
 						IloConstraint c = e.asConstraint();
 						c.setName(e.getName());
 						cts_list.add(c);
@@ -190,28 +190,16 @@ public class CplexHandler {
 						result = baos.toString();
 					} else {
 						result = "The document has conflicts";
-						if (cp.refineConflict(constraints, prefs)) {
+						if (cp.refineConflict()) {
 							for (IloConstraint constraint : constraints) {
 								ConflictStatus cs = cp.getConflict(constraint);
-
 								String constraint_name = constraint.getName();
-								
-								//System.out.println("Constraint name en CplexHandler: "+constraint_name);
-								
-								if (constraint_name.contains("_") && !constraint_name.startsWith("ASSIG")) {
-									constraint_name = constraint_name
-											.substring(0, constraint_name
-													.lastIndexOf("_"));
-								}
-
 								if (cs.equals(ConflictStatus.ConflictMember)) {
-									if (!conflicts
-											.contains(constraint_name))
+									if (!conflicts.contains(constraint_name))
 										conflicts.add(constraint_name);
 								} else if (cs
 										.equals(ConflictStatus.ConflictPossibleMember)) {
-									if (!conflicts
-											.contains(constraint_name))
+									if (!conflicts.contains(constraint_name))
 										conflicts.add(constraint_name);
 								}
 							}
@@ -228,25 +216,59 @@ public class CplexHandler {
 				opl.generate();
 				solve = cplex.solve();
 
+				List<IloConstraint> cts_list = new ArrayList<>();
+				for (@SuppressWarnings("unchecked")
+				Iterator<IloOplElement> it = opl.getElementIterator(); it
+						.hasNext();) {
+					IloOplElement e = it.next();
+					if (e.getElementType().equals(
+							IloOplElementType.Type.CONSTRAINT)) {
+						IloConstraint c = e.asConstraint();
+						c.setName(e.getName());
+						cts_list.add(c);
+					}
+				}
+
+				IloConstraint[] constraints = cts_list
+						.toArray(new IloConstraint[cts_list.size()]);
+				double[] prefs = new double[constraints.length];
+				for (int p = 0; p < constraints.length; p++) {
+					prefs[p] = 1.0;
+				}
+
 				try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
 					if (solve) {
 						opl.printSolution(baos);
 						result = baos.toString();
 					} else {
 						result = "The document has conflicts";
-						opl.printConflict(baos);
-						conflicts.add(baos.toString());
+
+						if (cplex.refineConflict(constraints, prefs)) {
+							for (IloConstraint constraint : constraints) {
+								ilog.cplex.IloCplex.ConflictStatus cs = cplex
+										.getConflict(constraint);
+								String constraint_name = constraint.getName();
+								if (cs.equals(ilog.cplex.IloCplex.ConflictStatus.Member)) {
+									if (!conflicts.contains(constraint_name))
+										conflicts.add(constraint_name);
+								} else if (cs
+										.equals(ilog.cplex.IloCplex.ConflictStatus.PossibleMember)) {
+									if (!conflicts.contains(constraint_name))
+										conflicts.add(constraint_name);
+								}
+							}
+						}
 					}
 				}
 				cplex.clearModel();
 				opl.endAll();
 			}
-			
+
 			env.end();
 		} catch (IloException e) {
 			String[] aux = e.getMessage().split(":");
 			String exc = aux[0];
-			if (exc.equals("IloMapOutOfBoundException")){
+			if (exc.equals("IloMapOutOfBoundException")) {
 				result = "ERROR";
 				conflicts.add(e.getMessage());
 			} else {

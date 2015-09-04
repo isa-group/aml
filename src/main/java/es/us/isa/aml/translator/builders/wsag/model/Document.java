@@ -3,7 +3,8 @@
  */
 package es.us.isa.aml.translator.builders.wsag.model;
 
-import es.us.isa.aml.translator.AbstractModel;
+import es.us.isa.aml.model.AbstractModel;
+
 
 /**
  * @author jdelafuente

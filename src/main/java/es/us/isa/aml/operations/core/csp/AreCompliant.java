@@ -5,7 +5,6 @@ package es.us.isa.aml.operations.core.csp;
 
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
@@ -19,6 +18,7 @@ import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.ReasonerFactory;
 
 /**
+ * Core operation that determines if two agreement models are compliant.
  * @author jdelafuente
  *
  */
@@ -41,9 +41,9 @@ public class AreCompliant extends CoreOperation {
 		AgreementOffer offer_gts = (AgreementOffer) offer.clone();
 		offer_gts.getAgreementTerms().getService().getConfigurationProperties()
 				.clear();
-		//Con esto de debajo no tengo en cuenta las asignaciones de valores a variables en las MPs de la oferta
+		//No se tiene en cuenta las asignaciones de valores a variables en las MPs de la oferta
 		Map<String, MonitorableProperty> mps = offer_gts.getAgreementTerms().getMonitorableProperties();
-		Iterator it = mps.keySet().iterator();
+		Iterator<String> it = mps.keySet().iterator();
 		while (it.hasNext()) {
 			String mpId = (String) it.next();
 			MonitorableProperty mp = mps.get(mpId);
@@ -51,7 +51,6 @@ public class AreCompliant extends CoreOperation {
 				mp.setExpression(null);
 			}
 		}
-		
 
 		Boolean compliant1 = true;
 

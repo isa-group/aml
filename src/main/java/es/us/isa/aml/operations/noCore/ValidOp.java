@@ -1,16 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.us.isa.aml.operations.noCore;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
 import es.us.isa.aml.util.OperationResponse;
 
-
 /**
+ * No core operation that determines if an agreement model is valid (it does not
+ * contain inconsistencies, nor dead terms, nor conditionally inconsistent terms).
+ * 
  * @author jdelafuente
  *
  */

@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.us.isa.aml;
 
-import java.io.IOException;
 import java.io.InputStream;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.google.gson.Gson;
 
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
@@ -21,10 +16,9 @@ import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.Util;
 
 /**
- *
- * @author AntonioGamez
- */
-/**
+ * The AgreementManager class is used to handle documents and load your own
+ * configurations.
+ * 
  * @author jdelafuente
  * 
  */
@@ -34,36 +28,37 @@ public class AgreementManager {
 			.getName());
 	private final Store store;
 
-	
 	/**
-	 * Create an Agreement Manager with configuration by default.
+	 * Create an AgreementManager with the configuration by default. The default
+	 * configuration file is found under the resources folder and the filename
+	 * is "defaultConfig.json".
+	 * 
+	 * @see Config
 	 */
 	public AgreementManager() {
-		try {
-			InputStream in = getClass().getResourceAsStream(
-					"/defaultConfig.json");
-			String config = Util.getStringFromInputStream(in);
-			Config.loadConfig(config);
-		} catch (IOException ex) {
-			LOG.log(Level.WARNING, "AgreementManager load config error", ex);
-		}
-		
+		InputStream in = getClass().getResourceAsStream(
+				"/defaultConfig.json");
+		String jsonConfig = Util.getStringFromInputStream(in);
+		Config.load(new Gson().fromJson(jsonConfig, Config.class));
 		this.store = Store.getInstance();
 	}
 
 	/**
-	 * Create an Agreement Manager with the provided configuration
-	 * @param Configuration in json format
+	 * Create an AgreementManager with the provided configuration.
+	 * 
+	 * @param jsonConfig
+	 *            Configuration in JSON format
 	 */
-	public AgreementManager(String json) {
-		try {
-			Config.loadConfig(json);
-		} catch (IOException ex) {
-			LOG.log(Level.WARNING, "AgreementManager load config error", ex);
-		}
+	public AgreementManager(String jsonConfig) {
+		Config.load(new Gson().fromJson(jsonConfig, Config.class));
 		this.store = new Store();
 	}
 
+	/**
+	 * Retrieve the current store manager.
+	 * 
+	 * @see Store
+	 */
 	public Store getStoreManager() {
 		return this.store;
 	}
@@ -71,99 +66,213 @@ public class AgreementManager {
 	// Start agreement files and model management
 	// Creation
 
+	/**
+	 * Creates an Agreement object from the path to the agreement file provided.
+	 * 
+	 * @param path
+	 *            The path to the agreement file
+	 * @return The Agreement object
+	 * @see Agreement
+	 */
 	public Agreement createAgreementFromFile(String path) {
 		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
+				.getInstance().getDefaultInputFormat());
 		String content = Util.loadFile(path);
 		return store.createAgreement(content, lang, this);
 	}
 
+	/**
+	 * Creates an Agreement object specifying the path to the agreement file and
+	 * the language of the file.
+	 * 
+	 * @param path
+	 *            The path to the agreement file
+	 * @param lang
+	 *            The language of the agreement file
+	 * @return The Agreement object
+	 * @see Agreement
+	 * @see AgreementLanguage
+	 */
 	public Agreement createAgreementFromFile(String path, AgreementLanguage lang) {
 		String content = Util.loadFile(path);
 		return store.createAgreement(content, lang, this);
 	}
 
+	/**
+	 * Creates an Agreement object from the agreement content provided.
+	 * 
+	 * @param content
+	 *            The content of the agreement
+	 * @return The Agreement object
+	 * @see Agreement
+	 */
 	public Agreement createAgreement(String content) {
 		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
+				.getInstance().getDefaultInputFormat());
 		return store.createAgreement(content, lang, this);
 	}
 
+	/**
+	 * Creates an AgreementOffer object from the path to the offer file
+	 * provided.
+	 * 
+	 * @param path
+	 *            The path to the offer file
+	 * @return The AgreementOffer object
+	 * @see AgreementOffer
+	 */
 	public AgreementOffer createAgreementOfferFromFile(String path) {
 		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
+				.getInstance().getDefaultInputFormat());
 		String content = Util.loadFile(path);
 		return store.createAgreementOffer(content, lang, this);
 	}
 
+	/**
+	 * Creates an AgreementOffer object specifying the path to the offer file
+	 * and the language of the file.
+	 * 
+	 * @param path
+	 *            The path to the offer file
+	 * @param lang
+	 *            The language of the offer file
+	 * @return The AgreementOffer object
+	 * @see AgreementOffer
+	 * @see AgreementLanguage
+	 */
 	public AgreementOffer createAgreementOfferFromFile(String path,
 			AgreementLanguage lang) {
 		String content = Util.loadFile(path);
 		return store.createAgreementOffer(content, lang, this);
 	}
 
+	/**
+	 * Creates an AgreementOffer object from the offer content provided.
+	 * 
+	 * @param content
+	 *            The content of the offer
+	 * @return The AgreementOffer object
+	 * @see AgreementOffer
+	 */
 	public AgreementOffer createAgreementOffer(String content) {
 		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
+				.getInstance().getDefaultInputFormat());
 		return store.createAgreementOffer(content, lang, this);
 	}
 
 	/**
+	 * Creates an AgreementTemplate object from the path to the template file
+	 * provided.
+	 * 
 	 * @param path
-	 * @return
+	 *            The path to the template file
+	 * @return The AgreementTemplate object
+	 * @see AgreementTemplate
 	 */
 	public AgreementTemplate createAgreementTemplateFromFile(String path) {
 		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
+				.getInstance().getDefaultInputFormat());
 		String content = Util.loadFile(path);
 		return store.createAgreementTemplate(content, lang, this);
 	}
 
+	/**
+	 * Creates an AgreementTemplate object specifying the path to the template
+	 * file and the language of the file.
+	 * 
+	 * @param path
+	 *            The path to the template file
+	 * @param lang
+	 *            The language of the template file
+	 * @return The AgreementTemplate object
+	 * @see AgreementTemplate
+	 * @see AgreementLanguage
+	 */
 	public AgreementTemplate createAgreementTemplateFromFile(String path,
 			AgreementLanguage lang) {
 		String content = Util.loadFile(path);
 		return store.createAgreementTemplate(content, lang, this);
 	}
 
+	/**
+	 * Creates an AgreementTemplate object from the template content provided.
+	 * 
+	 * @param content
+	 *            The content of the template
+	 * @return The AgreementTemplate object
+	 * @see AgreementTemplate
+	 */
 	public AgreementTemplate createAgreementTemplate(String content) {
 		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
-		return store.createAgreementTemplate(content, lang, this);
-	}
-
-	public AgreementTemplate createAgreementTemplate(String content,
-			AgreementLanguage lang) {
+				.getInstance().getDefaultInputFormat());
 		return store.createAgreementTemplate(content, lang, this);
 	}
 
 	// Registration
+
+	/**
+	 * Register the provided AgreementTemplate in the store.
+	 * 
+	 * @param template
+	 *            The AgreementTemplate to register
+	 * @see Store
+	 */
 	public void registerTemplate(AgreementTemplate template) {
 		store.register("template", template);
 	}
 
+	/**
+	 * Register the provided AgreementOffer in the store.
+	 * 
+	 * @param offer
+	 *            The AgreementOffer to register
+	 * @see Store
+	 */
 	public void registerOffer(AgreementOffer offer) {
 		store.register("offer", offer);
 	}
 
+	/**
+	 * Register the provided Agreement in the store.
+	 * 
+	 * @param agreement
+	 *            The Agreement to register
+	 * @see Store
+	 */
 	public void registerAgreement(Agreement agreement) {
 		store.register("agreement", agreement);
 	}
 
 	// Retrieve
+	/**
+	 * Retrieve an AgreementTemplate from the store.
+	 * 
+	 * @return The AgreementTemplate registered with the name "template"
+	 */
 	public AgreementTemplate getAgreementTemplate() {
 		return store.getAgreementTemplate("template");
 	}
 
+	/**
+	 * Retrieve an AgreementOffer from the store.
+	 * 
+	 * @return The AgreementOffer registered with the name "offer"
+	 */
 	public AgreementOffer getAgreementOffer() {
 		return store.getAgreementOffer("offer");
 	}
 
+	/**
+	 * Retrieve an Agreement from the store.
+	 * 
+	 * @return The Agreement registered with the name "agreement"
+	 */
 	public Agreement getAgreement() {
 		return store.getAgreement("agreement");
 	}
 
-	// End agreement files and model management
-	// Start operations
+	// Operations
+
 	public Boolean isValid(AgreementModel agreementModel) {
 		ValidOp op = new ValidOp();
 		op.analyze(agreementModel);

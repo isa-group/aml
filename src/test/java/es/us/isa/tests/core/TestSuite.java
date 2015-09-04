@@ -16,6 +16,7 @@ import org.junit.runners.Suite;
     TestIAgreeModel.class,
     TestCSPModel.class,
     TestOperations.class,
+    TestAzureCompliance.class,
     TestStore.class
 })
 

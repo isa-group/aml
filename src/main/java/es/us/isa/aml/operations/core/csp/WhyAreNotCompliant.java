@@ -96,7 +96,7 @@ public class WhyAreNotCompliant extends CoreOperation {
 	private List<CSPConstraint> putExplanation(OperationResponse res, CSPModel csp_offer, CSPModel csp_template) {
 		//System.out.println("Res es: "+res);
 		Map<String, Object> resMap = res.getResult();
-		ArrayList conflictResult = (ArrayList) resMap.get("conflicts");
+		ArrayList<String> conflictResult = (ArrayList<String>) resMap.get("conflicts");
 		
 		//Created a copy to remove the conflicts that are from the offer. This is used to show the affected template constraints
 		ArrayList<String> conflictsForTemplate = (ArrayList<String>) conflictResult.clone();
@@ -118,12 +118,12 @@ public class WhyAreNotCompliant extends CoreOperation {
 		Boolean constraintsEmpty = true;
 		Boolean exit = false;
 		while (constraintsEmpty){
-			Iterator itConflictResult = conflictResult.iterator();
+			Iterator<String> itConflictResult = conflictResult.iterator();
 			while (itConflictResult.hasNext()) {
 				String conf = (String) itConflictResult.next();				
 				String confs = (String) result.get("conflicts");
 				
-				Iterator itSourceConstraints = sourceConstraints.iterator();
+				Iterator<CSPConstraint> itSourceConstraints = sourceConstraints.iterator();
 				while (itSourceConstraints.hasNext()) {
 					CSPConstraint cons = (CSPConstraint) itSourceConstraints.next();
 					String constraint_name = cons.getId(); 
@@ -158,7 +158,7 @@ public class WhyAreNotCompliant extends CoreOperation {
 				CSPModel modelAux = csp_template.clone().add(csp_offer); //O y T
 				OperationResponse resAux = reasoner.explain(modelAux);
 				Map<String, Object> test3 = resAux.getResult();
-				conflictResult = (ArrayList) test3.get("conflicts");
+				conflictResult = (ArrayList<String>) test3.get("conflicts");
 				exit = true;
 			} else {
 				constraintsEmpty = false;
@@ -169,11 +169,11 @@ public class WhyAreNotCompliant extends CoreOperation {
 		
 		//To run on conflictsForTemplate in order to create the list of affected template CSP conflicts
 		//ESTO SE PODRÁ SACAR FACTOR COMÚN CON LO DE ARRIBA SEGURO
-		Iterator itConflictsForTemplate = conflictsForTemplate.iterator();
+		Iterator<String> itConflictsForTemplate = conflictsForTemplate.iterator();
 		while (itConflictsForTemplate.hasNext()) {
 			String affected = (String) itConflictsForTemplate.next();				
 
-			Iterator itSourceTemplateConstraints = sourceTemplateConstraints.iterator();
+			Iterator<CSPConstraint> itSourceTemplateConstraints = sourceTemplateConstraints.iterator();
 			while (itSourceTemplateConstraints.hasNext()) {
 				CSPConstraint c = (CSPConstraint) itSourceTemplateConstraints.next();
 				String constraint_name = c.getId(); 

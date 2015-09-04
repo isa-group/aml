@@ -3,12 +3,12 @@ package es.us.isa.aml.translator.builders.wsag;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import es.us.isa.aml.model.AbstractModel;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.ServiceConfiguration;
-import es.us.isa.aml.translator.AbstractModel;
 import es.us.isa.aml.translator.IBuilder;
 import es.us.isa.aml.translator.builders.wsag.model.Agreement;
 import es.us.isa.aml.translator.builders.wsag.model.Constraint;
@@ -26,6 +26,8 @@ import es.us.isa.aml.translator.builders.wsag.model.Variable;
 import es.us.isa.aml.util.DocType;
 
 /**
+ * Builds an WSAGModel from an AgreementModel.
+ * 
  * @author jdelafuente
  *
  */
@@ -92,24 +94,29 @@ public class WSAGBuilder implements IBuilder {
 			setMonitorableProperty(p);
 		}
 
-		for (es.us.isa.aml.model.GuaranteeTerm gt : at.getGuaranteeTerms().values())
+		for (es.us.isa.aml.model.GuaranteeTerm gt : at.getGuaranteeTerms()
+				.values())
 			setGuaranteeTerm(gt);
 	}
 
 	@Override
 	public void setService(ServiceConfiguration service) {
-		
-		wsagDoc.getTerms().setServiceReference(new ServiceReference(service.getServiceName()));
-		
+
+		wsagDoc.getTerms().setServiceReference(
+				new ServiceReference(service.getServiceName()));
+
 		wsagDoc.getTerms().getServiceDescriptionTerm()
 				.setName("SDT_" + service.getServiceName());
-		wsagDoc.getTerms().getServiceDescriptionTerm().setServiceName(service.getServiceName());
+		wsagDoc.getTerms().getServiceDescriptionTerm()
+				.setServiceName(service.getServiceName());
 
-		wsagDoc.getTerms().getServiceDescriptionTerm().setServiceReference(service.getEndpointReference());
+		wsagDoc.getTerms().getServiceDescriptionTerm()
+				.setServiceReference(service.getEndpointReference());
 
 		wsagDoc.getTerms().getServiceProperties()
 				.setName("SP_" + service.getServiceName());
-		wsagDoc.getTerms().getServiceProperties().setServiceName(service.getServiceName());
+		wsagDoc.getTerms().getServiceProperties()
+				.setServiceName(service.getServiceName());
 
 		for (Property p : service.getConfigurationProperties().values()) {
 			setConfigurationProperty(p);
@@ -142,10 +149,10 @@ public class WSAGBuilder implements IBuilder {
 		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (mp.getExpression() != null) {
 			v.setLocation(mp.getExpression().toString());
-		}		
+		}
 
 		wsagDoc.getTerms().getServiceProperties().getVariableSet().add(v);
 	}

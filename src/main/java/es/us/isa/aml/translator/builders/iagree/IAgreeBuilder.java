@@ -6,6 +6,7 @@ package es.us.isa.aml.translator.builders.iagree;
 import java.util.HashMap;
 import java.util.Map;
 
+import es.us.isa.aml.model.AbstractModel;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Compensation;
@@ -37,6 +38,8 @@ import es.us.isa.aml.translator.builders.iagree.model.IAgreeService;
 import es.us.isa.aml.util.DocType;
 
 /**
+ * Builds an iAgreeModel from an AgreementModel.
+ * 
  * @author jdelafuente
  *
  */
@@ -85,8 +88,8 @@ public class IAgreeBuilder implements IBuilder {
 		context.setProvider(ctx.getProvider());
 		context.setConsumer(ctx.getConsumer());
 		model.setContext(context);
-		
-		for(Metric m : ctx.getMetrics().values())
+
+		for (Metric m : ctx.getMetrics().values())
 			setMetric(m);
 	}
 
@@ -139,7 +142,8 @@ public class IAgreeBuilder implements IBuilder {
 	@Override
 	public void setMonitorableProperty(Property mp) {
 		IAgreeMonitorableProperty imp = new IAgreeMonitorableProperty(mp);
-		model.getAgreementTerms().getMonitorableProperties().put(imp.getId(), imp);
+		model.getAgreementTerms().getMonitorableProperties()
+				.put(imp.getId(), imp);
 	}
 
 	@Override
@@ -174,7 +178,8 @@ public class IAgreeBuilder implements IBuilder {
 			icc.setQc(cc.getQc());
 		}
 
-		((IAgreeAgreementTemplate) model).getCreationConstraints().put(icc.getId(), icc);
+		((IAgreeAgreementTemplate) model).getCreationConstraints().put(
+				icc.getId(), icc);
 	}
 
 	@Override
@@ -183,7 +188,7 @@ public class IAgreeBuilder implements IBuilder {
 	}
 
 	@Override
-	public AgreementModel getModel() {
+	public AbstractModel getModel() {
 		return model;
 	}
 }
