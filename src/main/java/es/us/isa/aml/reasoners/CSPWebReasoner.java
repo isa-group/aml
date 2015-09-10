@@ -39,9 +39,8 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	public Boolean solve(String cspModel) {
-		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
+		String url = Config.getInstance().getCSPWebReasonerEndpoint();
 		url += "/solver/solve";
-		LOGGER.log(Level.INFO, "CSPWebReasoner Endpoint: " + url);
 		
 		Boolean res = null;
 		try {
@@ -60,11 +59,10 @@ public class CSPWebReasoner extends Reasoner {
 	}
 
 	public OperationResponse explain(String cspModel) {
-		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
+		String url = Config.getInstance().getCSPWebReasonerEndpoint();
 		url += "/solver/explain";
-
+		
 		OperationResponse res = null;
-
 		try {
 			String response = Util.sendPost(url, cspModel);
 			res = new Gson().fromJson(response.toString(),
@@ -77,7 +75,7 @@ public class CSPWebReasoner extends Reasoner {
 
 	@Override
 	public Boolean implies(CSPModel antecedent, CSPModel consequent) {
-		String url = (String) Config.getProperty("CSPWebReasonerEndpoint");
+		String url = Config.getInstance().getCSPWebReasonerEndpoint();
 		url += "/solver/implies";
 
 		CSPModel model = antecedent.add(consequent.negate());
@@ -103,8 +101,7 @@ public class CSPWebReasoner extends Reasoner {
 		OperationResponse problem = null;
 		OperationResponse res = null;
 
-		String explainUrl = (String) Config
-				.getProperty("CSPWebReasonerEndpoint");
+		String explainUrl = Config.getInstance().getCSPWebReasonerEndpoint();
 		explainUrl += "/solver/explain";
 
 		if (precondition) {
@@ -112,7 +109,6 @@ public class CSPWebReasoner extends Reasoner {
 			// Conseq
 			CSPModel modelForProblem = antecedent.add(consequent.negate());
 			String stringForProblem = modelForProblem.toString();
-			//System.out.println("antecedent.add(consequent.negate()): \n"+stringForProblem);
 
 			try {
 				String response = Util.sendPost(explainUrl, stringForProblem);
@@ -128,10 +124,7 @@ public class CSPWebReasoner extends Reasoner {
 			Expression problemExpr = null;
 
 			if (result.length() > 0) {
-				result = result.substring(result.indexOf("\n")); // del //
-																	// solution\n
-																	// en
-																	// adelante
+				result = result.substring(result.indexOf("\n"));
 				ArrayList<RelationalExpression> assignments = new ArrayList<RelationalExpression>();
 
 				while (result != null) {
@@ -167,21 +160,9 @@ public class CSPWebReasoner extends Reasoner {
 			CSPConstraint problemConst = new CSPConstraint("Problem",
 					problemExpr);
 			CSPModel background = antecedentOriginal.clone();
-			background.addConstraintOnTop(problemConst); // no hace falta partir
-															// estas
-															// restricciones en
-															// el CSPBuilder pq
-															// se añade aquí
-															// todo junto. Y lo
-															// añado al ppio
-															// para que el
-															// explaining
-															// funcione
-															// correctamente
+			background.addConstraintOnTop(problemConst);
 			CSPModel modelForExplain = background.add(consequent);
 			String stringForExplain = modelForExplain.toString();
-			//System.out.println("String For Explain: \n"+stringForExplain);
-
 			try {
 				String response2 = Util.sendPost(explainUrl, stringForExplain);
 				res = new Gson().fromJson(response2.toString(),

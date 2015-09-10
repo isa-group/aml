@@ -1,11 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.us.isa.aml.parsers.agreements;
 
 import java.io.File;
+
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonTokenStream;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.parsers.agreements.iagree.IAgreeErrorListener;
@@ -15,55 +13,55 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EntryContext;
 import es.us.isa.aml.util.AgreementLanguage;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
-
 /**
+ * Parser for iAgree documents.
+ * 
  * @author jdelafuente
  *
  */
-public class IAgreeParser implements AgreementParser {
+public class IAgreeParser extends AgreementParser {
 
-    private IAgreeErrorListener errorListener;
+	private IAgreeErrorListener errorListener;
 
-    @Override
-    public AgreementModel doParse(String content) {
+	@Override
+	public AgreementModel doParse(String content) {
 
-        AgreementModel model;
+		AgreementModel model;
 
-        iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(content));
+		iAgreeLexer lexer = new iAgreeLexer(new ANTLRInputStream(content));
 
-        // Get a list of matched tokens
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
+		// Get a list of matched tokens
+		CommonTokenStream tokens = new CommonTokenStream(lexer);
 
-        // Pass the tokens to the parser
-        iAgreeParser parser = new iAgreeParser(tokens);
+		// Pass the tokens to the parser
+		iAgreeParser parser = new iAgreeParser(tokens);
 
-        errorListener = new IAgreeErrorListener();
-        parser.addErrorListener(errorListener);
+		errorListener = new IAgreeErrorListener();
+		parser.addErrorListener(errorListener);
 
-        // Specify our entry point
-        EntryContext context = parser.entry();
+		// Specify our entry point
+		EntryContext context = parser.entry();
 
-        // Walk it and attach our listener
-        MiAgreeVisitor visitor = new MiAgreeVisitor(parser);
-        model = visitor.visitEntry(context);
-        
-        if(errorListener.getErrors().size() > 0){
-        	throw new IllegalArgumentException("There was an error parsing the file. Please, check the syntax of the document.");
+		// Walk it and attach our listener
+		MiAgreeVisitor visitor = new MiAgreeVisitor(parser);
+		model = visitor.visitEntry(context);
+
+		if (errorListener.getErrors().size() > 0) {
+			throw new IllegalArgumentException(
+					"There was an error parsing the file. Please, check the syntax of the document.");
 		}
 
-        return model;
-    }
+		return model;
+	}
 
-    @Override
-    public AgreementLanguage getSupportedLang() {
-        return AgreementLanguage.IAGREE;
-    }
+	@Override
+	public AgreementLanguage getSupportedLang() {
+		return AgreementLanguage.IAGREE;
+	}
 
-    public IAgreeErrorListener getErrorListener() {
-        return errorListener;
-    }
+	public IAgreeErrorListener getErrorListener() {
+		return errorListener;
+	}
 
 	@Override
 	public AgreementModel doParse(String content, File[] metrics) {

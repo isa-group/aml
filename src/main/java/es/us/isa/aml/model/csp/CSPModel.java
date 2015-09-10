@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import es.us.isa.aml.model.AbstractModel;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.LogicalExpression;
 import es.us.isa.aml.model.expression.LogicalOperator;
 import es.us.isa.aml.model.expression.ParenthesisExpression;
-import es.us.isa.aml.translator.AbstractModel;
 
 /**
+ * This class represents a Constraint Satisfaction Problem model.
  * @author jdelafuente
  *
  */

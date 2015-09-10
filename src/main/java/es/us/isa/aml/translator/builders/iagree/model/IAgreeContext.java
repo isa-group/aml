@@ -7,7 +7,6 @@ import java.util.Collection;
 
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.Metric;
-import es.us.isa.aml.util.Util;
 
 /**
  * @author jdelafuente
@@ -15,35 +14,27 @@ import es.us.isa.aml.util.Util;
  */
 public class IAgreeContext extends Context {
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        
-        if (getInitiator() != null) {
-            sb.append("\t").append("Initiator: " + "\"").append(this.getInitiator()).append("\";" + "\n");
-        }
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
 
-        if (getResponder() != null) {
-            sb.append("\t").append(this.getResponder()).append(";" + "\n");
-        }
+		if (getInitiator() != null) {
+			IAgreeActor a = new IAgreeActor(getInitiator());
+			sb.append("\t").append(a).append(";").append("\n");
+		}
 
-        if (getProvider() != null) {
-            sb.append("\t").append("Provider " + "\"").append(Util.withoutDoubleQuotes(getProvider())).append("\"")
-                    .append(";" + "\n");
-        }
+		if (getResponder() != null){
+			IAgreeActor a = new IAgreeActor(getResponder());
+			sb.append("\t").append(a).append(";").append("\n");
+		}
 
-        if (getConsumer() != null) {
-            sb.append("\t").append("Consumer " + "\"").append(Util.withoutDoubleQuotes(getConsumer())).append("\"")
-                    .append(";" + "\n");
-        }
+		sb.append("\t" + "Metrics:" + "\n");
+		Collection<Metric> metrics = this.getMetrics().values();
+		for (Metric metric : metrics) {
+			sb.append("\t\t").append(metric).append("\n");
+		}
 
-        sb.append("\t" + "Metrics:" + "\n");
-        Collection<Metric> metrics = this.getMetrics().values();
-        for (Metric metric : metrics) {
-            sb.append("\t\t").append(metric).append("\n");
-        }
+		return sb.toString();
 
-        return sb.toString();
-
-    }
+	}
 }

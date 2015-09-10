@@ -1,6 +1,6 @@
 AgreementOffer IAgreeCoreOffer version 1.0 for Template IAgreeCoreTemplate version 1.0
-	Initiator: "Initiator1";
 	Provider "Prov1" as Responder;
+	Consumer "Cons1" as Initiator;
 	
 	Metrics:
 		met3: float[0..128];

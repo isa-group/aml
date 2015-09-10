@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.us.isa.aml.parsers.agreements;
 
 import java.io.File;
@@ -24,39 +19,43 @@ import es.us.isa.aml.parsers.agreements.wsag.WsagParserHelper;
 import es.us.isa.aml.util.AgreementLanguage;
 
 /**
+ * Parser for WSAG documents.
+ * 
  * @author jdelafuente
  *
  */
-public class WsagParser implements AgreementParser {
+public class WsagParser extends AgreementParser {
 
-    private static final Logger LOG = Logger.getLogger(WsagParser.class.getName());
+	private static final Logger LOG = Logger.getLogger(WsagParser.class
+			.getName());
 
-    @Override
+	@Override
 	public AgreementModel doParse(String content) {
 		return doParse(content, null);
 	}
-    
-    @Override
-    public AgreementModel doParse(String content, File[] metrics) {
-        AgreementModel model = null;
-        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-        try {
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(new InputSource(new StringReader(content)));
-            doc.getDocumentElement().normalize();
-            WsagParserHelper helper = new WsagParserHelper(doc, metrics);
-            model = helper.getModel();
 
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            LOG.log(Level.WARNING, null, e);
-        }
+	@Override
+	public AgreementModel doParse(String content, File[] metrics) {
+		AgreementModel model = null;
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		try {
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			Document doc = dBuilder.parse(new InputSource(new StringReader(
+					content)));
+			doc.getDocumentElement().normalize();
+			WsagParserHelper helper = new WsagParserHelper(doc, metrics);
+			model = helper.getModel();
 
-        return model;
-    }
+		} catch (ParserConfigurationException | SAXException | IOException e) {
+			LOG.log(Level.WARNING, null, e);
+		}
 
-    @Override
-    public AgreementLanguage getSupportedLang() {
-        return AgreementLanguage.WSAG;
-    }
+		return model;
+	}
+
+	@Override
+	public AgreementLanguage getSupportedLang() {
+		return AgreementLanguage.WSAG;
+	}
 
 }

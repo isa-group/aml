@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import es.us.isa.aml.model.AbstractModel;
 import es.us.isa.aml.model.AgreementElement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
@@ -17,6 +18,8 @@ import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.ServiceConfiguration;
 
 /**
+ * Tanslates an AgreementModel into another kind of model.
+ * 
  * @author jdelafuente
  *
  */
@@ -33,7 +36,7 @@ public class Translator {
 	public IBuilder getBuilder() {
 		return builder;
 	}
-	
+
 	public AbstractModel translate(AgreementModel model) {
 		try {
 			IBuilder _builder = builder.getClass().newInstance();
@@ -49,13 +52,14 @@ public class Translator {
 
 	public void translate(AgreementModel model, IBuilder builder) {
 		builder.setId(model.getID());
-		builder.setVersion(model.getVersion());		
+		builder.setVersion(model.getVersion());
 		builder.setContext(model.getContext());
-		
+
 		translate(model.getAgreementTerms(), builder);
 
 		if (model instanceof AgreementTemplate) {
-			for(CreationConstraint cc : ((AgreementTemplate) model).getCreationConstraints().values())
+			for (CreationConstraint cc : ((AgreementTemplate) model)
+					.getCreationConstraints().values())
 				translate(cc, builder);
 		}
 	}

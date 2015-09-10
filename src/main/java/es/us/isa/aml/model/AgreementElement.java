@@ -3,6 +3,7 @@ package es.us.isa.aml.model;
 import java.util.Objects;
 
 /**
+ * This class represents any element that can appear during the agreement lifecycle. 
  * @author jdelafuente
  *
  */

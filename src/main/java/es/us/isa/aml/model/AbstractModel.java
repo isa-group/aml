@@ -1,11 +1,12 @@
+/**
+ * 
+ */
 package es.us.isa.aml.model;
 
 /**
  * @author jdelafuente
  *
  */
-public enum ServiceRole {
+public abstract class AbstractModel {
 
-    Provider,
-    Consumer
 }

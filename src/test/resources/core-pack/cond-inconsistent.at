@@ -1,10 +1,6 @@
 Template IAgreeCoreCondIncs version 1.0
-	Initiator: "Initiator1";
-	
 	Provider "Prov1" as Responder;
-	Consumer "Cons1";
-	//Provider "Prov1";
-	//Consumer "Cons1" as Responder;
+	Consumer "Cons1" as Initiator;
 	
 	Metrics:
 		met1: integer [0..23];

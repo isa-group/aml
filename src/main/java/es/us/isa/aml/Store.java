@@ -1,15 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.us.isa.aml;
 
 import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
@@ -17,17 +11,13 @@ import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.parsers.agreements.AgreementParser;
 import es.us.isa.aml.util.AgreementLanguage;
-import es.us.isa.aml.util.Config;
-import es.us.isa.aml.util.ParserFactory;
 import es.us.isa.aml.util.Util;
 
 /**
- *
- * @author AntonioGamez
+ * The Store class stores all the templates, offers and agreements in a map.
+ * @author jdelafuente
  */
 public class Store {
-
-	private static final Logger LOG = Logger.getLogger(Store.class.getName());
 
 	private static Store instance = null;
 
@@ -40,24 +30,55 @@ public class Store {
 
 	private final Map<String, AgreementModel> agreementModelMap;
 
+	/**
+	 * Creates an Store object.
+	 */
 	protected Store() {
 		agreementModelMap = new HashMap<>();
 	}
 
-	// main methods
-	// creation
+	/**
+	 * Create an Agreement object from the agreement content, the language type
+	 * and the AgreementManager.
+	 * 
+	 * @param content
+	 *            The agreement content
+	 * @param lang
+	 *            The language of the agreement
+	 * @param manager
+	 *            The current agreement manager
+	 * @return The Agreement object
+	 * @see Agreement
+	 * @see AgreementLanguage
+	 * @see AgreementManager
+	 */
 	public Agreement createAgreement(String content, AgreementLanguage lang,
 			AgreementManager manager) {
-		Agreement agreement = (Agreement) parseAgreementFile(content, lang);
+		Agreement agreement = (Agreement) AgreementParser.parseAgreementFile(content, lang);
 		if (agreement != null) {
 			agreement.setAgreementManager(manager);
 		}
 		return agreement;
 	}
 
+	/**
+	 * Create an AgreementOffer object from the offer content, the language type
+	 * and the agreement manager.
+	 * 
+	 * @param content
+	 *            The offer content
+	 * @param lang
+	 *            The language of the offer
+	 * @param manager
+	 *            The current agreement manager
+	 * @return The AgreementOffer object
+	 * @see AgreementOffer
+	 * @see AgreementLanguage
+	 * @see AgreementManager
+	 */
 	public AgreementOffer createAgreementOffer(String content,
 			AgreementLanguage lang, AgreementManager manager) {
-		AgreementOffer offer = (AgreementOffer) parseAgreementFile(content,
+		AgreementOffer offer = (AgreementOffer) AgreementParser.parseAgreementFile(content,
 				lang);
 		if (offer != null) {
 			offer.setAgreementManager(manager);
@@ -65,9 +86,24 @@ public class Store {
 		return offer;
 	}
 
+	/**
+	 * Create an AgreementTemplate object from the template content, the
+	 * language type and the agreement manager.
+	 * 
+	 * @param content
+	 *            The template content
+	 * @param lang
+	 *            The language of the template
+	 * @param manager
+	 *            The current agreement manager
+	 * @return The AgreementTemplate object
+	 * @see AgreementTemplate
+	 * @see AgreementLanguage
+	 * @see AgreementManager
+	 */
 	public AgreementTemplate createAgreementTemplate(String content,
 			AgreementLanguage lang, AgreementManager manager) {
-		AgreementTemplate template = (AgreementTemplate) parseAgreementFile(
+		AgreementTemplate template = (AgreementTemplate) AgreementParser.parseAgreementFile(
 				content, lang);
 		if (template != null) {
 			template.setAgreementManager(manager);
@@ -76,14 +112,36 @@ public class Store {
 	}
 
 	// Registration
+
+	/**
+	 * Parse and register a file in the store map.
+	 * 
+	 * @param path
+	 *            The path to the file
+	 */
 	public void registerFromFile(String path) {
-		register(parseAgreementFile(Util.loadFile(path)));
+		register(AgreementParser.parseAgreementFile(Util.loadFile(path)));
 	}
 
+	/**
+	 * Parse and register a file in the store map.
+	 * 
+	 * @param file
+	 *            The File object to register
+	 */
 	public void registerFromFile(File file) {
 		registerFromFile(file.getPath());
 	}
 
+	/**
+	 * Parse and register all the files contained in the folder provided.
+	 * You can specify a boolean to determine if a recursive search is needed or
+	 * not.
+	 * 
+	 * @param folderPath
+	 *            The path to the folder that contains all the files
+	 * @param recursive 	The Boolean that determines if a recursive search is needed
+	 */
 	public void registerFromFolder(String folderPath, Boolean recursive) {
 		registerFromFolder(new File(folderPath), recursive);
 	}
@@ -96,22 +154,37 @@ public class Store {
 				} else if (fileEntry.getName().contains(".at")
 						|| fileEntry.getName().contains(".ao")
 						|| fileEntry.getName().contains(".ag")) {
-					register(parseAgreementFile(Util.loadFile(fileEntry
+					register(AgreementParser.parseAgreementFile(Util.loadFile(fileEntry
 							.getPath())));
 				}
 			}
 		}
 	}
 
+	/**
+	 * Register an AgreementModel in the store map.
+	 * @param model	The AgreementModel to register
+	 */
 	public void register(AgreementModel model) {
 		register(model.getID(), model);
 	}
 
+	/**
+	 * Register an AgreementModel using the name provided as the key of the store map.
+	 * @param name	The name to use as the key of this entry
+	 * @param model	The AgreementModel to register
+	 */
 	public void register(String name, AgreementModel model) {
 		instance.agreementModelMap.put(name, model);
 	}
 
 	// Retrieve
+	
+	/**
+	 * Retrieve an AgreementTemplate by name.
+	 * @param name	The key of the store map entry to retrieve
+	 * @return The AgreementTemplate
+	 */
 	public AgreementTemplate getAgreementTemplate(String name) {
 		try {
 			return (AgreementTemplate) instance.agreementModelMap.get(name);
@@ -120,6 +193,11 @@ public class Store {
 		}
 	}
 
+	/**
+	 * Retrieve an AgreementOffer by name.
+	 * @param name	The key of the store map entry to retrieve
+	 * @return The AgreementOffer
+	 */
 	public AgreementOffer getAgreementOffer(String name) {
 		try {
 			return (AgreementOffer) instance.agreementModelMap.get(name);
@@ -128,6 +206,11 @@ public class Store {
 		}
 	}
 
+	/**
+	 * Retrieve an Agreement by name.
+	 * @param name	The key of the store map entry to retrieve
+	 * @return The Agreement
+	 */
 	public Agreement getAgreement(String name) {
 		try {
 			return (Agreement) instance.agreementModelMap.get(name);
@@ -136,33 +219,18 @@ public class Store {
 		}
 	}
 
-	// Parsing
-	public AgreementModel parseAgreementFile(String content) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
-		AgreementParser parser = ParserFactory.createParser(lang);
-		return parser.doParse(content);
-	}
-
-	public AgreementModel parseAgreementFile(String content,
-			AgreementLanguage lang) {
-		AgreementParser parser = ParserFactory.createParser(lang);
-		AgreementModel model = parser.doParse(content);
-		return model;
-	}
-
-	public AgreementModel parseAgreementFile(String content, File[] metrics,
-			AgreementLanguage lang) {
-		AgreementParser parser = ParserFactory.createParser(lang);
-		AgreementModel model = parser.doParse(content, metrics);
-		return model;
-	}
-
-	// other methods
+	/**
+	 * Retrieve the map of the store.
+	 * @return An unmodifiable view of the map that contains all the agreement models
+	 */
 	public Map<String, AgreementModel> getAgreementMap() {
 		return Collections.unmodifiableMap(instance.agreementModelMap);
 	}
 
+	/**
+	 * Remove an AgreementModel of the store map by its name.
+	 * @param name	The key of the entry to remove
+	 */
 	public void removeAgreement(String name) {
 		instance.agreementModelMap.remove(name);
 	}

@@ -7,12 +7,13 @@ import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.Var;
-import es.us.isa.aml.translator.AbstractModel;
-import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.OperationResponse;
 
 /**
+ * This abstract class is used to represent an agreement model. There are three
+ * types of agreement models: templates, offers and agreements.
+ * 
  * @author jdelafuente
  *
  */
@@ -81,8 +82,6 @@ public abstract class AgreementModel extends AbstractModel {
 	public void setDocType(DocType docType) {
 		this.docType = docType;
 	}
-
-	public abstract void loadFromFile(String path, AgreementLanguage lang);
 
 	// OPERATIONS - This should be syncronized with AgreementManager methods
 	public Boolean isValid() {
@@ -175,7 +174,8 @@ public abstract class AgreementModel extends AbstractModel {
 
 	public GuaranteeTerm getGuaranteeTerm(String gtName) {
 		GuaranteeTerm gt = null;
-		for (GuaranteeTerm g : this.getAgreementTerms().getGuaranteeTerms().values()) {
+		for (GuaranteeTerm g : this.getAgreementTerms().getGuaranteeTerms()
+				.values()) {
 			if (g.getId().equals(gtName)) {
 				gt = g;
 			}

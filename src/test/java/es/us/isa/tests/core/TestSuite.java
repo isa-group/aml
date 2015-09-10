@@ -12,10 +12,13 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
+	TestConfig.class,
     TestExpression.class,
     TestIAgreeModel.class,
     TestCSPModel.class,
-    TestOperations.class,
+    TestOperationsLocalReasoner.class,
+    TestOperationsWebReasoner.class,
+    TestAzureCompliance.class,
     TestStore.class
 })
 

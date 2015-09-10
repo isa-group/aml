@@ -1,5 +1,10 @@
 package es.us.isa.aml.parsers;
 
+/**
+ * Provides error information to the parser.
+ * @author jdelafuente
+ *
+ */
 public class Error {
 
     protected int lineNo;

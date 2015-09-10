@@ -21,10 +21,10 @@ import es.us.isa.aml.model.GuaranteeTerm;
 import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Range;
+import es.us.isa.aml.model.Role;
 import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.Scope;
 import es.us.isa.aml.model.ServiceConfiguration;
-import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.Atomic;
@@ -66,9 +66,11 @@ public class TestIAgreeModel {
 		assertEquals(model.getID(), "IAgreeCore");
 		assertEquals(model.getVersion(), 1.0f, 0.0);
 
-		// Asserts Responder
-		assertEquals(model.getContext().getResponder().getRoleType(),
-				ServiceRole.Provider);
+		// Asserts actors
+		assertEquals(model.getContext().getResponder().getRole(),
+				Role.Provider);
+		assertEquals(model.getContext().getInitiator().getRole(),
+				Role.Consumer);
 
 		// Metrics
 		Metric met1 = new Metric("met1", "integer", new Range(0, 23));
@@ -111,12 +113,12 @@ public class TestIAgreeModel {
 		Expression exp = new RelationalExpression(new Var(MonitProp1),
 				new Atomic(64), RelationalOperator.LTE);
 		SLO slo = new SLO(exp);
-		GuaranteeTerm g1 = new GuaranteeTerm("G1", ServiceRole.Provider, slo);
+		GuaranteeTerm g1 = new GuaranteeTerm("G1", Role.Provider, slo);
 
 		Expression exp2 = new RelationalExpression(new Var(MonitProp2),
 				new Atomic(256), RelationalOperator.LT);
 		SLO slo2 = new SLO(exp2);
-		GuaranteeTerm g2 = new GuaranteeTerm("G2", ServiceRole.Consumer, slo2);
+		GuaranteeTerm g2 = new GuaranteeTerm("G2", Role.Consumer, slo2);
 
 		at.getGuaranteeTerms().put(g1.getId(), g1);
 		at.getGuaranteeTerms().put(g2.getId(), g2);

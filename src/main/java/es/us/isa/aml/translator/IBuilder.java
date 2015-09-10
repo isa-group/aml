@@ -1,5 +1,6 @@
 package es.us.isa.aml.translator;
 
+import es.us.isa.aml.model.AbstractModel;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.CreationConstraint;
@@ -10,6 +11,7 @@ import es.us.isa.aml.model.ServiceConfiguration;
 import es.us.isa.aml.util.DocType;
 
 /**
+ * Builds a model from an AgreementModel.
  * @author jdelafuente
  *
  */
