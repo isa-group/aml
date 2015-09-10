@@ -10,7 +10,7 @@ import java.util.List;
 public class GuaranteeTerm extends AgreementElement implements
         Comparable<GuaranteeTerm> {
 
-    private ServiceRole actor;
+    private Role role;
     private SLO slo;
     private String serviceScope;
     private QualifyingCondition qc;
@@ -20,29 +20,29 @@ public class GuaranteeTerm extends AgreementElement implements
         super(id);
     }
 
-    public GuaranteeTerm(String id, ServiceRole actor, SLO slo) {
+    public GuaranteeTerm(String id, Role actor, SLO slo) {
         super(id);
-        this.actor = actor;
+        this.role = actor;
         this.slo = slo;
     }
 
-    public GuaranteeTerm(String id, ServiceRole actor, SLO slo,
+    public GuaranteeTerm(String id, Role actor, SLO slo,
             QualifyingCondition qc, List<Compensation> compensations,
             String serviceScope) {
         super(id);
-        this.actor = actor;
+        this.role = actor;
         this.slo = slo;
         this.serviceScope = serviceScope;
         this.qc = qc;
         this.compensations = compensations;
     }
 
-    public ServiceRole getServiceRole() {
-        return this.actor;
+    public Role getRole() {
+        return this.role;
     }
 
-    public void setServiceRole(ServiceRole actor) {
-        this.actor = actor;
+    public void setRole(Role actor) {
+        this.role = actor;
     }
 
     public SLO getSlo() {
@@ -85,7 +85,7 @@ public class GuaranteeTerm extends AgreementElement implements
     @Override
     public GuaranteeTerm clone() {
     	GuaranteeTerm gt = new GuaranteeTerm(id);
-    	gt.setServiceRole(actor);
+    	gt.setRole(role);
     	gt.setServiceScope(serviceScope);
     	gt.setSlo(slo.clone());
     	if(qc != null)

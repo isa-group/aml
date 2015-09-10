@@ -6,6 +6,7 @@ package es.us.isa.aml.translator.builders.iagree;
 import java.util.HashMap;
 import java.util.Map;
 
+import es.us.isa.aml.model.AbstractModel;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Compensation;
@@ -19,6 +20,7 @@ import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.ServiceConfiguration;
 import es.us.isa.aml.translator.IBuilder;
+import es.us.isa.aml.translator.builders.iagree.model.IAgreeActor;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeAgreement;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeAgreementOffer;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeAgreementTemplate;
@@ -31,12 +33,13 @@ import es.us.isa.aml.translator.builders.iagree.model.IAgreeFeature;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeGuaranteeTerm;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeMetric;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeMonitorableProperty;
-import es.us.isa.aml.translator.builders.iagree.model.IAgreeResponder;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeSLO;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeService;
 import es.us.isa.aml.util.DocType;
 
 /**
+ * Builds an iAgreeModel from an AgreementModel.
+ * 
  * @author jdelafuente
  *
  */
@@ -75,18 +78,22 @@ public class IAgreeBuilder implements IBuilder {
 	@Override
 	public void setContext(Context ctx) {
 		IAgreeContext context = new IAgreeContext();
+		
+		if (ctx.getInitiator() != null) {
+			IAgreeActor initiator = new IAgreeActor(ctx.getInitiator());
+			context.setInitiator(initiator);
+		}
+		
 		if (ctx.getResponder() != null) {
-			IAgreeResponder responder = new IAgreeResponder(ctx.getResponder());
+			IAgreeActor responder = new IAgreeActor(ctx.getResponder());
 			context.setResponder(responder);
 		}
 		context.setTemplateId(ctx.getTemplateId());
 		context.setTemplateVersion(ctx.getTemplateVersion());
 		context.setInitiator(ctx.getInitiator());
-		context.setProvider(ctx.getProvider());
-		context.setConsumer(ctx.getConsumer());
 		model.setContext(context);
-		
-		for(Metric m : ctx.getMetrics().values())
+
+		for (Metric m : ctx.getMetrics().values())
 			setMetric(m);
 	}
 
@@ -139,13 +146,14 @@ public class IAgreeBuilder implements IBuilder {
 	@Override
 	public void setMonitorableProperty(Property mp) {
 		IAgreeMonitorableProperty imp = new IAgreeMonitorableProperty(mp);
-		model.getAgreementTerms().getMonitorableProperties().put(imp.getId(), imp);
+		model.getAgreementTerms().getMonitorableProperties()
+				.put(imp.getId(), imp);
 	}
 
 	@Override
 	public void setGuaranteeTerm(GuaranteeTerm gt) {
 		IAgreeGuaranteeTerm igt = new IAgreeGuaranteeTerm(gt.getId());
-		igt.setServiceRole(gt.getServiceRole());
+		igt.setRole(gt.getRole());
 
 		IAgreeSLO slo = new IAgreeSLO(gt.getSlo().getExpression());
 		igt.setSlo(slo);
@@ -174,7 +182,8 @@ public class IAgreeBuilder implements IBuilder {
 			icc.setQc(cc.getQc());
 		}
 
-		((IAgreeAgreementTemplate) model).getCreationConstraints().put(icc.getId(), icc);
+		((IAgreeAgreementTemplate) model).getCreationConstraints().put(
+				icc.getId(), icc);
 	}
 
 	@Override
@@ -183,7 +192,7 @@ public class IAgreeBuilder implements IBuilder {
 	}
 
 	@Override
-	public AgreementModel getModel() {
+	public AbstractModel getModel() {
 		return model;
 	}
 }

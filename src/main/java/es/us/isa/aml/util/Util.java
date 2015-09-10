@@ -122,32 +122,6 @@ public class Util {
 		return str;
 	}
 
-	public static String convertMetricType(String originalType) {
-		String newType = null;
-
-		if (originalType != null) {
-			originalType = originalType.toLowerCase();
-
-			if (originalType.equals("float") || originalType.equals("double")
-					|| originalType.equals("natural")
-					|| originalType.equals("number")
-					|| originalType.equals("cost")
-					|| originalType.equals("time")
-					|| originalType.equals("size")
-					|| originalType.equals("errors")
-					|| originalType.equals("money")
-					|| originalType.equals("percent")
-					|| originalType.equals("integer")
-					|| originalType.equals("string")) {
-				newType = "integer";
-			} else {
-				newType = "enumerated";
-			}
-		}
-
-		return newType;
-	}
-
 	public static String loadFile(String filePath) {
 		// Location of file to read
 		File f = new File(filePath);

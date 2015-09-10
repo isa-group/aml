@@ -7,18 +7,21 @@ package es.us.isa.aml.model;
  * @author jdelafuente
  *
  */
-public class Responder {
+public class Actor {
 
     private String id;
-    private ServiceRole roleType;
+    private Role role;
+    private RoleType roleType;
 
-    public Responder() {
+    public Actor() {
         id = "";
+        role = null;
         roleType = null;
     }
 
-    public Responder(String id, ServiceRole roleType) {
+    public Actor(String id, Role role, RoleType roleType) {
         this.id = id;
+        this.role = role;
         this.roleType = roleType;
     }
 
@@ -37,25 +40,40 @@ public class Responder {
     }
 
     /**
+	 * @return the role
+	 */
+	public Role getRole() {
+		return role;
+	}
+
+	/**
+	 * @param role the role to set
+	 */
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	/**
      * @return the roleType
      */
-    public ServiceRole getRoleType() {
+    public RoleType getRoleType() {
         return roleType;
     }
 
     /**
      * @param roleType the roleType to set
      */
-    public void setRoleType(ServiceRole roleType) {
+    public void setRoleType(RoleType roleType) {
         this.roleType = roleType;
     }
     
     @Override
-    public Responder clone() {
-    	Responder r = new Responder();
-    	r.setId(id);
-    	r.setRoleType(roleType);
-    	return r;
+    public Actor clone() {
+    	Actor a = new Actor();
+    	a.setId(id);
+    	a.setRole(role);
+    	a.setRoleType(roleType);
+    	return a;
     }
 
 }

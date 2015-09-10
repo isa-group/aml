@@ -14,11 +14,8 @@ public class Context {
 
 	private String templateId;
 	private Double templateVersion;
-    private String initiator;
-    private Responder responder;
-    private String provider;
-    private String consumer;
-    private Object serviceProvider;
+	private Actor initiator;
+    private Actor responder;
     private Map<String, Metric> metrics;
 
     /**
@@ -56,44 +53,20 @@ public class Context {
         this.templateVersion = templateVersion;
     }
 
-    public String getInitiator() {
+    public Actor getInitiator() {
         return this.initiator;
     }
 
-    public void setInitiator(String initiator) {
+    public void setInitiator(Actor initiator) {
         this.initiator = initiator;
     }
 
-    public Responder getResponder() {
+    public Actor getResponder() {
         return this.responder;
     }
 
-    public void setResponder(Responder responder) {
+    public void setResponder(Actor responder) {
         this.responder = responder;
-    }
-
-    public String getProvider() {
-        return provider;
-    }
-
-    public void setProvider(String provider) {
-        this.provider = provider;
-    }
-
-    public String getConsumer() {
-        return consumer;
-    }
-
-    public void setConsumer(String consumer) {
-        this.consumer = consumer;
-    }
-
-    public Object getServiceProvider() {
-        return this.serviceProvider;
-    }
-
-    public void setServiceProvider(Object serviceProvider) {
-        this.serviceProvider = serviceProvider;
     }
 
     public Map<String, Metric> getMetrics() {
@@ -108,9 +81,7 @@ public class Context {
     public Context clone() {
     	Context ctx = new Context();
     	ctx.setInitiator(initiator);
-    	ctx.setProvider(provider);
-    	ctx.setConsumer(consumer);
-    	ctx.setServiceProvider(serviceProvider);
+    	ctx.setResponder(responder);
     	ctx.setTemplateId(templateId);
     	ctx.setTemplateVersion(templateVersion);
     	for(Metric metric : metrics.values()){

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.us.isa.aml.model.AbstractModel;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.Context;
@@ -33,6 +34,8 @@ import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
 
 /**
+ * Builds a CSPModel from an AgreementModel.
+ * 
  * @author jdelafuente
  *
  */
@@ -207,15 +210,10 @@ public class CSPBuilder implements IBuilder {
 		if (docType == DocType.OFFER) {
 			if (mp.getExpression() != null) {
 				/*
-				int i = 1;
-				String assig = "ASSIG";
-				for (CSPConstraint cons : model.getConstraints()) {
-					if (cons.getId().contains("ASSIG")) {
-						i++;
-					}
-				}
-				assig = "ASSIG_" + i;
-				*/
+				 * int i = 1; String assig = "ASSIG"; for (CSPConstraint cons :
+				 * model.getConstraints()) { if (cons.getId().contains("ASSIG"))
+				 * { i++; } } assig = "ASSIG_" + i;
+				 */
 				String assig = "ASSIG_" + mp.getId().toString();
 				for (CSPConstraint cons : model.getConstraints()) {
 					if (cons.getId().contains("ASSIG")) {
@@ -295,7 +293,7 @@ public class CSPBuilder implements IBuilder {
 				}
 			}
 
-			if (Boolean.valueOf(Config.getProperty("ANDConstraintsBreaking"))) {
+			if (Config.getInstance().getANDConstraintsBreaking()) {
 				List<Expression> expressions_slo = Expression
 						.splitANDExpressions(expr_slo);
 				Integer i = 1;
@@ -401,7 +399,7 @@ public class CSPBuilder implements IBuilder {
 	}
 
 	@Override
-	public CSPModel getModel() {
+	public AbstractModel getModel() {
 		return model;
 	}
 

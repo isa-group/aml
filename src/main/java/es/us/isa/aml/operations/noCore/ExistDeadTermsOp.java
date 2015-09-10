@@ -14,6 +14,8 @@ import es.us.isa.aml.translator.builders.iagree.model.IAgreeSLO;
 import es.us.isa.aml.util.OperationResponse;
 
 /**
+ * No core operation that determines if an agreement model contains dead terms.
+ * 
  * @author jdelafuente
  *
  */
@@ -51,7 +53,7 @@ public class ExistDeadTermsOp extends NoCoreOperation {
 			for (GuaranteeTerm gt : gtOriginal.values()) {
 				if (gt.getQc() != null) {
 					GuaranteeTerm newgt = new IAgreeGuaranteeTerm(gt.getId(),
-							gt.getServiceRole(), new IAgreeSLO(gt.getQc()
+							gt.getRole(), new IAgreeSLO(gt.getQc()
 									.getCondition()));
 					gtCopy.put(gt.getId(), newgt);
 

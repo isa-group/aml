@@ -15,6 +15,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
@@ -36,11 +37,11 @@ import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.QualifyingCondition;
 import es.us.isa.aml.model.Range;
-import es.us.isa.aml.model.Responder;
+import es.us.isa.aml.model.Role;
+import es.us.isa.aml.model.RoleType;
 import es.us.isa.aml.model.SLO;
 import es.us.isa.aml.model.Scope;
 import es.us.isa.aml.model.ServiceConfiguration;
-import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
@@ -66,7 +67,6 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.BooleanAtomContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationElementContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationsIntervalContext;
-import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Consumer_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Context_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CuantifContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EqualityExprContext;
@@ -87,10 +87,8 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.NumberAtomContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.OrExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ParExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.PartiesRoles_propContext;
-import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Provider_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.QualifyingConditionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.RelationalExprContext;
-import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ServiceProvider_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.StringAtomContext;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
@@ -336,12 +334,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		if (ctx.context_prop() != null) {
 			visitContext_prop(ctx.context_prop());
-		} else if (ctx.initiator_prop() != null) {
-			visitInitiator_prop(ctx.initiator_prop());
 		} else if (ctx.partiesRoles_prop() != null) {
 			visitPartiesRoles_prop(ctx.partiesRoles_prop());
-		} else if (ctx.serviceProvider_prop() != null) {
-			visitServiceProvider_prop(ctx.serviceProvider_prop());
 		} else if (ctx.expirationTime_prop() != null) {
 			// TODO Definir temporalidad
 
@@ -386,54 +380,18 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Object visitInitiator_prop(iAgreeParser.Initiator_propContext ctx) {
-		String initiator = Util.withoutDoubleQuotes(ctx.String().getText());
-		this.model.getContext().setInitiator(initiator);
-		return null;
-	}
-
-	@Override
-	public Object visitPartiesRoles_prop(PartiesRoles_propContext ctx) {
-		Responder r = null;
-
-		if (ctx.responder != null) {
-			if (ServiceRole.valueOf(ctx.responder.getText()) == ServiceRole.Provider) {
-				r = new Responder(ctx.id.getText(), ServiceRole.Provider);
-			} else if (ServiceRole.valueOf(ctx.responder.getText()) == ServiceRole.Consumer) {
-				r = new Responder(ctx.id.getText(), ServiceRole.Consumer);
-			}
-		} else {
-			if (ctx.provider_prop() != null) {
-				visitProvider_prop(ctx.provider_prop());
-			} else if (ctx.consumer_prop() != null) {
-				visitConsumer_prop(ctx.consumer_prop());
-			}
+	public Actor visitPartiesRoles_prop(PartiesRoles_propContext ctx) {
+		Actor a = null;
+		if (ctx.role != null && ctx.roleType != null) {
+			a = new Actor(ctx.id.getText(), Role.valueOf(ctx.role.getText()),
+					RoleType.valueOf(ctx.roleType.getText()));
+			if (RoleType.valueOf(ctx.roleType.getText()) == RoleType.Initiator)
+				this.model.getContext().setInitiator(a);
+			else if (RoleType.valueOf(ctx.roleType.getText()) == RoleType.Responder)
+				this.model.getContext().setResponder(a);
 		}
 
-		if (r != null) {
-			this.model.getContext().setResponder(r);
-		}
-
-		return null;
-	}
-
-	@Override
-	public Object visitProvider_prop(Provider_propContext ctx) {
-		this.model.getContext().setProvider(ctx.id.getText());
-		return null;
-	}
-
-	@Override
-	public Object visitConsumer_prop(Consumer_propContext ctx) {
-		this.model.getContext().setConsumer(ctx.id.getText());
-		return null;
-	}
-
-	@Override
-	public Object visitServiceProvider_prop(ServiceProvider_propContext ctx) {
-		this.model.getContext().setServiceProvider(
-				Util.withoutDoubleQuotes(ctx.String().getText()));
-		return null;
+		return a;
 	}
 
 	@Override
@@ -586,9 +544,9 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		Expression exp = this.visitSlo(ctx.slo());
 
 		SLO slo = new SLO(exp);
-		ServiceRole actor = ServiceRole.valueOf(ctx.ob.getText());
+		Role role = Role.valueOf(ctx.ob.getText());
 
-		GuaranteeTerm GT = new GuaranteeTerm("", actor, slo);
+		GuaranteeTerm GT = new GuaranteeTerm("", role, slo);
 
 		if (ctx.serviceScope() != null) {
 			String serviceScope = visitServiceScope(ctx.serviceScope());

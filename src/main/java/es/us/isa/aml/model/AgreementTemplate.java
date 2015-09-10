@@ -3,11 +3,16 @@ package es.us.isa.aml.model;
 import java.util.HashMap;
 import java.util.Map;
 
+import es.us.isa.aml.generator.AgreementGenerator;
+import es.us.isa.aml.parsers.agreements.AgreementParser;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.DocType;
+import es.us.isa.aml.util.GeneratorFactory;
 
 /**
+ * This class represents an agreement template.
+ * 
  * @author jdelafuente
  *
  */
@@ -29,14 +34,12 @@ public class AgreementTemplate extends AgreementModel {
 	}
 
 	public void loadFromFile(String path) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getProperty("defaultInputFormat"));
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		loadFromFile(path, lang);
 	}
 
-	@Override
 	public void loadFromFile(String path, AgreementLanguage lang) {
-		AgreementTemplate newT = (AgreementTemplate) manager.getStoreManager()
+		AgreementTemplate newT = (AgreementTemplate) AgreementParser
 				.parseAgreementFile(path, lang);
 		this.manager = newT.manager;
 		this.agreementTerms = newT.agreementTerms;
@@ -48,16 +51,9 @@ public class AgreementTemplate extends AgreementModel {
 	}
 
 	public AgreementOffer generateAgreementOffer(String consumerName) {
-		AgreementOffer ao = new AgreementOffer();
-		ao.setDocType(DocType.OFFER);
-		ao.setID(id + "_" + consumerName);
-		ao.setVersion(version);
-		ao.setContext(context.clone());
-		ao.getContext().setTemplateId(id);
-		ao.getContext().setTemplateVersion(version);
-		ao.getContext().setConsumer(consumerName);
-		ao.setAgreementTerms(agreementTerms.clone());
-		ao.setAgreementManager(manager);
+		AgreementGenerator generator = GeneratorFactory.createGenerator();
+		AgreementOffer ao = generator.generateAgreementOfferFromTemplate(
+				consumerName, this);
 		return ao;
 	}
 

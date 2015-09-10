@@ -6,6 +6,7 @@ package es.us.isa.aml.model;
 import java.util.List;
 
 /**
+ * This class represents a compensation of an agreement.
  * @author jdelafuente
  *
  */

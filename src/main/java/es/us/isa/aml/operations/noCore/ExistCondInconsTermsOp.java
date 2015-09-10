@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.us.isa.aml.operations.noCore;
 
 import java.util.HashMap;
@@ -15,8 +10,10 @@ import es.us.isa.aml.translator.builders.iagree.model.IAgreeGuaranteeTerm;
 import es.us.isa.aml.translator.builders.iagree.model.IAgreeSLO;
 import es.us.isa.aml.util.OperationResponse;
 
-
 /**
+ * No core operation that determines if an agreement model contains conditionally
+ * inconsistent terms.
+ * 
  * @author jdelafuente
  *
  */
@@ -54,10 +51,10 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 			for (GuaranteeTerm gti : gtOriginal.values()) {
 				if (gti.getQc() != null && gti.getSlo() != null) {
 					GuaranteeTerm newGtQc = new IAgreeGuaranteeTerm(gti.getId()
-							+ "_QC", gti.getServiceRole(), new IAgreeSLO(gti
+							+ "_QC", gti.getRole(), new IAgreeSLO(gti
 							.getQc().getCondition()));
 					GuaranteeTerm newGtSlo = new IAgreeGuaranteeTerm(
-							gti.getId() + "_SLO", gti.getServiceRole(),
+							gti.getId() + "_SLO", gti.getRole(),
 							new IAgreeSLO(gti.getSlo().getExpression()));
 					gtCopy.put(gti.getId(), newGtQc);
 					gtCopy.put(gti.getId() + "_slo", newGtSlo);

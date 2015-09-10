@@ -19,8 +19,8 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import es.us.isa.aml.Store;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.parsers.agreements.AgreementParser;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.DocType;
@@ -207,7 +207,7 @@ public class AMLTester {
 							String content = Util.getStringFromInputStream(in);
 
 							AgreementModel model = null;
-							model = Store.getInstance().parseAgreementFile(
+							model = AgreementParser.parseAgreementFile(
 									content, metrics, src_lang);
 
 							if (model != null) {
@@ -232,8 +232,7 @@ public class AMLTester {
 														file);
 												String content2 = Util
 														.getStringFromInputStream(in2);
-												model2 = Store.getInstance()
-														.parseAgreementFile(
+												model2 = AgreementParser.parseAgreementFile(
 																content2,
 																metrics,
 																src_lang);
@@ -425,7 +424,7 @@ public class AMLTester {
 						String content = Util.getStringFromInputStream(in);
 
 						AgreementModel model = null;
-						model = Store.getInstance().parseAgreementFile(content,
+						model = AgreementParser.parseAgreementFile(content,
 								metrics, src_lang);
 
 						if (model != null) {

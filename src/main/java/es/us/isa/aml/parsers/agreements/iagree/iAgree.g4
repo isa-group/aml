@@ -20,9 +20,7 @@ template_def : temp_properties* agreementTerms creationConstraints?;
 ag_def : temp_properties*  agreementTerms;
 
 temp_properties : context_prop
-                | initiator_prop
                 | partiesRoles_prop
-                | serviceProvider_prop 
                 | expirationTime_prop
                 | dateFormat_prop
                 | gmtZone_prop
@@ -45,19 +43,9 @@ context_prop : CREATED FROM id=(Identifier | String) (AVAL_AT url)? ';'
              | CREATED ON Date Hour ';'
              ;
 
-initiator_prop : INITIATOR ':' id=String ';';
-
-partiesRoles_prop : responder=PROVIDER id=(Identifier | String) AS RESPONDER ';' 
-                  | consumer_prop
-                  | provider_prop 
-                  | responder=CONSUMER id=(Identifier | String) AS RESPONDER ';'
+partiesRoles_prop : role=PROVIDER id=(Identifier | String) AS roleType=(INITIATOR | RESPONDER) ';'
+                  | role=CONSUMER id=(Identifier | String) AS roleType=(INITIATOR | RESPONDER) ';'
                   ;
-
-provider_prop : PROVIDER id=(Identifier | String) ';';
-
-consumer_prop : CONSUMER id=(Identifier | String) ';';
-
-serviceProvider_prop : SERVICEPROVIDER ':' id=String ';';
 				
 expirationTime_prop : EXPIRATIONTIME ':' String;
 

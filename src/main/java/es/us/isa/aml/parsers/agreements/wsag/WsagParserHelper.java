@@ -13,6 +13,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
@@ -27,9 +28,9 @@ import es.us.isa.aml.model.Metric;
 import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.QualifyingCondition;
 import es.us.isa.aml.model.Range;
-import es.us.isa.aml.model.Responder;
+import es.us.isa.aml.model.Role;
+import es.us.isa.aml.model.RoleType;
 import es.us.isa.aml.model.SLO;
-import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.LogicalExpression;
@@ -37,6 +38,7 @@ import es.us.isa.aml.model.expression.LogicalOperator;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
+import es.us.isa.aml.translator.builders.wsag.model.AgreementRole;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
 
@@ -125,23 +127,40 @@ public class WsagParserHelper {
 			context.setTemplateId(tempName.getTextContent().trim());
 		}
 
+		AgreementRole provider = null;
+		Node serviceProvider = doc.getElementsByTagName("wsag:ServiceProvider")
+				.item(0);
+		if (serviceProvider != null && serviceProvider instanceof Element) {
+			provider = AgreementRole.valueOf(serviceProvider.getTextContent()
+					.trim());
+		}
+
+		Node initiator = doc.getElementsByTagName("wsag:AgreementInitiator")
+				.item(0);
+		if (initiator != null && initiator instanceof Element) {
+			Actor a = new Actor();
+			new_version = true;
+			a.setId(initiator.getTextContent().trim());
+			if (provider == AgreementRole.Initiator)
+				a.setRole(Role.Provider);
+			else
+				a.setRole(Role.Consumer);
+			a.setRoleType(RoleType.Responder);
+			context.setInitiator(a);
+		}
+
 		Node responder = doc.getElementsByTagName("wsag:AgreementResponder")
 				.item(0);
 		if (responder != null && responder instanceof Element) {
-			Element resp = (Element) responder;
-			Responder r = new Responder();
-			if (resp.getAttribute("id").isEmpty()) {
-				new_version = false;
-				r.setId(responder.getTextContent().trim());
-				r.setRoleType(ServiceRole.Provider);
-			} else {
-				new_version = true;
-				r.setId(resp.getAttribute("id"));
-				r.setRoleType(ServiceRole.valueOf(responder.getTextContent()
-						.trim()));
-			}
-
-			context.setResponder(r);
+			Actor a = new Actor();
+			new_version = true;
+			a.setId(responder.getTextContent().trim());
+			if (provider == AgreementRole.Responder)
+				a.setRole(Role.Provider);
+			else
+				a.setRole(Role.Consumer);
+			a.setRoleType(RoleType.Responder);
+			context.setResponder(a);
 		}
 
 		if (new_version) {
@@ -249,7 +268,8 @@ public class WsagParserHelper {
 							}
 
 							model.getAgreementTerms().getService()
-									.getConfigurationProperties().put(p.getId(), p);
+									.getConfigurationProperties()
+									.put(p.getId(), p);
 						}
 					}
 				} else if (term.getTagName().equals("wsag:ServiceProperties")) {
@@ -291,7 +311,8 @@ public class WsagParserHelper {
 							}
 
 							model.getAgreementTerms()
-									.getMonitorableProperties().put(p.getId(), p);
+									.getMonitorableProperties()
+									.put(p.getId(), p);
 						}
 					}
 
@@ -309,7 +330,7 @@ public class WsagParserHelper {
 						}
 
 						GuaranteeTerm GT = new GuaranteeTerm(id);
-						GT.setServiceRole(ServiceRole.valueOf(ob));
+						GT.setRole(Role.valueOf(ob));
 
 						NodeList nList2 = gt_element.getChildNodes();
 						for (int j = 0; j < nList2.getLength(); j++) {
@@ -347,7 +368,8 @@ public class WsagParserHelper {
 							}
 						}
 
-						model.getAgreementTerms().getGuaranteeTerms().put(GT.getId(), GT);
+						model.getAgreementTerms().getGuaranteeTerms()
+								.put(GT.getId(), GT);
 					}
 
 				} else if (term.getTagName().equals("wsag:ExactlyOne")
@@ -411,7 +433,8 @@ public class WsagParserHelper {
 
 						if (cc != null) {
 							((AgreementTemplate) model)
-									.getCreationConstraints().put(cc.getId(), cc);
+									.getCreationConstraints().put(cc.getId(),
+											cc);
 						}
 					} else if (constraint.getTagName().equals("wsag:Item")) {
 						String prop = constraint.getAttribute("wsag:Name");
