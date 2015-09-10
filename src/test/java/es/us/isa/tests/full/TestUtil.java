@@ -35,7 +35,7 @@ public class TestUtil {
 		try {
 			InputStream in = new FileInputStream(aml_config);
 			String jsonConfig = Util.getStringFromInputStream(in);
-			Config.load(new Gson().fromJson(jsonConfig, Config.class));
+			Config.load(jsonConfig);
 
 			InputStream in2 = new FileInputStream(aml_test_config);
 			String json = Util.getStringFromInputStream(in2);

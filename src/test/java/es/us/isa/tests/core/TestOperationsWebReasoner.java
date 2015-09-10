@@ -19,23 +19,28 @@ import es.us.isa.aml.operations.core.csp.ExistInconsistenciesOp;
 import es.us.isa.aml.operations.core.csp.WhyAreNotCompliant;
 import es.us.isa.aml.operations.noCore.ExistCondInconsTermsOp;
 import es.us.isa.aml.operations.noCore.ExistDeadTermsOp;
+import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.OperationResponse;
+import es.us.isa.aml.util.ReasonerType;
 
 /**
  * @author jdelafuente
  *
  */
-public class TestOperations {
+public class TestOperationsWebReasoner {
 
-	private static final Logger LOG = Logger.getLogger(TestOperations.class
+	private static final Logger LOG = Logger.getLogger(TestOperationsWebReasoner.class
 			.getName());
 	private static AgreementManager service;
 	private static AgreementTemplate model1, model2, model3, model4, model5, azureTemplate, TSCTemplate;
 	private static AgreementOffer model6, azureOffer1, azureOffer2, azureOffer3, azureOffer4, TSCCompliant;
 
 	@BeforeClass
-	public static void init() {
+	public static void init() {		
 		service = new AgreementManager();
+		
+		Config.getInstance().setCSPReasoner(ReasonerType.CSPWebReasoner);
+		
 		model1 = service
 				.createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-core.at");
 		model2 = service

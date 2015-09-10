@@ -1,9 +1,6 @@
 package es.us.isa.aml;
 
-import java.io.InputStream;
 import java.util.logging.Logger;
-
-import com.google.gson.Gson;
 
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
@@ -36,10 +33,7 @@ public class AgreementManager {
 	 * @see Config
 	 */
 	public AgreementManager() {
-		InputStream in = getClass().getResourceAsStream(
-				"/defaultConfig.json");
-		String jsonConfig = Util.getStringFromInputStream(in);
-		Config.load(new Gson().fromJson(jsonConfig, Config.class));
+		Config.load();
 		this.store = Store.getInstance();
 	}
 
@@ -50,7 +44,7 @@ public class AgreementManager {
 	 *            Configuration in JSON format
 	 */
 	public AgreementManager(String jsonConfig) {
-		Config.load(new Gson().fromJson(jsonConfig, Config.class));
+		Config.load(jsonConfig);
 		this.store = new Store();
 	}
 
@@ -75,8 +69,7 @@ public class AgreementManager {
 	 * @see Agreement
 	 */
 	public Agreement createAgreementFromFile(String path) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getInstance().getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		String content = Util.loadFile(path);
 		return store.createAgreement(content, lang, this);
 	}
@@ -107,8 +100,7 @@ public class AgreementManager {
 	 * @see Agreement
 	 */
 	public Agreement createAgreement(String content) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getInstance().getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		return store.createAgreement(content, lang, this);
 	}
 
@@ -122,8 +114,7 @@ public class AgreementManager {
 	 * @see AgreementOffer
 	 */
 	public AgreementOffer createAgreementOfferFromFile(String path) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getInstance().getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		String content = Util.loadFile(path);
 		return store.createAgreementOffer(content, lang, this);
 	}
@@ -155,8 +146,7 @@ public class AgreementManager {
 	 * @see AgreementOffer
 	 */
 	public AgreementOffer createAgreementOffer(String content) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getInstance().getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		return store.createAgreementOffer(content, lang, this);
 	}
 
@@ -170,8 +160,7 @@ public class AgreementManager {
 	 * @see AgreementTemplate
 	 */
 	public AgreementTemplate createAgreementTemplateFromFile(String path) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getInstance().getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		String content = Util.loadFile(path);
 		return store.createAgreementTemplate(content, lang, this);
 	}
@@ -203,8 +192,7 @@ public class AgreementManager {
 	 * @see AgreementTemplate
 	 */
 	public AgreementTemplate createAgreementTemplate(String content) {
-		AgreementLanguage lang = AgreementLanguage.valueOf((String) Config
-				.getInstance().getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		return store.createAgreementTemplate(content, lang, this);
 	}
 

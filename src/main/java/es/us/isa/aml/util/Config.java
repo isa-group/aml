@@ -1,6 +1,5 @@
 package es.us.isa.aml.util;
 
-import java.io.File;
 import java.io.InputStream;
 
 import com.google.gson.Gson;
@@ -17,41 +16,43 @@ public class Config {
 
 	private static Config instance = null;
 
-	public String defaultInputFormat;
-	public String CSPReasoner;
+	public AgreementLanguage defaultInputFormat;
+	public ReasonerType CSPReasoner;
 	public String CSPWebReasonerEndpoint;
 	public String DLReasoner;
 	public Boolean ANDConstraintsBreaking;
+	public GeneratorType AgreementGenerator;
 
 	public static Config getInstance() {
 		if (instance == null) {
-			Gson gson = new Gson();
-			InputStream in = Config.class.getResourceAsStream(File.separator
-					+ DEFAULT_CONFIG);
-			String config = Util.getStringFromInputStream(in);
-			instance = gson.fromJson(config, Config.class);
+			load();
 		}
 		return instance;
 	}
 
-	public static void load(Config conf) {
-		if (instance == null) {
-			instance = conf;
-		}
+	public static void load() {
+		InputStream in = Config.class.getResourceAsStream("/" + DEFAULT_CONFIG);
+		String config = Util.getStringFromInputStream(in);
+		load(config);
+	}
+
+	public static void load(String jsonConfig) {
+		instance = new Gson().fromJson(jsonConfig, Config.class);
 	}
 
 	public Config() {
-		defaultInputFormat = "IAGREE";
-		CSPReasoner = "CPLEX";
+		defaultInputFormat = AgreementLanguage.IAGREE;
+		CSPReasoner = ReasonerType.CPLEX;
 		CSPWebReasonerEndpoint = "http://150.214.188.130:8080/CSPWebReasoner";
-		DLReasoner = "none";
+		DLReasoner = "NONE";
 		ANDConstraintsBreaking = true;
+		AgreementGenerator = GeneratorType.BASIC;
 	}
 
 	/**
 	 * @return the defaultInputFormat
 	 */
-	public String getDefaultInputFormat() {
+	public AgreementLanguage getDefaultInputFormat() {
 		return defaultInputFormat;
 	}
 
@@ -59,14 +60,14 @@ public class Config {
 	 * @param defaultInputFormat
 	 *            the defaultInputFormat to set
 	 */
-	public void setDefaultInputFormat(String defaultInputFormat) {
+	public void setDefaultInputFormat(AgreementLanguage defaultInputFormat) {
 		this.defaultInputFormat = defaultInputFormat;
 	}
 
 	/**
 	 * @return the cSPReasoner
 	 */
-	public String getCSPReasoner() {
+	public ReasonerType getCSPReasoner() {
 		return CSPReasoner;
 	}
 
@@ -74,7 +75,7 @@ public class Config {
 	 * @param cSPReasoner
 	 *            the cSPReasoner to set
 	 */
-	public void setCSPReasoner(String cSPReasoner) {
+	public void setCSPReasoner(ReasonerType cSPReasoner) {
 		CSPReasoner = cSPReasoner;
 	}
 
@@ -121,6 +122,21 @@ public class Config {
 	 */
 	public void setANDConstraintsBreaking(Boolean aNDConstraintsBreaking) {
 		ANDConstraintsBreaking = aNDConstraintsBreaking;
+	}
+
+	/**
+	 * @return the agreementGenerator
+	 */
+	public GeneratorType getAgreementGenerator() {
+		return AgreementGenerator;
+	}
+
+	/**
+	 * @param agreementGenerator
+	 *            the agreementGenerator to set
+	 */
+	public void setAgreementGenerator(GeneratorType agreementGenerator) {
+		AgreementGenerator = agreementGenerator;
 	}
 
 }

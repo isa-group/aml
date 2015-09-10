@@ -23,8 +23,7 @@ public abstract class AgreementParser {
 
 	// Parsing
 	public static AgreementModel parseAgreementFile(String content) {
-		AgreementLanguage lang = AgreementLanguage.valueOf(Config.getInstance()
-				.getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		AgreementParser parser = ParserFactory.createParser(lang);
 		return parser.doParse(content);
 	}

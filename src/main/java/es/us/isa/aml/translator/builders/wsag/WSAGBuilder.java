@@ -8,6 +8,7 @@ import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Property;
+import es.us.isa.aml.model.Role;
 import es.us.isa.aml.model.ServiceConfiguration;
 import es.us.isa.aml.translator.IBuilder;
 import es.us.isa.aml.translator.builders.wsag.model.Agreement;
@@ -21,6 +22,7 @@ import es.us.isa.aml.translator.builders.wsag.model.OfferItem;
 import es.us.isa.aml.translator.builders.wsag.model.QualifyingCondition;
 import es.us.isa.aml.translator.builders.wsag.model.ServiceLevelObjective;
 import es.us.isa.aml.translator.builders.wsag.model.ServiceReference;
+import es.us.isa.aml.translator.builders.wsag.model.ServiceRole;
 import es.us.isa.aml.translator.builders.wsag.model.Template;
 import es.us.isa.aml.translator.builders.wsag.model.Variable;
 import es.us.isa.aml.util.DocType;
@@ -162,7 +164,10 @@ public class WSAGBuilder implements IBuilder {
 
 		GuaranteeTerm gt = new GuaranteeTerm();
 		gt.setName(gt2.getId());
-		gt.setObligated(gt2.getServiceRole());
+		if (gt2.getRole() == Role.Provider)
+			gt.setObligated(ServiceRole.ServiceProvider);
+		else if (gt2.getRole() == Role.Consumer)
+			gt.setObligated(ServiceRole.ServiceConsumer);
 		ServiceLevelObjective slo = new ServiceLevelObjective();
 		slo.setCustomServiceLevel(new CustomServiceLevel(gt2.getSlo()
 				.getExpression()));

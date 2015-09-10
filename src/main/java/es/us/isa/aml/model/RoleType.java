@@ -4,8 +4,8 @@ package es.us.isa.aml.model;
  * @author jdelafuente
  *
  */
-public enum ServiceRole {
+public enum RoleType {
 
-    Provider,
-    Consumer
+    Initiator,
+    Responder
 }

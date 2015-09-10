@@ -1,6 +1,5 @@
 package es.us.isa.aml.translator.builders.wsag.model;
 
-import es.us.isa.aml.model.ServiceRole;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.util.Util;
 

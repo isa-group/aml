@@ -1,6 +1,7 @@
 Agreement IAgreeCore_OfferClient_ag version 1.0
-	Initiator: "Initiator1";
-	Consumer "AgClient";
+	Provider "Prov1" as Responder;
+	Consumer "Cons1" as Initiator;
+	
 	Metrics:
 		met3: float[0..128];
 		met2: integer[0..512];

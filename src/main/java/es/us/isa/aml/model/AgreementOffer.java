@@ -1,9 +1,11 @@
 package es.us.isa.aml.model;
 
+import es.us.isa.aml.generator.AgreementGenerator;
 import es.us.isa.aml.parsers.agreements.AgreementParser;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.DocType;
+import es.us.isa.aml.util.GeneratorFactory;
 
 /**
  * This class represents an agreement offer.
@@ -18,8 +20,7 @@ public class AgreementOffer extends AgreementModel {
 	}
 
 	public void loadFromFile(String path) {
-		AgreementLanguage lang = AgreementLanguage.valueOf(Config
-				.getInstance().getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		loadFromFile(path, lang);
 	}
 
@@ -35,15 +36,9 @@ public class AgreementOffer extends AgreementModel {
 	}
 
 	public Agreement generateAgreement(String consumerName) {
-		// todo: por ahora es una copia de la offer
-
-		Agreement ag = new Agreement();
-		ag.setDocType(DocType.AGREEMENT);
-		ag.setID(this.id + "_ag");
-		ag.setVersion(version);
-		ag.setContext(context.clone());
-		ag.getContext().setConsumer(consumerName);
-		ag.setAgreementTerms(agreementTerms.clone());
+		AgreementGenerator generator = GeneratorFactory.createGenerator();
+		Agreement ag = generator.generateAgreementFromAgreementOffer(
+				consumerName, this);
 		return ag;
 	}
 }

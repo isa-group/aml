@@ -53,7 +53,7 @@ public class ExistDeadTermsOp extends NoCoreOperation {
 			for (GuaranteeTerm gt : gtOriginal.values()) {
 				if (gt.getQc() != null) {
 					GuaranteeTerm newgt = new IAgreeGuaranteeTerm(gt.getId(),
-							gt.getServiceRole(), new IAgreeSLO(gt.getQc()
+							gt.getRole(), new IAgreeSLO(gt.getQc()
 									.getCondition()));
 					gtCopy.put(gt.getId(), newgt);
 

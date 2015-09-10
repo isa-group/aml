@@ -14,8 +14,7 @@ import es.us.isa.aml.reasoners.Reasoner;
 public class ReasonerFactory {
 
 	public static Reasoner createCSPReasoner() {
-		ReasonerType type = ReasonerType.valueOf(Config.getInstance()
-				.getCSPReasoner());
+		ReasonerType type = Config.getInstance().getCSPReasoner();
 		switch (type) {
 		case CHOCO:
 			return new ChocoReasoner();

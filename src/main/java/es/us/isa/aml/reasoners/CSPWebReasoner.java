@@ -41,8 +41,7 @@ public class CSPWebReasoner extends Reasoner {
 	public Boolean solve(String cspModel) {
 		String url = Config.getInstance().getCSPWebReasonerEndpoint();
 		url += "/solver/solve";
-		LOGGER.log(Level.INFO, "CSPWebReasoner Endpoint: " + url);
-
+		
 		Boolean res = null;
 		try {
 			String response = Util.sendPost(url, cspModel);
@@ -62,9 +61,8 @@ public class CSPWebReasoner extends Reasoner {
 	public OperationResponse explain(String cspModel) {
 		String url = Config.getInstance().getCSPWebReasonerEndpoint();
 		url += "/solver/explain";
-
+		
 		OperationResponse res = null;
-
 		try {
 			String response = Util.sendPost(url, cspModel);
 			res = new Gson().fromJson(response.toString(),

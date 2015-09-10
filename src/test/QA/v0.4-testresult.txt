@@ -15,7 +15,7 @@
 [INFO] --- maven-compiler-plugin:3.2:compile (default-compile) @ AML ---
 [INFO] Changes detected - recompiling the module!
 [WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
-[INFO] Compiling 148 source files to C:\Users\ISA Group\git\aml\target\classes
+[INFO] Compiling 154 source files to C:\Users\ISA Group\git\aml\target\classes
 [INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Some input files use or override a deprecated API.
 [INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Recompile with -Xlint:deprecation for details.
 [INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/operations/core/csp/WhyAreNotCompliant.java: C:\Users\ISA Group\git\aml\src\main\java\es\us\isa\aml\operations\core\csp\WhyAreNotCompliant.java uses unchecked or unsafe operations.
@@ -26,9 +26,7 @@
 [INFO] Copying 16 resources
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ AML ---
-[INFO] Changes detected - recompiling the module!
-[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
-[INFO] Compiling 16 source files to C:\Users\ISA Group\git\aml\target\test-classes
+[INFO] Nothing to compile - all classes are up to date
 [INFO] 
 [INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ AML ---
 [INFO] Surefire report directory: C:\Users\ISA Group\git\aml\target\surefire-reports
@@ -38,66 +36,106 @@
 -------------------------------------------------------
 Running es.us.isa.tests.core.TestAzureCompliance
 OPL - Development Mode. Use IloOplFactory.setDebugMode(false) to switch to production mode.
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.676 sec - in es.us.isa.tests.core.TestAzureCompliance
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.674 sec - in es.us.isa.tests.core.TestAzureCompliance
+Running es.us.isa.tests.core.TestConfig
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.tests.core.TestConfig
 Running es.us.isa.tests.core.TestCSPModel
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 sec - in es.us.isa.tests.core.TestCSPModel
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.tests.core.TestCSPModel
 Running es.us.isa.tests.core.TestExpression
 Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.tests.core.TestExpression
 Running es.us.isa.tests.core.TestIAgreeModel
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.tests.core.TestIAgreeModel
-Running es.us.isa.tests.core.TestOperations
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 sec - in es.us.isa.tests.core.TestIAgreeModel
+Running es.us.isa.tests.core.TestOperationsLocalReasoner
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [G1, G1_2]
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicting Offer constraints: [G1: MUP < 999;]
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [Problem, G1_2]
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicting Offer constraints: [G1: MUP >= 9999;]
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [ASSIG_Price, C2]
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicting Offer constraints: [ASSIG_Price: Price == 10000;]
-sep 04, 2015 1:22:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:11 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Affected Template constraints: [C2: Price == 1192 * MPI;]
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.113 sec - in es.us.isa.tests.core.TestOperations
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.12 sec - in es.us.isa.tests.core.TestOperationsLocalReasoner
+Running es.us.isa.tests.core.TestOperationsWebReasoner
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [G1, G1_2]
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP < 999;]
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [Problem, G1_2]
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP >= 9999;]
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [ASSIG_Price, C2]
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [ASSIG_Price: Price == 10000;]
+sep 10, 2015 12:08:18 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [C2: Price == 1192 * MPI;]
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 9.846 sec - in es.us.isa.tests.core.TestOperationsWebReasoner
 Running es.us.isa.tests.core.TestPapamoscas
 Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 sec - in es.us.isa.tests.core.TestPapamoscas
 Running es.us.isa.tests.core.TestStore
 Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 sec - in es.us.isa.tests.core.TestStore
 Running es.us.isa.tests.core.TestSuite
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [G1, G1_2]
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicting Offer constraints: [G1: MUP < 999;]
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [Problem, G1_2]
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicting Offer constraints: [G1: MUP >= 9999;]
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [ASSIG_Price, C2]
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Conflicting Offer constraints: [ASSIG_Price: Price == 10000;]
-sep 04, 2015 1:22:14 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+sep 10, 2015 12:08:23 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
 INFORMACIÓN: Affected Template constraints: [C2: Price == 1192 * MPI;]
-Tests run: 38, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.586 sec - in es.us.isa.tests.core.TestSuite
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [G1, G1_2]
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP < 999;]
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [Problem, G1_2]
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP >= 9999;]
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [ASSIG_Price, C2]
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [ASSIG_Price: Price == 10000;]
+sep 10, 2015 12:08:30 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [C2: Price == 1192 * MPI;]
+Tests run: 54, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 11.48 sec - in es.us.isa.tests.core.TestSuite
 
 Results :
 
-Tests run: 78, Failures: 0, Errors: 0, Skipped: 0
+Tests run: 110, Failures: 0, Errors: 0, Skipped: 0
 
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time: 14.288 s
-[INFO] Finished at: 2015-09-04T13:22:19+01:00
-[INFO] Final Memory: 19M/323M
+[INFO] Total time: 28.483 s
+[INFO] Finished at: 2015-09-10T12:08:34+01:00
+[INFO] Final Memory: 18M/288M
 [INFO] ------------------------------------------------------------------------

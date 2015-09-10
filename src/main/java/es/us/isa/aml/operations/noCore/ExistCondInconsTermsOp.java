@@ -51,10 +51,10 @@ public class ExistCondInconsTermsOp extends NoCoreOperation {
 			for (GuaranteeTerm gti : gtOriginal.values()) {
 				if (gti.getQc() != null && gti.getSlo() != null) {
 					GuaranteeTerm newGtQc = new IAgreeGuaranteeTerm(gti.getId()
-							+ "_QC", gti.getServiceRole(), new IAgreeSLO(gti
+							+ "_QC", gti.getRole(), new IAgreeSLO(gti
 							.getQc().getCondition()));
 					GuaranteeTerm newGtSlo = new IAgreeGuaranteeTerm(
-							gti.getId() + "_SLO", gti.getServiceRole(),
+							gti.getId() + "_SLO", gti.getRole(),
 							new IAgreeSLO(gti.getSlo().getExpression()));
 					gtCopy.put(gti.getId(), newGtQc);
 					gtCopy.put(gti.getId() + "_slo", newGtSlo);

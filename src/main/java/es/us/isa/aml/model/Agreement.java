@@ -19,8 +19,7 @@ public class Agreement extends AgreementOffer {
 
 	@Override
 	public void loadFromFile(String path) {
-		AgreementLanguage lang = AgreementLanguage.valueOf(Config.getInstance()
-				.getDefaultInputFormat());
+		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
 		loadFromFile(path, lang);
 	}
 
