@@ -1,4 +1,4 @@
-AgreementOffer non-Compliant1WithsimplifiedAzureSiteRecovery version 1.0 for Template simplifiedAzureSiteRecovery version 1.0
+AgreementOffer non-Compliant1WithsimplifiedAzureSiteRecovery version 1.0 for Template azure-template.at version 1.0
 	Provider "MicrosoftAzure" as Responder;
 	Metrics:
 		availableOs: enum {RedHatEnterprise, Suse, Linux, Windows, WindowsSQLWeb, WindowsSQLStd};

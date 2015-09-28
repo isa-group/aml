@@ -1,4 +1,4 @@
-// Generated from C:\Users\ISA Group\Desktop\Parsers\iAgree-parser\iAgree.g4 by ANTLR 4.1
+// Generated from C:\Users\ISA Group\Desktop\Parsers\iAgree-parser\iAgree\iAgree.g4 by ANTLR 4.1
 package es.us.isa.aml.parsers.agreements.iagree;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -47,13 +47,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAg_def(@NotNull iAgreeParser.Ag_defContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#parExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitParExpr(@NotNull iAgreeParser.ParExprContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#local_MonitorableProperties}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -68,11 +61,11 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAssigExpr(@NotNull iAgreeParser.AssigExprContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#temporality}.
+	 * Visit a parse tree produced by {@link iAgreeParser#parExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTemporality(@NotNull iAgreeParser.TemporalityContext ctx);
+	T visitParExpr(@NotNull iAgreeParser.ParExprContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#creationConstraint}.
@@ -96,13 +89,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFeatures(@NotNull iAgreeParser.FeaturesContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#partiesRoles_prop}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPartiesRoles_prop(@NotNull iAgreeParser.PartiesRoles_propContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#feature}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -110,11 +96,11 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitFeature(@NotNull iAgreeParser.FeatureContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#equalityExpr}.
+	 * Visit a parse tree produced by {@link iAgreeParser#partiesRoles_prop}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEqualityExpr(@NotNull iAgreeParser.EqualityExprContext ctx);
+	T visitPartiesRoles_prop(@NotNull iAgreeParser.PartiesRoles_propContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#compensationsInterval}.
@@ -124,11 +110,25 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCompensationsInterval(@NotNull iAgreeParser.CompensationsIntervalContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#equalityExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEqualityExpr(@NotNull iAgreeParser.EqualityExprContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#template}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitTemplate(@NotNull iAgreeParser.TemplateContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#guaranteeTerms}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGuaranteeTerms(@NotNull iAgreeParser.GuaranteeTermsContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#agOffer}.
@@ -143,13 +143,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCreationConstraints(@NotNull iAgreeParser.CreationConstraintsContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#guaranteeTerms}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGuaranteeTerms(@NotNull iAgreeParser.GuaranteeTermsContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#serviceScope}.
@@ -180,11 +173,11 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitGlobalDescription(@NotNull iAgreeParser.GlobalDescriptionContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#period}.
+	 * Visit a parse tree produced by {@link iAgreeParser#url}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitPeriod(@NotNull iAgreeParser.PeriodContext ctx);
+	T visitUrl(@NotNull iAgreeParser.UrlContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#multiplicationExpr}.
@@ -192,13 +185,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMultiplicationExpr(@NotNull iAgreeParser.MultiplicationExprContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#url}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitUrl(@NotNull iAgreeParser.UrlContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#orExpr}.
@@ -285,20 +271,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCuantif(@NotNull iAgreeParser.CuantifContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#dateFormat_prop}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDateFormat_prop(@NotNull iAgreeParser.DateFormat_propContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#expirationTime_prop}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitExpirationTime_prop(@NotNull iAgreeParser.ExpirationTime_propContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#localDescription}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -325,13 +297,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitContext_prop(@NotNull iAgreeParser.Context_propContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#period_def}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitPeriod_def(@NotNull iAgreeParser.Period_defContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#idAtom}.
@@ -369,13 +334,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitQualifyingCondition(@NotNull iAgreeParser.QualifyingConditionContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#listExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitListExpr(@NotNull iAgreeParser.ListExprContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#template_def}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -383,11 +341,11 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitTemplate_def(@NotNull iAgreeParser.Template_defContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#globalPeriod_prop}.
+	 * Visit a parse tree produced by {@link iAgreeParser#listExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitGlobalPeriod_prop(@NotNull iAgreeParser.GlobalPeriod_propContext ctx);
+	T visitListExpr(@NotNull iAgreeParser.ListExprContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#agreement}.
@@ -418,13 +376,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAdditiveExpr(@NotNull iAgreeParser.AdditiveExprContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#gmtZone_prop}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGmtZone_prop(@NotNull iAgreeParser.GmtZone_propContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#iffExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -453,13 +404,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCompensation(@NotNull iAgreeParser.CompensationContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#relationalExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitRelationalExpr(@NotNull iAgreeParser.RelationalExprContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#entry}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -467,11 +411,11 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitEntry(@NotNull iAgreeParser.EntryContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#service}.
+	 * Visit a parse tree produced by {@link iAgreeParser#relationalExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitService(@NotNull iAgreeParser.ServiceContext ctx);
+	T visitRelationalExpr(@NotNull iAgreeParser.RelationalExprContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#monitorableProperties}.
@@ -481,16 +425,9 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitMonitorableProperties(@NotNull iAgreeParser.MonitorablePropertiesContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#datePeriod_def}.
+	 * Visit a parse tree produced by {@link iAgreeParser#service}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitDatePeriod_def(@NotNull iAgreeParser.DatePeriod_defContext ctx);
-
-	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#definedPeriod_prop}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitDefinedPeriod_prop(@NotNull iAgreeParser.DefinedPeriod_propContext ctx);
+	T visitService(@NotNull iAgreeParser.ServiceContext ctx);
 }

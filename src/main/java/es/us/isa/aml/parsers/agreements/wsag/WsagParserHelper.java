@@ -145,7 +145,7 @@ public class WsagParserHelper {
 				a.setRole(Role.Provider);
 			else
 				a.setRole(Role.Consumer);
-			a.setRoleType(RoleType.Responder);
+			a.setRoleType(RoleType.Initiator);
 			context.setInitiator(a);
 		}
 
@@ -322,12 +322,8 @@ public class WsagParserHelper {
 						String id = gt_element.getAttribute("wsag:Name");
 						String ob = gt_element.getAttribute("wsag:Obligated");
 
-						if (!new_version) {
-							ob = ob.replaceAll("\\bServiceProvider\\b",
-									"Provider");
-							ob = ob.replaceAll("\\bServiceConsumer\\b",
-									"Consumer");
-						}
+						ob = ob.replaceAll("\\bServiceProvider\\b", "Provider");
+						ob = ob.replaceAll("\\bServiceConsumer\\b", "Consumer");
 
 						GuaranteeTerm GT = new GuaranteeTerm(id);
 						GT.setRole(Role.valueOf(ob));

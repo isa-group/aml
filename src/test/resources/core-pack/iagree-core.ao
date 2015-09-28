@@ -1,4 +1,4 @@
-AgreementOffer IAgreeCore_OfferClient version 1.0
+AgreementOffer IAgreeCore_OfferClient version 1.0 for Template iagree-core.at version 1.0
 	Provider "Prov1" as Responder;
 	Consumer "Cons1" as Initiator;
 	
