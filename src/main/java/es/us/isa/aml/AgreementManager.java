@@ -6,7 +6,7 @@ import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
-import es.us.isa.aml.operations.noCore.ValidOp;
+import es.us.isa.aml.operations.noCore.Valid;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.OperationResponse;
@@ -262,13 +262,13 @@ public class AgreementManager {
 	// Operations
 
 	public Boolean isValid(AgreementModel agreementModel) {
-		ValidOp op = new ValidOp();
+		Valid op = new Valid();
 		op.analyze(agreementModel);
 		return (Boolean) op.getResult().get("valid");
 	}
 
 	public OperationResponse isValidFullResponse(AgreementModel agreementModel) {
-		ValidOp op = new ValidOp();
+		Valid op = new Valid();
 		op.analyze(agreementModel);
 		return op.getResult();
 	}

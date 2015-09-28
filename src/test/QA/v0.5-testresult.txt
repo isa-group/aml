@@ -1,0 +1,103 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] Using the builder org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder with a thread count of 1
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building AML 0.5
+[INFO] ------------------------------------------------------------------------
+[WARNING] The POM for es.us.isa.opl:oplall:jar:1.0.0 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[WARNING] The artifact axis:axis-ant:jar:1.4 has been relocated to org.apache.axis:axis-ant:jar:1.4
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ AML ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:compile (default-compile) @ AML ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 154 source files to C:\Users\ISA Group\git\aml\target\classes
+[INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Some input files use or override a deprecated API.
+[INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Recompile with -Xlint:deprecation for details.
+[INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/operations/core/csp/WhyAreNotCompliant.java: C:\Users\ISA Group\git\aml\src\main\java\es\us\isa\aml\operations\core\csp\WhyAreNotCompliant.java uses unchecked or unsafe operations.
+[INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/operations/core/csp/WhyAreNotCompliant.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ AML ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 16 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ AML ---
+[INFO] Nothing to compile - all classes are up to date
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ AML ---
+[INFO] Surefire report directory: C:\Users\ISA Group\git\aml\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running es.us.isa.aml.test.core.TestAzureCompliance
+OPL - Development Mode. Use IloOplFactory.setDebugMode(false) to switch to production mode.
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.668 sec - in es.us.isa.aml.test.core.TestAzureCompliance
+Running es.us.isa.aml.test.core.TestConfig
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestConfig
+Running es.us.isa.aml.test.core.TestCSPModel
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestCSPModel
+Running es.us.isa.aml.test.core.TestExpression
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestExpression
+Running es.us.isa.aml.test.core.TestIAgreeModel
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestIAgreeModel
+Running es.us.isa.aml.test.core.TestOperationsLocalReasoner
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [G1, G1_2]
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP < 999;]
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [Problem, G1_2]
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP >= 9999;]
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [ASSIG_Price, C2]
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [ASSIG_Price: Price == 10000;]
+sep 28, 2015 1:34:50 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [C2: Price == 1192 * MPI;]
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.137 sec - in es.us.isa.aml.test.core.TestOperationsLocalReasoner
+Running es.us.isa.aml.test.core.TestOperationsWebReasoner
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [G1, G1_2]
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP < 999;]
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [Problem, G1_2]
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [G1: MUP >= 9999;]
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [G1: MUP >= 999;]
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicts to be cleanned (i.e. Problem constraint must be removed and to get the conflicts of the Offer: [ASSIG_Price, C2]
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Conflicting Offer constraints: [ASSIG_Price: Price == 10000;]
+sep 28, 2015 1:35:01 PM es.us.isa.aml.operations.core.csp.WhyAreNotCompliant putExplanation
+INFORMACIÓN: Affected Template constraints: [C2: Price == 1192 * MPI;]
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.526 sec - in es.us.isa.aml.test.core.TestOperationsWebReasoner
+Running es.us.isa.aml.test.core.TestPapamoscas
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.017 sec - in es.us.isa.aml.test.core.TestPapamoscas
+Running es.us.isa.aml.test.core.TestStore
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 sec - in es.us.isa.aml.test.core.TestStore
+
+Results :
+
+Tests run: 56, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 19.590 s
+[INFO] Finished at: 2015-09-28T13:35:04+01:00
+[INFO] Final Memory: 18M/283M
+[INFO] ------------------------------------------------------------------------

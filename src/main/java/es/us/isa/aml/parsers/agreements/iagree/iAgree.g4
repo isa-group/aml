@@ -9,7 +9,7 @@ entry : template END_TEMPLATE
       | agreement END_AGREEMENT
       ;
  
-template : TEMPLATE id=Identifier VERSION version=versionNumber template_def ;
+template : TEMPLATE id=Identifier VERSION version=versionNumber template_def;
 
 agOffer : AG_OFFER id=Identifier VERSION version=versionNumber FOR (TEMPLATE)? templateId=Identifier VERSION templateVersion=versionNumber ag_def;
 
@@ -21,11 +21,6 @@ ag_def : temp_properties*  agreementTerms;
 
 temp_properties : context_prop
                 | partiesRoles_prop
-                | expirationTime_prop
-                | dateFormat_prop
-                | gmtZone_prop
-                | globalPeriod_prop
-                | definedPeriod_prop
                 | metrics_prop
                 ;
 
@@ -39,50 +34,21 @@ creationConstraint : (Identifier) ':' expression ';' qualifyingCondition?;
 // Template properties
 //---------------------------------------
 
-context_prop : CREATED FROM id=(Identifier | String) (AVAL_AT url)? ';'
-             | CREATED ON Date Hour ';'
-             ;
+context_prop : CREATED FROM id=(Identifier | String) (AVAL_AT url)? ';' ;
 
 partiesRoles_prop : role=PROVIDER id=(Identifier | String) AS roleType=(INITIATOR | RESPONDER) ';'
                   | role=CONSUMER id=(Identifier | String) AS roleType=(INITIATOR | RESPONDER) ';'
                   ;
-				
-expirationTime_prop : EXPIRATIONTIME ':' String;
-
-dateFormat_prop : DATEFORMAT ':' String;
-
-gmtZone_prop : GMTZONE ':' (S_Integer | Integer);
-
-globalPeriod_prop : GLOBALPERIOD ':' datePeriod_def;
-
-definedPeriod_prop : DEFINEDPERIOD ':' period+;
 
 metrics_prop : METRICS ':' (metric)+;
 
 metric: id=Identifier ':' (type=SET (list|array) | type=ENUM (list|array) | type=(INTEGER | FLOAT | NATURAL | NUMBER | BOOLEAN) (range)? (list)?) ';' ; 
 
-
-//---------------------------------------
-// Temp. definitions
-//---------------------------------------
-
-datePeriod_def : DURING Date '..' Date;
-
-temporality : ON Identifier;
-
-period : Identifier ':' period_def ((EXCEPT|AND) period_def)*;
-
-period_def : FROM Hour '..' Hour (ON Identifier)? datePeriod_def 
-           | Identifier
-           | GLOBALPERIOD
-           ;
-
-
 //---------------------------------------
 // Agreement Terms definitions
 //---------------------------------------
 			
-service : SERVICE Identifier (AVAL_AT endpointUrl=url)? (DEFINED_AT definitionUrl=url)? (MONITORED_AT monitorUrl=url)?
+service : SERVICE Identifier (AVAL_AT endpointUrl=url)?
           (features)? 
           globalDescription 
           localDescription*
@@ -113,9 +79,9 @@ guaranteeTerms : GUARANTEE_TERMS
                  (guaranteeTerm)*
                ;
 				
-guaranteeTerm : Identifier ':' (guarantee_def | cuantif OF (guaranteeTerm)+) (END)?;
+guaranteeTerm : Identifier ':' guarantee_def;
 							
-guarantee_def : ob=(PROVIDER | CONSUMER) GUARANTEES slo temporality? ';' 
+guarantee_def : ob=(PROVIDER | CONSUMER) GUARANTEES slo ';' 
                 (serviceScope)?
                 (qualifyingCondition)?
                 (compensation)*
@@ -154,9 +120,7 @@ url : Url
     | String
     ;
 
-property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN) 
-           (DEFINED_AT definitionUrl=url)? 
-           (MONITORED_AT monitorUrl=url)?
+property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN)
            (ASSIG value=expression)? 
             ';';
 

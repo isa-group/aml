@@ -270,21 +270,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 							Util.withoutDoubleQuotes(ctx.endpointUrl.getText()));
 		}
 
-		if (ctx.DEFINED_AT() != null) {
-			model.getAgreementTerms()
-					.getService()
-					.setDefinitionReference(
-							Util.withoutDoubleQuotes(ctx.definitionUrl
-									.getText()));
-		}
-
-		if (ctx.MONITORED_AT() != null) {
-			model.getAgreementTerms()
-					.getService()
-					.setMonitorReference(
-							Util.withoutDoubleQuotes(ctx.monitorUrl.getText()));
-		}
-
 		if (ctx.features() != null) {
 			visitFeatures(ctx.features());
 		}
@@ -336,35 +321,8 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			visitContext_prop(ctx.context_prop());
 		} else if (ctx.partiesRoles_prop() != null) {
 			visitPartiesRoles_prop(ctx.partiesRoles_prop());
-		} else if (ctx.expirationTime_prop() != null) {
-			// TODO Definir temporalidad
-
-		} else if (ctx.dateFormat_prop() != null) {
-			// TODO Definir temporalidad
-
-		} else if (ctx.gmtZone_prop() != null) {
-			if (ctx.gmtZone_prop().S_Integer() != null) {
-
-				// TODO Definir temporalidad
-				ctx.gmtZone_prop().S_Integer().getText();
-
-			} else if (ctx.gmtZone_prop().Integer() != null) {
-
-				// TODO Definir temporalidad
-				ctx.gmtZone_prop().Integer().getText();
-
-			}
-		} else if (ctx.globalPeriod_prop() != null) {
-			// TODO Definir temporalidad
-
-		} else if (ctx.definedPeriod_prop() != null) {
-			// TODO Definir temporalidad
-
 		} else if (ctx.metrics_prop() != null) {
-
-			// TODO implementar metricas
 			this.visitMetrics_prop(ctx.metrics_prop());
-
 		}
 
 		return null;
@@ -429,21 +387,16 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 		for (iAgreeParser.PropertyContext prop : ctx.property()) {
 			Property p = this.visitProperty(prop);
-			if (prop.MONITORED_AT() != null) {
-				parser.notifyErrorListeners(
-						prop.start,
-						"Monitoring is not allowed for service description properties.",
-						null);
-			} else {
-				if (p != null) {
-					ConfigurationProperty cp = new ConfigurationProperty(
-							p.getId(), p.getMetric());
-					cp.setExpression(p.getExpression());
-					cp.setScope(Scope.Global);
-					this.model.getAgreementTerms().getService()
-							.getConfigurationProperties().put(cp.getId(), cp);
-				}
+
+			if (p != null) {
+				ConfigurationProperty cp = new ConfigurationProperty(p.getId(),
+						p.getMetric());
+				cp.setExpression(p.getExpression());
+				cp.setScope(Scope.Global);
+				this.model.getAgreementTerms().getService()
+						.getConfigurationProperties().put(cp.getId(), cp);
 			}
+
 		}
 
 		return null;
@@ -531,8 +484,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			GT.setId(ctx.Identifier().getText());
 			this.model.getAgreementTerms().getGuaranteeTerms()
 					.put(GT.getId(), GT);
-		} else if (ctx.cuantif() != null) {
-			// TODO
 		}
 		return null;
 	}
@@ -626,16 +577,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		if (m != null) {
 
 			p = new Property(id, m);
-
-			if (ctx.DEFINED_AT() != null) {
-				p.setDefinitionReference(Util
-						.withoutDoubleQuotes(ctx.definitionUrl.getText()));
-			}
-
-			if (ctx.MONITORED_AT() != null) {
-				p.setMonitorReference(Util.withoutDoubleQuotes(ctx.monitorUrl
-						.getText()));
-			}
 
 			if (ctx.value != null) {
 				Boolean hasErrors = false;
@@ -796,20 +737,24 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				Var var = (Var) e1;
 				Atomic value = (Atomic) e2;
 				Property prop = model.getProperty(var.getId().toString());
-				Metric m = prop.getMetric();
+				if (prop != null) {
+					Metric m = prop.getMetric();
 
-				if (m.getType().equals("enum")) {
-					Enumerated en = (Enumerated) m.getDomain();
-					String val = Util.withoutDoubleQuotes(value.toString());
-					List<Object> ls = Arrays.asList(en.getValues());
-					if (!ls.contains(val)) {
-						parser.notifyErrorListeners(
-								ctx.start,
-								"Value \""
-										+ val
-										+ "\" has not been declared in metric \""
-										+ m.getId() + "\".", null);
+					if (m.getType().equals("enum")) {
+						Enumerated en = (Enumerated) m.getDomain();
+						String val = Util.withoutDoubleQuotes(value.toString());
+						List<Object> ls = Arrays.asList(en.getValues());
+						if (!ls.contains(val)) {
+							parser.notifyErrorListeners(ctx.start, "Value \""
+									+ val
+									+ "\" has not been declared in metric \""
+									+ m.getId() + "\".", null);
+						}
 					}
+				} else {
+					parser.notifyErrorListeners(ctx.start, "Property \""
+							+ var.getId().toString()
+							+ "\" has not been declared.", null);
 				}
 			}
 		} catch (Exception e) {
@@ -842,20 +787,24 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				Var var = (Var) e1;
 				Atomic value = (Atomic) e2;
 				Property prop = model.getProperty(var.getId().toString());
-				Metric m = prop.getMetric();
+				if (prop != null) {
+					Metric m = prop.getMetric();
 
-				if (m.getType().equals("enum")) {
-					Enumerated en = (Enumerated) m.getDomain();
-					String val = Util.withoutDoubleQuotes(value.toString());
-					List<Object> ls = Arrays.asList(en.getValues());
-					if (!ls.contains(val)) {
-						parser.notifyErrorListeners(
-								ctx.start,
-								"Value \""
-										+ val
-										+ "\" has not been declared in metric \""
-										+ m.getId() + "\".", null);
+					if (m.getType().equals("enum")) {
+						Enumerated en = (Enumerated) m.getDomain();
+						String val = Util.withoutDoubleQuotes(value.toString());
+						List<Object> ls = Arrays.asList(en.getValues());
+						if (!ls.contains(val)) {
+							parser.notifyErrorListeners(ctx.start, "Value \""
+									+ val
+									+ "\" has not been declared in metric \""
+									+ m.getId() + "\".", null);
+						}
 					}
+				} else {
+					parser.notifyErrorListeners(ctx.start, "Property \""
+							+ var.getId().toString()
+							+ "\" has not been declared.", null);
 				}
 			}
 		} catch (Exception e) {
@@ -1058,18 +1007,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
-	public Object visitTemporality(iAgreeParser.TemporalityContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitPeriod(iAgreeParser.PeriodContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Object visitUrl(iAgreeParser.UrlContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
@@ -1077,51 +1014,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 	@Override
 	public Object visitVersionNumber(iAgreeParser.VersionNumberContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitDateFormat_prop(iAgreeParser.DateFormat_propContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitExpirationTime_prop(
-			iAgreeParser.ExpirationTime_propContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitPeriod_def(iAgreeParser.Period_defContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitGlobalPeriod_prop(
-			iAgreeParser.GlobalPeriod_propContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitGmtZone_prop(iAgreeParser.GmtZone_propContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitDatePeriod_def(iAgreeParser.DatePeriod_defContext ctx) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Object visitDefinedPeriod_prop(
-			iAgreeParser.DefinedPeriod_propContext ctx) {
 		// TODO Auto-generated method stub
 		return null;
 	}

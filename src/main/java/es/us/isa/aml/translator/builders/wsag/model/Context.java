@@ -19,13 +19,13 @@ public class Context {
 	 * This optional element identifies the initiator of the agreement creation
 	 * request.
 	 */
-	private Object agreementInitiator;
+	private String  agreementInitiator;
 
 	/**
 	 * This optional element identifies the agreement responder, i.e. the entity
 	 * that responds to the agreement creation request.
 	 */
-	private Object agreementResponder;
+	private String agreementResponder;
 
 	/**
 	 * This element identifies the service provider and is either
@@ -62,7 +62,7 @@ public class Context {
 	/**
 	 * @return the agreementInitiator
 	 */
-	public Object getAgreementInitiator() {
+	public String getAgreementInitiator() {
 		return agreementInitiator;
 	}
 
@@ -70,14 +70,14 @@ public class Context {
 	 * @param agreementInitiator
 	 *            the agreementInitiator to set
 	 */
-	public void setAgreementInitiator(Object agreementInitiator) {
+	public void setAgreementInitiator(String agreementInitiator) {
 		this.agreementInitiator = agreementInitiator;
 	}
 
 	/**
 	 * @return the agreementResponder
 	 */
-	public Object getAgreementResponder() {
+	public String getAgreementResponder() {
 		return agreementResponder;
 	}
 
@@ -85,7 +85,7 @@ public class Context {
 	 * @param agreementResponder
 	 *            the agreementResponder to set
 	 */
-	public void setAgreementResponder(Object agreementResponder) {
+	public void setAgreementResponder(String agreementResponder) {
 		this.agreementResponder = agreementResponder;
 	}
 

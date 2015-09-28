@@ -1,3 +1,14 @@
+AML v0.5, 2015-09-28
+-----------------------
+- Support #1045
+- Feature #1072
+- Support #1087
+- Support #1088
+- Support #1090
+- Feature #1091
+- Support #1092
+- Feature #1093
+
 AML v0.4, 2015-09-10
 -----------------------
 - (Important) Feature #1055 added: iAgree syntax refactored.
