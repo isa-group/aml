@@ -1,4 +1,4 @@
-// Generated from C:\Users\ISA Group\Desktop\Parsers\iAgree-parser\iAgree.g4 by ANTLR 4.1
+// Generated from C:\Users\ISA Group\Desktop\Parsers\iAgree-parser\iAgree\iAgree.g4 by ANTLR 4.1
 package es.us.isa.aml.parsers.agreements.iagree;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -58,14 +58,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitParExpr(@NotNull iAgreeParser.ParExprContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitLocal_MonitorableProperties(@NotNull iAgreeParser.Local_MonitorablePropertiesContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -82,7 +74,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitTemporality(@NotNull iAgreeParser.TemporalityContext ctx) { return visitChildren(ctx); }
+	@Override public T visitParExpr(@NotNull iAgreeParser.ParExprContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -114,14 +106,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitPartiesRoles_prop(@NotNull iAgreeParser.PartiesRoles_propContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitFeature(@NotNull iAgreeParser.FeatureContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -130,7 +114,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitEqualityExpr(@NotNull iAgreeParser.EqualityExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitPartiesRoles_prop(@NotNull iAgreeParser.PartiesRoles_propContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -146,7 +130,23 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitEqualityExpr(@NotNull iAgreeParser.EqualityExprContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitTemplate(@NotNull iAgreeParser.TemplateContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitGuaranteeTerms(@NotNull iAgreeParser.GuaranteeTermsContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -163,14 +163,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitCreationConstraints(@NotNull iAgreeParser.CreationConstraintsContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitGuaranteeTerms(@NotNull iAgreeParser.GuaranteeTermsContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -210,7 +202,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitPeriod(@NotNull iAgreeParser.PeriodContext ctx) { return visitChildren(ctx); }
+	@Override public T visitUrl(@NotNull iAgreeParser.UrlContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -219,14 +211,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitMultiplicationExpr(@NotNull iAgreeParser.MultiplicationExprContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitUrl(@NotNull iAgreeParser.UrlContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -330,22 +314,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitDateFormat_prop(@NotNull iAgreeParser.DateFormat_propContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitExpirationTime_prop(@NotNull iAgreeParser.ExpirationTime_propContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitLocalDescription(@NotNull iAgreeParser.LocalDescriptionContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -371,14 +339,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitContext_prop(@NotNull iAgreeParser.Context_propContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitPeriod_def(@NotNull iAgreeParser.Period_defContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -426,14 +386,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitListExpr(@NotNull iAgreeParser.ListExprContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitTemplate_def(@NotNull iAgreeParser.Template_defContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -442,7 +394,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitGlobalPeriod_prop(@NotNull iAgreeParser.GlobalPeriod_propContext ctx) { return visitChildren(ctx); }
+	@Override public T visitListExpr(@NotNull iAgreeParser.ListExprContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -482,14 +434,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitGmtZone_prop(@NotNull iAgreeParser.GmtZone_propContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitIffExpr(@NotNull iAgreeParser.IffExprContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -522,14 +466,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitRelationalExpr(@NotNull iAgreeParser.RelationalExprContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitEntry(@NotNull iAgreeParser.EntryContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -538,7 +474,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitService(@NotNull iAgreeParser.ServiceContext ctx) { return visitChildren(ctx); }
+	@Override public T visitRelationalExpr(@NotNull iAgreeParser.RelationalExprContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -554,13 +490,5 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitDatePeriod_def(@NotNull iAgreeParser.DatePeriod_defContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
-	@Override public T visitDefinedPeriod_prop(@NotNull iAgreeParser.DefinedPeriod_propContext ctx) { return visitChildren(ctx); }
+	@Override public T visitService(@NotNull iAgreeParser.ServiceContext ctx) { return visitChildren(ctx); }
 }

@@ -3,10 +3,10 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>es.us.isa</groupId>
 	<artifactId>AML</artifactId>
-	<version>0.4</version>
+	<version>0.5</version>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.7</java.version>
 	</properties>
 
 	<pluginRepositories>
@@ -150,13 +150,13 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
-				<tests>**/tests/core/*.java</tests>
+				<tests>**/test/core/*.java</tests>
 			</properties>
 		</profile>
 		<profile>
 			<id>full-tests</id>
 			<properties>
-				<tests>**/tests/core/*.java, **/tests/full/*.java</tests>
+				<tests>**/test/core/*.java, **/test/full/*.java</tests>
 			</properties>
 		</profile>
 	</profiles>

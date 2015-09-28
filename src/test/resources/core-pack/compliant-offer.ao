@@ -1,4 +1,4 @@
-AgreementOffer CompliantOffer version 1.0 for Template CompliantTemplate version 1.0
+AgreementOffer CompliantOffer version 1.0 for Template compliant-template.at version 1.0
 	Provider "Prov1" as Responder;
 	Metrics:
 		size: integer[0..200];

@@ -12,6 +12,7 @@ import es.us.isa.aml.model.Role;
 import es.us.isa.aml.model.ServiceConfiguration;
 import es.us.isa.aml.translator.IBuilder;
 import es.us.isa.aml.translator.builders.wsag.model.Agreement;
+import es.us.isa.aml.translator.builders.wsag.model.AgreementRole;
 import es.us.isa.aml.translator.builders.wsag.model.Constraint;
 import es.us.isa.aml.translator.builders.wsag.model.CustomServiceLevel;
 import es.us.isa.aml.translator.builders.wsag.model.Document;
@@ -65,8 +66,14 @@ public class WSAGBuilder implements IBuilder {
 
 	@Override
 	public void setContext(Context context) {
-		wsagDoc.getContext().setAgreementInitiator(context.getInitiator());
-		wsagDoc.getContext().setAgreementResponder(context.getResponder());
+		wsagDoc.getContext().setAgreementInitiator(context.getInitiator().getId());
+		wsagDoc.getContext().setAgreementResponder(context.getResponder().getId());
+		if(context.getInitiator().getRole() == Role.Provider){
+			wsagDoc.getContext().setServiceProvider(AgreementRole.Initiator);
+		} else if(context.getResponder().getRole() == Role.Provider){
+			wsagDoc.getContext().setServiceProvider(AgreementRole.Responder);
+		}
+		
 		if (context.getTemplateId() != null
 				&& context.getTemplateVersion() != null) {
 			wsagDoc.getContext().setTemplateId(
