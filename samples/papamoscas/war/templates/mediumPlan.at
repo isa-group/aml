@@ -1,0 +1,28 @@
+Template mediumPlanT version 1.0
+	Initiator: "Papamoscas SL";
+	Provider "Papamoscas SL" as Responder;
+	Metrics:
+		price: integer [0..500];
+        int: integer[0..10000];
+
+AgreementTerms
+	Service BirdAPI availableAt "http://papamoscas-isa.appspot.com/api/v4/birds"
+		GlobalDescription
+			PlanPrice: price = 99;
+
+	MonitorableProperties
+		global:
+			Requests: int = 0;
+			AVGResponseTime: int = 0;
+			AnalyticsRequests: int = 0;
+
+	GuaranteeTerms
+		RequestTerm: Consumer guarantees Requests <=100;
+
+		TimeTerm: Provider guarantees AVGResponseTime <= 800;
+
+		AnalyticsRequestTerm: Consumer guarantees AnalyticsRequests <= 50;
+
+
+
+EndTemplate

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         id="WebApp_ID" version="2.5">
+    <display-name>Papamoscas</display-name>
+
+    <!--
+	 * Applied Software Engineering Research Group (ISA Group)
+	 * University of Sevilla, Spain
+	 *
+	 * @author Antonio Gamez <agamez2@us.es>
+	 * @version 1.0
+     -->
+
+    <!--Servlets-->
+
+    <servlet>
+        <servlet-name>BirdsServlet</servlet-name>
+        <servlet-class>es.us.isa.servlets.BirdsServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>AgreementsServlet</servlet-name>
+        <servlet-class>es.us.isa.servlets.AgreementsServlet</servlet-class>
+    </servlet>
+    
+    <servlet>
+        <servlet-name>PlanPurschaseServlet</servlet-name>
+        <servlet-class>es.us.isa.servlets.PlanPurschaseServlet</servlet-class>
+    </servlet>
+    
+    
+
+
+    <!--Filters-->
+
+    <filter>
+        <filter-name>AgreementFilter_AML</filter-name>
+        <filter-class>es.us.isa.filters.AgreementFilter</filter-class>
+    </filter>
+
+
+    <!--Servlet mappings-->
+
+    <servlet-mapping>
+        <servlet-name>BirdsServlet</servlet-name>
+        <url-pattern>/api/v4/birds/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>AgreementsServlet</servlet-name>
+        <url-pattern>/api/v4/agreements/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet-mapping>
+        <servlet-name>PlanPurschaseServlet</servlet-name>
+        <url-pattern>/portal/api/v4/purchases/*</url-pattern>
+    </servlet-mapping>
+
+
+    <!--Filter mappings-->
+
+    <filter-mapping>
+        <filter-name>AgreementFilter_AML</filter-name>
+        <url-pattern>/api/v4/birds/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+
+    <!--Other config stuff-->
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <error-page>
+        <error-code>401</error-code>
+        <location>/error.html</location>
+    </error-page>
+
+    <session-config>
+        <session-timeout>720</session-timeout>
+    </session-config>
+
+</web-app>
