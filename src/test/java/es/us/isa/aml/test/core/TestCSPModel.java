@@ -8,7 +8,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,8 +29,6 @@ import es.us.isa.aml.translator.builders.csp.CSPBuilder;
  */
 public class TestCSPModel {
 
-	private static final Logger LOG = Logger.getLogger(TestCSPModel.class
-			.getName());
 	private static AgreementManager service;
 	private static AgreementTemplate iagreeModel;
 	private static AgreementOffer iagreeEnumModel;

@@ -7,8 +7,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.logging.Logger;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -26,8 +24,6 @@ import es.us.isa.aml.util.OperationResponse;
  */
 public class TestPapamoscas {
 
-	private static final Logger LOG = Logger.getLogger(TestPapamoscas.class
-			.getName());
 	private static AgreementManager service;
 	private static AgreementTemplate model1;
 

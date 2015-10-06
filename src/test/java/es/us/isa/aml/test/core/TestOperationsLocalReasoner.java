@@ -6,8 +6,6 @@ package es.us.isa.aml.test.core;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.logging.Logger;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -29,8 +27,6 @@ import es.us.isa.aml.util.ReasonerType;
  */
 public class TestOperationsLocalReasoner {
 
-	private static final Logger LOG = Logger.getLogger(TestOperationsLocalReasoner.class
-			.getName());
 	private static AgreementManager service;
 	private static AgreementTemplate model1, model2, model3, model4, model5, azureTemplate, TSCTemplate;
 	private static AgreementOffer model6, azureOffer1, azureOffer2, azureOffer3, azureOffer4, TSCCompliant;

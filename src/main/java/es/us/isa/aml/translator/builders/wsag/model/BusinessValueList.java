@@ -49,4 +49,73 @@ public class BusinessValueList {
      */
     private CustomBusinessValue customBusinessValue;
 
+	/**
+	 * @return the importance
+	 */
+	public Integer getImportance() {
+		return importance;
+	}
+
+	/**
+	 * @param importance the importance to set
+	 */
+	public void setImportance(Integer importance) {
+		this.importance = importance;
+	}
+
+	/**
+	 * @return the penalty
+	 */
+	public Penalty getPenalty() {
+		return penalty;
+	}
+
+	/**
+	 * @param penalty the penalty to set
+	 */
+	public void setPenalty(Penalty penalty) {
+		this.penalty = penalty;
+	}
+
+	/**
+	 * @return the reward
+	 */
+	public Reward getReward() {
+		return reward;
+	}
+
+	/**
+	 * @param reward the reward to set
+	 */
+	public void setReward(Reward reward) {
+		this.reward = reward;
+	}
+
+	/**
+	 * @return the preference
+	 */
+	public Preference getPreference() {
+		return preference;
+	}
+
+	/**
+	 * @param preference the preference to set
+	 */
+	public void setPreference(Preference preference) {
+		this.preference = preference;
+	}
+
+	/**
+	 * @return the customBusinessValue
+	 */
+	public CustomBusinessValue getCustomBusinessValue() {
+		return customBusinessValue;
+	}
+
+	/**
+	 * @param customBusinessValue the customBusinessValue to set
+	 */
+	public void setCustomBusinessValue(CustomBusinessValue customBusinessValue) {
+		this.customBusinessValue = customBusinessValue;
+	}
 }
