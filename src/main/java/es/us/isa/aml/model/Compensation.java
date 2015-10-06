@@ -5,6 +5,9 @@ package es.us.isa.aml.model;
 
 import java.util.List;
 
+import es.us.isa.aml.util.AssessmentInterval;
+import es.us.isa.aml.util.CompensationType;
+
 /**
  * This class represents a compensation of an agreement.
  * @author jdelafuente
@@ -69,15 +72,5 @@ public class Compensation {
      */
     public void setElements(List<CompensationElement> elements) {
         this.elements = elements;
-    }
-
-    public enum AssessmentInterval {
-
-        YEARLY, MONTHLY, WEEKLY, DAILY, HOURLY, MINUTELY
-    }
-
-    public enum CompensationType {
-
-        PENALTY, REWARD
     }
 }

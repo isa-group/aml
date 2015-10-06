@@ -2,7 +2,6 @@ package es.us.isa.aml.model.csp;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import es.us.isa.aml.model.AbstractModel;
 import es.us.isa.aml.model.expression.Expression;
@@ -16,9 +15,6 @@ import es.us.isa.aml.model.expression.ParenthesisExpression;
  *
  */
 public class CSPModel extends AbstractModel {
-
-	private static final Logger LOGGER = Logger.getLogger(CSPModel.class
-			.getName());
 
 	protected List<CSPRange> ranges;
 	protected List<CSPVar> variables;

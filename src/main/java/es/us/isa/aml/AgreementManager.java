@@ -1,7 +1,5 @@
 package es.us.isa.aml;
 
-import java.util.logging.Logger;
-
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
@@ -21,8 +19,6 @@ import es.us.isa.aml.util.Util;
  */
 public class AgreementManager {
 
-	private static final Logger LOG = Logger.getLogger(AgreementManager.class
-			.getName());
 	private final Store store;
 
 	/**

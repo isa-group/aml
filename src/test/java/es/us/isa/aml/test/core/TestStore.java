@@ -17,8 +17,7 @@ public class TestStore {
     @Test
     public void testCreation1() {
         AgreementManager m = new AgreementManager();
-        Store s = m.getStoreManager();
-
+        
         //MODO_1:
         String path1 = "src/test/resources/core-pack/iagree-core.at";
         AgreementTemplate template1 = m.createAgreementTemplateFromFile(path1);
@@ -28,7 +27,6 @@ public class TestStore {
     @Test
     public void testCreation2() {
         AgreementManager m = new AgreementManager();
-        Store s = m.getStoreManager();
 
         //MODO_2:
         String path2 = "src/test/resources/core-pack/iagree-core.at";
@@ -40,7 +38,6 @@ public class TestStore {
     @Test
     public void testRegistration1() {
         AgreementManager m = new AgreementManager();
-        Store s = m.getStoreManager();
 
         //MODO_1:
         String path1 = "src/test/resources/core-pack/iagree-core.at";
