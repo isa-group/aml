@@ -1,0 +1,7 @@
+{
+    "defaultInputFormat": "IAGREE",
+    "CSPReasoner": "CPLEX",
+    "CSPWebReasonerEndpoint": "http://150.214.188.130:8080/CSPWebReasoner",
+    "DLReasoner": "NONE",
+    "ANDConstraintsBreaking" : "true"
+}

@@ -3,9 +3,7 @@
  */
 package es.us.isa.aml.test.core;
 
-import static org.junit.Assert.*;
-
-import java.util.logging.Logger;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,9 +18,6 @@ import es.us.isa.aml.util.ReasonerType;
  *
  */
 public class TestConfig {
-
-	private static final Logger LOG = Logger.getLogger(TestConfig.class
-			.getName());
 	
 	@BeforeClass
 	public static void init() {
