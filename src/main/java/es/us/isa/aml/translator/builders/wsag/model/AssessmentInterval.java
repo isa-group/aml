@@ -3,7 +3,6 @@
  */
 package es.us.isa.aml.translator.builders.wsag.model;
 
-import java.time.Period;
 
 /**
  * @author jdelafuente
@@ -15,7 +14,7 @@ public class AssessmentInterval {
      * This element when present defines the assessment interval as a duration.
      * For example, a weekly or monthly interval for defining the assessment.
      */
-    private Period timeInterval;
+    private es.us.isa.aml.util.AssessmentInterval timeInterval;
 
     /**
      * This element when present defines the assessment interval as a service
@@ -26,14 +25,14 @@ public class AssessmentInterval {
     /**
      * @return the timeInterval
      */
-    public Period getTimeInterval() {
+    public es.us.isa.aml.util.AssessmentInterval getTimeInterval() {
         return timeInterval;
     }
 
     /**
      * @param timeInterval the timeInterval to set
      */
-    public void setTimeInterval(Period timeInterval) {
+    public void setTimeInterval(es.us.isa.aml.util.AssessmentInterval timeInterval) {
         this.timeInterval = timeInterval;
     }
 

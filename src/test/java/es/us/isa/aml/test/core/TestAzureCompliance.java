@@ -6,8 +6,6 @@ package es.us.isa.aml.test.core;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.util.logging.Logger;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,8 +25,6 @@ import es.us.isa.aml.util.OperationResponse;
  */
 public class TestAzureCompliance {
 
-	private static final Logger LOG = Logger.getLogger(TestAzureCompliance.class
-			.getName());
 	private static AgreementManager service;
 	private static AgreementTemplate TSCTemplate;
 	private static AgreementOffer TSCCompliant;

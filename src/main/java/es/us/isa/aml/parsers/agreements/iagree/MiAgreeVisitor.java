@@ -22,8 +22,6 @@ import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Compensation;
-import es.us.isa.aml.model.Compensation.AssessmentInterval;
-import es.us.isa.aml.model.Compensation.CompensationType;
 import es.us.isa.aml.model.CompensationElement;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.Context;
@@ -90,6 +88,8 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.PartiesRoles_propCon
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.QualifyingConditionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.RelationalExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.StringAtomContext;
+import es.us.isa.aml.util.AssessmentInterval;
+import es.us.isa.aml.util.CompensationType;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
 

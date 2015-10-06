@@ -5,8 +5,6 @@ package es.us.isa.aml.test.core;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.logging.Logger;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -39,8 +37,6 @@ import es.us.isa.aml.model.expression.Var;
  */
 public class TestIAgreeModel {
 
-	private static final Logger LOG = Logger.getLogger(TestIAgreeModel.class
-			.getName());
 	private static AgreementManager service;
 	private static AgreementModel model;
 
