@@ -99,8 +99,8 @@
 		<maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 		<maven-release-plugin.version>2.5.2</maven-release-plugin.version>
 		<nexus-staging-maven-plugin.version>1.6.3</nexus-staging-maven-plugin.version>
-		<gpg.keyname>C7E4F1C2</gpg.keyname>
-		<gpg.passphrase>ideas.isa.us%GPG</gpg.passphrase>
+		<gpg.keyname>F3857FDA</gpg.keyname>
+		<gpg.passphrase>isagroup.us%GPG</gpg.passphrase>
 	</properties>
 
 	<dependencies>
