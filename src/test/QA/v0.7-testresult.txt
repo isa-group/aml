@@ -1,0 +1,70 @@
+[WARNING] 
+[WARNING] Some problems were encountered while building the effective settings
+[WARNING] Unrecognised tag: 'build' (position: START_TAG seen ...</properties>\r\n\t\t\t<build>... @10:11)  @ C:\Users\ISA Group\.m2\settings.xml, line 10, column 11
+[WARNING] 
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] Using the builder org.apache.maven.lifecycle.internal.builder.singlethreaded.SingleThreadedBuilder with a thread count of 1
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Agreement Management Library 0.7-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[WARNING] The POM for es.us.isa.opl:oplall:jar:1.0.0 is invalid, transitive dependencies (if any) will not be available, enable debug logging for more details
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ AML ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 2 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:compile (default-compile) @ AML ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 156 source files to C:\Users\ISA Group\git\aml\target\classes
+[INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Some input files use or override a deprecated API.
+[INFO] /C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Recompile with -Xlint:deprecation for details.
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ AML ---
+[WARNING] Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 16 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ AML ---
+[INFO] Changes detected - recompiling the module!
+[WARNING] File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+[INFO] Compiling 17 source files to C:\Users\ISA Group\git\aml\target\test-classes
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.18.1:test (default-test) @ AML ---
+[INFO] Surefire report directory: C:\Users\ISA Group\git\aml\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running es.us.isa.aml.test.core.TestAzureCompliance
+OPL - Development Mode. Use IloOplFactory.setDebugMode(false) to switch to production mode.
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.983 sec - in es.us.isa.aml.test.core.TestAzureCompliance
+Running es.us.isa.aml.test.core.TestConfig
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestConfig
+Running es.us.isa.aml.test.core.TestCSPModel
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.025 sec - in es.us.isa.aml.test.core.TestCSPModel
+Running es.us.isa.aml.test.core.TestExpression
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.003 sec - in es.us.isa.aml.test.core.TestExpression
+Running es.us.isa.aml.test.core.TestIAgreeModel
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec - in es.us.isa.aml.test.core.TestIAgreeModel
+Running es.us.isa.aml.test.core.TestOperationsLocalReasoner
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.514 sec - in es.us.isa.aml.test.core.TestOperationsLocalReasoner
+Running es.us.isa.aml.test.core.TestOperationsWebReasoner
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.009 sec - in es.us.isa.aml.test.core.TestOperationsWebReasoner
+Running es.us.isa.aml.test.core.TestPapamoscas
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.034 sec - in es.us.isa.aml.test.core.TestPapamoscas
+Running es.us.isa.aml.test.core.TestStore
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.03 sec - in es.us.isa.aml.test.core.TestStore
+
+Results :
+
+Tests run: 56, Failures: 0, Errors: 0, Skipped: 0
+
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 10.388 s
+[INFO] Finished at: 2015-10-13T17:55:06+01:00
+[INFO] Final Memory: 15M/244M
+[INFO] ------------------------------------------------------------------------
