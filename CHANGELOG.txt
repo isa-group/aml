@@ -1,3 +1,10 @@
+AML v0.7 (Baratheon), 2015-10-14
+-----------------------
+- Upload JAR to Maven Central Repository #28
+- Add copyright header #33
+- Review md #34
+- Reference to showcases in gh_pages #35
+
 AML v0.6 (Stark), 2015-10-06
 -----------------------
 - #32 Code style reviewed
