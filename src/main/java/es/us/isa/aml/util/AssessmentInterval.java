@@ -22,5 +22,5 @@ package es.us.isa.aml.util;
  *
  */
 public enum AssessmentInterval {
-    YEARLY, MONTHLY, WEEKLY, DAILY, HOURLY, MINUTELY
+    YEARLY, MONTHLY, WEEKLY, DAILY, HOURLY, MINUTELY, SECONDLY
 }

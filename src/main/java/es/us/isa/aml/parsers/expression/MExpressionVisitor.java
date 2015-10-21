@@ -26,11 +26,15 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.RuleNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
+import es.us.isa.aml.model.ResourceProperty;
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
 import es.us.isa.aml.model.expression.Atomic;
+import es.us.isa.aml.model.expression.DuringExpression;
+import es.us.isa.aml.model.expression.DuringInterval;
 import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.FrecuencyExpression;
 import es.us.isa.aml.model.expression.ListExpression;
 import es.us.isa.aml.model.expression.LogicalExpression;
 import es.us.isa.aml.model.expression.LogicalOperator;
@@ -46,9 +50,11 @@ import es.us.isa.aml.parsers.expression.ExpressionParser.ArrayContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.ArrayExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.AssigExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.AtomExprContext;
+import es.us.isa.aml.parsers.expression.ExpressionParser.DuringExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.EqualityExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.ExcludesExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.ExpressionContext;
+import es.us.isa.aml.parsers.expression.ExpressionParser.FreqExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.IffExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.ImpliesExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.ListContext;
@@ -59,6 +65,7 @@ import es.us.isa.aml.parsers.expression.ExpressionParser.OrExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.ParExprContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.ParseContext;
 import es.us.isa.aml.parsers.expression.ExpressionParser.RelationalExprContext;
+import es.us.isa.aml.util.AssessmentInterval;
 import es.us.isa.aml.util.Util;
 
 /**
@@ -110,6 +117,12 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
 			break;
 		case "IffExprContext":
 			res = this.visitIffExpr((IffExprContext) ctx);
+			break;
+		case "DuringExprContext":
+			res = this.visitDuringExpr((DuringExprContext) ctx);
+			break;
+		case "FreqExprContext":
+			res = this.visitFreqExpr((FreqExprContext) ctx);
 			break;
 		case "ParExprContext":
 			res = this.visitParExpr((ParExprContext) ctx);
@@ -259,6 +272,59 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
 	}
 
 	@Override
+	public Expression visitDuringExpr(ExpressionParser.DuringExprContext ctx) {
+		DuringInterval interval = (DuringInterval) visitDuringInterval(ctx.durInt);
+		Expression state = visitExpression(ctx.state);
+		Expression dur = visitExpression(ctx.dur);
+		// ResourceProperty resourceProperty = (ResourceProperty)
+		// model.getProperty(ctx.expression(0).getText());
+
+		ResourceProperty resourceProperty = new ResourceProperty(ctx
+				.expression(0).getText());
+		DuringExpression e = new DuringExpression(resourceProperty, state, dur,
+				interval);
+		return e;
+	}
+
+	@Override
+	public Object visitDuringInterval(ExpressionParser.DuringIntervalContext ctx) {
+		return DuringInterval.valueOf(ctx.getText().toUpperCase());
+	}
+
+	@Override
+	public Expression visitFreqExpr(ExpressionParser.FreqExprContext ctx) {
+		Expression state = visitExpression(ctx.state);
+		Expression ntimes = visitExpression(ctx.ntimes);
+		AssessmentInterval interval = (AssessmentInterval) visitCompensationsInterval(ctx.compInt);
+		RelationalOperator op;
+		switch (ctx.op.getType()) {
+		case ExpressionParser.LTE:
+			op = RelationalOperator.LTE;
+			break;
+		case ExpressionParser.GTE:
+			op = RelationalOperator.GTE;
+			break;
+		case ExpressionParser.LT:
+			op = RelationalOperator.LT;
+			break;
+		case ExpressionParser.GT:
+			op = RelationalOperator.GT;
+			break;
+		case ExpressionParser.EQ:
+			op = RelationalOperator.EQ;
+			break;
+		default:
+			throw new RuntimeException("unknown operator: "
+					+ ExpressionParser.tokenNames[ctx.op.getType()]);
+		}
+		ResourceProperty resourceProperty = new ResourceProperty(ctx
+				.expression(0).getText());
+		FrecuencyExpression f = new FrecuencyExpression(resourceProperty,
+				state, op, ntimes, interval);
+		return f;
+	}
+
+	@Override
 	public Expression visitListExpr(ListExprContext ctx) {
 		return visitList(ctx.list());
 	}
@@ -284,6 +350,12 @@ public class MExpressionVisitor implements ExpressionVisitor<Object> {
 			ls[i] = Util.withoutDoubleQuotes(ctx.args(i).getText());
 		}
 		return new ListExpression(ls);
+	}
+
+	@Override
+	public Object visitCompensationsInterval(
+			ExpressionParser.CompensationsIntervalContext ctx) {
+		return AssessmentInterval.valueOf(ctx.getText().toUpperCase());
 	}
 
 	@Override

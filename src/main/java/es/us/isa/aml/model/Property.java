@@ -28,69 +28,69 @@ import java.util.logging.Logger;
  */
 public class Property extends AgreementElement {
 
-    private static final Logger LOG = Logger.getLogger(Property.class.getName());
+	private static final Logger LOG = Logger
+			.getLogger(Property.class.getName());
 
-    private Metric metric;
-    private Expression expr;
-    private Scope scope;
-    private Feature feature;
-    private String definitionReference;
-    private String monitorReference;
+	protected Metric metric;
+	protected Expression expr;
+	protected Scope scope;
+	protected Feature feature;
+	protected String definitionReference;
+	protected String monitorReference;
 
-    
 	public Property(String id) {
 		super(id);
 		scope = Scope.Global;
 	}
-    
-    public Property(String id, Metric metric) {
-        super(id);
-        this.metric = metric;
-        scope = Scope.Global;
-    }
 
-    public Property(String id, Metric metric, Expression expression,
-            Scope scope, Feature feature) {
-        super(id);
-        this.metric = metric;
-        this.expr = expression;
-        this.scope = scope;
-        this.feature = feature;
-    }
+	public Property(String id, Metric metric) {
+		super(id);
+		this.metric = metric;
+		scope = Scope.Global;
+	}
 
-    public Metric getMetric() {
-        return this.metric;
-    }
+	public Property(String id, Metric metric, Expression expression,
+			Scope scope, Feature feature) {
+		super(id);
+		this.metric = metric;
+		this.expr = expression;
+		this.scope = scope;
+		this.feature = feature;
+	}
 
-    public void setMetric(Metric metric) {
-        this.metric = metric;
-    }
+	public Metric getMetric() {
+		return this.metric;
+	}
 
-    public Expression getExpression() {
-        return this.expr;
-    }
+	public void setMetric(Metric metric) {
+		this.metric = metric;
+	}
 
-    public void setExpression(Expression expr) {
-        this.expr = expr;
-    }
+	public Expression getExpression() {
+		return this.expr;
+	}
 
-    public Scope getScope() {
-        return this.scope;
-    }
+	public void setExpression(Expression expr) {
+		this.expr = expr;
+	}
 
-    public void setScope(Scope scope) {
-        this.scope = scope;
-    }
+	public Scope getScope() {
+		return this.scope;
+	}
 
-    public Feature getFeature() {
-        return feature;
-    }
+	public void setScope(Scope scope) {
+		this.scope = scope;
+	}
 
-    public void setFeature(Feature feature) {
-        this.feature = feature;
-    }
-    
-    public String getDefinitionReference() {
+	public Feature getFeature() {
+		return feature;
+	}
+
+	public void setFeature(Feature feature) {
+		this.feature = feature;
+	}
+
+	public String getDefinitionReference() {
 		return definitionReference;
 	}
 
@@ -107,61 +107,62 @@ public class Property extends AgreementElement {
 	}
 
 	public Object getValue() {
-        if (expr == null) {
-            LOG.log(Level.INFO, "Property {0} has not been initialized", this.id);
-            return null;
-        } else {
-            return expr.calculate();
-        }
-    }
+		if (expr == null) {
+			LOG.log(Level.INFO, "Property {0} has not been initialized",
+					this.id);
+			return null;
+		} else {
+			return expr.calculate();
+		}
+	}
 
-    public Integer intValue() {
-        if (expr != null) {
-            Object value = expr.calculate();
-            if (value instanceof String) {
-                return Integer.valueOf((String) value);
-            } else if (value instanceof Number) {
-                return ((Number) value).intValue();
-            }
-        }
+	public Integer intValue() {
+		if (expr != null) {
+			Object value = expr.calculate();
+			if (value instanceof String) {
+				return Integer.valueOf((String) value);
+			} else if (value instanceof Number) {
+				return ((Number) value).intValue();
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public Double doubleValue() {
-        if (expr != null) {
-            Object value = expr.calculate();
-            if (value instanceof String) {
-                return Double.valueOf((String) value);
-            } else if (value instanceof Number) {
-                return ((Number) value).doubleValue();
-            }
-        }
+	public Double doubleValue() {
+		if (expr != null) {
+			Object value = expr.calculate();
+			if (value instanceof String) {
+				return Double.valueOf((String) value);
+			} else if (value instanceof Number) {
+				return ((Number) value).doubleValue();
+			}
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    public Boolean booleanValue() {
-        if (expr != null) {
-            Object value = expr.calculate();
-            if (value instanceof String) {
-                return Boolean.valueOf((String) value);
-            } else if (value instanceof Boolean) {
-                return (Boolean) value;
-            }
-        }
+	public Boolean booleanValue() {
+		if (expr != null) {
+			Object value = expr.calculate();
+			if (value instanceof String) {
+				return Boolean.valueOf((String) value);
+			} else if (value instanceof Boolean) {
+				return (Boolean) value;
+			}
+		}
 
-        return null;
-    }
-    
-    @Override
-    public Property clone() {
-    	Property p = new Property(id, metric.clone());
-    	if(expr != null)
-    		p.setExpression(Expression.parse(expr.toString()));
-    	if(feature != null)
-    		p.setFeature(feature.clone());
-    	p.setScope(scope);
-    	return p;
-    }
+		return null;
+	}
+
+	@Override
+	public Property clone() {
+		Property p = new Property(id, metric.clone());
+		if (expr != null)
+			p.setExpression(Expression.parse(expr.toString()));
+		if (feature != null)
+			p.setFeature(feature.clone());
+		p.setScope(scope);
+		return p;
+	}
 }

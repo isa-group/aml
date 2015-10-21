@@ -49,6 +49,7 @@ import es.us.isa.aml.model.MonitorableProperty;
 import es.us.isa.aml.model.Property;
 import es.us.isa.aml.model.QualifyingCondition;
 import es.us.isa.aml.model.Range;
+import es.us.isa.aml.model.ResourceProperty;
 import es.us.isa.aml.model.Role;
 import es.us.isa.aml.model.RoleType;
 import es.us.isa.aml.model.SLO;
@@ -58,7 +59,10 @@ import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
 import es.us.isa.aml.model.expression.Atomic;
+import es.us.isa.aml.model.expression.DuringExpression;
+import es.us.isa.aml.model.expression.DuringInterval;
 import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.FrecuencyExpression;
 import es.us.isa.aml.model.expression.ListExpression;
 import es.us.isa.aml.model.expression.LogicalExpression;
 import es.us.isa.aml.model.expression.LogicalOperator;
@@ -81,12 +85,14 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationElementC
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationsIntervalContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Context_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CuantifContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.DuringExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.EqualityExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ExcludesExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ExpressionContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeatureContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Feature_operationContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FeaturesContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.FreqExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.IdAtomContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.IffExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.ImpliesExprContext;
@@ -410,7 +416,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 				this.model.getAgreementTerms().getService()
 						.getConfigurationProperties().put(cp.getId(), cp);
 			}
-
 		}
 
 		return null;
@@ -450,8 +455,16 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		for (iAgreeParser.PropertyContext prop : ctx.property()) {
 			Property p = this.visitProperty(prop);
 			if (p != null) {
-				MonitorableProperty mp = new MonitorableProperty(p.getId(),
-						p.getMetric());
+				MonitorableProperty mp;
+				Metric metric = p.getMetric();
+				if (metric == null)
+					metric = new Metric("resource", "resource", new Domain());
+
+				if (p.getMetric().getType().equalsIgnoreCase("resource"))
+					mp = new ResourceProperty(p.getId(), metric);
+				else
+					mp = new MonitorableProperty(p.getId(), p.getMetric());
+
 				mp.setExpression(p.getExpression());
 				mp.setScope(Scope.Global);
 				this.model.getAgreementTerms().getMonitorableProperties()
@@ -469,8 +482,16 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		for (iAgreeParser.PropertyContext prop : ctx.property()) {
 			Property p = this.visitProperty(prop);
 			if (p != null) {
-				MonitorableProperty mp = new MonitorableProperty(p.getId(),
-						p.getMetric());
+				MonitorableProperty mp;
+				Metric metric = p.getMetric();
+				if (metric == null) {
+					metric = new Metric("resource", "resource", new Domain());
+				}
+				if (p.getMetric().getType().equalsIgnoreCase("resource")) {
+					mp = new ResourceProperty(p.getId(), metric);
+				} else {
+					mp = new MonitorableProperty(p.getId(), p.getMetric());
+				}
 				mp.setExpression(p.getExpression());
 				mp.setScope(Scope.Local);
 
@@ -588,48 +609,52 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 		String metric_id = ctx.met.getText();
 		Metric m = model.getContext().getMetrics().get(metric_id);
 
-		if (m != null) {
-
-			p = new Property(id, m);
-
-			if (ctx.value != null) {
-				Boolean hasErrors = false;
-				if (m.getType().equals("integer")
-						|| m.getType().equals("float")) {
-					Range r = (Range) m.getDomain();
-					Double val = Double.valueOf(ctx.value.getText());
-					if (val > r.getMax().doubleValue()
-							|| val < r.getMin().doubleValue()) {
-						parser.notifyErrorListeners(ctx.start, "Value \"" + val
-								+ "\" is out of the range [" + r.getMin()
-								+ ", " + r.getMax() + "].", null);
-						hasErrors = true;
-					}
-				} else if (m.getType().equals("enum")) {
-					Enumerated en = (Enumerated) m.getDomain();
-					String val = Util.withoutDoubleQuotes(ctx.value.getText());
-					List<Object> ls = Arrays.asList(en.getValues());
-					if (!ls.contains(val)) {
-						parser.notifyErrorListeners(
-								ctx.start,
-								"Value \""
-										+ val
-										+ "\" has not been declared in metric \""
-										+ m.getId() + "\".", null);
-						hasErrors = true;
-					}
-				}
-
-				if (!hasErrors) {
-					Expression expr = this.visitExpression(ctx.expression());
-					p.setExpression(expr);
-				}
-
-			}
-
+		if (ctx.RESOURCE() != null) {
+			m = new Metric("resource", "Resource", new Domain());
+			p = new ResourceProperty(id, m);
 		} else {
-			parser.notifyErrorListeners(ctx.start, "Metric \"" + metric_id
-					+ "\" has not been declared.", null);
+			if (m != null && !ctx.met.getText().equalsIgnoreCase("resource")) {
+				p = new Property(id, m);
+				if (ctx.value != null) {
+					Boolean hasErrors = false;
+					if (m.getType().equals("integer")
+							|| m.getType().equals("float")) {
+						Range r = (Range) m.getDomain();
+						Double val = Double.valueOf(ctx.value.getText());
+						if (val > r.getMax().doubleValue()
+								|| val < r.getMin().doubleValue()) {
+							parser.notifyErrorListeners(
+									ctx.start,
+									"Value \"" + val
+											+ "\" is out of the range ["
+											+ r.getMin() + ", " + r.getMax()
+											+ "].", null);
+							hasErrors = true;
+						}
+					} else if (m.getType().equals("enum")) {
+						Enumerated en = (Enumerated) m.getDomain();
+						String val = Util.withoutDoubleQuotes(ctx.value
+								.getText());
+						List<Object> ls = Arrays.asList(en.getValues());
+						if (!ls.contains(val)) {
+							parser.notifyErrorListeners(ctx.start, "Value \""
+									+ val
+									+ "\" has not been declared in metric \""
+									+ m.getId() + "\".", null);
+							hasErrors = true;
+						}
+					}
+
+					if (!hasErrors) {
+						Expression expr = this
+								.visitExpression(ctx.expression());
+						p.setExpression(expr);
+					}
+				}
+			} else {
+				parser.notifyErrorListeners(ctx.start, "Metric \"" + metric_id
+						+ "\" has not been declared.", null);
+			}
 		}
 
 		return p;
@@ -672,6 +697,12 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 			break;
 		case "IffExprContext":
 			res = this.visitIffExpr((IffExprContext) ctx);
+			break;
+		case "DuringExprContext":
+			res = this.visitDuringExpr((DuringExprContext) ctx);
+			break;
+		case "FreqExprContext":
+			res = this.visitFreqExpr((FreqExprContext) ctx);
 			break;
 		case "ParExprContext":
 			res = this.visitParExpr((ParExprContext) ctx);
@@ -904,6 +935,92 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 	}
 
 	@Override
+	public DuringExpression visitDuringExpr(iAgreeParser.DuringExprContext ctx) {
+		DuringInterval interval = visitDuringInterval(ctx.durInt);
+		Expression state = visitExpression(ctx.state);
+		Expression dur = visitExpression(ctx.dur);
+
+		ResourceProperty resourceProperty = (ResourceProperty) model
+				.getProperty(ctx.expression(0).getText());
+		// model.getProperty(ctx.expression(0).getText());
+		// ResourceProperty resourceProperty = (ResourceProperty)
+		// model.getAgreementTerms().getMonitorableProperties().get(ctx.expression(0).getText());
+		// ResourceProperty resourceProperty =
+		// (ResourceProperty)this.model.getProperty(ctx.expression(0).getText());
+		/*
+		 * if (resourceProperty == null) {
+		 * parser.notifyErrorListeners(ctx.start, "Property \"" +
+		 * ctx.expression(0).getText() + "\" has not been declared.", null); }
+		 */
+		DuringExpression e = new DuringExpression(resourceProperty, state, dur,
+				interval);
+		return e;
+	}
+
+	@Override
+	public DuringInterval visitDuringInterval(
+			iAgreeParser.DuringIntervalContext ctx) {
+		if (ctx.getText().toUpperCase().contains("YEAR")) {
+			return DuringInterval.YEAR;
+		} else if (ctx.getText().toUpperCase().contains("MONTH")) {
+			return DuringInterval.MONTH;
+		} else if (ctx.getText().toUpperCase().contains("WEEK")) {
+			return DuringInterval.WEEK;
+		} else if (ctx.getText().toUpperCase().contains("DAY")) {
+			return DuringInterval.DAY;
+		} else if (ctx.getText().toUpperCase().contains("HOUR")) {
+			return DuringInterval.HOUR;
+		} else if (ctx.getText().toUpperCase().contains("MINUTE")) {
+			return DuringInterval.MINUTE;
+		} else if (ctx.getText().toUpperCase().contains("SECOND")) {
+			return DuringInterval.SECOND;
+		} else {
+			parser.notifyErrorListeners(ctx.start,
+					"During interval \"" + ctx.getText()
+							+ "\" has not been recognised.", null);
+		}
+		return null;
+	}
+
+	@Override
+	public FrecuencyExpression visitFreqExpr(iAgreeParser.FreqExprContext ctx) {
+		Expression state = visitExpression(ctx.state);
+		Expression ntimes = visitExpression(ctx.ntimes);
+		AssessmentInterval interval = visitCompensationsInterval(ctx.compInt);
+		RelationalOperator op;
+		switch (ctx.op.getType()) {
+		case iAgreeParser.LTE:
+			op = RelationalOperator.LTE;
+			break;
+		case iAgreeParser.GTE:
+			op = RelationalOperator.GTE;
+			break;
+		case iAgreeParser.LT:
+			op = RelationalOperator.LT;
+			break;
+		case iAgreeParser.GT:
+			op = RelationalOperator.GT;
+			break;
+		case iAgreeParser.EQ:
+			op = RelationalOperator.EQ;
+			break;
+		default:
+			throw new RuntimeException("unknown operator: "
+					+ iAgreeParser.tokenNames[ctx.op.getType()]);
+		}
+		ResourceProperty resourceProperty = (ResourceProperty) model
+				.getProperty(ctx.expression(0).getText());
+		/*
+		 * if (resourceProperty == null) {
+		 * parser.notifyErrorListeners(ctx.start, "Property \"" +
+		 * ctx.expression(0).getText() + "\" has not been declared.", null); }
+		 */
+		FrecuencyExpression f = new FrecuencyExpression(resourceProperty,
+				state, op, ntimes, interval);
+		return f;
+	}
+
+	@Override
 	public Expression visitAtomExpr(AtomExprContext ctx) {
 		Expression res = null;
 
@@ -960,9 +1077,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
 	@Override
 	public Metric visitMetrics_prop(iAgreeParser.Metrics_propContext ctx) {
-		Enumerated en = new Enumerated();
-		Object[] ls = new Object[] { true, false };
-		en.setValues(ls);
+		Enumerated en = new Enumerated(new Object[] { true, false });
 		Metric m = new Metric("boolean", "Boolean", en);
 
 		model.getContext().getMetrics().put(m.getId(), m);
