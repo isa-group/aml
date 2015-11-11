@@ -121,8 +121,9 @@ url : Url
     ;
 
 property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN)
-           (ASSIG value=expression)? 
-            ';';
+           (ASSIG value=expression | DEFINED_AT defineAT=url)? 
+            ';'
+         ;
 
 cuantif : EXACTLY_ONE 
         | ONE_OR_MORE

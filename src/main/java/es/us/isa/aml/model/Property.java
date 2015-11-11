@@ -1,20 +1,21 @@
-/*******************************************************************************
- * AML is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
+/**
+ * *****************************************************************************
+ * AML is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any later
+ * version.
  *
- * AML is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * AML is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
+ * A PARTICULAR PURPOSE. See the GNU General Public License for more details.
  *
- * You should have received a copy of the GNU General Public License
- * along with AML. If not, see <http://www.gnu.org/licenses/>.
+ * You should have received a copy of the GNU General Public License along with
+ * AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+ * Copyright (C) ISA, 2015 Licensed under GPL
+ * (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
+ ******************************************************************************
+ */
 package es.us.isa.aml.model;
 
 import es.us.isa.aml.model.expression.Expression;
@@ -37,12 +38,11 @@ public class Property extends AgreementElement {
     private String definitionReference;
     private String monitorReference;
 
-    
-	public Property(String id) {
-		super(id);
-		scope = Scope.Global;
-	}
-    
+    public Property(String id) {
+        super(id);
+        scope = Scope.Global;
+    }
+
     public Property(String id, Metric metric) {
         super(id);
         this.metric = metric;
@@ -89,24 +89,24 @@ public class Property extends AgreementElement {
     public void setFeature(Feature feature) {
         this.feature = feature;
     }
-    
+
     public String getDefinitionReference() {
-		return definitionReference;
-	}
+        return definitionReference;
+    }
 
-	public void setDefinitionReference(String definitionReference) {
-		this.definitionReference = definitionReference;
-	}
+    public void setDefinitionReference(String definitionReference) {
+        this.definitionReference = definitionReference;
+    }
 
-	public String getMonitorReference() {
-		return monitorReference;
-	}
+    public String getMonitorReference() {
+        return monitorReference;
+    }
 
-	public void setMonitorReference(String monitorReference) {
-		this.monitorReference = monitorReference;
-	}
+    public void setMonitorReference(String monitorReference) {
+        this.monitorReference = monitorReference;
+    }
 
-	public Object getValue() {
+    public Object getValue() {
         if (expr == null) {
             LOG.log(Level.INFO, "Property {0} has not been initialized", this.id);
             return null;
@@ -153,15 +153,17 @@ public class Property extends AgreementElement {
 
         return null;
     }
-    
+
     @Override
     public Property clone() {
-    	Property p = new Property(id, metric.clone());
-    	if(expr != null)
-    		p.setExpression(Expression.parse(expr.toString()));
-    	if(feature != null)
-    		p.setFeature(feature.clone());
-    	p.setScope(scope);
-    	return p;
+        Property p = new Property(id, metric.clone());
+        if (expr != null) {
+            p.setExpression(Expression.parse(expr.toString()));
+        }
+        if (feature != null) {
+            p.setFeature(feature.clone());
+        }
+        p.setScope(scope);
+        return p;
     }
 }
