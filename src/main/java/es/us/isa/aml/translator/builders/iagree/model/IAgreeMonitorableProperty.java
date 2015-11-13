@@ -33,6 +33,7 @@ public class IAgreeMonitorableProperty extends MonitorableProperty {
 
     public IAgreeMonitorableProperty(Property mp) {
         super(mp.getId(), mp.getMetric(), mp.getExpression(), mp.getScope(), mp.getFeature());
+        setDefinitionReference(mp.getDefinitionReference());
     }
 
     @Override

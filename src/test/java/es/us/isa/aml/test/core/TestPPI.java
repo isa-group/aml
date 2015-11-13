@@ -8,6 +8,8 @@ package es.us.isa.aml.test.core;
 import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
+import es.us.isa.aml.translator.Translator;
+import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -17,21 +19,22 @@ import org.junit.Test;
  * @author Usuario
  */
 public class TestPPI {
- 
-    	private static AgreementManager service;
-	private static AgreementModel model;
 
-	@BeforeClass
-	public static void init() {
-		service = new AgreementManager();
-		model = service
-				.createAgreementTemplateFromFile("src/test/resources/core-pack/novo.at");
-	}
-    	@Test
-	public void testCreation1() {
-		AgreementManager m = new AgreementManager();
+    private static AgreementManager service;
+    private static AgreementModel model;
 
+    @BeforeClass
+    public static void init() {
+        service = new AgreementManager();
+        model = service
+                .createAgreementTemplateFromFile("src/test/resources/core-pack/novo.at");
+    }
 
-		Assert.assertNotNull(model.getProperty("Time2").getDefinitionReference());
-	}
+    @Test
+    public void testCreation1() {
+        AgreementManager m = new AgreementManager();
+        Translator t= new Translator(new IAgreeBuilder());
+        System.out.println(t.translate(model));
+        Assert.assertNotNull(model.getProperty("Time2").getDefinitionReference());
+    }
 }
