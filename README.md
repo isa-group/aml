@@ -4,6 +4,8 @@ AML is a library that provides the basic infrastructure to manage Service Level 
 It offers support to analyze SLAs, providing a variety of document operations as consistency, compliance, 
 dead terms, etc.
 
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/isa-group/aml?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 ## Requirements
 
 Mandatory requirements:
