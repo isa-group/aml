@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA, 2015
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015
  * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
  *******************************************************************************/
 package es.us.isa.aml.parsers.expression;
@@ -32,25 +32,31 @@ public class ExpressionParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, BOOLEAN=2, INTEGER=3, FLOAT=4, NATURAL=5, NUMBER=6, SET=7, ENUM=8, 
-		TRUE=9, FALSE=10, CA=11, CC=12, PA=13, PC=14, LLA=15, LLC=16, AND=17, 
-		OR=18, NOT=19, IMPLIES=20, REQUIRES=21, IFF=22, EXCLUDES=23, ADD=24, SUBTRACT=25, 
-		MULTIPLY=26, DIVIDE=27, LT=28, GT=29, EQ=30, NEQ=31, LTE=32, GTE=33, ASSIG=34, 
-		BELONGS=35, UPON=36, Identifier=37, Integer=38, S_Integer=39, Float=40, 
-		S_Float=41, Boolean=42, String=43, WS=44, COMMENT=45, LINE_COMMENT=46;
+		TRUE=9, FALSE=10, YEARLY=11, MONTHLY=12, WEEKLY=13, DAILY=14, HOURLY=15, 
+		MINUTELY=16, SECONDLY=17, YEAR=18, MONTH=19, WEEK=20, DAY=21, HOUR=22, 
+		MINUTE=23, SECOND=24, IN=25, BY=26, CA=27, CC=28, PA=29, PC=30, LLA=31, 
+		LLC=32, AND=33, OR=34, NOT=35, IMPLIES=36, REQUIRES=37, IFF=38, EXCLUDES=39, 
+		ADD=40, SUBTRACT=41, MULTIPLY=42, DIVIDE=43, LT=44, GT=45, EQ=46, NEQ=47, 
+		LTE=48, GTE=49, ASSIG=50, BELONGS=51, UPON=52, Identifier=53, Integer=54, 
+		S_Integer=55, Float=56, S_Float=57, Boolean=58, String=59, WS=60, COMMENT=61, 
+		LINE_COMMENT=62;
 	public static final String[] tokenNames = {
 		"<INVALID>", "','", "'boolean'", "'integer'", "'float'", "'natural'", 
-		"'number'", "'set'", "'enum'", "'true'", "'false'", "'['", "']'", "'('", 
-		"')'", "'{'", "'}'", "'AND'", "'OR'", "'NOT'", "'IMPLIES'", "'REQUIRES'", 
-		"'IFF'", "'EXCLUDES'", "'+'", "'-'", "'*'", "'/'", "'<'", "'>'", "'=='", 
-		"'!='", "'<='", "'>='", "'='", "'belongs'", "'upon'", "Identifier", "Integer", 
-		"S_Integer", "Float", "S_Float", "Boolean", "String", "WS", "COMMENT", 
-		"LINE_COMMENT"
+		"'number'", "'set'", "'enum'", "'true'", "'false'", "'yearly'", "'monthly'", 
+		"'weekly'", "'daily'", "'hourly'", "'minutely'", "'secondly'", "YEAR", 
+		"MONTH", "WEEK", "DAY", "HOUR", "MINUTE", "SECOND", "'in'", "'by'", "'['", 
+		"']'", "'('", "')'", "'{'", "'}'", "'AND'", "'OR'", "'NOT'", "'IMPLIES'", 
+		"'REQUIRES'", "'IFF'", "'EXCLUDES'", "'+'", "'-'", "'*'", "'/'", "'<'", 
+		"'>'", "'=='", "'!='", "'<='", "'>='", "'='", "'belongs'", "'upon'", "Identifier", 
+		"Integer", "S_Integer", "Float", "S_Float", "Boolean", "String", "WS", 
+		"COMMENT", "LINE_COMMENT"
 	};
 	public static final int
 		RULE_parse = 0, RULE_expression = 1, RULE_list = 2, RULE_array = 3, RULE_args = 4, 
-		RULE_atom = 5;
+		RULE_compensationsInterval = 5, RULE_duringInterval = 6, RULE_atom = 7;
 	public static final String[] ruleNames = {
-		"parse", "expression", "list", "array", "args", "atom"
+		"parse", "expression", "list", "array", "args", "compensationsInterval", 
+		"duringInterval", "atom"
 	};
 
 	@Override
@@ -90,7 +96,7 @@ public class ExpressionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(12); expression(0);
+			setState(16); expression(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -142,6 +148,29 @@ public class ExpressionParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitAndExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class DuringExprContext extends ExpressionContext {
+		public ExpressionContext state;
+		public Token op;
+		public ExpressionContext dur;
+		public DuringIntervalContext durInt;
+		public TerminalNode IN() { return getToken(ExpressionParser.IN, 0); }
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public DuringIntervalContext duringInterval() {
+			return getRuleContext(DuringIntervalContext.class,0);
+		}
+		public TerminalNode BY() { return getToken(ExpressionParser.BY, 0); }
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public DuringExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitDuringExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -228,6 +257,33 @@ public class ExpressionParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitOrExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class FreqExprContext extends ExpressionContext {
+		public ExpressionContext state;
+		public Token op;
+		public ExpressionContext ntimes;
+		public CompensationsIntervalContext compInt;
+		public TerminalNode IN() { return getToken(ExpressionParser.IN, 0); }
+		public ExpressionContext expression(int i) {
+			return getRuleContext(ExpressionContext.class,i);
+		}
+		public TerminalNode GTE() { return getToken(ExpressionParser.GTE, 0); }
+		public TerminalNode LT() { return getToken(ExpressionParser.LT, 0); }
+		public TerminalNode LTE() { return getToken(ExpressionParser.LTE, 0); }
+		public CompensationsIntervalContext compensationsInterval() {
+			return getRuleContext(CompensationsIntervalContext.class,0);
+		}
+		public List<ExpressionContext> expression() {
+			return getRuleContexts(ExpressionContext.class);
+		}
+		public TerminalNode GT() { return getToken(ExpressionParser.GT, 0); }
+		public TerminalNode EQ() { return getToken(ExpressionParser.EQ, 0); }
+		public FreqExprContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitFreqExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -349,7 +405,7 @@ public class ExpressionParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(27);
+			setState(31);
 			switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 			case 1:
 				{
@@ -357,9 +413,9 @@ public class ExpressionParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(15); match(Identifier);
-				setState(16); match(ASSIG);
-				setState(17); expression(15);
+				setState(19); match(Identifier);
+				setState(20); match(ASSIG);
+				setState(21); expression(17);
 				}
 				break;
 
@@ -368,8 +424,8 @@ public class ExpressionParser extends Parser {
 				_localctx = new NotExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(18); match(NOT);
-				setState(19); expression(13);
+				setState(22); match(NOT);
+				setState(23); expression(15);
 				}
 				break;
 
@@ -378,9 +434,9 @@ public class ExpressionParser extends Parser {
 				_localctx = new ParExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(20); match(PA);
-				setState(21); expression(0);
-				setState(22); match(PC);
+				setState(24); match(PA);
+				setState(25); expression(0);
+				setState(26); match(PC);
 				}
 				break;
 
@@ -389,7 +445,7 @@ public class ExpressionParser extends Parser {
 				_localctx = new ListExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(24); list();
+				setState(28); list();
 				}
 				break;
 
@@ -398,7 +454,7 @@ public class ExpressionParser extends Parser {
 				_localctx = new ArrayExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(25); array();
+				setState(29); array();
 				}
 				break;
 
@@ -407,12 +463,12 @@ public class ExpressionParser extends Parser {
 				_localctx = new AtomExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(26); atom();
+				setState(30); atom();
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(58);
+			setState(76);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			while ( _alt!=2 && _alt!=-1 ) {
@@ -420,22 +476,22 @@ public class ExpressionParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(56);
+					setState(74);
 					switch ( getInterpreter().adaptivePredict(_input,1,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MultiplicationExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(29);
-						if (!(12 >= _localctx._p)) throw new FailedPredicateException(this, "12 >= $_p");
-						setState(30);
+						setState(33);
+						if (!(14 >= _localctx._p)) throw new FailedPredicateException(this, "14 >= $_p");
+						setState(34);
 						((MultiplicationExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==MULTIPLY || _la==DIVIDE) ) {
 							((MultiplicationExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(31); expression(13);
+						setState(35); expression(15);
 						}
 						break;
 
@@ -443,16 +499,16 @@ public class ExpressionParser extends Parser {
 						{
 						_localctx = new AdditiveExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(32);
-						if (!(11 >= _localctx._p)) throw new FailedPredicateException(this, "11 >= $_p");
-						setState(33);
+						setState(36);
+						if (!(13 >= _localctx._p)) throw new FailedPredicateException(this, "13 >= $_p");
+						setState(37);
 						((AdditiveExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==ADD || _la==SUBTRACT) ) {
 							((AdditiveExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(34); expression(12);
+						setState(38); expression(14);
 						}
 						break;
 
@@ -460,16 +516,16 @@ public class ExpressionParser extends Parser {
 						{
 						_localctx = new RelationalExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(35);
-						if (!(10 >= _localctx._p)) throw new FailedPredicateException(this, "10 >= $_p");
-						setState(36);
+						setState(39);
+						if (!(12 >= _localctx._p)) throw new FailedPredicateException(this, "12 >= $_p");
+						setState(40);
 						((RelationalExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LT) | (1L << GT) | (1L << LTE) | (1L << GTE))) != 0)) ) {
 							((RelationalExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(37); expression(11);
+						setState(41); expression(13);
 						}
 						break;
 
@@ -477,16 +533,16 @@ public class ExpressionParser extends Parser {
 						{
 						_localctx = new EqualityExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(38);
-						if (!(9 >= _localctx._p)) throw new FailedPredicateException(this, "9 >= $_p");
-						setState(39);
+						setState(42);
+						if (!(11 >= _localctx._p)) throw new FailedPredicateException(this, "11 >= $_p");
+						setState(43);
 						((EqualityExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==EQ || _la==NEQ) ) {
 							((EqualityExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(40); expression(10);
+						setState(44); expression(12);
 						}
 						break;
 
@@ -494,10 +550,10 @@ public class ExpressionParser extends Parser {
 						{
 						_localctx = new AndExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(41);
-						if (!(8 >= _localctx._p)) throw new FailedPredicateException(this, "8 >= $_p");
-						setState(42); match(AND);
-						setState(43); expression(9);
+						setState(45);
+						if (!(10 >= _localctx._p)) throw new FailedPredicateException(this, "10 >= $_p");
+						setState(46); match(AND);
+						setState(47); expression(11);
 						}
 						break;
 
@@ -505,10 +561,10 @@ public class ExpressionParser extends Parser {
 						{
 						_localctx = new OrExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(44);
-						if (!(7 >= _localctx._p)) throw new FailedPredicateException(this, "7 >= $_p");
-						setState(45); match(OR);
-						setState(46); expression(8);
+						setState(48);
+						if (!(9 >= _localctx._p)) throw new FailedPredicateException(this, "9 >= $_p");
+						setState(49); match(OR);
+						setState(50); expression(10);
 						}
 						break;
 
@@ -516,15 +572,15 @@ public class ExpressionParser extends Parser {
 						{
 						_localctx = new ImpliesExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(47);
-						if (!(6 >= _localctx._p)) throw new FailedPredicateException(this, "6 >= $_p");
-						setState(48);
+						setState(51);
+						if (!(8 >= _localctx._p)) throw new FailedPredicateException(this, "8 >= $_p");
+						setState(52);
 						_la = _input.LA(1);
 						if ( !(_la==IMPLIES || _la==REQUIRES) ) {
 						_errHandler.recoverInline(this);
 						}
 						consume();
-						setState(49); expression(7);
+						setState(53); expression(9);
 						}
 						break;
 
@@ -532,10 +588,10 @@ public class ExpressionParser extends Parser {
 						{
 						_localctx = new IffExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(50);
-						if (!(5 >= _localctx._p)) throw new FailedPredicateException(this, "5 >= $_p");
-						setState(51); match(IFF);
-						setState(52); expression(6);
+						setState(54);
+						if (!(7 >= _localctx._p)) throw new FailedPredicateException(this, "7 >= $_p");
+						setState(55); match(IFF);
+						setState(56); expression(8);
 						}
 						break;
 
@@ -543,16 +599,50 @@ public class ExpressionParser extends Parser {
 						{
 						_localctx = new ExcludesExprContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(53);
+						setState(57);
+						if (!(6 >= _localctx._p)) throw new FailedPredicateException(this, "6 >= $_p");
+						setState(58); match(EXCLUDES);
+						setState(59); expression(7);
+						}
+						break;
+
+					case 10:
+						{
+						_localctx = new DuringExprContext(new ExpressionContext(_parentctx, _parentState, _p));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(60);
+						if (!(5 >= _localctx._p)) throw new FailedPredicateException(this, "5 >= $_p");
+						setState(61); match(IN);
+						setState(62); ((DuringExprContext)_localctx).state = expression(0);
+						setState(63); ((DuringExprContext)_localctx).op = match(BY);
+						setState(64); ((DuringExprContext)_localctx).dur = expression(0);
+						setState(65); ((DuringExprContext)_localctx).durInt = duringInterval();
+						}
+						break;
+
+					case 11:
+						{
+						_localctx = new FreqExprContext(new ExpressionContext(_parentctx, _parentState, _p));
+						pushNewRecursionContext(_localctx, _startState, RULE_expression);
+						setState(67);
 						if (!(4 >= _localctx._p)) throw new FailedPredicateException(this, "4 >= $_p");
-						setState(54); match(EXCLUDES);
-						setState(55); expression(5);
+						setState(68); match(IN);
+						setState(69); ((FreqExprContext)_localctx).state = expression(0);
+						setState(70);
+						((FreqExprContext)_localctx).op = _input.LT(1);
+						_la = _input.LA(1);
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << LT) | (1L << GT) | (1L << EQ) | (1L << LTE) | (1L << GTE))) != 0)) ) {
+							((FreqExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						}
+						consume();
+						setState(71); ((FreqExprContext)_localctx).ntimes = expression(0);
+						setState(72); ((FreqExprContext)_localctx).compInt = compensationsInterval();
 						}
 						break;
 					}
 					} 
 				}
-				setState(60);
+				setState(78);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,2,_ctx);
 			}
@@ -598,23 +688,23 @@ public class ExpressionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61); match(CA);
-			setState(62); ((ListContext)_localctx).l1 = args();
-			setState(67);
+			setState(79); match(CA);
+			setState(80); ((ListContext)_localctx).l1 = args();
+			setState(85);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==1) {
 				{
 				{
-				setState(63); match(1);
-				setState(64); ((ListContext)_localctx).l2 = args();
+				setState(81); match(1);
+				setState(82); ((ListContext)_localctx).l2 = args();
 				}
 				}
-				setState(69);
+				setState(87);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(70); match(CC);
+			setState(88); match(CC);
 			}
 		}
 		catch (RecognitionException re) {
@@ -657,23 +747,23 @@ public class ExpressionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(72); match(LLA);
-			setState(73); ((ArrayContext)_localctx).l1 = args();
-			setState(78);
+			setState(90); match(LLA);
+			setState(91); ((ArrayContext)_localctx).l1 = args();
+			setState(96);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==1) {
 				{
 				{
-				setState(74); match(1);
-				setState(75); ((ArrayContext)_localctx).l2 = args();
+				setState(92); match(1);
+				setState(93); ((ArrayContext)_localctx).l2 = args();
 				}
 				}
-				setState(80);
+				setState(98);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(81); match(LLC);
+			setState(99); match(LLC);
 			}
 		}
 		catch (RecognitionException re) {
@@ -713,11 +803,101 @@ public class ExpressionParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(83);
+			setState(101);
 			((ArgsContext)_localctx).l1 = _input.LT(1);
 			_la = _input.LA(1);
 			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Identifier) | (1L << Integer) | (1L << S_Integer) | (1L << Float) | (1L << S_Float) | (1L << String))) != 0)) ) {
 				((ArgsContext)_localctx).l1 = (Token)_errHandler.recoverInline(this);
+			}
+			consume();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class CompensationsIntervalContext extends ParserRuleContext {
+		public TerminalNode MONTHLY() { return getToken(ExpressionParser.MONTHLY, 0); }
+		public TerminalNode DAILY() { return getToken(ExpressionParser.DAILY, 0); }
+		public TerminalNode MINUTELY() { return getToken(ExpressionParser.MINUTELY, 0); }
+		public TerminalNode HOURLY() { return getToken(ExpressionParser.HOURLY, 0); }
+		public TerminalNode SECONDLY() { return getToken(ExpressionParser.SECONDLY, 0); }
+		public TerminalNode WEEKLY() { return getToken(ExpressionParser.WEEKLY, 0); }
+		public TerminalNode YEARLY() { return getToken(ExpressionParser.YEARLY, 0); }
+		public CompensationsIntervalContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_compensationsInterval; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitCompensationsInterval(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final CompensationsIntervalContext compensationsInterval() throws RecognitionException {
+		CompensationsIntervalContext _localctx = new CompensationsIntervalContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_compensationsInterval);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(103);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << YEARLY) | (1L << MONTHLY) | (1L << WEEKLY) | (1L << DAILY) | (1L << HOURLY) | (1L << MINUTELY) | (1L << SECONDLY))) != 0)) ) {
+			_errHandler.recoverInline(this);
+			}
+			consume();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class DuringIntervalContext extends ParserRuleContext {
+		public TerminalNode YEAR() { return getToken(ExpressionParser.YEAR, 0); }
+		public TerminalNode MONTH() { return getToken(ExpressionParser.MONTH, 0); }
+		public TerminalNode HOUR() { return getToken(ExpressionParser.HOUR, 0); }
+		public TerminalNode SECOND() { return getToken(ExpressionParser.SECOND, 0); }
+		public TerminalNode DAY() { return getToken(ExpressionParser.DAY, 0); }
+		public TerminalNode WEEK() { return getToken(ExpressionParser.WEEK, 0); }
+		public TerminalNode MINUTE() { return getToken(ExpressionParser.MINUTE, 0); }
+		public DuringIntervalContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_duringInterval; }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ExpressionVisitor ) return ((ExpressionVisitor<? extends T>)visitor).visitDuringInterval(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final DuringIntervalContext duringInterval() throws RecognitionException {
+		DuringIntervalContext _localctx = new DuringIntervalContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_duringInterval);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(105);
+			_la = _input.LA(1);
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << YEAR) | (1L << MONTH) | (1L << WEEK) | (1L << DAY) | (1L << HOUR) | (1L << MINUTE) | (1L << SECOND))) != 0)) ) {
+			_errHandler.recoverInline(this);
 			}
 			consume();
 			}
@@ -801,16 +981,16 @@ public class ExpressionParser extends Parser {
 
 	public final AtomContext atom() throws RecognitionException {
 		AtomContext _localctx = new AtomContext(_ctx, getState());
-		enterRule(_localctx, 10, RULE_atom);
+		enterRule(_localctx, 14, RULE_atom);
 		int _la;
 		try {
-			setState(93);
+			setState(115);
 			switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
 			case 1:
 				_localctx = new NumberAtomContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(85);
+				setState(107);
 				_la = _input.LA(1);
 				if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << Integer) | (1L << S_Integer) | (1L << Float) | (1L << S_Float))) != 0)) ) {
 				_errHandler.recoverInline(this);
@@ -823,7 +1003,7 @@ public class ExpressionParser extends Parser {
 				_localctx = new BooleanAtomContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(86);
+				setState(108);
 				_la = _input.LA(1);
 				if ( !(_la==TRUE || _la==FALSE) ) {
 				_errHandler.recoverInline(this);
@@ -836,10 +1016,10 @@ public class ExpressionParser extends Parser {
 				_localctx = new ArrayAtomContext(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(87); ((ArrayAtomContext)_localctx).id = match(Identifier);
-				setState(88); match(CA);
-				setState(89); ((ArrayAtomContext)_localctx).value = match(String);
-				setState(90); match(CC);
+				setState(109); ((ArrayAtomContext)_localctx).id = match(Identifier);
+				setState(110); match(CA);
+				setState(111); ((ArrayAtomContext)_localctx).value = match(String);
+				setState(112); match(CC);
 				}
 				break;
 
@@ -847,7 +1027,7 @@ public class ExpressionParser extends Parser {
 				_localctx = new IdAtomContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(91); match(Identifier);
+				setState(113); match(Identifier);
 				}
 				break;
 
@@ -855,7 +1035,7 @@ public class ExpressionParser extends Parser {
 				_localctx = new StringAtomContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(92); match(String);
+				setState(114); match(String);
 				}
 				break;
 			}
@@ -879,54 +1059,63 @@ public class ExpressionParser extends Parser {
 	}
 	private boolean expression_sempred(ExpressionContext _localctx, int predIndex) {
 		switch (predIndex) {
-		case 0: return 12 >= _localctx._p;
+		case 0: return 14 >= _localctx._p;
 
-		case 1: return 11 >= _localctx._p;
+		case 1: return 13 >= _localctx._p;
 
-		case 2: return 10 >= _localctx._p;
+		case 2: return 12 >= _localctx._p;
 
-		case 3: return 9 >= _localctx._p;
+		case 3: return 11 >= _localctx._p;
 
-		case 4: return 8 >= _localctx._p;
+		case 4: return 10 >= _localctx._p;
 
-		case 5: return 7 >= _localctx._p;
+		case 5: return 9 >= _localctx._p;
 
-		case 6: return 6 >= _localctx._p;
+		case 6: return 8 >= _localctx._p;
 
-		case 7: return 5 >= _localctx._p;
+		case 7: return 7 >= _localctx._p;
 
-		case 8: return 4 >= _localctx._p;
+		case 8: return 6 >= _localctx._p;
+
+		case 9: return 5 >= _localctx._p;
+
+		case 10: return 4 >= _localctx._p;
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\60b\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\3\3\3\3\3\3\3\3\3\3\5\3\36\n\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3@x\4\2\t\2\4\3\t\3"+
+		"\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\3\3\3\3\3\3"+
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\"\n\3\3\3\3\3\3\3\3\3\3\3\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
-		"\3\3\7\3;\n\3\f\3\16\3>\13\3\3\4\3\4\3\4\3\4\7\4D\n\4\f\4\16\4G\13\4\3"+
-		"\4\3\4\3\5\3\5\3\5\3\5\7\5O\n\5\f\5\16\5R\13\5\3\5\3\5\3\6\3\6\3\7\3\7"+
-		"\3\7\3\7\3\7\3\7\3\7\3\7\5\7`\n\7\3\7\2\b\2\4\6\b\n\f\2\n\3\2\34\35\3"+
-		"\2\32\33\4\2\36\37\"#\3\2 !\3\2\26\27\4\2\'+--\3\2(+\3\2\13\fo\2\16\3"+
-		"\2\2\2\4\35\3\2\2\2\6?\3\2\2\2\bJ\3\2\2\2\nU\3\2\2\2\f_\3\2\2\2\16\17"+
-		"\5\4\3\2\17\3\3\2\2\2\20\21\b\3\1\2\21\22\7\'\2\2\22\23\7$\2\2\23\36\5"+
-		"\4\3\2\24\25\7\25\2\2\25\36\5\4\3\2\26\27\7\17\2\2\27\30\5\4\3\2\30\31"+
-		"\7\20\2\2\31\36\3\2\2\2\32\36\5\6\4\2\33\36\5\b\5\2\34\36\5\f\7\2\35\20"+
-		"\3\2\2\2\35\24\3\2\2\2\35\26\3\2\2\2\35\32\3\2\2\2\35\33\3\2\2\2\35\34"+
-		"\3\2\2\2\36<\3\2\2\2\37 \6\3\2\3 !\t\2\2\2!;\5\4\3\2\"#\6\3\3\3#$\t\3"+
-		"\2\2$;\5\4\3\2%&\6\3\4\3&\'\t\4\2\2\';\5\4\3\2()\6\3\5\3)*\t\5\2\2*;\5"+
-		"\4\3\2+,\6\3\6\3,-\7\23\2\2-;\5\4\3\2./\6\3\7\3/\60\7\24\2\2\60;\5\4\3"+
-		"\2\61\62\6\3\b\3\62\63\t\6\2\2\63;\5\4\3\2\64\65\6\3\t\3\65\66\7\30\2"+
-		"\2\66;\5\4\3\2\678\6\3\n\389\7\31\2\29;\5\4\3\2:\37\3\2\2\2:\"\3\2\2\2"+
-		":%\3\2\2\2:(\3\2\2\2:+\3\2\2\2:.\3\2\2\2:\61\3\2\2\2:\64\3\2\2\2:\67\3"+
-		"\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=\5\3\2\2\2><\3\2\2\2?@\7\r\2\2@E"+
-		"\5\n\6\2AB\7\3\2\2BD\5\n\6\2CA\3\2\2\2DG\3\2\2\2EC\3\2\2\2EF\3\2\2\2F"+
-		"H\3\2\2\2GE\3\2\2\2HI\7\16\2\2I\7\3\2\2\2JK\7\21\2\2KP\5\n\6\2LM\7\3\2"+
-		"\2MO\5\n\6\2NL\3\2\2\2OR\3\2\2\2PN\3\2\2\2PQ\3\2\2\2QS\3\2\2\2RP\3\2\2"+
-		"\2ST\7\22\2\2T\t\3\2\2\2UV\t\7\2\2V\13\3\2\2\2W`\t\b\2\2X`\t\t\2\2YZ\7"+
-		"\'\2\2Z[\7\r\2\2[\\\7-\2\2\\`\7\16\2\2]`\7\'\2\2^`\7-\2\2_W\3\2\2\2_X"+
-		"\3\2\2\2_Y\3\2\2\2_]\3\2\2\2_^\3\2\2\2`\r\3\2\2\2\b\35:<EP_";
+		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3"+
+		"\3\7\3M\n\3\f\3\16\3P\13\3\3\4\3\4\3\4\3\4\7\4V\n\4\f\4\16\4Y\13\4\3\4"+
+		"\3\4\3\5\3\5\3\5\3\5\7\5a\n\5\f\5\16\5d\13\5\3\5\3\5\3\6\3\6\3\7\3\7\3"+
+		"\b\3\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\tv\n\t\3\t\2\n\2\4\6\b\n\f\16"+
+		"\20\2\r\3\2,-\3\2*+\4\2./\62\63\3\2\60\61\3\2&\'\4\2.\60\62\63\4\2\67"+
+		";==\3\2\r\23\3\2\24\32\3\28;\3\2\13\f\u0085\2\22\3\2\2\2\4!\3\2\2\2\6"+
+		"Q\3\2\2\2\b\\\3\2\2\2\ng\3\2\2\2\fi\3\2\2\2\16k\3\2\2\2\20u\3\2\2\2\22"+
+		"\23\5\4\3\2\23\3\3\2\2\2\24\25\b\3\1\2\25\26\7\67\2\2\26\27\7\64\2\2\27"+
+		"\"\5\4\3\2\30\31\7%\2\2\31\"\5\4\3\2\32\33\7\37\2\2\33\34\5\4\3\2\34\35"+
+		"\7 \2\2\35\"\3\2\2\2\36\"\5\6\4\2\37\"\5\b\5\2 \"\5\20\t\2!\24\3\2\2\2"+
+		"!\30\3\2\2\2!\32\3\2\2\2!\36\3\2\2\2!\37\3\2\2\2! \3\2\2\2\"N\3\2\2\2"+
+		"#$\6\3\2\3$%\t\2\2\2%M\5\4\3\2&\'\6\3\3\3\'(\t\3\2\2(M\5\4\3\2)*\6\3\4"+
+		"\3*+\t\4\2\2+M\5\4\3\2,-\6\3\5\3-.\t\5\2\2.M\5\4\3\2/\60\6\3\6\3\60\61"+
+		"\7#\2\2\61M\5\4\3\2\62\63\6\3\7\3\63\64\7$\2\2\64M\5\4\3\2\65\66\6\3\b"+
+		"\3\66\67\t\6\2\2\67M\5\4\3\289\6\3\t\39:\7(\2\2:M\5\4\3\2;<\6\3\n\3<="+
+		"\7)\2\2=M\5\4\3\2>?\6\3\13\3?@\7\33\2\2@A\5\4\3\2AB\7\34\2\2BC\5\4\3\2"+
+		"CD\5\16\b\2DM\3\2\2\2EF\6\3\f\3FG\7\33\2\2GH\5\4\3\2HI\t\7\2\2IJ\5\4\3"+
+		"\2JK\5\f\7\2KM\3\2\2\2L#\3\2\2\2L&\3\2\2\2L)\3\2\2\2L,\3\2\2\2L/\3\2\2"+
+		"\2L\62\3\2\2\2L\65\3\2\2\2L8\3\2\2\2L;\3\2\2\2L>\3\2\2\2LE\3\2\2\2MP\3"+
+		"\2\2\2NL\3\2\2\2NO\3\2\2\2O\5\3\2\2\2PN\3\2\2\2QR\7\35\2\2RW\5\n\6\2S"+
+		"T\7\3\2\2TV\5\n\6\2US\3\2\2\2VY\3\2\2\2WU\3\2\2\2WX\3\2\2\2XZ\3\2\2\2"+
+		"YW\3\2\2\2Z[\7\36\2\2[\7\3\2\2\2\\]\7!\2\2]b\5\n\6\2^_\7\3\2\2_a\5\n\6"+
+		"\2`^\3\2\2\2ad\3\2\2\2b`\3\2\2\2bc\3\2\2\2ce\3\2\2\2db\3\2\2\2ef\7\"\2"+
+		"\2f\t\3\2\2\2gh\t\b\2\2h\13\3\2\2\2ij\t\t\2\2j\r\3\2\2\2kl\t\n\2\2l\17"+
+		"\3\2\2\2mv\t\13\2\2nv\t\f\2\2op\7\67\2\2pq\7\35\2\2qr\7=\2\2rv\7\36\2"+
+		"\2sv\7\67\2\2tv\7=\2\2um\3\2\2\2un\3\2\2\2uo\3\2\2\2us\3\2\2\2ut\3\2\2"+
+		"\2v\21\3\2\2\2\b!LNWbu";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {

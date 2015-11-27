@@ -105,7 +105,17 @@ compensationsInterval : YEARLY
          | DAILY
          | HOURLY
          | MINUTELY
+         | SECONDLY
          ;
+
+duringInterval : YEAR
+               | MONTH
+               | WEEK
+               | DAY
+               | HOUR
+               | MINUTE
+               | SECOND
+               ;
 
 
 //----------------------------------
@@ -120,7 +130,7 @@ url : Url
     | String
     ;
 
-property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN)
+property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN | RESOURCE)
            (ASSIG value=expression)? 
             ';';
 
@@ -148,6 +158,11 @@ expression: Identifier ASSIG expression                     #assigExpr
           | expression (IMPLIES | REQUIRES) expression      #impliesExpr
           | expression IFF expression                       #iffExpr
           | expression EXCLUDES expression                  #excludesExpr
+          | expression IN state=expression 
+            op=BY dur=expression durInt=duringInterval      #duringExpr
+          | expression IN state=expression 
+            op=(LTE | GTE | LT | GT | EQ) ntimes=expression 
+            compInt=compensationsInterval                   #freqExpr
           | PA expression PC                                #parExpr
           | list                                            #listExpr
           | array                                           #arrayExpr
@@ -242,6 +257,15 @@ WEEKLY : 'weekly';
 DAILY : 'daily';
 HOURLY : 'hourly';
 MINUTELY : 'minutely';
+SECONDLY : 'secondly';
+
+YEAR : 'year' | 'years';
+MONTH : 'month' | 'months';
+WEEK : 'week' | 'weeks';
+DAY : 'day' | 'days';
+HOUR : 'hour' | 'hours';
+MINUTE : 'minute' | 'minutes';
+SECOND : 'second' | 'seconds';
 
 PENALTY : 'penalty';
 REWARD : 'reward';
@@ -253,6 +277,9 @@ OF : 'of';
 FOR : 'for';
 AS : 'as';
 
+IN : 'in';
+BY : 'by';
+RESOURCE : 'resource';
 
 //---------------------------------------
 // Commons tokens

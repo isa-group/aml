@@ -6,7 +6,7 @@ Template simplifiedAzureSiteRecovery version 1.0
 		percent: integer[0..100000];
 		extraStorageSpace: integer[0..100000];
 		ram: integer[0..244000];
-		hours: integer[0..24];
+		met_hours: integer[0..24];
 		cost: integer[0..1000000000];
 
 AgreementTerms
@@ -20,7 +20,7 @@ AgreementTerms
 
 	MonitorableProperties
 		global:
-			MRTO: hours;
+			MRTO: met_hours;
 			MUP: percent;
 			MPI: shortInt;
 			add25G: extraStorageSpace;

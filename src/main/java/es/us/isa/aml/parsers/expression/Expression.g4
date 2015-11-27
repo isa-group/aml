@@ -3,6 +3,7 @@ grammar Expression;
 parse : expression
       ;
 
+
 expression: Identifier ASSIG expression                     #assigExpr
           | PA expression PC                                #parExpr
           | NOT expression                                  #notExpr
@@ -15,6 +16,11 @@ expression: Identifier ASSIG expression                     #assigExpr
           | expression (IMPLIES | REQUIRES) expression      #impliesExpr
           | expression IFF expression                       #iffExpr
           | expression EXCLUDES expression                  #excludesExpr
+          | expression IN state=expression 
+            op=BY dur=expression durInt=duringInterval      #duringExpr
+          | expression IN state=expression 
+            op=(LTE | GTE | LT | GT | EQ) ntimes=expression 
+            compInt=compensationsInterval                   #freqExpr
           | list                                            #listExpr
           | array                                           #arrayExpr
           | atom                                            #atomExpr
@@ -23,6 +29,24 @@ expression: Identifier ASSIG expression                     #assigExpr
 list : CA l1=args (',' l2=args)* CC ;
 array : LLA l1=args (',' l2=args)* LLC ;
 args : l1=(Identifier | String | Integer | S_Integer | Float | S_Float);
+
+compensationsInterval : YEARLY
+         | MONTHLY
+         | WEEKLY
+         | DAILY
+         | HOURLY
+         | MINUTELY
+         | SECONDLY
+         ;
+
+duringInterval : YEAR
+         | MONTH
+         | WEEK
+         | DAY
+         | HOUR
+         | MINUTE
+         | SECOND
+         ;
 
 atom : (Integer | S_Integer | Float | S_Float)   #numberAtom
        | (TRUE | FALSE)                          #booleanAtom
@@ -42,6 +66,25 @@ ENUM : 'enum';
 
 TRUE : 'true';
 FALSE : 'false';
+
+YEARLY : 'yearly';
+MONTHLY : 'monthly';
+WEEKLY : 'weekly';
+DAILY : 'daily';
+HOURLY : 'hourly';
+MINUTELY : 'minutely';
+SECONDLY : 'secondly';
+
+YEAR : 'year' | 'years';
+MONTH : 'month' | 'months';
+WEEK : 'week' | 'weeks';
+DAY : 'day' | 'days';
+HOUR : 'hour' | 'hours';
+MINUTE : 'minute' | 'minutes';
+SECOND : 'second' | 'seconds';
+
+IN : 'in';
+BY : 'by';
 
 //---------------------------------------
 // Commons tokens
@@ -124,5 +167,3 @@ String : '\'' ~[']* '\''
 WS : [ \t\r\n]+ -> skip;
 COMMENT : '/*' .*? '*/' -> skip;
 LINE_COMMENT : '//' ~[\r\n]* -> skip;
-
-
