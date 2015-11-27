@@ -5,6 +5,7 @@ It offers support to analyze SLAs, providing a variety of document operations as
 dead terms, etc.
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/isa-group/aml?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Stories in Ready](https://badge.waffle.io/isa-group/aml.svg?label=ready&title=Ready)](http://waffle.io/isa-group/aml)
 
 ## Requirements
 
