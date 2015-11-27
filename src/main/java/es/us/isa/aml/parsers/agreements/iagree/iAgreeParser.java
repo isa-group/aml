@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 /*******************************************************************************
  * AML is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,9 +15,6 @@
  * Copyright (C) ISA Research Group - University of Sevilla, 2015
  * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
  *******************************************************************************/
-=======
-// Generated from C:\Users\ISA Group\Desktop\Parsers\iAgree-parser\iAgree\iAgree.g4 by ANTLR 4.1
->>>>>>> Stashed changes
 package es.us.isa.aml.parsers.agreements.iagree;
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
