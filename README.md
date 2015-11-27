@@ -1,5 +1,7 @@
 # Agreement Management Library
 
+[![Join the chat at https://gitter.im/isa-group/aml](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/isa-group/aml?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 AML is a library that provides the basic infrastructure to manage Service Level Agreements.
 It offers support to analyze SLAs, providing a variety of document operations as consistency, compliance, 
 dead terms, etc.
