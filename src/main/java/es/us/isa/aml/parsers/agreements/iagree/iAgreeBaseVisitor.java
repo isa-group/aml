@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA, 2015
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015
  * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
  *******************************************************************************/
 package es.us.isa.aml.parsers.agreements.iagree;
@@ -30,7 +30,15 @@ import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements iAgreeVisitor<T> {
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitDuringExpr(@NotNull iAgreeParser.DuringExprContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -38,7 +46,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -46,7 +54,15 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitDuringInterval(@NotNull iAgreeParser.DuringIntervalContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -54,7 +70,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -62,7 +78,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -70,7 +86,15 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitFreqExpr(@NotNull iAgreeParser.FreqExprContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -78,7 +102,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -86,7 +110,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -94,7 +118,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -102,7 +126,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -110,7 +134,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -118,7 +142,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -126,7 +150,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -134,7 +158,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -142,7 +166,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -150,7 +174,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -158,7 +182,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -166,7 +190,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -174,7 +198,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -182,7 +206,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -190,7 +214,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -198,7 +222,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -206,7 +230,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -214,7 +238,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -222,7 +246,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -230,7 +254,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -238,7 +262,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -246,7 +270,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -254,7 +278,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -262,7 +286,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -270,7 +294,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -278,7 +302,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -286,7 +310,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -294,7 +318,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -302,7 +326,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -310,7 +334,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -318,7 +342,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -326,7 +350,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -334,7 +358,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -342,7 +366,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -350,7 +374,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -358,7 +382,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -366,7 +390,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -374,7 +398,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -382,7 +406,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -390,7 +414,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -398,7 +422,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -406,7 +430,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -414,7 +438,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -422,7 +446,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -430,7 +454,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -438,7 +462,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -446,7 +470,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -454,7 +478,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -462,7 +486,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -470,7 +494,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -478,7 +502,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -486,7 +510,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -494,7 +518,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
@@ -502,7 +526,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 
 	/**
 	 * {@inheritDoc}
-	 * <p>
+	 * <p/>
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */

@@ -1,27 +1,27 @@
-{	
-	"valid_extensions": ["wsag", "at", "ao", "ag"],
-	"test_result_file": "expectedResults.properties",
-	"metrics_folder": "metrics",
-	"directories": [
-		{
-			"id": "01 CheckDocumentConsistency (without temp)", 
-			"operation": "existInconsistencies"
-		},
-		{
-			"id": "02 ExplainInconsistencies (without temp)", 
-			"operation": "explainInconsistencies"
-		},
-		{
-			"id": "03 GetDeadTerms (without temp)", 
-			"operation": "existDeadTerms"
-		},
-		{
-			"id": "04 ExplainDeadTerms (without temp)", 
-			"operation": "explainDeadTerms"
-		},
-		{
-			"id": "07 IsCompliant (without temp)", 
-			"operation": "areCompliant"
-		}		
-	]	    
+{
+    "valid_extensions": ["wsag", "at", "ao", "ag"],
+    "test_result_file": "expectedResults.properties",
+    "metrics_folder": "metrics",
+    "directories": [
+        {
+            "id": "01 CheckDocumentConsistency (without temp)",
+            "operation": "existInconsistencies"
+        },
+        {
+            "id": "02 ExplainInconsistencies (without temp)",
+            "operation": "explainInconsistencies"
+        },
+        {
+            "id": "03 GetDeadTerms (without temp)",
+            "operation": "existDeadTerms"
+        },
+        {
+            "id": "04 ExplainDeadTerms (without temp)",
+            "operation": "explainDeadTerms"
+        },
+        {
+            "id": "07 IsCompliant (without temp)",
+            "operation": "areCompliant"
+        }
+    ]
 }
