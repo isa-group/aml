@@ -10,6 +10,10 @@ import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
+import java.util.AbstractMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map.Entry;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -33,8 +37,19 @@ public class TestPPI {
     @Test
     public void testCreation1() {
         AgreementManager m = new AgreementManager();
-        Translator t= new Translator(new IAgreeBuilder());
+        Translator t = new Translator(new IAgreeBuilder());
         System.out.println(t.translate(model));
         Assert.assertNotNull(model.getProperty("Time2").getDefinitionReference());
+
+        List<Entry<String, Number>> listaA = new LinkedList();
+        Entry<String, Number> par = new AbstractMap.SimpleEntry<String, Number>("Requests", 9);
+        listaA.add(par);
+        Assert.assertEquals(model.evaluateGTByValues("RequestTerm", listaA), true);
+
+        List<Entry<String, Number>> listaB = new LinkedList();
+        Entry<String, Number> par2 = new AbstractMap.SimpleEntry<String, Number>("Requests", 11);
+        listaB.add(par2);
+        Assert.assertEquals(model.evaluateGTByValues("RequestTerm", listaB), false);
+
     }
 }
