@@ -16,6 +16,7 @@
  * (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
  * *****************************************************************************
  */
+
 package es.us.isa.aml.util;
 
 import es.us.isa.aml.model.MonitorableProperty;

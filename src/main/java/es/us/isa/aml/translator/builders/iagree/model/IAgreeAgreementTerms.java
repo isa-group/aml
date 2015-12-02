@@ -12,7 +12,7 @@
  * You should have received a copy of the GNU General Public License
  * along with AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA, 2015
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015
  * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
  *******************************************************************************/
 package es.us.isa.aml.translator.builders.iagree.model;

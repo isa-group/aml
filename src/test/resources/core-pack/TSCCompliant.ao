@@ -5,7 +5,7 @@ AgreementOffer AzureNonCompliantOffer version 1.0 for Template TSCTemplate.at ve
 		ram: integer [0..244000];
 		cost: integer [0..1000000000];
 		percent: integer [0..100000];
-		hours: integer [0..24];
+		met_hours: integer [0..24];
 		extraStorageSpace: integer [0..100000];
 		shortInt: integer [0..100];		
 		
@@ -22,7 +22,7 @@ AgreementTerms
 	MonitorableProperties
 		global:
 			MUP: percent;
-			MRTO: hours;
+			MRTO: met_hours;
 			add25G: extraStorageSpace;
 			MPI: shortInt = 10;
 			

@@ -1,5 +1,5 @@
-
 package es.us.isa.aml.parsers.agreements.iagree;
+
 // Generated from C:\Users\Usuario\parser\iAgree.g4 by ANTLR 4.1
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

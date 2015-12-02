@@ -1,0 +1,28 @@
+Template ResearchPlanT version 1.0
+	Provider "Pablo" as Responder;
+	Consumer "ISA" as Initiator;
+
+	Metrics:
+		num: integer[0..100];
+
+
+AgreementTerms
+	Service Research availableAt "www.isa.us.es/people/pablo.fernandez"
+		GlobalDescription
+			Seniority: num = 12;
+			phd: boolean = true;
+
+
+	MonitorableProperties
+		global:
+			papers: resource;
+			conferences: resource;
+
+		GuaranteeTerms
+			G1:	Provider guarantees papers in acceptance > 3 monthly;
+			G2: Provider guarantees papers in revision by 10 second;
+			G3:	Provider guarantees conferences in acceptance > 1 minutely;
+			G4: Provider guarantees conferences in revision by 1 minute;
+
+
+EndTemplate
