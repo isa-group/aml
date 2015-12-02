@@ -12,10 +12,11 @@
  * You should have received a copy of the GNU General Public License along with
  * AML. If not, see <http://www.gnu.org/licenses/>.
  *
-
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+ *
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015 Licensed under
+ * GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
+ * *****************************************************************************
+ */
 package es.us.isa.aml.model;
 
 import java.util.HashMap;
@@ -28,8 +29,10 @@ import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.OperationResponse;
 import es.us.isa.aml.util.Util;
+import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This abstract class is used to represent an agreement model. There are three
@@ -46,6 +49,7 @@ public abstract class AgreementModel extends AbstractModel {
     protected AgreementTerms agreementTerms;
     protected AgreementManager manager;
     protected DocType docType;
+    protected Map<String, Map<Date, Object>> valueRecord;
 
     public AgreementModel() {
         this.id = "";
@@ -53,11 +57,15 @@ public abstract class AgreementModel extends AbstractModel {
         this.context = new Context();
         this.agreementTerms = new AgreementTerms();
         this.docType = DocType.TEMPLATE;
+        this.valueRecord = new HashMap();
+
     }
 
     public AgreementModel(AgreementManager agreementManager) {
         super();
         this.manager = agreementManager;
+        this.valueRecord = new HashMap();
+
     }
 
     public String getID() {
@@ -74,6 +82,10 @@ public abstract class AgreementModel extends AbstractModel {
 
     public void setVersion(Double version) {
         this.version = version;
+    }
+
+    public Map<String, Map<Date, Object>> getValueRecord() {
+        return valueRecord;
     }
 
     public Context getContext() {
@@ -150,6 +162,7 @@ public abstract class AgreementModel extends AbstractModel {
 
     public void setProperty(String propName, Object value) {
         Property p = getProperty(propName);
+        addRecord(propName, value);
         if (value instanceof String) {
             Expression expr = Expression.parse((String) value);
             for (Var v : Expression.getVars(expr)) {
@@ -298,6 +311,27 @@ public abstract class AgreementModel extends AbstractModel {
         } else {
             return false;
         }
+    }
+
+    private void addRecord(String propName, Object value) {
+        
+//        try {
+//            model.setProperty("Requests", 2);
+//            Thread.sleep(100);
+//            model.setProperty("Requests", 4);
+//            Thread.sleep(100);
+//            model.setProperty("Requests", 5);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(TestPPI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        if (valueRecord.containsKey(propName)) {
+            valueRecord.get(propName).put(new Date(), value);
+        } else {
+            Map<Date, Object> aux1 = new ConcurrentHashMap();
+            aux1.put(new Date(), value);
+            valueRecord.put(propName, aux1);
+        }
+
     }
 
 }

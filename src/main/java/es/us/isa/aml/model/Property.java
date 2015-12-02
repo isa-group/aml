@@ -12,13 +12,17 @@
  * You should have received a copy of the GNU General Public License along with
  * AML. If not, see <http://www.gnu.org/licenses/>.
  *
-
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+ *
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015 Licensed under
+ * GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
+ * *****************************************************************************
+ */
 package es.us.isa.aml.model;
 
 import es.us.isa.aml.model.expression.Expression;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,72 +33,74 @@ import java.util.logging.Logger;
  */
 public class Property extends AgreementElement {
 
-	private static final Logger LOG = Logger
-			.getLogger(Property.class.getName());
+    private static final Logger LOG = Logger
+            .getLogger(Property.class.getName());
 
-	protected Metric metric;
-	protected Expression expr;
-	protected Scope scope;
-	protected Feature feature;
-	protected String definitionReference;
-	protected String monitorReference;
+    protected Metric metric;
+    protected Expression expr;
+    protected Scope scope;
+    protected Feature feature;
+    protected String definitionReference;
+    protected String monitorReference;
+
+    public Property(String id) {
+        super(id);
+        scope = Scope.Global;
+    }
+
+    public Property(String id, Metric metric) {
+        super(id);
+        this.metric = metric;
+        scope = Scope.Global;
+
+    }
+
+    public Property(String id, Metric metric, Expression expression,
+            Scope scope, Feature feature) {
+        super(id);
+        this.metric = metric;
+        this.expr = expression;
+        this.scope = scope;
+        this.feature = feature;
+
+    }
+
+    public Metric getMetric() {
+        return this.metric;
+    }
+
+    public void setMetric(Metric metric) {
+        this.metric = metric;
+    }
+
+    public Expression getExpression() {
+        return this.expr;
+    }
 
 
-	public Property(String id) {
-		super(id);
-		scope = Scope.Global;
-	}
+    public void setExpression(Expression expr) {
+        this.expr = expr;
+    }
 
-	public Property(String id, Metric metric) {
-		super(id);
-		this.metric = metric;
-		scope = Scope.Global;
-	}
+    public Scope getScope() {
+        return this.scope;
+    }
 
-	public Property(String id, Metric metric, Expression expression,
-			Scope scope, Feature feature) {
-		super(id);
-		this.metric = metric;
-		this.expr = expression;
-		this.scope = scope;
-		this.feature = feature;
-	}
+    public void setScope(Scope scope) {
+        this.scope = scope;
+    }
 
-	public Metric getMetric() {
-		return this.metric;
-	}
+    public Feature getFeature() {
+        return feature;
+    }
 
-	public void setMetric(Metric metric) {
-		this.metric = metric;
-	}
+    public void setFeature(Feature feature) {
+        this.feature = feature;
+    }
 
-	public Expression getExpression() {
-		return this.expr;
-	}
-
-	public void setExpression(Expression expr) {
-		this.expr = expr;
-	}
-
-	public Scope getScope() {
-		return this.scope;
-	}
-
-	public void setScope(Scope scope) {
-		this.scope = scope;
-	}
-
-	public Feature getFeature() {
-		return feature;
-	}
-
-	public void setFeature(Feature feature) {
-		this.feature = feature;
-	}
-
-	public String getDefinitionReference() {
-		return definitionReference;
-	}
+    public String getDefinitionReference() {
+        return definitionReference;
+    }
 
     public void setDefinitionReference(String definitionReference) {
         this.definitionReference = definitionReference;

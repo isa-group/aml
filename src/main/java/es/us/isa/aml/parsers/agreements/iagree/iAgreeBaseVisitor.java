@@ -1,5 +1,6 @@
 package es.us.isa.aml.parsers.agreements.iagree;
 
+// Generated from C:\Users\Usuario\parser\iAgree.g4 by ANTLR 4.1
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -18,6 +19,14 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitDuringExpr(@NotNull iAgreeParser.DuringExprContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitSlo(@NotNull iAgreeParser.SloContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -27,6 +36,14 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitArgs(@NotNull iAgreeParser.ArgsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitDuringInterval(@NotNull iAgreeParser.DuringIntervalContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -51,6 +68,14 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitAg_def(@NotNull iAgreeParser.Ag_defContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitFreqExpr(@NotNull iAgreeParser.FreqExprContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

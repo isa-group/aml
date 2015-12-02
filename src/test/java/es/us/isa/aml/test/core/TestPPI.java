@@ -14,6 +14,8 @@ import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,6 +52,21 @@ public class TestPPI {
         Entry<String, Number> par2 = new AbstractMap.SimpleEntry<String, Number>("Requests", 11);
         listaB.add(par2);
         Assert.assertEquals(model.evaluateGTByValues("RequestTerm", listaB), false);
+
+//        try {
+//            model.setProperty("Requests", 2);
+//            Thread.sleep(100);
+//            model.setProperty("Requests", 4);
+//            Thread.sleep(100);
+//            model.setProperty("Requests", 5);
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(TestPPI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+        model.setProperty("Requests", 2);
+        model.setProperty("Requests", 4);
+        model.setProperty("Requests", 5);
+
+        System.out.println(model.getValueRecord().get("Requests"));
 
     }
 }

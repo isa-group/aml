@@ -13,6 +13,13 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#duringExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDuringExpr(@NotNull iAgreeParser.DuringExprContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#slo}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -25,6 +32,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitArgs(@NotNull iAgreeParser.ArgsContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#duringInterval}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDuringInterval(@NotNull iAgreeParser.DuringIntervalContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#stringAtom}.
@@ -46,6 +60,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAg_def(@NotNull iAgreeParser.Ag_defContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#freqExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFreqExpr(@NotNull iAgreeParser.FreqExprContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#local_MonitorableProperties}.
