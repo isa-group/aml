@@ -1,4 +1,5 @@
-/*******************************************************************************
+/**
+ * *****************************************************************************
  * AML is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,14 +13,16 @@
  * You should have received a copy of the GNU General Public License
  * along with AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015 Licensed under
+ * GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
+ * *****************************************************************************
+ */
 package es.us.isa.aml.parsers.agreements.iagree;
 
 import es.us.isa.aml.parsers.Error.ERROR_SEVERITY;
 import java.util.LinkedList;
 import java.util.List;
+import org.antlr.v4.runtime.ANTLRErrorListener;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
@@ -45,6 +48,40 @@ public class IAgreeErrorListener extends BaseErrorListener {
                 ERROR_SEVERITY.ERROR, "line " + line + ":" + charPositionInLine
                 + " " + msg));
 
+    }
+
+    public void warningMessage(Token offendingToken, String msg,
+            RecognitionException e) {
+
+        int line = -1;
+        int charPositionInLine = -1;
+        line = offendingToken.getLine();
+        charPositionInLine = offendingToken.getCharPositionInLine();
+
+        int charEndOffset = offendingToken.getStopIndex()
+                - offendingToken.getStartIndex();
+
+        errors.add(new IAgreeError(line,
+                charPositionInLine, charEndOffset,
+                ERROR_SEVERITY.WARNING, "line " + line + ":" + charPositionInLine
+                + " " + msg));
+    }
+    
+    public void infoMessage(Token offendingToken, String msg,
+            RecognitionException e) {
+
+        int line = -1;
+        int charPositionInLine = -1;
+        line = offendingToken.getLine();
+        charPositionInLine = offendingToken.getCharPositionInLine();
+
+        int charEndOffset = offendingToken.getStopIndex()
+                - offendingToken.getStartIndex();
+
+        errors.add(new IAgreeError(line,
+                charPositionInLine, charEndOffset,
+                ERROR_SEVERITY.INFO, "line " + line + ":" + charPositionInLine
+                + " " + msg));
     }
 
     public List<IAgreeError> getErrors() {
