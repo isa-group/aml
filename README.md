@@ -7,9 +7,6 @@ dead terms, etc.
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/isa-group/aml?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Code Climate](https://codeclimate.com/github/isa-group/aml/badges/gpa.svg)](https://codeclimate.com/github/isa-group/aml)
 [![release](https://img.shields.io/badge/release-0.8-green.svg)](https://raw.githubusercontent.com/isa-group/aml/master/CHANGELOG.txt)
-[![Stories in Progress](https://badge.waffle.io/isa-group/aml.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/isa-group/aml)
-
-[![Throughput Graph](https://graphs.waffle.io/isa-group/aml/throughput.svg)](https://waffle.io/isa-group/aml/metrics)
 
 ## Requirements
 
