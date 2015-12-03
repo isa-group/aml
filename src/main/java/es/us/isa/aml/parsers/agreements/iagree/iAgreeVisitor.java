@@ -1,20 +1,4 @@
-/*******************************************************************************
- * AML is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * AML is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with AML. If not, see <http://www.gnu.org/licenses/>.
- *
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+// Generated from C:\Users\ISA Group\Desktop\Parsers\iAgree-parser\iAgree\iAgree.g4 by ANTLR 4.1
 package es.us.isa.aml.parsers.agreements.iagree;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
@@ -161,13 +145,6 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitTemplate(@NotNull iAgreeParser.TemplateContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#guaranteeTerms}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitGuaranteeTerms(@NotNull iAgreeParser.GuaranteeTermsContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#agOffer}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -180,6 +157,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCreationConstraints(@NotNull iAgreeParser.CreationConstraintsContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#guaranteeTerms}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGuaranteeTerms(@NotNull iAgreeParser.GuaranteeTermsContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#serviceScope}.

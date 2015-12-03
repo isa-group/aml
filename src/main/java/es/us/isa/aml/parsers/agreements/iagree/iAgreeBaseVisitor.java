@@ -1,20 +1,4 @@
-/*******************************************************************************
- * AML is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * AML is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with AML. If not, see <http://www.gnu.org/licenses/>.
- *
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+// Generated from C:\Users\ISA Group\Desktop\Parsers\iAgree-parser\iAgree\iAgree.g4 by ANTLR 4.1
 package es.us.isa.aml.parsers.agreements.iagree;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
@@ -186,14 +170,6 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitGuaranteeTerms(@NotNull iAgreeParser.GuaranteeTermsContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitAgOffer(@NotNull iAgreeParser.AgOfferContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -203,6 +179,14 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitCreationConstraints(@NotNull iAgreeParser.CreationConstraintsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitGuaranteeTerms(@NotNull iAgreeParser.GuaranteeTermsContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
