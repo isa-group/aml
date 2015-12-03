@@ -283,7 +283,7 @@ Agreement myAgreement = myOffer.generateAgreement("Consumer name");</pre>
 		$( document ).ready(function(){
 			$('#amljar').attr("href", "/aml/releases/aml" + CURRENT_VERSION + ".jar");
 		});
-		$.get('https://github.com/isa-group/aml/blob/master/CHANGELOG.txt', function(data) {
+		$.get('https://raw.githubusercontent.com/isa-group/aml/master/CHANGELOG.txt', function(data) {
 			//process text file line by line
 			$('#changelog').html(data.replace('n',''));
 		});
