@@ -3,7 +3,7 @@
 
     <groupId>es.us.isa</groupId>
     <artifactId>aml</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>0.9.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>aml</name>
@@ -38,7 +38,7 @@
         </developer>
         <developer>
             <id>agamez2</id>
-            <name>Antonio Gámez</name>
+            <name>Antonio Gï¿½mez</name>
             <email>agamez2@us.es</email>
             <url>http://personal.us.es/agamez2/</url>
             <organization>ISA Research Group</organization>
