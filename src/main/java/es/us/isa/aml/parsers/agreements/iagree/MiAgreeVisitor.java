@@ -72,7 +72,6 @@ import es.us.isa.aml.model.expression.ParenthesisExpression;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
-import es.us.isa.aml.parsers.Error.ERROR_SEVERITY;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AdditiveExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AgreementContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AndExprContext;
@@ -115,7 +114,6 @@ import es.us.isa.aml.util.AssessmentInterval;
 import es.us.isa.aml.util.CompensationType;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
-import org.antlr.v4.runtime.RecognitionException;
 
 /**
  * @author jdelafuente
@@ -463,7 +461,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
             if (p != null) {
                 MonitorableProperty mp;
                 Metric metric = p.getMetric();
-                
+
                 if (p.getMetric().getType().equalsIgnoreCase("resource")) {
                     mp = new ResourceProperty(p.getId(), metric);
                 } else {
@@ -472,6 +470,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
                 mp.setExpression(p.getExpression());
                 mp.setScope(Scope.Global);
+                mp.setDefinitionReference(p.getDefinitionReference());
                 this.model.getAgreementTerms().getMonitorableProperties()
                         .put(mp.getId(), mp);
             }
@@ -489,7 +488,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
             if (p != null) {
                 MonitorableProperty mp;
                 Metric metric = p.getMetric();
-                
+
                 if (p.getMetric().getType().equalsIgnoreCase("resource")) {
                     mp = new ResourceProperty(p.getId(), metric);
                 } else {
@@ -497,6 +496,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
                 }
                 mp.setExpression(p.getExpression());
                 mp.setScope(Scope.Local);
+                mp.setDefinitionReference(p.getDefinitionReference());
 
                 Map<String, Feature> features = model.getAgreementTerms()
                         .getService().getFeatures();
@@ -514,7 +514,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
         return null;
     }
-    
+
     @Override
     public Property visitProperty(iAgreeParser.PropertyContext ctx) {
         Property p = null;
@@ -568,6 +568,10 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         } else {
             parser.notifyErrorListeners(ctx.start, "Metric \"" + metric_id
                     + "\" has not been declared.", null);
+        }
+
+        if (p != null && ctx.definitionUrl != null) {
+            p.setDefinitionReference(ctx.definitionUrl.getText());
         }
 
         return p;

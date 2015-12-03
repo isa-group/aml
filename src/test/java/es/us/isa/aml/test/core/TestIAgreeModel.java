@@ -19,7 +19,6 @@
  */
 package es.us.isa.aml.test.core;
 
-import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -48,6 +47,9 @@ import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
+import es.us.isa.aml.translator.Translator;
+import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -56,16 +58,18 @@ import static org.junit.Assert.assertEquals;
  */
 public class TestIAgreeModel {
 
-    private static AgreementManager service;
-    private static AgreementModel model, modelResourcesExt;
+    private static AgreementManager manager;
+    private static AgreementModel model, modelResources, modelDefReference;
 
     @BeforeClass
     public static void init() {
-        service = new AgreementManager();
-        model = service
+        manager = new AgreementManager();
+        model = manager
                 .createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-core.at");
-        modelResourcesExt = service
-                .createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-resources-ext.at");
+        modelResources = manager
+                .createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-resources.at");
+        modelDefReference = manager
+                .createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-defref.at");
     }
 
     /**
@@ -176,12 +180,12 @@ public class TestIAgreeModel {
     @Test
     public void testModelResourcesExtension() {
         // Asserts ID y Version
-        assertEquals(modelResourcesExt.getID(), "ResearchPlanT");
-        assertEquals(modelResourcesExt.getVersion(), 1.0f, 0.0);
+        assertEquals(modelResources.getID(), "ResearchPlanT");
+        assertEquals(modelResources.getVersion(), 1.0f, 0.0);
 
         // Asserts actors
-        assertEquals(modelResourcesExt.getContext().getResponder().getRole(), Role.Provider);
-        assertEquals(modelResourcesExt.getContext().getInitiator().getRole(), Role.Consumer);
+        assertEquals(modelResources.getContext().getResponder().getRole(), Role.Provider);
+        assertEquals(modelResources.getContext().getInitiator().getRole(), Role.Consumer);
 
         // Metrics
         Metric met1 = new Metric("num", "integer", new Range(0, 100));
@@ -189,7 +193,7 @@ public class TestIAgreeModel {
                 new Object[]{true, false}));
 
         // Asserts metrics
-        assertEquals(modelResourcesExt.getContext().getMetrics().get(met1.getId()), met1);
+        assertEquals(modelResources.getContext().getMetrics().get(met1.getId()), met1);
 
         // Agreement Terms
         AgreementTerms at = new AgreementTerms();
@@ -245,12 +249,17 @@ public class TestIAgreeModel {
         at.getGuaranteeTerms().put(gt.getId(), gt);
 
         // Asserts Agreement Terms
-        assertEquals(modelResourcesExt.getAgreementTerms().getService()
+        assertEquals(modelResources.getAgreementTerms().getService()
                 .getConfigurationProperties().get(0), at.getService()
                 .getConfigurationProperties().get(0));
-        assertEquals(modelResourcesExt.getAgreementTerms().getMonitorableProperties()
+        assertEquals(modelResources.getAgreementTerms().getMonitorableProperties()
                 .get(0), at.getMonitorableProperties().get(0));
-        assertEquals(modelResourcesExt.getAgreementTerms().getGuaranteeTerms(),
+        assertEquals(modelResources.getAgreementTerms().getGuaranteeTerms(),
                 at.getGuaranteeTerms());
+    }
+    
+    @Test
+    public void testDefinitionReference() {
+        Assert.assertNotNull(modelDefReference.getProperty("Time2").getDefinitionReference());
     }
 }
