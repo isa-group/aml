@@ -246,9 +246,7 @@ Agreement myAgreement = myOffer.generateAgreement("Consumer name");</pre>
 		<a href="https://github.com/isa-group/aml/blob/master/CHANGELOG.txt"
 			target="_blank">CHANGELOG file</a>
 
-		<div id="changelog"></div>
-		
-		<div id="fileNames"></div>
+		<div id="changelogfull"></div>
 
 		<footer class="site-footer">
 			<span class="site-footer-owner"><a
@@ -281,11 +279,11 @@ Agreement myAgreement = myOffer.generateAgreement("Consumer name");</pre>
 	
 	<script type="text/javascript">
 		$( document ).ready(function(){
-			$('#amljar').attr("href", "/aml/releases/aml" + CURRENT_VERSION + ".jar");
+			$('#amljar').attr("href", "/aml/releases/aml-" + CURRENT_VERSION + ".jar");
 		});
 		$.get('https://raw.githubusercontent.com/isa-group/aml/master/CHANGELOG.txt', function(data) {
 			//process text file line by line
-			$('#changelog').html(data.replace('n',''));
+			$('#changelogfull').html("<pre>" + data + "</pre>");
 		});
 	</script>
 
