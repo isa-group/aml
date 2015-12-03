@@ -35,38 +35,25 @@ public class ResourceProperty extends MonitorableProperty {
         this.resourceState = resourceState;
     }
 
-    public ResourceProperty(String id, Metric metric, Expression expression, Scope scope, Feature feature, ResourceState resourceState) {
-        super(id, metric, expression, scope, feature);
-        this.resourceState = resourceState;
-    }
-
     public ResourceProperty(Property property) {
-        super(property.id, property.metric, property.expr, property.scope, property.feature);
-        this.definitionReference = property.definitionReference;
+        super(property.id, property.metric, property.definitionReference, property.expr, property.scope, property.feature);
         this.monitorReference = property.monitorReference;
         this.resourceState = new ResourceState();
     }
 
     public ResourceProperty(Property property, ResourceState resourceState) {
-        super(property.id, property.metric, property.expr, property.scope, property.feature);
-        this.definitionReference = property.definitionReference;
+        super(property.id, property.metric, property.definitionReference, property.expr, property.scope, property.feature);
         this.monitorReference = property.monitorReference;
         this.resourceState = resourceState;
     }
-
+    
     public ResourceProperty(String id) {
         super(id);
         this.resourceState = new ResourceState();
-        this.metric = new Metric(id, "resource", new Domain());
     }
 
     public ResourceProperty(String id, Metric metric) {
         super(id, metric);
-        this.resourceState = new ResourceState();
-    }
-
-    public ResourceProperty(String id, Metric metric, Expression expression, Scope scope, Feature feature) {
-        super(id, metric, expression, scope, feature);
         this.resourceState = new ResourceState();
     }
 

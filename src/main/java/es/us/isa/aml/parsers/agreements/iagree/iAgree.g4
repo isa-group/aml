@@ -74,6 +74,11 @@ global_MonitorableProperties : GLOBAL ':'
                              ;
 				
 local_MonitorableProperties : FOR Identifier ':' (property)+;
+
+property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN | RESOURCE)
+           (DEFINED_AT definitionUrl=url)?
+           (ASSIG value=expression)? 
+            ';';
 				
 guaranteeTerms : GUARANTEE_TERMS 
                  (guaranteeTerm)*
@@ -129,10 +134,6 @@ versionNumber : Float
 url : Url
     | String
     ;
-
-property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN | RESOURCE)
-           (ASSIG value=expression)? 
-            ';';
 
 cuantif : EXACTLY_ONE 
         | ONE_OR_MORE
