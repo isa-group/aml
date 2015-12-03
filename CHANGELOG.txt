@@ -1,3 +1,9 @@
+AML v0.9 (Targaryen), 03/12/2015
+-----------------------
+- create developer profile #42
+- avoid analysis of documents with resource metrics #47
+- definedAt support #48
+
 AML v0.8 (Lannister), 27/11/2015
 -----------------------
 - Merge aml4trello #37
