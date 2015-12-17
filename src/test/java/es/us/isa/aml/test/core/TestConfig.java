@@ -42,7 +42,7 @@ public class TestConfig {
 	public void testProperties() {
 		assertEquals(Config.getInstance().getDefaultInputFormat(),
 				AgreementLanguage.IAGREE);
-		assertEquals(Config.getInstance().getCSPReasoner(), ReasonerType.CPLEX);
+		assertEquals(Config.getInstance().getCSPReasoner(), ReasonerType.CSPWebReasoner);
 		assertEquals(Config.getInstance().getCSPWebReasonerEndpoint(),
 				"http://150.214.188.130:8080/CSPWebReasoner");
 		assertEquals(Config.getInstance().getDLReasoner(), "NONE");

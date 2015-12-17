@@ -1,0 +1,30 @@
+<met:metricXML xmlns:met="http:/www.isa.us.es/ada/metrics"> 
+	<!-- Availability of the support service for the BPMS -->
+	<met:metric id="Availability" type="enumerated">
+		<met:value value="Morning"/>
+		<met:value value="Afternoon"/>
+		<met:value value="Complete"/>
+	</met:metric>
+	<!-- Max number of hours that must be waited for a response from the support service -->
+	<met:metric id="ResponseTime" type="integer" min="1" max="100"/>
+	<!-- The cost of the BPMS in thousands of dollars per month -->
+    <met:metric id="Price" type="integer" min="1" max="100"/>
+	<!-- Types of license for the BPMS -->
+    <met:metric id="License" type="enumerated">
+		<met:value value="Free"/>
+		<met:value value="Bronze"/>
+		<met:value value="Silver"/>
+		<met:value value="Gold"/>
+		<met:value value="Other"/>
+	</met:metric>
+	<!-- Boolean -->
+	<met:metric id="Boolean" type="enumerated">
+		<met:value value="True"/>
+		<met:value value="False"/>
+	</met:metric>
+	<!-- Language supported by the BPMS-->
+	<met:metric id="Language" type="enumerated">
+		<met:value value="Spanish"/>
+		<met:value value="English"/>
+	</met:metric>
+</met:metricXML>
