@@ -43,8 +43,6 @@ public class TestConfig {
 		assertEquals(Config.getInstance().getDefaultInputFormat(),
 				AgreementLanguage.IAGREE);
 		assertEquals(Config.getInstance().getCSPReasoner(), ReasonerType.CSPWebReasoner);
-		assertEquals(Config.getInstance().getCSPWebReasonerEndpoint(),
-				"http://150.214.188.130:8080/CSPWebReasoner");
 		assertEquals(Config.getInstance().getDLReasoner(), "NONE");
 		assertEquals(Config.getInstance().getANDConstraintsBreaking(), true);
 		assertEquals(Config.getInstance().getAgreementGenerator(),
