@@ -36,7 +36,7 @@ import es.us.isa.aml.util.Util;
  */
 public class AgreementManager {
 
-	private final Store store;
+	private Store store;
 
 	/**
 	 * Create an AgreementManager with the configuration by default. The default
@@ -58,7 +58,7 @@ public class AgreementManager {
 	 */
 	public AgreementManager(String jsonConfig) {
 		Config.load(jsonConfig);
-		this.store = new Store();
+		this.store = Store.getInstance();
 	}
 
 	/**
@@ -71,6 +71,15 @@ public class AgreementManager {
 		return this.store;
 	}
 
+    /**
+     ** Modifies the current store manager.
+     * 
+     * @param store
+     */
+    public void setStore(Store store) {
+        this.store = store;
+    }
+ 
 	// Start agreement files and model management
 	// Creation
 
