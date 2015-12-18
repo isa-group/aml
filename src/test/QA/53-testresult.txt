@@ -1,12 +1,11 @@
-cd C:\Users\ISA Group\git\aml; "JAVA_HOME=C:\\Program Files\\Java\\jdk1.7.0_75" M2_HOME=C:\\apache-maven-3.3.3 cmd /c "\"\"C:\\apache-maven-3.3.3\\bin\\mvn.cmd\" -Dmaven.ext.class.path=\"C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar\" -Paml-developer clean install\""
+cd C:\Users\isa-tecnico\Documents\NetBeansProjects\aml; "JAVA_HOME=C:\\Program Files\\Java\\jdk1.8.0_45" "M2_HOME=C:\\Program Files\\NetBeans 8.1\\java\\last_maven" cmd /c "\"\"C:\\Program Files\\NetBeans 8.1\\java\\last_maven\\bin\\mvn.cmd\" -Dmaven.ext.class.path=\"C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar\" -Paml-developer clean install\""
 Scanning for projects...
                                                                         
 ------------------------------------------------------------------------
-Building aml 0.9.1-SNAPSHOT
+Building aml 0.9.2-SNAPSHOT
 ------------------------------------------------------------------------
 
 --- maven-clean-plugin:2.5:clean (default-clean) @ aml ---
-Deleting C:\Users\ISA Group\git\aml\target
 
 --- maven-resources-plugin:2.6:resources (default-resources) @ aml ---
 Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
@@ -15,41 +14,41 @@ Copying 2 resources
 --- maven-compiler-plugin:3.2:compile (default-compile) @ aml ---
 Changes detected - recompiling the module!
 File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
-Compiling 159 source files to C:\Users\ISA Group\git\aml\target\classes
-/C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Some input files use or override a deprecated API.
-/C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Recompile with -Xlint:deprecation for details.
+Compiling 159 source files to C:\Users\isa-tecnico\Documents\NetBeansProjects\aml\target\classes
+/C:/Users/isa-tecnico/Documents/NetBeansProjects/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionLexer.java: Some input files use or override a deprecated API.
+/C:/Users/isa-tecnico/Documents/NetBeansProjects/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionLexer.java: Recompile with -Xlint:deprecation for details.
 
 --- maven-resources-plugin:2.6:testResources (default-testResources) @ aml ---
 Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
-Copying 762 resources
+Copying 18 resources
 
 --- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ aml ---
 Changes detected - recompiling the module!
 File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
-Compiling 16 source files to C:\Users\ISA Group\git\aml\target\test-classes
+Compiling 16 source files to C:\Users\isa-tecnico\Documents\NetBeansProjects\aml\target\test-classes
 
 --- maven-surefire-plugin:2.18.1:test (default-test) @ aml ---
-Surefire report directory: C:\Users\ISA Group\git\aml\target\surefire-reports
+Surefire report directory: C:\Users\isa-tecnico\Documents\NetBeansProjects\aml\target\surefire-reports
 
 -------------------------------------------------------
  T E S T S
 -------------------------------------------------------
 Running es.us.isa.aml.test.core.TestAzureCompliance
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.799 sec - in es.us.isa.aml.test.core.TestAzureCompliance
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.685 sec - in es.us.isa.aml.test.core.TestAzureCompliance
 Running es.us.isa.aml.test.core.TestConfig
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestConfig
 Running es.us.isa.aml.test.core.TestCSPModel
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 sec - in es.us.isa.aml.test.core.TestCSPModel
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.005 sec - in es.us.isa.aml.test.core.TestCSPModel
 Running es.us.isa.aml.test.core.TestExpression
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestExpression
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.001 sec - in es.us.isa.aml.test.core.TestExpression
 Running es.us.isa.aml.test.core.TestIAgreeModel
-Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 sec - in es.us.isa.aml.test.core.TestIAgreeModel
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.012 sec - in es.us.isa.aml.test.core.TestIAgreeModel
 Running es.us.isa.aml.test.core.TestOperationsWebReasoner
-Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.863 sec - in es.us.isa.aml.test.core.TestOperationsWebReasoner
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 7.797 sec - in es.us.isa.aml.test.core.TestOperationsWebReasoner
 Running es.us.isa.aml.test.core.TestPapamoscas
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.032 sec - in es.us.isa.aml.test.core.TestPapamoscas
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.087 sec - in es.us.isa.aml.test.core.TestPapamoscas
 Running es.us.isa.aml.test.core.TestStore
-Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.016 sec - in es.us.isa.aml.test.core.TestStore
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.018 sec - in es.us.isa.aml.test.core.TestStore
 
 Results :
 
@@ -57,16 +56,15 @@ Tests run: 43, Failures: 0, Errors: 0, Skipped: 0
 
 
 --- maven-jar-plugin:2.4:jar (default-jar) @ aml ---
-Building jar: C:\Users\ISA Group\git\aml\target\aml-0.9.1-SNAPSHOT.jar
+Building jar: C:\Users\isa-tecnico\Documents\NetBeansProjects\aml\target\aml-0.9.2-SNAPSHOT.jar
 
 --- maven-install-plugin:2.4:install (default-install) @ aml ---
-Installing C:\Users\ISA Group\git\aml\target\aml-0.9.1-SNAPSHOT.jar to C:\Users\ISA Group\.m2\repository\es\us\isa\aml\0.9.1-SNAPSHOT\aml-0.9.1-SNAPSHOT.jar
-Installing C:\Users\ISA Group\git\aml\pom.xml to C:\Users\ISA Group\.m2\repository\es\us\isa\aml\0.9.1-SNAPSHOT\aml-0.9.1-SNAPSHOT.pom
+Installing C:\Users\isa-tecnico\Documents\NetBeansProjects\aml\target\aml-0.9.2-SNAPSHOT.jar to C:\Users\isa-tecnico\.m2\repository\es\us\isa\aml\0.9.2-SNAPSHOT\aml-0.9.2-SNAPSHOT.jar
+Installing C:\Users\isa-tecnico\Documents\NetBeansProjects\aml\pom.xml to C:\Users\isa-tecnico\.m2\repository\es\us\isa\aml\0.9.2-SNAPSHOT\aml-0.9.2-SNAPSHOT.pom
 ------------------------------------------------------------------------
 BUILD SUCCESS
 ------------------------------------------------------------------------
-Total time: 12.026 s
-Finished at: 2015-12-17T13:49:22+01:00
-Final Memory: 19M/306M
+Total time: 14.379 s
+Finished at: 2015-12-18T10:44:44+01:00
+Final Memory: 19M/238M
 ------------------------------------------------------------------------
-
