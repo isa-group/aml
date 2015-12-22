@@ -1,3 +1,7 @@
+AML v0.9.2 (Targaryen), 22/12/2015
+-----------------------
+- Modify store and agreementManager #53
+
 AML v0.9.1 (Targaryen), 17/12/2015
 -----------------------
 - Refactor AML #54
