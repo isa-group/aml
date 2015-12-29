@@ -42,10 +42,12 @@ import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.agreements.JsonParser;
 import es.us.isa.aml.parsers.agreements.yaml.ParserYAMLUtil;
+import es.us.isa.aml.parsers.agreements.yamlParser;
 import es.us.isa.aml.util.Util;
 import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Applied Software Engineering Research Group (ISA Group) University of
@@ -54,7 +56,7 @@ import org.junit.Test;
  * @author Manuel Arenillas <marenillas@us.es>
  * @version 1.0
  */
-public class TestJSONParser {
+public class TestYAMLParser {
 
     private static AgreementManager service;
     private static AgreementModel model;
@@ -62,20 +64,12 @@ public class TestJSONParser {
     @BeforeClass
     public static void init() {
         service = new AgreementManager();
-        String jsonContent = Util.loadFile("src/test/resources/core-pack/iagree-core.json");
-        JsonParser parser = new JsonParser();
-        model = parser.doParse(jsonContent);
-        //System.out.println(ParserYAMLUtil.convertToYaml(jsonContent));
+        String yamlContent = Util.loadFile("src/test/resources/core-pack/agreementYaml.yaml");
+        yamlParser parser = new yamlParser();
+        model = parser.doParse(yamlContent);
+        //System.out.println(parser.parserToYaml(model));
     }
 
-    @Test
-    public void testJSONOUT() {
-        
-        
-//        String yamlContent = Util.loadFile("src/test/resources/core-pack/agreementYaml.yaml");
-//        System.out.println(yamlContent);
-//        System.out.println(ParserYAMLUtil.convertToJson(yamlContent));
-    }
 
     @Test
     public void testModel() {

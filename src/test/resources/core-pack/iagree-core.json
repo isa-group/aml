@@ -1,0 +1,556 @@
+{
+    "creationConstraints": {
+        "C3": {
+            "slo": {
+                "expression": {
+                    "_type": "RelationalExpression",
+                    "properties": {
+                        "exp1": {
+                            "_type": "Var",
+                            "properties": {
+                                "id": "MonitProp3"
+                            }
+                        },
+                        "exp2": {
+                            "_type": "Atomic",
+                            "properties": {
+                                "value": "256"
+                            }
+                        },
+                        "operator": "EQ"
+                    }
+                }
+            },
+            "qc": {
+                "condition": {
+                    "_type": "RelationalExpression",
+                    "properties": {
+                        "exp1": {
+                            "_type": "Var",
+                            "properties": {
+                                "id": "ConfProp3"
+                            }
+                        },
+                        "exp2": {
+                            "_type": "Atomic",
+                            "properties": {
+                                "value": "0"
+                            }
+                        },
+                        "operator": "GT"
+                    }
+                }
+            },
+            "id": "C3"
+        },
+        "C1": {
+            "slo": {
+                "expression": {
+                    "_type": "RelationalExpression",
+                    "properties": {
+                        "exp1": {
+                            "_type": "Var",
+                            "properties": {
+                                "id": "ConfProp2"
+                            }
+                        },
+                        "exp2": {
+                            "_type": "ArithmeticExpression",
+                            "properties": {
+                                "exp1": {
+                                    "_type": "Var",
+                                    "properties": {
+                                        "id": "ConfProp1"
+                                    }
+                                },
+                                "exp2": {
+                                    "_type": "Atomic",
+                                    "properties": {
+                                        "value": "2"
+                                    }
+                                },
+                                "operator": "MULTIPLY"
+                            }
+                        },
+                        "operator": "EQ"
+                    }
+                }
+            },
+            "id": "C1"
+        },
+        "C2": {
+            "slo": {
+                "expression": {
+                    "_type": "LogicalExpression",
+                    "properties": {
+                        "exp1": {
+                            "_type": "ParenthesisExpression",
+                            "properties": {
+                                "exp": {
+                                    "_type": "RelationalExpression",
+                                    "properties": {
+                                        "exp1": {
+                                            "_type": "Var",
+                                            "properties": {
+                                                "id": "ConfProp1"
+                                            }
+                                        },
+                                        "exp2": {
+                                            "_type": "Atomic",
+                                            "properties": {
+                                                "value": "9"
+                                            }
+                                        },
+                                        "operator": "GTE"
+                                    }
+                                }
+                            }
+                        },
+                        "exp2": {
+                            "_type": "ParenthesisExpression",
+                            "properties": {
+                                "exp": {
+                                    "_type": "LogicalExpression",
+                                    "properties": {
+                                        "exp1": {
+                                            "_type": "ParenthesisExpression",
+                                            "properties": {
+                                                "exp": {
+                                                    "_type": "RelationalExpression",
+                                                    "properties": {
+                                                        "exp1": {
+                                                            "_type": "Var",
+                                                            "properties": {
+                                                                "id": "MonitProp3"
+                                                            }
+                                                        },
+                                                        "exp2": {
+                                                            "_type": "Atomic",
+                                                            "properties": {
+                                                                "value": "128"
+                                                            }
+                                                        },
+                                                        "operator": "GTE"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "exp2": {
+                                            "_type": "ParenthesisExpression",
+                                            "properties": {
+                                                "exp": {
+                                                    "_type": "RelationalExpression",
+                                                    "properties": {
+                                                        "exp1": {
+                                                            "_type": "Var",
+                                                            "properties": {
+                                                                "id": "ConfProp3"
+                                                            }
+                                                        },
+                                                        "exp2": {
+                                                            "_type": "Atomic",
+                                                            "properties": {
+                                                                "value": "0"
+                                                            }
+                                                        },
+                                                        "operator": "GT"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "operator": "OR"
+                                    }
+                                }
+                            }
+                        },
+                        "operator": "AND"
+                    }
+                }
+            },
+            "id": "C2"
+        }
+    },
+    "id": "IAgreeCore",
+    "version": 1,
+    "context": {
+        "initiator": {
+            "id": "\"Cons1\"",
+            "role": "Consumer",
+            "roleType": "Initiator"
+        },
+        "responder": {
+            "id": "\"Prov1\"",
+            "role": "Provider",
+            "roleType": "Responder"
+        },
+        "metrics": {
+            "met1": {
+                "type": "integer",
+                "domain": {
+                    "min": 0,
+                    "max": 23
+                },
+                "id": "met1"
+            },
+            "met3": {
+                "type": "float",
+                "domain": {
+                    "min": 0,
+                    "max": 128
+                },
+                "id": "met3"
+            },
+            "met2": {
+                "type": "integer",
+                "domain": {
+                    "min": 0,
+                    "max": 512
+                },
+                "id": "met2"
+            },
+            "met5": {
+                "type": "float",
+                "domain": {
+                    "min": 0,
+                    "max": 1024
+                },
+                "id": "met5"
+            },
+            "met4": {
+                "type": "integer",
+                "domain": {
+                    "min": 0,
+                    "max": 512
+                },
+                "id": "met4"
+            },
+            "boolean": {
+                "type": "Boolean",
+                "domain": {
+                    "values": [
+                        true,
+                        false
+                    ]
+                },
+                "id": "boolean"
+            },
+            "met6": {
+                "type": "integer",
+                "domain": {
+                    "min": -50,
+                    "max": 50
+                },
+                "id": "met6"
+            }
+        }
+    },
+    "agreementTerms": {
+        "service": {
+            "serviceName": "IAg-Core",
+            "endpointReference": "iagree.core.com/service",
+            "features": {
+                "testFeatures3": {
+                    "id": "testFeatures3",
+                    "parameters": [
+                        "param1",
+                        "param2"
+                    ]
+                },
+                "testFeatures2": {
+                    "id": "testFeatures2",
+                    "parameters": [
+                        "param1"
+                    ]
+                },
+                "testFeatures1": {
+                    "id": "testFeatures1",
+                    "parameters": []
+                }
+            },
+            "cps": {
+                "ConfProp1": {
+                    "metric": {
+                        "type": "integer",
+                        "domain": {
+                            "min": 0,
+                            "max": 23
+                        },
+                        "id": "met1"
+                    },
+                    "expr": {
+                        "_type": "Atomic",
+                        "properties": {
+                            "value": "9"
+                        }
+                    },
+                    "scope": "Global",
+                    "id": "ConfProp1"
+                },
+                "ConfProp2": {
+                    "metric": {
+                        "type": "integer",
+                        "domain": {
+                            "min": 0,
+                            "max": 512
+                        },
+                        "id": "met2"
+                    },
+                    "expr": {
+                        "_type": "Atomic",
+                        "properties": {
+                            "value": "18"
+                        }
+                    },
+                    "scope": "Global",
+                    "id": "ConfProp2"
+                },
+                "ConfProp3": {
+                    "metric": {
+                        "type": "float",
+                        "domain": {
+                            "min": 0,
+                            "max": 128
+                        },
+                        "id": "met3"
+                    },
+                    "expr": {
+                        "_type": "Atomic",
+                        "properties": {
+                            "value": "64"
+                        }
+                    },
+                    "scope": "Local",
+                    "feature": {
+                        "id": "testFeatures1",
+                        "parameters": []
+                    },
+                    "id": "ConfProp3"
+                }
+            }
+        },
+        "mps": {
+            "MonitProp1": {
+                "metric": {
+                    "type": "float",
+                    "domain": {
+                        "min": 0,
+                        "max": 128
+                    },
+                    "id": "met3"
+                },
+                "scope": "Global",
+                "id": "MonitProp1"
+            },
+            "MonitProp2": {
+                "metric": {
+                    "type": "integer",
+                    "domain": {
+                        "min": 0,
+                        "max": 512
+                    },
+                    "id": "met4"
+                },
+                "scope": "Global",
+                "id": "MonitProp2"
+            },
+            "MonitProp3": {
+                "metric": {
+                    "type": "float",
+                    "domain": {
+                        "min": 0,
+                        "max": 1024
+                    },
+                    "id": "met5"
+                },
+                "scope": "Local",
+                "feature": {
+                    "id": "testFeatures2",
+                    "parameters": [
+                        "param1"
+                    ]
+                },
+                "id": "MonitProp3"
+            },
+            "MonitProp4": {
+                "metric": {
+                    "type": "integer",
+                    "domain": {
+                        "min": -50,
+                        "max": 50
+                    },
+                    "id": "met6"
+                },
+                "scope": "Local",
+                "feature": {
+                    "id": "testFeatures3",
+                    "parameters": [
+                        "param1",
+                        "param2"
+                    ]
+                },
+                "id": "MonitProp4"
+            }
+        },
+        "gts": {
+            "G2": {
+                "role": "Consumer",
+                "slo": {
+                    "expression": {
+                        "_type": "RelationalExpression",
+                        "properties": {
+                            "exp1": {
+                                "_type": "Var",
+                                "properties": {
+                                    "id": "MonitProp2"
+                                }
+                            },
+                            "exp2": {
+                                "_type": "Atomic",
+                                "properties": {
+                                    "value": "95"
+                                }
+                            },
+                            "operator": "GTE"
+                        }
+                    }
+                },
+                "compensations": [
+                    {
+                        "assessmentInterval": "MONTHLY",
+                        "compensationType": "PENALTY",
+                        "elements": [
+                            {
+                                "expression": {
+                                    "_type": "AssignmentExpression",
+                                    "properties": {
+                                        "exp1": {
+                                            "_type": "Var",
+                                            "properties": {
+                                                "id": "MonitProp4"
+                                            }
+                                        },
+                                        "exp2": {
+                                            "_type": "Atomic",
+                                            "properties": {
+                                                "value": "20"
+                                            }
+                                        },
+                                        "operator": "assig"
+                                    }
+                                },
+                                "condition": {
+                                    "_type": "RelationalExpression",
+                                    "properties": {
+                                        "exp1": {
+                                            "_type": "Var",
+                                            "properties": {
+                                                "id": "MonitProp3"
+                                            }
+                                        },
+                                        "exp2": {
+                                            "_type": "Atomic",
+                                            "properties": {
+                                                "value": "256"
+                                            }
+                                        },
+                                        "operator": "GT"
+                                    }
+                                }
+                            },
+                            {
+                                "expression": {
+                                    "_type": "AssignmentExpression",
+                                    "properties": {
+                                        "exp1": {
+                                            "_type": "Var",
+                                            "properties": {
+                                                "id": "MonitProp4"
+                                            }
+                                        },
+                                        "exp2": {
+                                            "_type": "Atomic",
+                                            "properties": {
+                                                "value": "50"
+                                            }
+                                        },
+                                        "operator": "assig"
+                                    }
+                                },
+                                "condition": {
+                                    "_type": "RelationalExpression",
+                                    "properties": {
+                                        "exp1": {
+                                            "_type": "Var",
+                                            "properties": {
+                                                "id": "MonitProp3"
+                                            }
+                                        },
+                                        "exp2": {
+                                            "_type": "Atomic",
+                                            "properties": {
+                                                "value": "512"
+                                            }
+                                        },
+                                        "operator": "GTE"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                ],
+                "id": "G2"
+            },
+            "G1": {
+                "role": "Provider",
+                "slo": {
+                    "expression": {
+                        "_type": "RelationalExpression",
+                        "properties": {
+                            "exp1": {
+                                "_type": "Var",
+                                "properties": {
+                                    "id": "MonitProp1"
+                                }
+                            },
+                            "exp2": {
+                                "_type": "Atomic",
+                                "properties": {
+                                    "value": "64"
+                                }
+                            },
+                            "operator": "GTE"
+                        }
+                    }
+                },
+                "qc": {
+                    "condition": {
+                        "_type": "RelationalExpression",
+                        "properties": {
+                            "exp1": {
+                                "_type": "Var",
+                                "properties": {
+                                    "id": "MonitProp3"
+                                }
+                            },
+                            "exp2": {
+                                "_type": "Atomic",
+                                "properties": {
+                                    "value": "128"
+                                }
+                            },
+                            "operator": "GTE"
+                        }
+                    }
+                },
+                "compensations": [],
+                "id": "G1"
+            }
+        }
+    },
+    "manager": {
+        "store": {
+            "agreementModelMap": {}
+        }
+    },
+    "docType": "TEMPLATE"
+}

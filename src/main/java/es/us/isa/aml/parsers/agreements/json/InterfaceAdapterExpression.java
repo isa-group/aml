@@ -32,9 +32,11 @@ import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
 import es.us.isa.aml.model.expression.Atomic;
+import es.us.isa.aml.model.expression.DuringExpression;
 //import es.us.isa.aml.model.expression.DuringExpression;
 //import es.us.isa.aml.model.expression.FrecuencyExpression;
 import es.us.isa.aml.model.expression.Expression;
+import es.us.isa.aml.model.expression.FrecuencyExpression;
 import es.us.isa.aml.model.expression.LogicalExpression;
 import es.us.isa.aml.model.expression.LogicalOperator;
 import es.us.isa.aml.model.expression.ParenthesisExpression;
@@ -109,16 +111,16 @@ public class InterfaceAdapterExpression implements JsonSerializer<Expression>, J
         Gson gson = new Gson();
         try {
             switch (type) {
-//                case "DuringExpression":
-//                    DuringExpression exp = context.deserialize(element, Class.forName("es.us.isa.aml.model.expression." + type));
-//                    exp.setState(deserializeInternal(jsonObject.get("properties").getAsJsonObject().get("state"), context));
-//                    exp.setNum(deserializeInternal(jsonObject.get("properties").getAsJsonObject().get("num"), context));
-//                    return exp;
-//                case "FrecuencyExpression":
-//                    FrecuencyExpression exp2 = context.deserialize(element, Class.forName("es.us.isa.aml.model.expression." + type));
-//                    exp2.setState(deserializeInternal(jsonObject.get("properties").getAsJsonObject().get("state"), context));
-//                    exp2.setNtimes(deserializeInternal(jsonObject.get("properties").getAsJsonObject().get("ntimes"), context));
-//                    return exp2;
+                case "DuringExpression":
+                    DuringExpression exp = context.deserialize(element, Class.forName("es.us.isa.aml.model.expression." + type));
+                    exp.setState(deserializeInternal(jsonObject.get("properties").getAsJsonObject().get("state"), context));
+                    exp.setNum(deserializeInternal(jsonObject.get("properties").getAsJsonObject().get("num"), context));
+                    return exp;
+                case "FrecuencyExpression":
+                    FrecuencyExpression exp2 = context.deserialize(element, Class.forName("es.us.isa.aml.model.expression." + type));
+                    exp2.setState(deserializeInternal(jsonObject.get("properties").getAsJsonObject().get("state"), context));
+                    exp2.setNtimes(deserializeInternal(jsonObject.get("properties").getAsJsonObject().get("ntimes"), context));
+                    return exp2;
                 case "Atomic":
                     return new Atomic(jsonObject.get("properties").getAsJsonObject().get("value").getAsNumber());
                 case "Var":
