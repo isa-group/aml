@@ -1,4 +1,5 @@
-/*******************************************************************************
+/**
+ * *****************************************************************************
  * AML is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,9 +13,10 @@
  * You should have received a copy of the GNU General Public License
  * along with AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015 Licensed under
+ * GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
+ ******************************************************************************
+ */
 package es.us.isa.aml.util;
 
 /**
@@ -23,5 +25,5 @@ package es.us.isa.aml.util;
  */
 public enum AgreementLanguage {
 
-    IAGREE, WSAG, OPL, LUSDL
+    IAGREE, WSAG, OPL, LUSDL, JSON, YAML
 }
