@@ -260,19 +260,24 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     public Object visitCreationConstraint(
             iAgreeParser.CreationConstraintContext ctx) {
 
-        Expression exp = this.visitExpression(ctx.expression());
-        SLO slo = new SLO(exp);
-        CreationConstraint cc = new CreationConstraint(ctx.Identifier()
-                .getText(), slo);
+        String id = ctx.Identifier().getText();
+        if (!((AgreementTemplate) this.model).getCreationConstraints().containsKey(id)) {
+            Expression exp = this.visitExpression(ctx.expression());
+            SLO slo = new SLO(exp);
+            CreationConstraint cc = new CreationConstraint(id, slo);
 
-        if (ctx.qualifyingCondition() != null) {
-            QualifyingCondition qc = visitQualifyingCondition(ctx
-                    .qualifyingCondition());
-            cc.setQc(qc);
+            if (ctx.qualifyingCondition() != null) {
+                QualifyingCondition qc = visitQualifyingCondition(ctx
+                        .qualifyingCondition());
+                cc.setQc(qc);
+            }
+
+            ((AgreementTemplate) this.model).getCreationConstraints().put(
+                    id, cc);
+        } else {
+            parser.notifyErrorListeners(ctx.start, "Creation constraint id \"" + id
+                    + "\" already exists.", null);
         }
-
-        ((AgreementTemplate) this.model).getCreationConstraints().put(
-                cc.getId(), cc);
 
         return null;
     }
@@ -580,10 +585,17 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     @Override
     public Object visitGuaranteeTerm(iAgreeParser.GuaranteeTermContext ctx) {
         if (ctx.guarantee_def() != null) {
-            GuaranteeTerm GT = this.visitGuarantee_def(ctx.guarantee_def());
-            GT.setId(ctx.Identifier().getText());
-            this.model.getAgreementTerms().getGuaranteeTerms()
-                    .put(GT.getId(), GT);
+            String id = ctx.Identifier().getText();
+            if (!this.model.getAgreementTerms().getGuaranteeTerms().containsKey(id)) {
+                GuaranteeTerm gt = this.visitGuarantee_def(ctx.guarantee_def());
+                gt.setId(id);
+                this.model.getAgreementTerms().getGuaranteeTerms()
+                        .put(id, gt);
+            } else {
+                parser.notifyErrorListeners(ctx.start, "Guarantee term id \"" + id
+                        + "\" already exists.", null);
+            }
+
         }
         return null;
     }
