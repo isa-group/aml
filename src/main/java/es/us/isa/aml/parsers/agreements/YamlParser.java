@@ -18,17 +18,11 @@
  */
 package es.us.isa.aml.parsers.agreements;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import es.us.isa.aml.model.AgreementModel;
-import es.us.isa.aml.model.expression.Expression;
-import es.us.isa.aml.parsers.agreements.json.InterfaceAdapterExpression;
-import es.us.isa.aml.parsers.agreements.json.InterfaceAdapterModel;
+import es.us.isa.aml.parsers.agreements.yaml.ParserYAMLUtil;
 import es.us.isa.aml.util.AgreementLanguage;
-
 import java.io.File;
-
 /**
  * Applied Software Engineering Research Group (ISA Group) University of
  * Sevilla, Spain
@@ -36,13 +30,13 @@ import java.io.File;
  * @author Manuel Arenillas <marenillas@us.es>
  * @version 1.0
  */
-public class JsonParser extends AgreementParser {
+public class YamlParser extends AgreementParser {
 
     @Override
     public AgreementModel doParse(String content) {
-        Gson gson = new GsonBuilder().registerTypeAdapter(Expression.class, new InterfaceAdapterExpression()).registerTypeAdapter(AgreementModel.class, new InterfaceAdapterModel()).create();
-        AgreementModel mod = gson.fromJson(content, AgreementModel.class);
-        return mod;
+        String jsonContent = ParserYAMLUtil.convertToJson(content);
+        JsonParser parser = new JsonParser();
+        return parser.doParse(jsonContent);
     }
 
     @Override
@@ -52,13 +46,13 @@ public class JsonParser extends AgreementParser {
 
     @Override
     public AgreementLanguage getSupportedLang() {
-        return AgreementLanguage.JSON;
+        return AgreementLanguage.YAML;
     }
 
-
-    public String parserToJson(AgreementModel agr) {
-        Gson gson = new GsonBuilder().disableHtmlEscaping().registerTypeAdapter(Expression.class, new InterfaceAdapterExpression()).registerTypeAdapter(AgreementModel.class, new InterfaceAdapterModel()).setPrettyPrinting().create();
-        return gson.toJson(agr);
+    public String parserToYaml(AgreementModel agr) {
+        JsonParser parser = new JsonParser();
+        String jsonContent = parser.parserToJson(agr);
+        return ParserYAMLUtil.convertToYaml(jsonContent);
     }
 
 }

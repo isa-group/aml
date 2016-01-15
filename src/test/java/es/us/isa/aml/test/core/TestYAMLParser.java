@@ -16,6 +16,7 @@
  * (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
  * *****************************************************************************
  */
+
 package es.us.isa.aml.test.core;
 
 import es.us.isa.aml.AgreementManager;
@@ -40,11 +41,8 @@ import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
-import es.us.isa.aml.parsers.agreements.JsonParser;
-import es.us.isa.aml.parsers.agreements.yaml.ParserYAMLUtil;
-import es.us.isa.aml.parsers.agreements.yamlParser;
+import es.us.isa.aml.parsers.agreements.YamlParser;
 import es.us.isa.aml.util.Util;
-import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -56,6 +54,7 @@ import static org.junit.Assert.assertEquals;
  * @author Manuel Arenillas <marenillas@us.es>
  * @version 1.0
  */
+
 public class TestYAMLParser {
 
     private static AgreementManager service;
@@ -65,7 +64,7 @@ public class TestYAMLParser {
     public static void init() {
         service = new AgreementManager();
         String yamlContent = Util.loadFile("src/test/resources/core-pack/agreementYaml.yaml");
-        yamlParser parser = new yamlParser();
+        YamlParser parser = new YamlParser();
         model = parser.doParse(yamlContent);
         //System.out.println(parser.parserToYaml(model));
     }
