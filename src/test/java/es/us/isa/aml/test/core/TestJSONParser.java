@@ -16,6 +16,7 @@
  * (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
  * *****************************************************************************
  */
+
 package es.us.isa.aml.test.core;
 
 import es.us.isa.aml.AgreementManager;
@@ -41,7 +42,6 @@ import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.parsers.agreements.JsonParser;
-import es.us.isa.aml.parsers.agreements.yaml.ParserYAMLUtil;
 import es.us.isa.aml.util.Util;
 import static org.junit.Assert.assertEquals;
 import org.junit.BeforeClass;
@@ -54,6 +54,7 @@ import org.junit.Test;
  * @author Manuel Arenillas <marenillas@us.es>
  * @version 1.0
  */
+
 public class TestJSONParser {
 
     private static AgreementManager service;
@@ -70,11 +71,20 @@ public class TestJSONParser {
 
     @Test
     public void testJSONOUT() {
-        
-        
-//        String yamlContent = Util.loadFile("src/test/resources/core-pack/agreementYaml.yaml");
-//        System.out.println(yamlContent);
-//        System.out.println(ParserYAMLUtil.convertToJson(yamlContent));
+
+//        AgreementManager manager;
+//        manager = new AgreementManager();
+//        model = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-core.at");
+//        YamlParser py=new YamlParser();
+//        
+//        JsonParser parser = new JsonParser();
+//        
+//        //System.out.println(parser.parserToJson(model));
+//        System.out.println(py.parserToYaml(model));
+//
+////        String yamlContent = Util.loadFile("src/test/resources/core-pack/agreementYaml.yaml");
+////        System.out.println(yamlContent);
+////        System.out.println(ParserYAMLUtil.convertToJson(yamlContent));
     }
 
     @Test

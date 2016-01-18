@@ -22,14 +22,12 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;

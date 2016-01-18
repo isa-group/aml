@@ -27,14 +27,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-
 import es.us.isa.aml.model.expression.ArithmeticExpression;
 import es.us.isa.aml.model.expression.ArithmeticOperator;
 import es.us.isa.aml.model.expression.AssignmentExpression;
 import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.DuringExpression;
-//import es.us.isa.aml.model.expression.DuringExpression;
-//import es.us.isa.aml.model.expression.FrecuencyExpression;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.FrecuencyExpression;
 import es.us.isa.aml.model.expression.LogicalExpression;
