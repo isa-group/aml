@@ -1,0 +1,66 @@
+cd C:\Users\ISA Group\git\aml; "JAVA_HOME=C:\\Program Files\\Java\\jdk1.7.0_75" M2_HOME=C:\\apache-maven-3.3.3 cmd /c "\"\"C:\\apache-maven-3.3.3\\bin\\mvn.cmd\" -Dmaven.ext.class.path=\"C:\\Program Files\\NetBeans 8.1\\java\\maven-nblib\\netbeans-eventspy.jar\" -Paml-release test\""
+Scanning for projects...
+                                                                        
+------------------------------------------------------------------------
+Building aml 0.9.3-SNAPSHOT
+------------------------------------------------------------------------
+
+--- maven-resources-plugin:2.6:resources (default-resources) @ aml ---
+Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+Copying 2 resources
+
+--- maven-compiler-plugin:3.2:compile (default-compile) @ aml ---
+Changes detected - recompiling the module!
+File encoding has not been set, using platform encoding Cp1252, i.e. build is platform dependent!
+Compiling 166 source files to C:\Users\ISA Group\git\aml\target\classes
+/C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Some input files use or override a deprecated API.
+/C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/expression/ExpressionParser.java: Recompile with -Xlint:deprecation for details.
+/C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/agreements/json/ParserJSONUtil.java: Some input files use unchecked or unsafe operations.
+/C:/Users/ISA Group/git/aml/src/main/java/es/us/isa/aml/parsers/agreements/json/ParserJSONUtil.java: Recompile with -Xlint:unchecked for details.
+
+--- maven-resources-plugin:2.6:testResources (default-testResources) @ aml ---
+Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+Copying 20 resources
+
+--- maven-compiler-plugin:3.2:testCompile (default-testCompile) @ aml ---
+Nothing to compile - all classes are up to date
+
+--- maven-surefire-plugin:2.18.1:test (default-test) @ aml ---
+Surefire report directory: C:\Users\ISA Group\git\aml\target\surefire-reports
+
+-------------------------------------------------------
+ T E S T S
+-------------------------------------------------------
+Running es.us.isa.aml.test.core.TestAzureCompliance
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 81.322 sec - in es.us.isa.aml.test.core.TestAzureCompliance
+Running es.us.isa.aml.test.core.TestConfig
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestConfig
+Running es.us.isa.aml.test.core.TestCSPModel
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 sec - in es.us.isa.aml.test.core.TestCSPModel
+Running es.us.isa.aml.test.core.TestExpression
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0 sec - in es.us.isa.aml.test.core.TestExpression
+Running es.us.isa.aml.test.core.TestIAgreeModel
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 sec - in es.us.isa.aml.test.core.TestIAgreeModel
+Running es.us.isa.aml.test.core.TestJSONParser
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 sec - in es.us.isa.aml.test.core.TestJSONParser
+Running es.us.isa.aml.test.core.TestOperationsWebReasoner
+Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.475 sec - in es.us.isa.aml.test.core.TestOperationsWebReasoner
+Running es.us.isa.aml.test.core.TestPapamoscas
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.031 sec - in es.us.isa.aml.test.core.TestPapamoscas
+Running es.us.isa.aml.test.core.TestStore
+Tests run: 8, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.015 sec - in es.us.isa.aml.test.core.TestStore
+Running es.us.isa.aml.test.core.TestYAMLParser
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.094 sec - in es.us.isa.aml.test.core.TestYAMLParser
+
+Results :
+
+Tests run: 46, Failures: 0, Errors: 0, Skipped: 0
+
+------------------------------------------------------------------------
+BUILD SUCCESS
+------------------------------------------------------------------------
+Total time: 01:33 min
+Finished at: 2016-01-19T11:40:47+01:00
+Final Memory: 19M/308M
+------------------------------------------------------------------------
+
