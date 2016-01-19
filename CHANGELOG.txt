@@ -1,3 +1,10 @@
+AML v0.9.3 (Targaryen), 19/01/2016
+-----------------------
+- Get Store public #56
+- YAMLandJSONParser #57
+- No validity check between two guarantees/constraints with the same id. #60
+- fix Yaml parser #62
+
 AML v0.9.2 (Targaryen), 22/12/2015
 -----------------------
 - Modify store and agreementManager #53

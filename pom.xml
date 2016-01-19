@@ -3,7 +3,7 @@
 
     <groupId>es.us.isa</groupId>
     <artifactId>aml</artifactId>
-    <version>0.9.3-SNAPSHOT</version>
+    <version>0.9.4-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>aml</name>
@@ -124,6 +124,20 @@
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.fge</groupId>
+            <artifactId>jackson-coreutils</artifactId>
+            <version>1.8</version>
+            <type>jar</type>
+        </dependency>
+
+        
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>1.16</version>
+        </dependency>
+
 
     </dependencies>
 
