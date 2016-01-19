@@ -6,7 +6,7 @@ dead terms, etc.
 
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/isa-group/aml?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Code Climate](https://codeclimate.com/github/isa-group/aml/badges/gpa.svg)](https://codeclimate.com/github/isa-group/aml)
-[![release](https://img.shields.io/badge/release-0.9.2-green.svg)](https://raw.githubusercontent.com/isa-group/aml/master/CHANGELOG.txt)
+[![release](https://img.shields.io/badge/release-0.9.3-green.svg)](https://raw.githubusercontent.com/isa-group/aml/master/CHANGELOG.txt)
 
 ## Requirements
 
