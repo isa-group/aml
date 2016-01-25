@@ -1,3 +1,7 @@
+AML v0.9.4 (Targaryen), 22/01/2016
+-----------------------
+- Update CSPWebReasoner endpoint #65
+
 AML v0.9.3 (Targaryen), 19/01/2016
 -----------------------
 - Get Store public #56
