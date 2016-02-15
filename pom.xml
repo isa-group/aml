@@ -204,9 +204,6 @@
         </profile>
         <profile>
             <id>aml-release</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <tests>**/test/core/*.java, **/test/full/*.java</tests>
             </properties>

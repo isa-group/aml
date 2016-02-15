@@ -62,7 +62,6 @@ public class Config {
     public Config() {
         defaultInputFormat = AgreementLanguage.IAGREE;
         CSPReasoner = ReasonerType.CSPWebReasoner;
-        CSPWebReasonerEndpoint = "http://150.214.188.130:8080/CSPWebReasoner";
         DLReasoner = "NONE";
         ANDConstraintsBreaking = true;
         AgreementGenerator = GeneratorType.BASIC;
