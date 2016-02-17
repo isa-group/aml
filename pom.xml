@@ -125,20 +125,24 @@
             <version>2.3.1</version>
         </dependency>
         <dependency>
-            <groupId>com.github.fge</groupId>
-            <artifactId>jackson-coreutils</artifactId>
-            <version>1.8</version>
-            <type>jar</type>
-        </dependency>
-
-        
-        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.16</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.2.3</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.2.3</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>
