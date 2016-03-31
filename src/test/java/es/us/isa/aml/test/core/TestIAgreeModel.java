@@ -19,7 +19,6 @@
  */
 package es.us.isa.aml.test.core;
 
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -49,6 +48,9 @@ import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
+import es.us.isa.aml.translator.builders.iagree.model.IAgreeAgreementTemplate;
+import java.util.List;
+import java.util.Map;
 import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 
@@ -60,16 +62,15 @@ public class TestIAgreeModel {
 
     private static AgreementManager manager;
     private static AgreementModel model, modelResources, modelDefReference;
+    private static AgreementTemplate multiplanTemplate;
 
     @BeforeClass
     public static void init() {
         manager = new AgreementManager();
-        model = manager
-                .createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-core.at");
-        modelResources = manager
-                .createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-resources.at");
-        modelDefReference = manager
-                .createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-defref.at");
+        model = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-core.at");
+        modelResources = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-resources.at");
+        modelDefReference = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-defref.at");
+        multiplanTemplate = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/multiplan.at");
     }
 
     /**
@@ -88,10 +89,8 @@ public class TestIAgreeModel {
         assertEquals(model.getVersion(), 1.0f, 0.0);
 
         // Asserts actors
-        assertEquals(model.getContext().getResponder().getRole(),
-                Role.Provider);
-        assertEquals(model.getContext().getInitiator().getRole(),
-                Role.Consumer);
+        assertEquals(model.getContext().getResponder().getRole(), Role.Provider);
+        assertEquals(model.getContext().getInitiator().getRole(), Role.Consumer);
 
         // Metrics
         Metric met1 = new Metric("met1", "integer", new Range(0, 23));
@@ -113,31 +112,26 @@ public class TestIAgreeModel {
         at.setService(service);
 
         // Configuration properties
-        ConfigurationProperty ConfProp1 = new ConfigurationProperty(
-                "ConfProp1", met1);
+        ConfigurationProperty ConfProp1 = new ConfigurationProperty("ConfProp1", met1);
         ConfProp1.setScope(Scope.Global);
         at.getService().getConfigurationProperties().put(ConfProp1.getId(), ConfProp1);
 
         // Monitorable properties
-        MonitorableProperty MonitProp1 = new MonitorableProperty("MonitProp1",
-                met2);
+        MonitorableProperty MonitProp1 = new MonitorableProperty("MonitProp1", met2);
         MonitProp1.setScope(Scope.Global);
         at.getMonitorableProperties().put(MonitProp1.getId(), MonitProp1);
 
-        MonitorableProperty MonitProp2 = new MonitorableProperty("MonitProp2",
-                met3);
+        MonitorableProperty MonitProp2 = new MonitorableProperty("MonitProp2", met3);
         MonitProp2.setScope(Scope.Local);
         MonitProp2.setFeature(new Feature("testFeature1"));
         at.getMonitorableProperties().put(MonitProp2.getId(), MonitProp2);
 
         // Guarantee terms
-        Expression exp = new RelationalExpression(new Var(MonitProp1),
-                new Atomic(64), RelationalOperator.LTE);
+        Expression exp = new RelationalExpression(new Var(MonitProp1), new Atomic(64), RelationalOperator.LTE);
         SLO slo = new SLO(exp);
         GuaranteeTerm g1 = new GuaranteeTerm("G1", Role.Provider, slo);
 
-        Expression exp2 = new RelationalExpression(new Var(MonitProp2),
-                new Atomic(256), RelationalOperator.LT);
+        Expression exp2 = new RelationalExpression(new Var(MonitProp2), new Atomic(256), RelationalOperator.LT);
         SLO slo2 = new SLO(exp2);
         GuaranteeTerm g2 = new GuaranteeTerm("G2", Role.Consumer, slo2);
 
@@ -145,27 +139,19 @@ public class TestIAgreeModel {
         at.getGuaranteeTerms().put(g2.getId(), g2);
 
         // Asserts Agreement Terms
-        assertEquals(model.getAgreementTerms().getService()
-                .getConfigurationProperties().get(0), at.getService()
-                .getConfigurationProperties().get(0));
-        assertEquals(model.getAgreementTerms().getMonitorableProperties()
-                .get(0), at.getMonitorableProperties().get(0));
-        assertEquals(model.getAgreementTerms().getGuaranteeTerms(),
-                at.getGuaranteeTerms());
+        assertEquals(model.getAgreementTerms().getService().getConfigurationProperties().get(0), at.getService().getConfigurationProperties().get(0));
+        assertEquals(model.getAgreementTerms().getMonitorableProperties().get(0), at.getMonitorableProperties().get(0));
+        assertEquals(model.getAgreementTerms().getGuaranteeTerms(), at.getGuaranteeTerms());
 
         // Creation constraints
-        Expression e = new ArithmeticExpression(new Var(MonitProp1),
-                new Atomic(2), ArithmeticOperator.MULTIPLY);
-        Expression exp3 = new RelationalExpression(new Var(ConfProp1), e,
-                RelationalOperator.EQ);
+        Expression e = new ArithmeticExpression(new Var(MonitProp1), new Atomic(2), ArithmeticOperator.MULTIPLY);
+        Expression exp3 = new RelationalExpression(new Var(ConfProp1), e, RelationalOperator.EQ);
         SLO slo3 = new SLO(exp3);
 
         CreationConstraint cc = new CreationConstraint("C1", slo3);
 
         // Assert Creation Constraint
-        assertEquals(
-                ((AgreementTemplate) model).getCreationConstraints().get(
-                        cc.getId()), cc);
+        assertEquals(((AgreementTemplate) model).getCreationConstraints().get(cc.getId()), cc);
     }
 
     /**
@@ -189,8 +175,7 @@ public class TestIAgreeModel {
 
         // Metrics
         Metric met1 = new Metric("num", "integer", new Range(0, 100));
-        Metric met2 = new Metric("boolean", "Boolean", new Enumerated(
-                new Object[]{true, false}));
+        Metric met2 = new Metric("boolean", "Boolean", new Enumerated(new Object[]{true, false}));
 
         // Asserts metrics
         assertEquals(modelResources.getContext().getMetrics().get(met1.getId()), met1);
@@ -209,14 +194,12 @@ public class TestIAgreeModel {
                 "Seniority", met1);
         ConfProp1.setScope(Scope.Global);
         ConfProp1.setExpression(new Atomic(12));
-        at.getService().getConfigurationProperties()
-                .put(ConfProp1.getId(), ConfProp1);
+        at.getService().getConfigurationProperties().put(ConfProp1.getId(), ConfProp1);
 
         ConfigurationProperty ConfProp2 = new ConfigurationProperty("phd", met2);
         ConfProp2.setScope(Scope.Global);
         ConfProp2.setExpression(new Atomic(true));
-        at.getService().getConfigurationProperties()
-                .put(ConfProp2.getId(), ConfProp2);
+        at.getService().getConfigurationProperties().put(ConfProp2.getId(), ConfProp2);
 
         // Monitorable properties
         ResourceProperty MonitProp1 = new ResourceProperty("papers");
@@ -249,17 +232,38 @@ public class TestIAgreeModel {
         at.getGuaranteeTerms().put(gt.getId(), gt);
 
         // Asserts Agreement Terms
-        assertEquals(modelResources.getAgreementTerms().getService()
-                .getConfigurationProperties().get(0), at.getService()
-                .getConfigurationProperties().get(0));
-        assertEquals(modelResources.getAgreementTerms().getMonitorableProperties()
-                .get(0), at.getMonitorableProperties().get(0));
-        assertEquals(modelResources.getAgreementTerms().getGuaranteeTerms(),
-                at.getGuaranteeTerms());
+        assertEquals(modelResources.getAgreementTerms().getService().getConfigurationProperties().get(0), at.getService().getConfigurationProperties().get(0));
+        assertEquals(modelResources.getAgreementTerms().getMonitorableProperties().get(0), at.getMonitorableProperties().get(0));
+        assertEquals(modelResources.getAgreementTerms().getGuaranteeTerms(), at.getGuaranteeTerms());
     }
-    
+
     @Test
     public void testDefinitionReference() {
         Assert.assertNotNull(modelDefReference.getProperty("Time2").getDefinitionReference());
+    }
+
+    @Test
+    public void testTemplateFlattener() {
+        Translator translator = new Translator(new IAgreeBuilder());
+        List<AgreementTemplate> templateList = multiplanTemplate.flattenTemplate();
+        for (AgreementTemplate template : templateList) {
+            for (Map.Entry<String, CreationConstraint> ccEntry : template.getCreationConstraints().entrySet()) {
+                if (null == ccEntry.getValue().getQc() || !ccEntry.getValue().getQc().getCondition().toString().contains("==")) {
+                    continue;
+                }
+                for (Expression e : Expression.splitANDExpressions(ccEntry.getValue().getSlo().getExpression())) {
+                    String SLOText = e.toString().replaceAll("\\s", "");
+                    String SLOPropertyName = SLOText.split("==")[0];
+                    String SLOPropertyValue = SLOText.split("==")[1].replaceAll("\"", "");
+                    for (Map.Entry<String, ConfigurationProperty> cpEntry : template.getAgreementTerms().getService().getConfigurationProperties().entrySet()) {
+                        String servicePropertyName = cpEntry.getKey();
+                        if (servicePropertyName.equalsIgnoreCase(SLOPropertyName)) {
+                            assertEquals(template.getAgreementTerms().getService().getConfigurationProperties().get(servicePropertyName).toString(), Expression.parse(SLOPropertyValue).toString());
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

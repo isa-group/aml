@@ -41,6 +41,7 @@ public class Config {
     public String DLReasoner;
     public Boolean ANDConstraintsBreaking;
     public GeneratorType AgreementGenerator;
+    public FlattenerType TemplateFlattener;
 
     public static Config getInstance() {
         if (instance == null) {
@@ -65,6 +66,7 @@ public class Config {
         DLReasoner = "NONE";
         ANDConstraintsBreaking = true;
         AgreementGenerator = GeneratorType.BASIC;
+        TemplateFlattener = FlattenerType.BASIC;
     }
 
     /**
@@ -150,5 +152,23 @@ public class Config {
     public void setAgreementGenerator(GeneratorType agreementGenerator) {
         AgreementGenerator = agreementGenerator;
     }
+
+    /**
+     *
+     * @return the templateFlattener
+     */
+    public FlattenerType getTemplateFlattener() {
+        return TemplateFlattener;
+    }
+
+    /**
+     *
+     * @param TemplateFlattener the templateFlattener to set
+     */
+    public void setTemplateFlattener(FlattenerType TemplateFlattener) {
+        this.TemplateFlattener = TemplateFlattener;
+    }
+    
+    
 
 }
