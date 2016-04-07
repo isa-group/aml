@@ -78,12 +78,18 @@ public class AgreementTemplate extends AgreementModel {
                 consumerName, this);
         return ao;
     }
+    
+    public AgreementOffer generateAgreementOffer(String consumerName, String variableName, String variableValue){
+        AgreementGenerator generator = GeneratorFactory.createGenerator();
+        AgreementOffer offer = generator.generateAgreementOfferFromTemplate(this, consumerName, variableName, variableValue);
+        return offer;
+    }
 
     public List<AgreementTemplate> flattenTemplate() {
         TemplateFlattener flattener = FlattenerFactory.createFlattener();
         List<AgreementTemplate> atList = flattener.flattenMultiplanTemplate(this);
         return atList;
-    }
+    }    
 
     @Override
     public AgreementTemplate clone() {

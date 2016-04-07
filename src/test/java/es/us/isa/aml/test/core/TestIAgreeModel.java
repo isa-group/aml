@@ -24,6 +24,7 @@ import org.junit.Test;
 
 import es.us.isa.aml.AgreementManager;
 import es.us.isa.aml.model.AgreementModel;
+import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.ConfigurationProperty;
@@ -48,7 +49,8 @@ import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
-import es.us.isa.aml.translator.builders.iagree.model.IAgreeAgreementTemplate;
+import es.us.isa.aml.translator.builders.iagree.model.IAgreeAgreementOffer;
+import es.us.isa.aml.util.Util;
 import java.util.List;
 import java.util.Map;
 import org.junit.Assert;
@@ -139,8 +141,8 @@ public class TestIAgreeModel {
         at.getGuaranteeTerms().put(g2.getId(), g2);
 
         // Asserts Agreement Terms
-        assertEquals(model.getAgreementTerms().getService().getConfigurationProperties().get(0), at.getService().getConfigurationProperties().get(0));
-        assertEquals(model.getAgreementTerms().getMonitorableProperties().get(0), at.getMonitorableProperties().get(0));
+        assertEquals(model.getAgreementTerms().getService().getConfigurationProperties().get("ConfProp1"), at.getService().getConfigurationProperties().get("ConfProp1"));
+        assertEquals(model.getAgreementTerms().getMonitorableProperties().get("MonitProp1"), at.getMonitorableProperties().get("MonitProp1"));
         assertEquals(model.getAgreementTerms().getGuaranteeTerms(), at.getGuaranteeTerms());
 
         // Creation constraints
@@ -232,8 +234,8 @@ public class TestIAgreeModel {
         at.getGuaranteeTerms().put(gt.getId(), gt);
 
         // Asserts Agreement Terms
-        assertEquals(modelResources.getAgreementTerms().getService().getConfigurationProperties().get(0), at.getService().getConfigurationProperties().get(0));
-        assertEquals(modelResources.getAgreementTerms().getMonitorableProperties().get(0), at.getMonitorableProperties().get(0));
+        assertEquals(modelResources.getAgreementTerms().getService().getConfigurationProperties().get("Seniority"), at.getService().getConfigurationProperties().get("Seniority"));
+        assertEquals(modelResources.getAgreementTerms().getMonitorableProperties().get("papers"), at.getMonitorableProperties().get("papers"));
         assertEquals(modelResources.getAgreementTerms().getGuaranteeTerms(), at.getGuaranteeTerms());
     }
 
@@ -244,7 +246,6 @@ public class TestIAgreeModel {
 
     @Test
     public void testTemplateFlattener() {
-        Translator translator = new Translator(new IAgreeBuilder());
         List<AgreementTemplate> templateList = multiplanTemplate.flattenTemplate();
         for (AgreementTemplate template : templateList) {
             for (Map.Entry<String, CreationConstraint> ccEntry : template.getCreationConstraints().entrySet()) {
@@ -264,6 +265,34 @@ public class TestIAgreeModel {
                     }
                 }
             }
+        }
+    }
+
+    @Test
+    public void testGenerateOfferFromTemplate() {
+        AgreementOffer offer = multiplanTemplate.generateAgreementOffer("Consumer", "PlanType", "pro");
+        for (Map.Entry<String, CreationConstraint> ccEntry : multiplanTemplate.getCreationConstraints().entrySet()) {
+            if (null == ccEntry.getValue().getQc() || !ccEntry.getValue().getQc().getCondition().toString().contains("==")) {
+                continue;
+            }
+            String QCText = ccEntry.getValue().getQc().getCondition().toString().replaceAll("\\s", "");
+            String QCPropertyName = QCText.split("==")[0];
+            String QCPropertyValue = Util.withoutDoubleQuotes(QCText.split("==")[1]);
+            if (QCPropertyName.equals("PlanType") && QCPropertyValue.equals("pro")) {
+                for (Expression e : Expression.splitANDExpressions(ccEntry.getValue().getSlo().getExpression())) {
+                    String SLOText = e.toString().replaceAll("\\s", "");
+                    String SLOPropertyName = SLOText.split("==")[0];
+                    String SLOPropertyValue = SLOText.split("==")[1].replaceAll("\"", "");
+                    for (Map.Entry<String, ConfigurationProperty> cpEntry : offer.getAgreementTerms().getService().getConfigurationProperties().entrySet()) {
+                        String servicePropertyName = cpEntry.getKey();
+                        if (servicePropertyName.equalsIgnoreCase(SLOPropertyName)) {
+                            assertEquals(offer.getAgreementTerms().getService().getConfigurationProperties().get(servicePropertyName).getValue(), SLOPropertyValue);
+                            break;
+                        }
+                    }
+                }
+            }
+
         }
     }
 }

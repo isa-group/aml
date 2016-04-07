@@ -23,10 +23,17 @@ import es.us.isa.aml.model.Actor;
 import es.us.isa.aml.model.Agreement;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
+import es.us.isa.aml.model.ConfigurationProperty;
+import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Role;
 import es.us.isa.aml.model.RoleType;
+import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.operations.core.csp.AreCompliant;
+import es.us.isa.aml.translator.Translator;
+import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
 import es.us.isa.aml.util.DocType;
+import es.us.isa.aml.util.Util;
+import java.util.Map;
 
 /**
  * @author jdelafuente
@@ -46,6 +53,44 @@ public class BasicAgreementGenerator extends AgreementGenerator {
         ao.getContext().setInitiator(new Actor(consumerName, Role.Consumer, RoleType.Initiator));
         ao.setAgreementTerms(template.getAgreementTerms().clone());
         return ao;
+    }
+    
+    @Override
+    public AgreementOffer generateAgreementOfferFromTemplate(AgreementTemplate template, String consumerName, String variableName, String variableValue) {
+        AgreementOffer offer = null;
+        for (Map.Entry<String, CreationConstraint> ccEntry : template.getCreationConstraints().entrySet()) {
+            if (null == ccEntry.getValue().getQc() || !ccEntry.getValue().getQc().getCondition().toString().contains("==")) {
+                continue;
+            }
+            AgreementTemplate generatedTemplate = template.clone();
+            generatedTemplate.getCreationConstraints().clear();
+            generatedTemplate.setID(template.getID().concat("_").concat(ccEntry.getKey()));
+            String QCText = ccEntry.getValue().getQc().getCondition().toString().replaceAll("\\s", "");
+            String QCPropertyName = QCText.split("==")[0];
+            String QCPropertyValue = Util.withoutDoubleQuotes(QCText.split("==")[1]);
+
+            if (QCPropertyName.equalsIgnoreCase((variableName)) && QCPropertyValue.equalsIgnoreCase(variableValue)) {
+                for (Expression e : Expression.splitANDExpressions(ccEntry.getValue().getSlo().getExpression())) {
+                    String SLOText = e.toString().replaceAll("\\s", "");
+                    String SLOPropertyName = SLOText.split("==")[0];
+                    String SLOPropertyValue = SLOText.split("==")[1];
+                    
+                    for (Map.Entry<String, ConfigurationProperty> cpEntry : generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().entrySet()) {
+                        String servicePropertyName = cpEntry.getKey();
+                        if (servicePropertyName.equalsIgnoreCase(SLOPropertyName)) {
+                            ConfigurationProperty newCp = new ConfigurationProperty(cpEntry.getValue().getId(), cpEntry.getValue().getMetric(), Expression.parse(SLOPropertyValue), cpEntry.getValue().getScope(), cpEntry.getValue().getFeature());
+                            generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().put(servicePropertyName, newCp);
+                        } else if (servicePropertyName.equalsIgnoreCase(QCPropertyName)) {
+                            ConfigurationProperty newCp = new ConfigurationProperty(cpEntry.getValue().getId(), cpEntry.getValue().getMetric(), Expression.parse(QCPropertyValue), cpEntry.getValue().getScope(), cpEntry.getValue().getFeature());
+                            generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().put(servicePropertyName, newCp);
+                        }
+                    }
+                    generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().get("MaxResponseTime").getExpression();
+                }
+                offer = generateAgreementOfferFromTemplate(consumerName, generatedTemplate);
+            }
+        }
+        return offer;
     }
 
     @Override
@@ -76,5 +121,4 @@ public class BasicAgreementGenerator extends AgreementGenerator {
             throw new IllegalArgumentException("AgreementOffer must be compliant with the AgreementTemplated passed");
         }
     }
-
 }
