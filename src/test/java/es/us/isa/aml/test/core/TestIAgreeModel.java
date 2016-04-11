@@ -29,6 +29,7 @@ import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.CreationConstraint;
+import es.us.isa.aml.model.Domain;
 import es.us.isa.aml.model.Enumerated;
 import es.us.isa.aml.model.Feature;
 import es.us.isa.aml.model.GuaranteeTerm;
@@ -115,8 +116,17 @@ public class TestIAgreeModel {
 
         // Configuration properties
         ConfigurationProperty ConfProp1 = new ConfigurationProperty("ConfProp1", met1);
+        ConfProp1.setExpression(new Atomic(9));
         ConfProp1.setScope(Scope.Global);
         at.getService().getConfigurationProperties().put(ConfProp1.getId(), ConfProp1);
+        
+        ConfigurationProperty ConfProp3 = new ConfigurationProperty("ConfProp3", new Metric("string", "string", new Domain()));
+        ConfProp3.setExpression(new Atomic("1a2B3c4D"));
+        ConfProp3.setScope(Scope.Global);
+        at.getService().getConfigurationProperties().put(ConfProp3.getId(), ConfProp3);
+        
+        assertEquals(model.getAgreementTerms().getService().getConfigurationProperties().get(ConfProp1.getId()), ConfProp1);
+        assertEquals(model.getAgreementTerms().getService().getConfigurationProperties().get(ConfProp3.getId()), ConfProp3);
 
         // Monitorable properties
         MonitorableProperty MonitProp1 = new MonitorableProperty("MonitProp1", met2);
@@ -127,6 +137,9 @@ public class TestIAgreeModel {
         MonitProp2.setScope(Scope.Local);
         MonitProp2.setFeature(new Feature("testFeature1"));
         at.getMonitorableProperties().put(MonitProp2.getId(), MonitProp2);
+        
+        assertEquals(model.getAgreementTerms().getMonitorableProperties().get(MonitProp1.getId()), MonitProp1);
+        assertEquals(model.getAgreementTerms().getMonitorableProperties().get(MonitProp2.getId()), MonitProp2);
 
         // Guarantee terms
         Expression exp = new RelationalExpression(new Var(MonitProp1), new Atomic(64), RelationalOperator.LTE);
@@ -149,7 +162,6 @@ public class TestIAgreeModel {
         Expression e = new ArithmeticExpression(new Var(MonitProp1), new Atomic(2), ArithmeticOperator.MULTIPLY);
         Expression exp3 = new RelationalExpression(new Var(ConfProp1), e, RelationalOperator.EQ);
         SLO slo3 = new SLO(exp3);
-
         CreationConstraint cc = new CreationConstraint("C1", slo3);
 
         // Assert Creation Constraint

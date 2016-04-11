@@ -75,7 +75,7 @@ global_MonitorableProperties : GLOBAL ':'
 				
 local_MonitorableProperties : FOR Identifier ':' (property)+;
 
-property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN | RESOURCE)
+property : id=(Identifier | Access) ':' met=(Identifier | BOOLEAN | RESOURCE | STRING)
            (DEFINED_AT definitionUrl=url)?
            (ASSIG value=expression)? 
             ';';
@@ -235,6 +235,7 @@ VERSION : 'version';
 EXCEPT : 'except';
 DURING : 'during';
 
+STRING : 'string';
 BOOLEAN : 'boolean';
 INTEGER : 'integer';
 FLOAT : 'float';

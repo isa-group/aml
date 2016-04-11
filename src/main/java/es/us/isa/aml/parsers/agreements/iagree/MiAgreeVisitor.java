@@ -121,8 +121,8 @@ import es.us.isa.aml.util.Util;
  */
 public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
-    private iAgreeParser parser;
-    private IAgreeErrorListener errorListener;
+    private final iAgreeParser parser;
+    private final IAgreeErrorListener errorListener;
     public AgreementModel model;
     public long timeStamp;
 
@@ -331,7 +331,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     public Feature visitFeature_operation(Feature_operationContext ctx) {
         Feature feature = new Feature();
         feature.setId(ctx.id.getText());
-        List<String> parameters = new ArrayList<String>();
+        List<String> parameters = new ArrayList<>();
         for (TerminalNode param : ctx.Identifier()) {
             if (!param.getText().equals(ctx.id.getText())) {
                 parameters.add(param.getText());
@@ -528,11 +528,20 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         String metric_id = ctx.met.getText();
         Metric m = model.getContext().getMetrics().get(metric_id);
 
-        if (m == null && ctx.RESOURCE() != null) {
-            m = new Metric("resource", "resource", new Domain());
-            p = new ResourceProperty(id, m);
-            errorListener.warningMessage(ctx.start, "Metric 'resource' is not supported by analysis operations.", null);
-        } else if (m != null) {
+        if (m == null) {
+            if (ctx.RESOURCE() != null) {
+                m = new Metric("resource", "resource", new Domain());
+                p = new ResourceProperty(id, m);
+                errorListener.warningMessage(ctx.start, "Metric 'resource' is not supported by analysis operations.", null);
+            } else if (ctx.STRING() != null) {
+                m = new Metric("string", "string", new Domain());
+                p = new ConfigurationProperty(id, m);
+                errorListener.warningMessage(ctx.start, "Metric 'string' is not supported by analysis operations.", null);
+            } else {
+                parser.notifyErrorListeners(ctx.start, "Metric \"" + metric_id
+                        + "\" has not been declared.", null);
+            }
+        } else {
             p = new Property(id, m);
             if (ctx.value != null) {
                 Boolean hasErrors = false;
@@ -570,9 +579,6 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
                     p.setExpression(expr);
                 }
             }
-        } else {
-            parser.notifyErrorListeners(ctx.start, "Metric \"" + metric_id
-                    + "\" has not been declared.", null);
         }
 
         if (p != null && ctx.definitionUrl != null) {
@@ -622,7 +628,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
             GT.setQc(qc);
         }
 
-        List<Compensation> compensations = new ArrayList<Compensation>();
+        List<Compensation> compensations = new ArrayList<>();
         for (CompensationContext comp : ctx.compensation()) {
             Compensation c = visitCompensation(comp);
             compensations.add(c);
@@ -642,7 +648,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         c.setAssessmentInterval(interval);
         c.setCompensationType(compType);
 
-        List<CompensationElement> elements = new ArrayList<CompensationElement>();
+        List<CompensationElement> elements = new ArrayList<>();
         for (CompensationElementContext compElem : ctx.compensationElement()) {
             CompensationElement elem = visitCompensationElement(compElem);
             elements.add(elem);
@@ -665,9 +671,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Expression visitSlo(iAgreeParser.SloContext ctx) {
-        Expression exp = null;
-        exp = this.visitExpression(ctx.expression());
-        return exp;
+        return this.visitExpression(ctx.expression());
     }
 
     @Override
@@ -821,7 +825,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            parser.notifyErrorListeners(ctx.start, "There was an error parsing relational expression: \"" + ctx.getText() + "\". Error: " + e.getMessage(), null);
         }
 
         switch (ctx.op.getType()) {
@@ -871,7 +875,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            parser.notifyErrorListeners(ctx.start, "There was an error parsing equality expression: \"" + ctx.getText() + "\". Error: " + e.getMessage(), null);
         }
 
         switch (ctx.op.getType()) {
@@ -931,7 +935,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Expression visitList(iAgreeParser.ListContext ctx) {
-        List<Object> ls = new ArrayList<Object>();
+        List<Object> ls = new ArrayList<>();
         for (ArgsContext actx : ctx.args()) {
             ls.add(actx.getText());
         }
@@ -1096,7 +1100,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
     @Override
     public Metric visitMetrics_prop(iAgreeParser.Metrics_propContext ctx) {
         Enumerated en = new Enumerated(new Object[]{true, false});
-        Metric m = new Metric("boolean", "Boolean", en);
+        Metric m = new Metric("boolean", "boolean", en);
 
         model.getContext().getMetrics().put(m.getId(), m);
 
@@ -1108,7 +1112,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Object visitMetric(iAgreeParser.MetricContext ctx) {
-        Metric m = null;
+        Metric m;
         String id = ctx.id.getText();
         String type = ctx.type.getText();
         Domain domain = null;
@@ -1116,7 +1120,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
             domain = this.visitRange(ctx.range());
         } else if (ctx.list() != null) {
             Enumerated e = new Enumerated();
-            List<Object> values = new ArrayList<Object>();
+            List<Object> values = new ArrayList<>();
             for (ArgsContext actx : ctx.list().args()) {
                 values.add(actx.getText());
             }
@@ -1124,7 +1128,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
             domain = e;
         } else if (ctx.array() != null) {
             Enumerated e = new Enumerated();
-            List<Object> values = new ArrayList<Object>();
+            List<Object> values = new ArrayList<>();
             for (ArgsContext actx : ctx.array().args()) {
                 values.add(actx.getText());
             }
@@ -1138,7 +1142,7 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
 
     @Override
     public Domain visitRange(iAgreeParser.RangeContext ctx) {
-        Range r = null;
+        Range r;
         r = new Range(Integer.valueOf(ctx.min.getText()),
                 Integer.valueOf(ctx.max.getText()));
         return r;
