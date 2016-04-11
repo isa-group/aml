@@ -92,6 +92,17 @@ public class BasicAgreementGenerator extends AgreementGenerator {
         }
         return offer;
     }
+    
+    @Override
+    public Agreement generateAgreementFromAgreementOffer(AgreementOffer offer) {
+        Agreement ag = new Agreement();
+        ag.setDocType(DocType.AGREEMENT);
+        ag.setID(offer.getID() + "_ag");
+        ag.setVersion(offer.getVersion());
+        ag.setContext(offer.getContext().clone());
+        ag.setAgreementTerms(offer.getAgreementTerms().clone());
+        return ag;
+    }
 
     @Override
     public Agreement generateAgreementFromAgreementOffer(String consumerName, AgreementOffer offer) {

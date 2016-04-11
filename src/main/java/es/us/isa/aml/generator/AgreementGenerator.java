@@ -31,6 +31,8 @@ public abstract class AgreementGenerator {
         
         public abstract AgreementOffer generateAgreementOfferFromTemplate(AgreementTemplate template, String consumerName, String variableName, String variableValue);
 
+        public abstract Agreement generateAgreementFromAgreementOffer(AgreementOffer offer);
+        
 	public abstract Agreement generateAgreementFromAgreementOffer(String consumerName, AgreementOffer offer);
 
 }
