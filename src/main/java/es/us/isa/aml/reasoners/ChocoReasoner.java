@@ -22,8 +22,9 @@ import java.util.Random;
 import es.us.isa.aml.model.csp.CSPModel;
 import es.us.isa.aml.translator.Translator;
 import es.us.isa.aml.translator.builders.choco.ChocoBuilder;
-import es.us.isa.aml.util.OperationResponse;
+import es.us.isa.aml.reasoners.cspwebreasoner.Solution;
 import es.us.isa.aml.util.ReasonerType;
+import java.util.concurrent.TimeoutException;
 
 /**
  *
@@ -39,34 +40,49 @@ public class ChocoReasoner extends Reasoner {
     }
 
     @Override
-    public Boolean solve(CSPModel model) {
-        //todo: realizar lo que sea correcto aqui
-    	Boolean res = false;
-        if (this.chocoString != null) {
-            res = new Random().nextBoolean();
-        }
-        return res;
-    }
-
-    @Override
-    public OperationResponse explain(CSPModel model) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    @Override
-	public Boolean implies(CSPModel antecedent, CSPModel consequent) {
-    	throw new UnsupportedOperationException("Not supported yet.");
-	}
-
-    @Override
-    public OperationResponse whyNotImplies(CSPModel antecedent, CSPModel consequent) {
-        throw new UnsupportedOperationException("Not supported yet in Choco.");
-    }
-
-    @Override
     public ReasonerType getType() {
         return ReasonerType.CHOCO;
     }
 
-	
+    @Override
+    public Solution solve(CSPModel model) throws TimeoutException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Solution solve(CSPModel model, long timeOut) throws TimeoutException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Solution explain(CSPModel model) throws TimeoutException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Solution explain(CSPModel model, long timeOut) throws TimeoutException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Solution implies(CSPModel antecedent, CSPModel consequent) throws TimeoutException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Solution implies(CSPModel antecedent, CSPModel consequent, long timeOut) throws TimeoutException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Solution whyNotImplies(CSPModel antecedent, CSPModel consequent) throws TimeoutException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Solution whyNotImplies(CSPModel antecedent, CSPModel consequent, long timeOut) throws TimeoutException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

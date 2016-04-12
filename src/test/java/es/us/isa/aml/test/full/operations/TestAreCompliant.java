@@ -61,8 +61,8 @@ public class TestAreCompliant implements TestOperation {
         Boolean expected_result = Boolean.valueOf(expectedResult);
         Boolean compliant;
 
-        if (compliance_op.getResult().get("compliant") != null) {
-            compliant = (Boolean) compliance_op.getResult().get("compliant");
+        if (compliance_op.getResult().getCompliant() != null) {
+            compliant = compliance_op.getResult().getCompliant();
 
             if (Objects.equals(compliant, expected_result)) {
                 sb.append(Status.PASSED).append(" ").append(currentFile.getPath()).append(" (Result: ").append(compliant).append(", Expected: ").append(expected_result).append(")");

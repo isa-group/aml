@@ -40,6 +40,10 @@ public class Config {
     public String CSPWebReasonerEndpoint;
     public String DLReasoner;
     public Boolean ANDConstraintsBreaking;
+    public Integer frequency, timeout;
+    public String credential;
+    public String apikeyVariable;
+    public String apikeyValue;
     public GeneratorType AgreementGenerator;
     public FlattenerType TemplateFlattener;
 
@@ -65,6 +69,8 @@ public class Config {
         CSPReasoner = ReasonerType.CSPWebReasoner;
         DLReasoner = "NONE";
         ANDConstraintsBreaking = true;
+        frequency = 2;
+        timeout = 16;
         AgreementGenerator = GeneratorType.BASIC;
         TemplateFlattener = FlattenerType.BASIC;
     }
@@ -138,6 +144,46 @@ public class Config {
     public void setANDConstraintsBreaking(Boolean aNDConstraintsBreaking) {
         ANDConstraintsBreaking = aNDConstraintsBreaking;
     }
+
+    public Integer getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
+    }
+
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getCredential() {
+        return credential;
+    }
+
+    public void setCredential(String credential) {
+        this.credential = credential;
+    }
+
+    public String getApikeyVariable() {
+        return apikeyVariable;
+    }
+
+    public void setApikeyVariable(String apikeyVariable) {
+        this.apikeyVariable = apikeyVariable;
+    }
+
+    public String getApikeyValue() {
+        return apikeyValue;
+    }
+
+    public void setApikeyValue(String apikeyValue) {
+        this.apikeyValue = apikeyValue;
+    }    
 
     /**
      * @return the agreementGenerator

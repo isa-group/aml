@@ -120,7 +120,7 @@ public class BasicAgreementGenerator extends AgreementGenerator {
         Agreement ag = new Agreement();
         AreCompliant op = new AreCompliant();
         op.analyze(template, offer);
-        if ((Boolean) op.getResult().get("compliant")) {
+        if (op.getResult().getCompliant()) {
             ag.setDocType(DocType.AGREEMENT);
             ag.setID(offer.getID() + "_" + consumerName + "_ag");
             ag.setVersion(offer.getVersion());

@@ -1,4 +1,5 @@
-/*******************************************************************************
+/**
+ * *****************************************************************************
  * AML is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,83 +13,96 @@
  * You should have received a copy of the GNU General Public License
  * along with AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015 Licensed under
+ * GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
+ * *****************************************************************************
+ */
 package es.us.isa.aml.operations.noCore;
 
 import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.operations.core.csp.ExistInconsistencies;
-import es.us.isa.aml.util.OperationResponse;
+import es.us.isa.aml.operations.core.OperationResult;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * No core operation that determines if an agreement model is valid (it does not
- * contain inconsistencies, nor dead terms, nor conditionally inconsistent terms).
- * 
+ * contain inconsistencies, nor dead terms, nor conditionally inconsistent
+ * terms).
+ *
  * @author jdelafuente
  *
  */
 public class Valid extends NoCoreOperation {
 
-	private final ExistInconsistencies existInconsistenciesOp;
-	private final ExistDeadTerms existDeadTermsOp;
-	private final ExistCondInconsTerms existCondInconsTermsOp;
+    private final ExistInconsistencies existInconsistenciesOp;
+    private final ExistDeadTerms existDeadTermsOp;
+    private final ExistCondInconsTerms existCondInconsTermsOp;
 
-	public Valid() {
-		this.existInconsistenciesOp = new ExistInconsistencies();
-		this.existDeadTermsOp = new ExistDeadTerms();
-		this.existCondInconsTermsOp = new ExistCondInconsTerms();
-		this.result = new OperationResponse();
-	}
+    public Valid() {
+        this.existInconsistenciesOp = new ExistInconsistencies();
+        this.existDeadTermsOp = new ExistDeadTerms();
+        this.existCondInconsTermsOp = new ExistCondInconsTerms();
+        this.result = new OperationResult();
+    }
 
-	public void analyze(AgreementModel model) {
+    public void analyze(AgreementModel model) {
 
-		Boolean existInconsistencies = false, existDeadTerms = false, existCondInconsTerms = false;
+        Boolean existInconsistencies = false, existDeadTerms = false, existCondInconsTerms = false;
+        String error = "", explaining = "", conflictType = "";
+        List<String> conflicts = new ArrayList<>();
 
-		existInconsistenciesOp.analyze(model);
-		existInconsistencies = (Boolean) existInconsistenciesOp.getResult()
-				.get("existInconsistencies");
-		result.putAll(existInconsistenciesOp.getResult());
+        existInconsistenciesOp.analyze(model);
+        OperationResult iOpResult = existInconsistenciesOp.getResult();
+        if (iOpResult.hasErrors()) {
+            error = iOpResult.getError();
+        } else {
+            existInconsistencies = iOpResult.getExistInconsistencies();
+            if (existInconsistencies) {
+                explaining = iOpResult.getExplaining();
+                conflictType = iOpResult.getConflictType();
+                conflicts = iOpResult.getConflicts();
+            } else {
+                existDeadTermsOp.analyze(model);
+                OperationResult dtOpResult = existDeadTermsOp.getResult();
+                if (dtOpResult.hasErrors()) {
+                    error = dtOpResult.getError();
+                } else {
+                    existDeadTerms = dtOpResult.getExistDeadTerms();
+                    if (existDeadTerms) {
+                        explaining = dtOpResult.getExplaining();
+                        conflictType = dtOpResult.getConflictType();
+                        conflicts = dtOpResult.getConflicts();
+                    } else {
+                        existCondInconsTermsOp.analyze(model);
+                        OperationResult citOpResult = existCondInconsTermsOp.getResult();
+                        if (citOpResult.hasErrors()) {
+                            error = citOpResult.getError();
+                        } else {
+                            existCondInconsTerms = citOpResult.getExistCondInconsTerms();
+                            if (existCondInconsTerms) {
+                                explaining = citOpResult.getExplaining();
+                                conflictType = citOpResult.getConflictType();
+                                conflicts = citOpResult.getConflicts();
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
-		try {
-			if (existInconsistencies) {
-				result.put("existDeadTerms", false);
-				result.put("existCondInconsTerms", false);
-			} else {
-				existDeadTermsOp.analyze(model);
-				existDeadTerms = (Boolean) existDeadTermsOp.getResult().get(
-						"existDeadTerms");
-				result.putAll(existDeadTermsOp.getResult());
+        result.setExistInconsistencies(existInconsistencies);
+        result.setExistDeadTerms(existDeadTerms);
+        result.setExistCondInconsTerms(existCondInconsTerms);
+        result.setExplaining(explaining);
+        result.setConflictType(conflictType);
+        result.setConflicts(conflicts);
+        result.setError(error);
+    }
 
-				if (existDeadTerms) {
-					result.put("existCondInconsTerms", false);
-				} else {
-					existCondInconsTermsOp.analyze(model);
-					existCondInconsTerms = (Boolean) existCondInconsTermsOp
-							.getResult().get("existCondInconsTerms");
-					result.putAll(existCondInconsTermsOp.getResult());
-				}
-			}
-		} catch (Exception e) {
-			result = new OperationResponse();
-			result.put("result", null);
-			result.put("conflicts", "There was an error: " + e.getMessage());
-			result.put("existInconsistencies", false);
-			result.put("existDeadTerms", false);
-			result.put("existCondInconsTerms", false);
-			existInconsistencies = true;
-			existDeadTerms = true;
-			existCondInconsTerms = true;
-		}
-
-		Boolean valid = !existInconsistencies && !existDeadTerms
-				&& !existCondInconsTerms;
-		result.put("valid", valid);
-	}
-
-	@Override
-	public OperationResponse getResult() {
-		return result;
-	}
+    @Override
+    public OperationResult getResult() {
+        return result;
+    }
 
 }

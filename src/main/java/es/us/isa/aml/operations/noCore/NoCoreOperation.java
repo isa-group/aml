@@ -17,7 +17,7 @@
  *******************************************************************************/
 package es.us.isa.aml.operations.noCore;
 
-import es.us.isa.aml.util.OperationResponse;
+import es.us.isa.aml.operations.core.OperationResult;
 
 /**
  *
@@ -25,8 +25,8 @@ import es.us.isa.aml.util.OperationResponse;
  */
 public abstract class NoCoreOperation {
 
-    protected OperationResponse result = new OperationResponse();
+    protected OperationResult result = new OperationResult();
 
-    public abstract OperationResponse getResult();
+    public abstract OperationResult getResult();
 
 }
