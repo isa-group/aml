@@ -27,10 +27,9 @@ import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Role;
 import es.us.isa.aml.model.RoleType;
+import es.us.isa.aml.model.expression.Atomic;
 import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.operations.core.csp.AreCompliant;
-import es.us.isa.aml.translator.Translator;
-import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
 import es.us.isa.aml.util.DocType;
 import es.us.isa.aml.util.Util;
 import java.util.Map;
@@ -54,7 +53,7 @@ public class BasicAgreementGenerator extends AgreementGenerator {
         ao.setAgreementTerms(template.getAgreementTerms().clone());
         return ao;
     }
-    
+
     @Override
     public AgreementOffer generateAgreementOfferFromTemplate(AgreementTemplate template, String consumerName, String variableName, String variableValue) {
         AgreementOffer offer = null;
@@ -74,25 +73,26 @@ public class BasicAgreementGenerator extends AgreementGenerator {
                     String SLOText = e.toString().replaceAll("\\s", "");
                     String SLOPropertyName = SLOText.split("==")[0];
                     String SLOPropertyValue = SLOText.split("==")[1];
-                    
+
                     for (Map.Entry<String, ConfigurationProperty> cpEntry : generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().entrySet()) {
                         String servicePropertyName = cpEntry.getKey();
                         if (servicePropertyName.equalsIgnoreCase(SLOPropertyName)) {
                             ConfigurationProperty newCp = new ConfigurationProperty(cpEntry.getValue().getId(), cpEntry.getValue().getMetric(), Expression.parse(SLOPropertyValue), cpEntry.getValue().getScope(), cpEntry.getValue().getFeature());
                             generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().put(servicePropertyName, newCp);
                         } else if (servicePropertyName.equalsIgnoreCase(QCPropertyName)) {
-                            ConfigurationProperty newCp = new ConfigurationProperty(cpEntry.getValue().getId(), cpEntry.getValue().getMetric(), Expression.parse(QCPropertyValue), cpEntry.getValue().getScope(), cpEntry.getValue().getFeature());
+                            ConfigurationProperty newCp = new ConfigurationProperty(cpEntry.getValue().getId(), cpEntry.getValue().getMetric(), new Atomic("\"" + QCPropertyValue + "\""), cpEntry.getValue().getScope(), cpEntry.getValue().getFeature());
+                            generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().get("PlanType").getExpression();
                             generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().put(servicePropertyName, newCp);
+                            generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().get("PlanType").getExpression();
                         }
                     }
-                    generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().get("MaxResponseTime").getExpression();
                 }
                 offer = generateAgreementOfferFromTemplate(consumerName, generatedTemplate);
             }
         }
         return offer;
     }
-    
+
     @Override
     public Agreement generateAgreementFromAgreementOffer(AgreementOffer offer) {
         Agreement ag = new Agreement();
