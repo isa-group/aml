@@ -15,10 +15,11 @@
  *
  * Copyright (C) ISA Research Group - University of Sevilla, 2015 Licensed under
  * GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- ******************************************************************************
+ * *****************************************************************************
  */
 package es.us.isa.aml;
 
+import es.us.isa.aml.generator.BasicAgreementGenerator;
 import java.io.File;
 import java.util.Collections;
 import java.util.HashMap;
@@ -121,6 +122,22 @@ public class Store {
             template.setAgreementManager(manager);
         }
         return template;
+    }
+
+    /**
+     * Create an Agreement object from an existing Offer, verifying .
+     *
+     * @param consumerName
+     * @param offer
+     * @param template
+     * @return The AgreementTemplate object
+     * @see AgreementTemplate
+     * @see AgreementLanguage
+     * @see AgreementManager
+     */
+    public Agreement generateAgreementFromCompliantAgreementOffer(String consumerName, AgreementOffer offer, AgreementTemplate template) {
+        BasicAgreementGenerator generator = new BasicAgreementGenerator();
+        return generator.generateAgreementFromCompliantAgreementOffer(consumerName, offer, template);
     }
 
     // Registration

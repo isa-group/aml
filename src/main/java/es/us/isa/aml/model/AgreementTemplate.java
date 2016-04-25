@@ -1,4 +1,5 @@
-/*******************************************************************************
+/**
+ * *****************************************************************************
  * AML is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,75 +13,92 @@
  * You should have received a copy of the GNU General Public License
  * along with AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015 Licensed under
+ * GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
+ * *****************************************************************************
+ */
 package es.us.isa.aml.model;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import es.us.isa.aml.generator.AgreementGenerator;
+import es.us.isa.aml.generator.TemplateFlattener;
 import es.us.isa.aml.parsers.agreements.AgreementParser;
 import es.us.isa.aml.util.AgreementLanguage;
 import es.us.isa.aml.util.Config;
 import es.us.isa.aml.util.DocType;
+import es.us.isa.aml.util.FlattenerFactory;
 import es.us.isa.aml.util.GeneratorFactory;
+import java.util.List;
 
 /**
  * This class represents an agreement template.
- * 
+ *
  * @author jdelafuente
  *
  */
 public class AgreementTemplate extends AgreementModel {
 
-	protected Map<String, CreationConstraint> creationConstraints = new HashMap<String, CreationConstraint>();
+    protected Map<String, CreationConstraint> creationConstraints = new HashMap<>();
 
-	public AgreementTemplate() {
-		this.docType = DocType.TEMPLATE;
-	}
+    public AgreementTemplate() {
+        this.docType = DocType.TEMPLATE;
+    }
 
-	public Map<String, CreationConstraint> getCreationConstraints() {
-		return this.creationConstraints;
-	}
+    public Map<String, CreationConstraint> getCreationConstraints() {
+        return this.creationConstraints;
+    }
 
-	public void setCreationConstraints(
-			Map<String, CreationConstraint> creationConstraints) {
-		this.creationConstraints = creationConstraints;
-	}
+    public void setCreationConstraints(
+            Map<String, CreationConstraint> creationConstraints) {
+        this.creationConstraints = creationConstraints;
+    }
 
-	public void loadFromFile(String path) {
-		AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
-		loadFromFile(path, lang);
-	}
+    public void loadFromFile(String path) {
+        AgreementLanguage lang = Config.getInstance().getDefaultInputFormat();
+        loadFromFile(path, lang);
+    }
 
-	public void loadFromFile(String path, AgreementLanguage lang) {
-		AgreementTemplate newT = (AgreementTemplate) AgreementParser
-				.parseAgreementFile(path, lang);
-		this.manager = newT.manager;
-		this.agreementTerms = newT.agreementTerms;
-		this.context = newT.context;
-		this.creationConstraints = newT.creationConstraints;
-		this.docType = newT.docType;
-		this.id = newT.id;
-		this.version = newT.version;
-	}
+    public void loadFromFile(String path, AgreementLanguage lang) {
+        AgreementTemplate newT = (AgreementTemplate) AgreementParser
+                .parseAgreementFile(path, lang);
+        this.manager = newT.manager;
+        this.agreementTerms = newT.agreementTerms;
+        this.context = newT.context;
+        this.creationConstraints = newT.creationConstraints;
+        this.docType = newT.docType;
+        this.id = newT.id;
+        this.version = newT.version;
+    }
 
-	public AgreementOffer generateAgreementOffer(String consumerName) {
-		AgreementGenerator generator = GeneratorFactory.createGenerator();
-		AgreementOffer ao = generator.generateAgreementOfferFromTemplate(
-				consumerName, this);
-		return ao;
-	}
+    public AgreementOffer generateAgreementOffer(String consumerName) {
+        AgreementGenerator generator = GeneratorFactory.createGenerator();
+        AgreementOffer ao = generator.generateAgreementOfferFromTemplate(
+                consumerName, this);
+        return ao;
+    }
+    
+    public AgreementOffer generateAgreementOffer(String consumerName, String variableName, String variableValue){
+        AgreementGenerator generator = GeneratorFactory.createGenerator();
+        AgreementOffer offer = generator.generateAgreementOfferFromTemplate(this, consumerName, variableName, variableValue);
+        return offer;
+    }
 
-	@Override
-	public AgreementModel clone() {
-		AgreementTemplate model = (AgreementTemplate) super.clone();
-		Map<String, CreationConstraint> ccs = this.getCreationConstraints();
-		for (CreationConstraint cc : ccs.values())
-			((AgreementTemplate) model).getCreationConstraints().put(
-					cc.getId(), cc.clone());
-		return model;
-	}
+    public List<AgreementTemplate> flattenTemplate() {
+        TemplateFlattener flattener = FlattenerFactory.createFlattener();
+        List<AgreementTemplate> atList = flattener.flattenMultiplanTemplate(this);
+        return atList;
+    }    
+
+    @Override
+    public AgreementTemplate clone() {
+        AgreementTemplate model = (AgreementTemplate) super.clone();
+        Map<String, CreationConstraint> ccs = this.getCreationConstraints();
+        for (CreationConstraint cc : ccs.values()) {
+            ((AgreementTemplate) model).getCreationConstraints().put(
+                    cc.getId(), cc.clone());
+        }
+        return model;
+    }
 }

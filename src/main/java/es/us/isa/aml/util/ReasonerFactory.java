@@ -19,7 +19,7 @@
  */
 package es.us.isa.aml.util;
 
-import es.us.isa.aml.reasoners.CSPWebReasoner;
+import es.us.isa.aml.reasoners.cspwebreasoner.CSPWebReasoner;
 import es.us.isa.aml.reasoners.ChocoReasoner;
 import es.us.isa.aml.reasoners.Reasoner;
 

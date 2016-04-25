@@ -3,7 +3,7 @@
 
     <groupId>es.us.isa</groupId>
     <artifactId>aml</artifactId>
-    <version>0.9.5-SNAPSHOT</version>
+    <version>0.9.6-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>aml</name>
@@ -38,7 +38,7 @@
         </developer>
         <developer>
             <id>agamez2</id>
-            <name>Antonio G�mez</name>
+            <name>Antonio Gamez</name>
             <email>agamez2@us.es</email>
             <url>http://personal.us.es/agamez2/</url>
             <organization>ISA Research Group</organization>
@@ -125,20 +125,24 @@
             <version>2.3.1</version>
         </dependency>
         <dependency>
-            <groupId>com.github.fge</groupId>
-            <artifactId>jackson-coreutils</artifactId>
-            <version>1.8</version>
-            <type>jar</type>
-        </dependency>
-
-        
-        <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>1.16</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.2.3</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.2.3</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>
@@ -204,9 +208,6 @@
         </profile>
         <profile>
             <id>aml-release</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <properties>
                 <tests>**/test/core/*.java, **/test/full/*.java</tests>
             </properties>

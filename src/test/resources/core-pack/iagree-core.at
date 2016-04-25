@@ -16,8 +16,9 @@ Template IAgreeCore version 1.0
     		GlobalDescription
     			ConfProp1: met1 = 9;
     			ConfProp2: met2 = 18;
+                        ConfProp3: string = "1a2B3c4D";
     		Description for testFeatures1:
-    			ConfProp3: met3 = 64;
+    			ConfProp4: met3 = 64;
     	
     	MonitorableProperties
     		global:
@@ -41,9 +42,9 @@ Template IAgreeCore version 1.0
     CreationConstraints
     	C1: ConfProp2 == ConfProp1 * 2;
     	
-    	C2: (ConfProp1 >= 9) AND ((MonitProp3 >= 128) OR (ConfProp3 > 0));
+    	C2: (ConfProp1 >= 9) AND ((MonitProp3 >= 128) OR (ConfProp2 > 0));
     	
     	C3: MonitProp3 == 256;
-	    	onlyIf(ConfProp3 > 0);
+	    	onlyIf(ConfProp2 > 0);
 	
 EndTemplate

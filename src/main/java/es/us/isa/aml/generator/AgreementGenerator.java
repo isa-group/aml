@@ -27,9 +27,12 @@ import es.us.isa.aml.model.AgreementTemplate;
  */
 public abstract class AgreementGenerator {
 
-	public abstract AgreementOffer generateAgreementOfferFromTemplate(
-			String consumerName, AgreementTemplate template);
+	public abstract AgreementOffer generateAgreementOfferFromTemplate(String consumerName, AgreementTemplate template);
+        
+        public abstract AgreementOffer generateAgreementOfferFromTemplate(AgreementTemplate template, String consumerName, String variableName, String variableValue);
 
+        public abstract Agreement generateAgreementFromAgreementOffer(AgreementOffer offer);
+        
 	public abstract Agreement generateAgreementFromAgreementOffer(String consumerName, AgreementOffer offer);
 
 }

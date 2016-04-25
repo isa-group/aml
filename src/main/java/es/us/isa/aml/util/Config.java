@@ -40,7 +40,12 @@ public class Config {
     public String CSPWebReasonerEndpoint;
     public String DLReasoner;
     public Boolean ANDConstraintsBreaking;
+    public Integer frequency, timeout;
+    public String credential;
+    public String apikeyVariable;
+    public String apikeyValue;
     public GeneratorType AgreementGenerator;
+    public FlattenerType TemplateFlattener;
 
     public static Config getInstance() {
         if (instance == null) {
@@ -62,10 +67,12 @@ public class Config {
     public Config() {
         defaultInputFormat = AgreementLanguage.IAGREE;
         CSPReasoner = ReasonerType.CSPWebReasoner;
-        CSPWebReasonerEndpoint = "http://150.214.188.130:8080/CSPWebReasoner";
         DLReasoner = "NONE";
         ANDConstraintsBreaking = true;
+        frequency = 2;
+        timeout = 16;
         AgreementGenerator = GeneratorType.BASIC;
+        TemplateFlattener = FlattenerType.BASIC;
     }
 
     /**
@@ -138,6 +145,46 @@ public class Config {
         ANDConstraintsBreaking = aNDConstraintsBreaking;
     }
 
+    public Integer getFrequency() {
+        return frequency;
+    }
+
+    public void setFrequency(Integer frequency) {
+        this.frequency = frequency;
+    }
+
+    public Integer getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(Integer timeout) {
+        this.timeout = timeout;
+    }
+
+    public String getCredential() {
+        return credential;
+    }
+
+    public void setCredential(String credential) {
+        this.credential = credential;
+    }
+
+    public String getApikeyVariable() {
+        return apikeyVariable;
+    }
+
+    public void setApikeyVariable(String apikeyVariable) {
+        this.apikeyVariable = apikeyVariable;
+    }
+
+    public String getApikeyValue() {
+        return apikeyValue;
+    }
+
+    public void setApikeyValue(String apikeyValue) {
+        this.apikeyValue = apikeyValue;
+    }    
+
     /**
      * @return the agreementGenerator
      */
@@ -151,5 +198,23 @@ public class Config {
     public void setAgreementGenerator(GeneratorType agreementGenerator) {
         AgreementGenerator = agreementGenerator;
     }
+
+    /**
+     *
+     * @return the templateFlattener
+     */
+    public FlattenerType getTemplateFlattener() {
+        return TemplateFlattener;
+    }
+
+    /**
+     *
+     * @param TemplateFlattener the templateFlattener to set
+     */
+    public void setTemplateFlattener(FlattenerType TemplateFlattener) {
+        this.TemplateFlattener = TemplateFlattener;
+    }
+    
+    
 
 }

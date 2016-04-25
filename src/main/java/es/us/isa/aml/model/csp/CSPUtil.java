@@ -1,4 +1,5 @@
-/*******************************************************************************
+/**
+ * *****************************************************************************
  * AML is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -12,9 +13,10 @@
  * You should have received a copy of the GNU General Public License
  * along with AML. If not, see <http://www.gnu.org/licenses/>.
  *
- * Copyright (C) ISA Research Group - University of Sevilla, 2015
- * Licensed under GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
- *******************************************************************************/
+ * Copyright (C) ISA Research Group - University of Sevilla, 2015 Licensed under
+ * GPL (https://github.com/isa-group/aml/blob/master/LICENSE.txt)
+ ******************************************************************************
+ */
 package es.us.isa.aml.model.csp;
 
 import java.util.HashMap;
@@ -26,18 +28,17 @@ import java.util.Map;
  */
 public class CSPUtil {
 
-	public static Map<String, String> DATATYPES = new HashMap<String, String>() {
-		/**
+    public static Map<String, String> DATATYPES = new HashMap<String, String>() {
+        /**
          *
          */
-		private static final long serialVersionUID = 1L;
+        private static final long serialVersionUID = 1L;
 
-		{
-			this.put("integer", "int");
-			this.put("real", "float");
-			this.put("set", "int");
-			this.put("enum", "{string}");
-			this.put("Boolean", "boolean");
-		}
-	};
+        {
+            this.put("integer", "int");
+            this.put("real", "float");
+            this.put("set", "int");
+            this.put("enum", "{string}");
+        }
+    };
 }

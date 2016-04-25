@@ -1,3 +1,14 @@
+AML v0.9.5 (Targaryen), 25/04/2016
+-----------------------
+- Bug CSPWebReasoner endpoint #68
+- Profile release manager active by default #69
+- Improve AgreementGenerator to check compliance before creating #70
+- Add a basic template flattener to support multiplans in Governify #71
+- Modify current template flattener #74
+- Support string properties in iAgree #75
+- New generateAgreement method #76
+- Refactor CSPWebReasoner #77
+
 AML v0.9.4 (Targaryen), 22/01/2016
 -----------------------
 - Update CSPWebReasoner endpoint #65
