@@ -60,7 +60,6 @@ public class BasicTemplateFlattener extends TemplateFlattener {
                         generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().put(servicePropertyName, newCp);
                     }
                 }
-                generatedTemplate.getAgreementTerms().getService().getConfigurationProperties().get("MaxResponseTime").getExpression();
             }
             templates.add(generatedTemplate);
         }
