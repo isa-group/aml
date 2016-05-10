@@ -3,12 +3,12 @@ AgreementOffer IAgreeCoreOffer version 1.0 for Template iagree-core.at version 1
 	Consumer "Cons1" as Initiator;
 	
 	Metrics:
-		met3: float[0..128];
-		met2: integer[0..512];
-		met1: integer[0..23];
-		met6: integer[-50..50];
-		met5: float[0..100];
-		met4: integer[0..512];
+                met1: integer[0..23];
+                met2: integer[0..512];
+		met3: float[0..128];		
+                met4: integer[0..512];
+                met5: float[0..100];
+		met6: integer[-50..50];		
 		met7: enum {EX1, EX2, EX3, EX4};
 
 
@@ -22,10 +22,11 @@ AgreementTerms
 
 	MonitorableProperties
 		global:
+                        MonitProp1: met2;
 			MonitProp2: met3;
+                        MonitProp3: met4;
 			MonitProp4: met5;
-			MonitProp3: met4;
-			MonitProp1: met2;
+			
 
 	GuaranteeTerms
 		G1: Provider guarantees MonitProp1 >= 64;

@@ -87,11 +87,13 @@ public class TestCSPModel {
         ranges.put("range_met3", r3);
 
         // Asserts ranges
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < model.getRanges().size(); i++) {
             CSPRange range = model.getRanges().get(i);
-            CSPRange other = ranges.get(range.getId());
-            assertTrue(other != null);
-            assertEquals(range.getId(), other.getId());
+            if(ranges.containsKey(range.getId())){
+                CSPRange other = ranges.get(range.getId());
+                assertTrue(other != null);
+                assertEquals(range.getId(), other.getId());
+            }
         }
 
         // Vars
@@ -107,13 +109,15 @@ public class TestCSPModel {
         vars.put("MonitProp1", var4);
 
         // Asserts vars
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < model.getVariables().size(); i++) {
             CSPVar var = model.getVariables().get(i);
-            CSPVar other = vars.get(var.getId());
-            assertTrue(other != null);
-            assertEquals(var.getId(), other.getId());
-            if (var.getRange() != null) {
-                assertEquals(var.getRange(), other.getRange());
+            if(vars.containsKey(var.getId())){
+                CSPVar other = vars.get(var.getId());
+                assertTrue(other != null);
+                assertEquals(var.getId(), other.getId());
+                if (var.getRange() != null) {
+                    assertEquals(var.getRange(), other.getRange());
+                }
             }
         }
 
@@ -146,10 +150,12 @@ public class TestCSPModel {
         // Asserts constraints
         for (int i = 0; i < model.getConstraints().size(); i++) {
             CSPConstraint cons = model.getConstraints().get(i);
-            CSPConstraint other = consts.get(cons.getId());
-            assertTrue(other != null);
-            assertEquals(cons.getId(), other.getId());
-            assertEquals(cons.getExpr(), other.getExpr());
+            if(consts.containsKey(cons.getId())){
+                CSPConstraint other = consts.get(cons.getId());
+                assertTrue(other != null);
+                assertEquals(cons.getId(), other.getId());
+                assertEquals(cons.getExpr(), other.getExpr());
+            }
         }
     }
 
@@ -160,25 +166,29 @@ public class TestCSPModel {
         CSPRange r1 = new CSPRange("range_met1", new Range(0, 23));
         CSPRange r2 = new CSPRange("range_met2", new Range(0, 512));
         CSPRange r3 = new CSPRange("range_met3", new Range(0, 128));
+        CSPRange r6 = new CSPRange("range_met6", new Range(-50, 50));
 
         Map<String, CSPRange> ranges = new HashMap<>();
         ranges.put("range_met1", r1);
         ranges.put("range_met2", r2);
         ranges.put("range_met3", r3);
+        ranges.put("range_met6", r6);
 
         // Asserts ranges
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < enumModel.getRanges().size(); i++) {
             CSPRange range = enumModel.getRanges().get(i);
-            CSPRange other = ranges.get(range.getId());
-            assertTrue(other != null);
-            assertEquals(range.getId(), other.getId());
+            if(ranges.containsKey(range.getId())){
+                CSPRange other = ranges.get(range.getId());
+                assertTrue(other != null);
+                assertEquals(range.getId(), other.getId());
+            }
         }
 
         // Vars
         CSPVar var1 = new CSPVar("ConfProp1", "int", r1, true);
         CSPVar var2 = new CSPVar("ConfProp2", "int", r2, true);
-        CSPVar var3 = new CSPVar("ConfProp3", "int", r3, true);
-        CSPVar var4 = new CSPVar("MonitProp1", "int", r3, true);
+        CSPVar var3 = new CSPVar("ConfProp3", "int", r6, true);
+        CSPVar var4 = new CSPVar("MonitProp1", "int", r2, true);
 
         Map<String, CSPVar> vars = new HashMap<>();
         vars.put("ConfProp1", var1);
@@ -187,9 +197,9 @@ public class TestCSPModel {
         vars.put("MonitProp1", var4);
 
         // Asserts vars
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < enumModel.getVariables().size(); i++) {
             CSPVar var = enumModel.getVariables().get(i);
-            if (var.getDvar()) {
+            if (var.getDvar() && vars.containsKey(var.getId())) {
                 CSPVar other = vars.get(var.getId());
                 assertTrue(other != null);
                 assertEquals(var.getId(), other.getId());
