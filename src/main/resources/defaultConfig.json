@@ -5,7 +5,7 @@
     "DLReasoner": "NONE",
     "ANDConstraintsBreaking": "true",
     "frequency": 1,
-    "timeout": 5,
+    "timeout": 15,
     "credential": "demo@governify.io",
     "apikeyVariable": "apikey",
     "apikeyValue": "13c4ba0a-bf63-48f8-9d4c-7def1e3850d0"
