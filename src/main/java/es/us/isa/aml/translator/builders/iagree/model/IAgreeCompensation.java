@@ -19,6 +19,7 @@ package es.us.isa.aml.translator.builders.iagree.model;
 
 import es.us.isa.aml.model.Compensation;
 import es.us.isa.aml.model.CompensationElement;
+import es.us.isa.aml.model.CompensationLimit;
 
 /**
  * @author jdelafuente
@@ -38,6 +39,9 @@ public class IAgreeCompensation extends Compensation {
         sb.append("with ").append(getAssessmentInterval().toString().toLowerCase()).append(" ").append(getCompensationType().toString().toLowerCase()).append("\n");
         for (CompensationElement elem : getElements()) {
             sb.append("\t\t\t\t" + "of ").append(elem.getExpression().toString()).append(" if ").append(elem.getCondition().toString()).append(";" + "\n");
+        }
+        for (CompensationLimit limit : getLimits()) {
+            sb.append("\t\t\t\t" + "upTo ").append(limit.getExpression().toString()).append(";" + "\n");
         }
         sb.append("\t\t\t" + "end");
 

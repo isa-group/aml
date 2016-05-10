@@ -124,18 +124,18 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	T visitPartiesRoles_prop(@NotNull iAgreeParser.PartiesRoles_propContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link iAgreeParser#compensationsInterval}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCompensationsInterval(@NotNull iAgreeParser.CompensationsIntervalContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#equalityExpr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitEqualityExpr(@NotNull iAgreeParser.EqualityExprContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#compensationsInterval}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompensationsInterval(@NotNull iAgreeParser.CompensationsIntervalContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#template}.
@@ -304,6 +304,13 @@ public interface iAgreeVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAgreementTerms(@NotNull iAgreeParser.AgreementTermsContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link iAgreeParser#compensationLimit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompensationLimit(@NotNull iAgreeParser.CompensationLimitContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link iAgreeParser#numberAtom}.

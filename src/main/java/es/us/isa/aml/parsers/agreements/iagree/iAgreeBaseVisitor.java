@@ -146,7 +146,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitCompensationsInterval(@NotNull iAgreeParser.CompensationsIntervalContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEqualityExpr(@NotNull iAgreeParser.EqualityExprContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -154,7 +154,7 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitEqualityExpr(@NotNull iAgreeParser.EqualityExprContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCompensationsInterval(@NotNull iAgreeParser.CompensationsIntervalContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -347,6 +347,14 @@ public class iAgreeBaseVisitor<T> extends AbstractParseTreeVisitor<T> implements
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitAgreementTerms(@NotNull iAgreeParser.AgreementTermsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitCompensationLimit(@NotNull iAgreeParser.CompensationLimitContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
