@@ -3,7 +3,7 @@
 
     <groupId>es.us.isa</groupId>
     <artifactId>aml</artifactId>
-    <version>0.9.6</version>
+    <version>0.9.7-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>aml</name>
