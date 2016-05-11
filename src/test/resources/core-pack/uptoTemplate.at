@@ -1,0 +1,26 @@
+Template IT_AHS version 1.0
+	Consumer "Junta de Andalucia" as Responder;
+	Metrics:
+		percent: integer[0..100];
+		price: integer[0..10000];
+    
+AgreementTerms
+	Service OutsourcedITSupport availableAt "http://ow.ly/4mO6cB"
+		GlobalDescription
+			InvoicePenaltyPercentage: percent;
+			charge: price;
+			monthly_charge: price;
+			total_budget: price;
+			HourlyPrice: price;
+
+	MonitorableProperties
+		global:
+			Availability: percent;
+
+	GuaranteeTerms
+		AHS-5: Provider guarantees Availability >= 95;
+			with monthly penalty 
+				of charge = ((95-Availability)*HourlyPrice*8) if Availability < 95;
+				upTo (charge = 0.25*monthly_charge) OR (charge = 0.10*total_budget);
+			end
+EndTemplate

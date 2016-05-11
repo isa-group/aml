@@ -32,6 +32,7 @@ public class Compensation {
     private AssessmentInterval assessmentInterval;
     private CompensationType compensationType;
     private List<CompensationElement> elements;
+    private List<CompensationLimit> limits;
 
     public Compensation() {
 
@@ -86,5 +87,13 @@ public class Compensation {
      */
     public void setElements(List<CompensationElement> elements) {
         this.elements = elements;
+    }
+
+    public List<CompensationLimit> getLimits() {
+        return limits;
+    }
+
+    public void setLimits(List<CompensationLimit> limits) {
+        this.limits = limits;
     }
 }

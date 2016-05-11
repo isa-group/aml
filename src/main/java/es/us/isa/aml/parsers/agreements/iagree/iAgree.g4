@@ -100,9 +100,11 @@ qualifyingCondition : ONLY_IF '(' expression ')' ';';
 
 compensation :  WITH interv=compensationsInterval  compType=(PENALTY | REWARD)
                 compensationElement+
+                compensationLimit*
                 END;
 
 compensationElement : OF exp=expression IF cond=expression ';';
+compensationLimit : UPTO exp=expression ';';
 
 compensationsInterval : YEARLY
          | MONTHLY
@@ -278,6 +280,7 @@ FROM : 'from';
 OF : 'of';
 FOR : 'for';
 AS : 'as';
+UPTO : 'upTo';
 
 IN : 'in';
 BY : 'by';

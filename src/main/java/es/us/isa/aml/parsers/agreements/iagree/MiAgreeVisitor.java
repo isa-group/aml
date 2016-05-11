@@ -39,6 +39,7 @@ import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.AgreementTerms;
 import es.us.isa.aml.model.Compensation;
 import es.us.isa.aml.model.CompensationElement;
+import es.us.isa.aml.model.CompensationLimit;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.Context;
 import es.us.isa.aml.model.CreationConstraint;
@@ -84,6 +85,7 @@ import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.AtomExprContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.BooleanAtomContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationElementContext;
+import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationLimitContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CompensationsIntervalContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.Context_propContext;
 import es.us.isa.aml.parsers.agreements.iagree.iAgreeParser.CuantifContext;
@@ -654,6 +656,13 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
             elements.add(elem);
         }
         c.setElements(elements);
+        
+        List<CompensationLimit> limits = new ArrayList<>();
+        for (CompensationLimitContext compLimit : ctx.compensationLimit()) {
+            CompensationLimit limit = visitCompensationLimit(compLimit);
+            limits.add(limit);
+        }
+        c.setLimits(limits);
 
         return c;
     }
@@ -667,6 +676,14 @@ public class MiAgreeVisitor implements iAgreeVisitor<Object> {
         elem.setExpression(exp);
         elem.setCondition(condition);
         return elem;
+    }
+    
+    @Override
+    public CompensationLimit visitCompensationLimit(iAgreeParser.CompensationLimitContext ctx) {
+        Expression exp = visitExpression(ctx.exp);
+        CompensationLimit limit = new CompensationLimit();
+        limit.setExpression(exp);
+        return limit;
     }
 
     @Override

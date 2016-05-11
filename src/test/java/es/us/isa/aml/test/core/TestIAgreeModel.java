@@ -27,6 +27,8 @@ import es.us.isa.aml.model.AgreementModel;
 import es.us.isa.aml.model.AgreementOffer;
 import es.us.isa.aml.model.AgreementTemplate;
 import es.us.isa.aml.model.AgreementTerms;
+import es.us.isa.aml.model.Compensation;
+import es.us.isa.aml.model.CompensationLimit;
 import es.us.isa.aml.model.ConfigurationProperty;
 import es.us.isa.aml.model.CreationConstraint;
 import es.us.isa.aml.model.Domain;
@@ -48,9 +50,6 @@ import es.us.isa.aml.model.expression.Expression;
 import es.us.isa.aml.model.expression.RelationalExpression;
 import es.us.isa.aml.model.expression.RelationalOperator;
 import es.us.isa.aml.model.expression.Var;
-import es.us.isa.aml.translator.Translator;
-import es.us.isa.aml.translator.builders.iagree.IAgreeBuilder;
-import es.us.isa.aml.translator.builders.iagree.model.IAgreeAgreementOffer;
 import es.us.isa.aml.util.Util;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +64,7 @@ public class TestIAgreeModel {
 
     private static AgreementManager manager;
     private static AgreementModel model, modelResources, modelDefReference;
-    private static AgreementTemplate multiplanTemplate;
+    private static AgreementTemplate multiplanTemplate, uptoTemplate;
 
     @BeforeClass
     public static void init() {
@@ -74,6 +73,7 @@ public class TestIAgreeModel {
         modelResources = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-resources.at");
         modelDefReference = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/iagree-defref.at");
         multiplanTemplate = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/multiplan.at");
+        uptoTemplate = manager.createAgreementTemplateFromFile("src/test/resources/core-pack/uptoTemplate.at");
     }
 
     /**
@@ -306,5 +306,16 @@ public class TestIAgreeModel {
             }
 
         }
+    }
+    
+    @Test
+    public void testUptoTemplate() {        
+        Compensation comp = uptoTemplate.getGuaranteeTerm("AHS-5").getCompensations().get(0);
+        CompensationLimit modelLimit = comp.getLimits().get(0);
+        
+        CompensationLimit limit = new CompensationLimit();
+        limit.setExpression(Expression.parse("(charge = 0.25*monthly_charge) OR (charge = 0.10*total_budget)"));
+        
+        assertEquals(modelLimit.getExpression(), limit.getExpression());
     }
 }

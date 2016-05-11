@@ -1,3 +1,10 @@
+AML v0.9.6 (Targaryen), 10/05/2016
+-----------------------
+- Unuseful line in flattener cause 500 error in datastore #78
+- Add support for upto expressions #79
+- Fix TestCSPModel #80
+- Add support for Java 8 #81
+
 AML v0.9.5 (Targaryen), 25/04/2016
 -----------------------
 - Bug CSPWebReasoner endpoint #68
