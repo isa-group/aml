@@ -40,11 +40,12 @@ public class Compensation {
 
     public Compensation(AssessmentInterval assessmentInterval,
             CompensationType compensationType,
-            List<CompensationElement> elements) {
-        super();
+            List<CompensationElement> elements,
+            List<CompensationLimit> limits) {
         this.assessmentInterval = assessmentInterval;
         this.compensationType = compensationType;
         this.elements = elements;
+        this.limits = limits;
     }
 
     /**

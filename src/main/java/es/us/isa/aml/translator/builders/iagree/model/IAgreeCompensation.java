@@ -28,7 +28,7 @@ import es.us.isa.aml.model.CompensationLimit;
 public class IAgreeCompensation extends Compensation {
 
     public IAgreeCompensation(Compensation c) {
-        super(c.getAssessmentInterval(), c.getCompensationType(), c.getElements());
+        super(c.getAssessmentInterval(), c.getCompensationType(), c.getElements(), c.getLimits());
     }
 
     @Override
